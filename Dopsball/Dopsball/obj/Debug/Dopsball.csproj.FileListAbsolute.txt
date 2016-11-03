@@ -1,0 +1,10 @@
+C:\Users\Alexander\Documents\GitHub\Programmierung-2\Ball\Dopsball\Dopsball\bin\Debug\Dopsball.exe.config
+C:\Users\Alexander\Documents\GitHub\Programmierung-2\Ball\Dopsball\Dopsball\bin\Debug\Dopsball.exe
+C:\Users\Alexander\Documents\GitHub\Programmierung-2\Ball\Dopsball\Dopsball\bin\Debug\Dopsball.pdb
+C:\Users\Alexander\Documents\GitHub\Programmierung-2\Ball\Dopsball\Dopsball\bin\Debug\sfmlnet-audio-2.dll
+C:\Users\Alexander\Documents\GitHub\Programmierung-2\Ball\Dopsball\Dopsball\bin\Debug\sfmlnet-graphics-2.dll
+C:\Users\Alexander\Documents\GitHub\Programmierung-2\Ball\Dopsball\Dopsball\bin\Debug\sfmlnet-system-2.dll
+C:\Users\Alexander\Documents\GitHub\Programmierung-2\Ball\Dopsball\Dopsball\bin\Debug\sfmlnet-window-2.dll
+C:\Users\Alexander\Documents\GitHub\Programmierung-2\Ball\Dopsball\Dopsball\obj\Debug\Dopsball.csprojResolveAssemblyReference.cache
+C:\Users\Alexander\Documents\GitHub\Programmierung-2\Ball\Dopsball\Dopsball\obj\Debug\Dopsball.exe
+C:\Users\Alexander\Documents\GitHub\Programmierung-2\Ball\Dopsball\Dopsball\obj\Debug\Dopsball.pdb

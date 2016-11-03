@@ -12,7 +12,7 @@ namespace ConsoleApplication1
             RenderWindow window = new RenderWindow(new VideoMode(800, 600), "Hallo Welt");
             do
             {
-                int i= 1;
+                
             }
             while (true);
         }
