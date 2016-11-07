@@ -1,0 +1,49 @@
+c:\users\daniel\documents\visual studio 2015\Projects\SFML Test\SFML Test\bin\Debug\SFML Test.exe.config
+c:\users\daniel\documents\visual studio 2015\Projects\SFML Test\SFML Test\bin\Debug\csfml-audio-2.dll
+c:\users\daniel\documents\visual studio 2015\Projects\SFML Test\SFML Test\bin\Debug\csfml-graphics-2.dll
+c:\users\daniel\documents\visual studio 2015\Projects\SFML Test\SFML Test\bin\Debug\csfml-system-2.dll
+c:\users\daniel\documents\visual studio 2015\Projects\SFML Test\SFML Test\bin\Debug\csfml-window-2.dll
+c:\users\daniel\documents\visual studio 2015\Projects\SFML Test\SFML Test\bin\Debug\libsndfile-1.dll
+c:\users\daniel\documents\visual studio 2015\Projects\SFML Test\SFML Test\bin\Debug\openal32.dll
+c:\users\daniel\documents\visual studio 2015\Projects\SFML Test\SFML Test\bin\Debug\OpenTK.Compatibility.dll
+c:\users\daniel\documents\visual studio 2015\Projects\SFML Test\SFML Test\bin\Debug\OpenTK.dll
+c:\users\daniel\documents\visual studio 2015\Projects\SFML Test\SFML Test\bin\Debug\SFML Test.exe
+c:\users\daniel\documents\visual studio 2015\Projects\SFML Test\SFML Test\bin\Debug\SFML Test.pdb
+c:\users\daniel\documents\visual studio 2015\Projects\SFML Test\SFML Test\bin\Debug\sfmlnet-audio-2.dll
+c:\users\daniel\documents\visual studio 2015\Projects\SFML Test\SFML Test\bin\Debug\sfmlnet-graphics-2.dll
+c:\users\daniel\documents\visual studio 2015\Projects\SFML Test\SFML Test\bin\Debug\sfmlnet-system-2.dll
+c:\users\daniel\documents\visual studio 2015\Projects\SFML Test\SFML Test\bin\Debug\sfmlnet-window-2.dll
+c:\users\daniel\documents\visual studio 2015\Projects\SFML Test\SFML Test\obj\Debug\SFML Test.csprojResolveAssemblyReference.cache
+c:\users\daniel\documents\visual studio 2015\Projects\SFML Test\SFML Test\obj\Debug\SFML Test.exe
+c:\users\daniel\documents\visual studio 2015\Projects\SFML Test\SFML Test\obj\Debug\SFML Test.pdb
+C:\Users\Beto\Desktop\Lina Regal\SRH-master\SRH-master\SFML Test\SFML Test\bin\Debug\csfml-audio-2.dll
+C:\Users\Beto\Desktop\Lina Regal\SRH-master\SRH-master\SFML Test\SFML Test\bin\Debug\csfml-graphics-2.dll
+C:\Users\Beto\Desktop\Lina Regal\SRH-master\SRH-master\SFML Test\SFML Test\bin\Debug\csfml-system-2.dll
+C:\Users\Beto\Desktop\Lina Regal\SRH-master\SRH-master\SFML Test\SFML Test\bin\Debug\csfml-window-2.dll
+C:\Users\Beto\Desktop\Lina Regal\SRH-master\SRH-master\SFML Test\SFML Test\bin\Debug\libsndfile-1.dll
+C:\Users\Beto\Desktop\Lina Regal\SRH-master\SRH-master\SFML Test\SFML Test\bin\Debug\openal32.dll
+C:\Users\Beto\Desktop\Lina Regal\SRH-master\SRH-master\SFML Test\SFML Test\bin\Debug\OpenTK.Compatibility.dll
+C:\Users\Beto\Desktop\Lina Regal\SRH-master\SRH-master\SFML Test\SFML Test\bin\Debug\OpenTK.dll
+C:\Users\Beto\Desktop\Lina Regal\SRH-master\SRH-master\SFML Test\SFML Test\bin\Debug\SFML Test.exe.config
+C:\Users\Beto\Desktop\Lina Regal\SRH-master\SRH-master\SFML Test\SFML Test\bin\Debug\SFML Test.exe
+C:\Users\Beto\Desktop\Lina Regal\SRH-master\SRH-master\SFML Test\SFML Test\bin\Debug\SFML Test.pdb
+C:\Users\Beto\Desktop\Lina Regal\SRH-master\SRH-master\SFML Test\SFML Test\obj\Debug\SFML Test.csprojResolveAssemblyReference.cache
+C:\Users\Beto\Desktop\Lina Regal\SRH-master\SRH-master\SFML Test\SFML Test\obj\Debug\SFML Test.exe
+C:\Users\Beto\Desktop\Lina Regal\SRH-master\SRH-master\SFML Test\SFML Test\obj\Debug\SFML Test.pdb
+C:\Users\Beto\Documents\Visual Studio 2015\Projects\SFML Test\SFML Test\bin\Debug\SFML Test.exe.config
+C:\Users\Beto\Documents\Visual Studio 2015\Projects\SFML Test\SFML Test\obj\Debug\SFML Test.exe
+C:\Users\Beto\Documents\Visual Studio 2015\Projects\SFML Test\SFML Test\obj\Debug\SFML Test.pdb
+C:\Users\Beto\Documents\Visual Studio 2015\Projects\SFML Test\SFML Test\bin\Debug\csfml-audio-2.dll
+C:\Users\Beto\Documents\Visual Studio 2015\Projects\SFML Test\SFML Test\bin\Debug\csfml-graphics-2.dll
+C:\Users\Beto\Documents\Visual Studio 2015\Projects\SFML Test\SFML Test\bin\Debug\csfml-system-2.dll
+C:\Users\Beto\Documents\Visual Studio 2015\Projects\SFML Test\SFML Test\bin\Debug\csfml-window-2.dll
+C:\Users\Beto\Documents\Visual Studio 2015\Projects\SFML Test\SFML Test\bin\Debug\libsndfile-1.dll
+C:\Users\Beto\Documents\Visual Studio 2015\Projects\SFML Test\SFML Test\bin\Debug\openal32.dll
+C:\Users\Beto\Documents\Visual Studio 2015\Projects\SFML Test\SFML Test\bin\Debug\OpenTK.Compatibility.dll
+C:\Users\Beto\Documents\Visual Studio 2015\Projects\SFML Test\SFML Test\bin\Debug\OpenTK.dll
+C:\Users\Beto\Documents\Visual Studio 2015\Projects\SFML Test\SFML Test\bin\Debug\SFML Test.exe
+C:\Users\Beto\Documents\Visual Studio 2015\Projects\SFML Test\SFML Test\bin\Debug\SFML Test.pdb
+C:\Users\Beto\Documents\Visual Studio 2015\Projects\SFML Test\SFML Test\obj\Debug\SFML Test.csprojResolveAssemblyReference.cache
+C:\Users\Beto\Desktop\Programmierung-2\SFML Test\SFML Test\bin\Debug\SFML Test.exe.config
+C:\Users\Beto\Desktop\Programmierung-2\SFML Test\SFML Test\obj\Debug\SFML Test.exe
+C:\Users\Beto\Desktop\Programmierung-2\SFML Test\SFML Test\obj\Debug\SFML Test.pdb
