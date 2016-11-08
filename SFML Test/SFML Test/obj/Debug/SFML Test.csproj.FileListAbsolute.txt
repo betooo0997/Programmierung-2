@@ -44,3 +44,6 @@ C:\Users\Beto\Documents\Visual Studio 2015\Projects\SFML Test\SFML Test\bin\Debu
 C:\Users\Beto\Documents\Visual Studio 2015\Projects\SFML Test\SFML Test\bin\Debug\SFML Test.exe
 C:\Users\Beto\Documents\Visual Studio 2015\Projects\SFML Test\SFML Test\bin\Debug\SFML Test.pdb
 C:\Users\Beto\Documents\Visual Studio 2015\Projects\SFML Test\SFML Test\obj\Debug\SFML Test.csprojResolveAssemblyReference.cache
+C:\Users\Beto\Documents\Programmierung-2\SFML Test\SFML Test\bin\Debug\SFML Test.exe.config
+C:\Users\Beto\Documents\Programmierung-2\SFML Test\SFML Test\obj\Debug\SFML Test.exe
+C:\Users\Beto\Documents\Programmierung-2\SFML Test\SFML Test\obj\Debug\SFML Test.pdb
