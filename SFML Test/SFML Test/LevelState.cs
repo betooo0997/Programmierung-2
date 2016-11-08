@@ -10,23 +10,20 @@ using SFML.Audio;
 
 namespace Game
 {
-    public abstract class State
+    abstract class cSceneState
     {
         public abstract void Initialize();
 
-        public abstract GameState Update();
+        public abstract eSceneState Update();
 
         public abstract List<Drawable> Draw();
     }
 
-    public enum GameState
+    public enum eSceneState
     {
-        gsUndefined,
-        gsMainMenu,
-        gsGame,
-        gsGamePaused,
-        gsGameOver,
-        gsCredits,
-        gsQuit
+        ssUndefined,
+        ssRanch,
+        ssForest,
+        ssCastle
     }
 }
