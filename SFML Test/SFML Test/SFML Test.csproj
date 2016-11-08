@@ -57,6 +57,8 @@
   <ItemGroup>
     <Compile Include="ContentLoader.cs" />
     <Compile Include="GameLoop.cs" />
+    <Compile Include="LevelState.cs" />
+    <Compile Include="LevelRanch.cs" />
     <Compile Include="Statemachine.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
