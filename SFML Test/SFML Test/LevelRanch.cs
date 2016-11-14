@@ -39,7 +39,8 @@ namespace Game
         List<Drawable> drawList;
         TileManager TileUndHerrsche;
         Random rngesus;
-
+        Player pPlayer;
+        
 
         public SceneRanch()
         {
@@ -68,6 +69,7 @@ namespace Game
             TileUndHerrsche = new TileManager();
             rngesus = new Random();
             move = new Vector2f(((float)(rngesus.Next(1, 3)) / 5), ((float)(rngesus.Next(1, 3)) / 5));
+            pPlayer = new Player();
 
 
             //CHANGING OBJECT PARAMETERS
@@ -79,6 +81,7 @@ namespace Game
 
         public override eSceneState Update()
         {
+            pPlayer.Update();
             return targetScene;
         }
 
@@ -88,6 +91,8 @@ namespace Game
 
             drawList.Add(text);
             drawList.Add(dopsball);
+
+            drawList.Add(pPlayer.Draw());
 
             TileUndHerrsche.Draw(window);
 
