@@ -23,8 +23,8 @@ namespace Game
             fontArial = new Font("C:/Windows/Fonts/Arial.ttf");
 
             //TEXTURES:
-            textureDopsball = new Texture("C:/Users/Beto/Documents/Visual Studio 2015/Projects/SFML Test/SFML Test/Dopsball.png");
-            textureTileSheet = new Texture("C:/Users/Beto/Documents/Visual Studio 2015/Projects/SFML Test/SFML Test/TileSheet.png");
+            textureDopsball = new Texture("Dopsball.png");
+            textureTileSheet = new Texture("TileSheet.png");
         }
     }
 }
