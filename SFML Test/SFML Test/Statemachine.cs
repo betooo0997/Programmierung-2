@@ -52,13 +52,14 @@ namespace Game
             {
                 case GameState.gsGame:
                     InitializeState(gameState);
-                    drawList = gameState.Draw();
+                    drawList = gameState.Draw(Window);
                     DisposeState(gameState);
                     break;
             }
 
             for (int x = 0; x < drawList.Count; x++)
                 Window.Draw(drawList.ElementAt(x));
+            
         }
 
         private void InitializeState(State state)

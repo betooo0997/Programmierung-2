@@ -82,14 +82,18 @@ namespace Game
             return targetScene;
         }
 
-        public override List<Drawable> Draw()
+        public override List<Drawable> Draw(RenderWindow window)
         {
             drawList = new List<Drawable>();
 
             drawList.Add(text);
             drawList.Add(dopsball);
 
+            TileUndHerrsche.Draw(window);
+
             return drawList;
         }
+
+
     }
 }

@@ -21,18 +21,23 @@ namespace Game
 
     class TileManager
     {
-        protected static uint numberColumns =                       16;
-        protected static uint numberRows =                          12;
+        protected static uint numberColumns =                       50;
+        protected static uint numberRows =                          30;
 
         protected static int tileSize =                             50;
 
         protected static Vector2f startingPoint = new Vector2f   (0,0);
 
         protected Tilez[,] level = new Tilez[numberColumns, numberRows];
+
+        protected Texture tTileSheet = ContentLoader.textureTileSheet;
+        protected Sprite tileSheet;
         
 
         public TileManager()
         {
+            tileSheet = new Sprite(tTileSheet);
+
             level[6, 2] = Tilez.black;
             level[9, 2] = Tilez.black;
             level[7, 4] = Tilez.darkGrey;
@@ -65,6 +70,7 @@ namespace Game
             return false;
         }
 
+        // Determines the source rectangle on the tile sheet. 
         protected IntRect TileSourceDeterminat0r(Tilez tile)
         {
             switch (tile)
@@ -80,7 +86,8 @@ namespace Game
                 }
         }
         
-        public void Draw(RenderWindow window, Sprite tileSheet)
+        // Draw the Tiles denpending on the upper parameter. 
+        public void Draw(RenderWindow window)
         {
             int yCoord = 0;
             int xCoord = 0;

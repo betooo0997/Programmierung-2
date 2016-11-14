@@ -56,7 +56,7 @@ namespace Game
             return targetState;
         }
 
-        public override List<Drawable> Draw()
+        public override List<Drawable> Draw(RenderWindow window)
         {
             drawList = new List<Drawable>();
 
@@ -64,7 +64,7 @@ namespace Game
             {
                 case eSceneState.ssRanch:
                     InitializeState(scene1);
-                    drawList = scene1.Draw();
+                    drawList = scene1.Draw(window);
                     DisposeState(scene1);
                     break;
             }

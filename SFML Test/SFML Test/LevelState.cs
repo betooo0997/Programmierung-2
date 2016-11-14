@@ -16,7 +16,7 @@ namespace Game
 
         public abstract eSceneState Update();
 
-        public abstract List<Drawable> Draw();
+        public abstract List<Drawable> Draw(RenderWindow window);
     }
 
     public enum eSceneState
