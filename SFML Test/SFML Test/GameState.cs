@@ -42,13 +42,13 @@ namespace Game
             scene1 = new SceneRanch();
         }
 
-        public override GameState Update()
+        public override GameState Update(RenderWindow window)
         {
             switch (currentScene)
             {
                 case eSceneState.ssRanch:
                     InitializeState(scene1);
-                    targetScene = scene1.Update();
+                    targetScene = scene1.Update(window);
                     DisposeState(scene1);
                     break;
             }

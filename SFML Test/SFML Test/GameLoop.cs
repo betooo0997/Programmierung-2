@@ -54,10 +54,10 @@ namespace Game
 
             while (Window.IsOpen)
             {
+                // Game Logic
+
                 tTime = cFpsSet.ElapsedTime;
                 Window.DispatchEvents();
-
-                // Setting FPS and Game Logic
 
                 if (tTime.AsSeconds() * iFPSlimit >= iframes)
                 {
@@ -75,8 +75,9 @@ namespace Game
                 // Reviewing FPS on Console
 
                 tTime2 = cFpsReview.ElapsedTime;
-                if (tTime2.AsMilliseconds() > 999)
+                if (tTime2.AsMilliseconds() >= 1000)
                 {
+                    Console.Clear();
                     Console.WriteLine(iframesreview + " Frames per Second");
                     iframesreview = 0;
                     cFpsReview.Restart();

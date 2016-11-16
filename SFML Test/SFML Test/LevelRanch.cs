@@ -31,7 +31,6 @@ namespace Game
 
         //VECTORS
 
-        protected Vector2f move;
         protected Vector2f CharacterPosition;
         protected Vector2f TileMapPosition;
 
@@ -88,9 +87,9 @@ namespace Game
             textureTileSheet.Smooth = true;
         }
 
-        public override eSceneState Update()
+        public override eSceneState Update(RenderWindow window)
         {
-            pPlayer.Update(ref CharacterPosition);
+            pPlayer.Update(ref CharacterPosition, window);
             cCamera.Update(CharacterPosition, ref TileMapPosition);
 
             return targetScene;

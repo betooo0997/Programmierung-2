@@ -13,12 +13,14 @@ namespace Game
 {
     public class Input
     {
+        public static Vector2i vMousePosition;
+
         public Input()
         {
 
         }
 
-        public void Update(ref Vector2f vCharacterPosition, float iCharacterVelocity, bool up, bool right, bool down, bool left)
+        public void Update(ref Vector2f vCharacterPosition, float iCharacterVelocity, bool up, bool right, bool down, bool left, RenderWindow window)
         {
             // If Up/Down and Right/Left is hold simultaniously the velocity is reduced
 
@@ -40,6 +42,8 @@ namespace Game
 
             if (Keyboard.IsKeyPressed(Keyboard.Key.D) && !right)
                 vCharacterPosition.X += iCharacterVelocity;
+
+            vMousePosition = Mouse.GetPosition(window);
         }
     }
 }

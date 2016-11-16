@@ -34,7 +34,7 @@ namespace Game
             {
                 case GameState.gsGame:
                     InitializeState(gameState);
-                    targetState = gameState.Update();
+                    targetState = gameState.Update(Window);
                     DisposeState(gameState);
                     break;
 

@@ -14,7 +14,7 @@ namespace Game
     {
         public abstract void Initialize();
 
-        public abstract GameState Update();
+        public abstract GameState Update(RenderWindow window);
 
         public abstract List<Drawable> Draw(RenderWindow window);
     }

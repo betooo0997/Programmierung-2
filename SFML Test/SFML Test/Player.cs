@@ -12,12 +12,18 @@ namespace Game
 {
     public class Player
     {
+        // GENERAL PLAYER VARIABLES
         protected int iHealth;
         protected int iExperience;
+        protected float iSpeed;
 
+
+        // PLAYER TEXTURES / SPRITES
         protected Texture tCharacterTexture;
         protected Sprite sCharacterSprite;
 
+
+        // VARIABLES USED FOR COLLISIONDETECTION
         protected uint iPlayerLength;
         protected uint iPlayerWidth;
 
@@ -25,15 +31,21 @@ namespace Game
         protected Vector2f vChracterPositionBottomLeft, vChracterPositionSpace;
 
         protected string[] stringTilemap;
+        protected int[,] Tilemap;
+
         protected int numberColumns;
         protected int numberRows;
-
-        protected Input iInput;
 
         protected bool right, left, up, down;
         protected int x, y;
 
-        protected int[,] Tilemap;
+        // INPUT INSTANCE
+        protected Input iInput;
+
+        // VARIABLES USED FOR PLAYERROTATION
+        protected Vector2i vMousePositionFromPlayer;
+        protected float iAngle;
+
 
         public Player(string[] Tilemap, Vector2f VirtualCharacterPosition)
         {
@@ -43,6 +55,7 @@ namespace Game
 
             iPlayerWidth = 50;
             iPlayerLength = 50;
+            iSpeed = 1.5f;
             stringTilemap = Tilemap;
 
             ConvertToIntArray();
@@ -50,12 +63,17 @@ namespace Game
             CharacterPosition = VirtualCharacterPosition;
         }
 
-        public void Update(ref Vector2f VirtualCharacterPosition)
+        public void Update(ref Vector2f VirtualCharacterPosition, RenderWindow window)
         {
-            CollisionDetection(ref VirtualCharacterPosition);                               // Updates possible directions of movement detecting Collisions
-            iInput.Update(ref VirtualCharacterPosition, 1.5f, up, right, down, left);      // Updates CharacterPosition based on Player Input
+            // Updates possible directions of movement detecting Collisions
+            CollisionDetection(ref VirtualCharacterPosition);                                                
 
-            sCharacterSprite.Position = CharacterPosition;
+            // Updates CharacterPosition based on Player Input
+            iInput.Update(ref VirtualCharacterPosition, iSpeed, up, right, down, left, window);
+
+            PlayerRotation();
+
+            sCharacterSprite.Position = CharacterPosition + new Vector2f(25,25);
         }
 
         public Sprite Draw()
@@ -219,6 +237,30 @@ namespace Game
                 default:
                     return 0;
             }
+        }
+
+        protected void PlayerRotation()
+        {
+            vMousePositionFromPlayer = (Vector2i)CharacterPosition + new Vector2i(25,25) - Input.vMousePosition;
+
+              
+            // Calculating Angle of the Mouse Position relative to the Character
+
+            iAngle = (float)Math.Acos(      (vMousePositionFromPlayer.X    *   0     +     vMousePositionFromPlayer.Y   *   1)  /
+                                            (Math.Sqrt  (Math.Pow(vMousePositionFromPlayer.X, 2)    +   Math.Pow(vMousePositionFromPlayer.Y, 2))        *       Math.Sqrt(Math.Pow(0, 2)    +   Math.Pow(1, 2))));
+
+
+
+            iAngle = (iAngle / (float)Math.PI * 180);
+
+            if (vMousePositionFromPlayer.X > 0)
+                iAngle = 360 - iAngle;
+
+
+            // Rotating Character
+
+            sCharacterSprite.Origin = new Vector2f(25,25);
+            sCharacterSprite.Rotation = iAngle;
         }
 
     }
