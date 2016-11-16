@@ -128,7 +128,7 @@ namespace Game
 
             for (int x = 0; x < (numberColumns * numberRows); x++)
             {
-                tileSheet.Position = new Vector2f((xCoord * tileSize + (int)TileMapPosition.X), (yCoord * tileSize + (int)TileMapPosition.Y));
+                tileSheet.Position = new Vector2f(((int)(xCoord * tileSize + TileMapPosition.X)), (int)((yCoord * tileSize + TileMapPosition.Y)));
                 tileSheet.TextureRect = TileSourceDeterminat0r(currentLevel[xCoord, yCoord]);
 
                 window.Draw(tileSheet);

@@ -53,7 +53,7 @@ namespace Game
         public void Update(ref Vector2f VirtualCharacterPosition)
         {
             CollisionDetection(ref VirtualCharacterPosition);                               // Updates possible directions of movement detecting Collisions
-            iInput.Update(ref VirtualCharacterPosition, 0.75f, up, right, down, left);      // Updates CharacterPosition based on Player Input
+            iInput.Update(ref VirtualCharacterPosition, 1.5f, up, right, down, left);      // Updates CharacterPosition based on Player Input
 
             sCharacterSprite.Position = CharacterPosition;
         }

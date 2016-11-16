@@ -42,7 +42,6 @@ namespace Game
 
         protected List<Drawable> drawList;
         protected TileManager TileUndHerrsche;
-        protected Random rngesus;
         protected Player pPlayer;
         protected Camera cCamera;
         
@@ -76,9 +75,7 @@ namespace Game
 
             //INSTANTIATING OBJECTS : OTHER
 
-            text = new Text("Test", font);
-            rngesus = new Random();
-            move = new Vector2f(((float)(rngesus.Next(1, 3)) / 5), ((float)(rngesus.Next(1, 3)) / 5));
+            text = new Text("Iwas hier reinschreiben", font);
             CharacterPosition = new Vector2f(900, 500);
             pPlayer = new Player(levelString, CharacterPosition);
             cCamera = new Camera();
@@ -103,7 +100,7 @@ namespace Game
         {
             drawList = new List<Drawable>();
 
-            drawList.Add(text);
+            //drawList.Add(text);
 
             drawList.Add(pPlayer.Draw());
 

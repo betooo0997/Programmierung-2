@@ -12,9 +12,7 @@ namespace Game
 {
     class Camera
     {
-        Vector2f NullVector;
         Vector2f InitialCharacterPosition;
-        Vector2f CharacterPosition;
         Vector2f InitialTileMapPosition;
 
         Vector2f TotalMoved;
@@ -22,18 +20,18 @@ namespace Game
         public Camera()
         {
             InitialCharacterPosition = new Vector2f(900, 500);
-            NullVector = new Vector2f();
             InitialTileMapPosition = new Vector2f();
         }
 
         public void Update(Vector2f VirtualCharacterPosition, ref Vector2f TilemapPosition)
         {
+            // Moves the Tilemap based on the virtual CharacterPosition
+
             if (VirtualCharacterPosition != InitialCharacterPosition)
             {
                 TotalMoved = -1 *(VirtualCharacterPosition - InitialCharacterPosition);
                 TilemapPosition = InitialTileMapPosition + TotalMoved;
             }
-
         }
     }
 }

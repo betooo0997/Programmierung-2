@@ -5,6 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using SFML.Graphics;
 using SFML.Window;
+using SFML.System;
+using SFML.Audio;
+
 
 namespace Game
 {
@@ -15,6 +18,16 @@ namespace Game
         protected Drawable drawable;
         public static uint windowWidth;
         public static uint windowHeight;
+        protected Clock cFpsReview;
+        protected Clock cFpsSet;
+
+        protected Time tTime;
+        protected Time tTime2;
+
+        protected uint iframes;
+        protected uint iframesreview;
+        protected uint iFPSlimit;
+
 
 
         protected GameLoop(string title, Color ClearColor)
@@ -25,6 +38,11 @@ namespace Game
             this.ClearColor = ClearColor;
 
             Window.Closed += OnClosed;
+
+            cFpsReview = new Clock();
+            cFpsSet = new Clock();
+            iFPSlimit = 120;
+            iframes = 0;
         }
 
 
@@ -33,14 +51,36 @@ namespace Game
             ContentLoader.LoadContent();
             Initialize();
 
+
             while (Window.IsOpen)
             {
+                tTime = cFpsSet.ElapsedTime;
                 Window.DispatchEvents();
-                Update();
 
-                Window.Clear(ClearColor);
-                Draw(drawable);
-                Window.Display();
+                // Setting FPS and Game Logic
+
+                if (tTime.AsSeconds() * iFPSlimit >= iframes)
+                {
+                    Update();
+
+                    Window.Clear(ClearColor);
+                    Draw(drawable);
+                    Window.Display();
+
+                    iframes++;
+                    iframesreview++;
+                }
+
+
+                // Reviewing FPS on Console
+
+                tTime2 = cFpsReview.ElapsedTime;
+                if (tTime2.AsMilliseconds() > 999)
+                {
+                    Console.WriteLine(iframesreview + " Frames per Second");
+                    iframesreview = 0;
+                    cFpsReview.Restart();
+                }
             }
         }
         protected abstract void Initialize();
