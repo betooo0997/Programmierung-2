@@ -72,7 +72,7 @@ namespace Game
             return drawList;
         }
 
-        private void InitializeState(cSceneState state)
+        private void InitializeState(LevelState state)
         {
             if (previousScene != currentScene)
             {
@@ -81,7 +81,7 @@ namespace Game
             }
         }
 
-        private void DisposeState(cSceneState state)
+        private void DisposeState(LevelState state)
         {
             if (targetScene != currentScene)
             {

@@ -21,60 +21,94 @@ namespace Game
 
     class TileManager
     {
-        protected static uint numberColumns =                       50;
-        protected static uint numberRows =                          30;
+        protected static int tileSize = 50;
 
-        protected static int tileSize =                             50;
+        protected int numberColumns;
+        protected int numberRows;
 
-        protected static Vector2f startingPoint = new Vector2f   (0,0);
+        protected string[] stringCurrentLevel;
+        protected Tilez[,] currentLevel;
 
-        protected Tilez[,] level = new Tilez[numberColumns, numberRows];
-
-        protected Texture tTileSheet = ContentLoader.textureTileSheet;
+        protected Texture tTileSheet;
         protected Sprite tileSheet;
-        
 
-        public TileManager()
+
+        public TileManager(string[] levelText)
         {
+            tTileSheet = ContentLoader.textureTileSheet;
             tileSheet = new Sprite(tTileSheet);
 
-            level[6, 2] = Tilez.black;
-            level[9, 2] = Tilez.black;
-            level[7, 4] = Tilez.darkGrey;
-            level[8, 4] = Tilez.darkGrey;
-            level[7, 5] = Tilez.darkGrey;
-            level[8, 5] = Tilez.darkGrey;
-            level[6, 6] = Tilez.darkGrey;
-            level[7, 6] = Tilez.darkGrey;
-            level[8, 6] = Tilez.darkGrey;
-            level[9, 6] = Tilez.darkGrey;
-            level[4, 8] = Tilez.grey;
-            level[11, 8] = Tilez.grey;
-            level[5, 9] = Tilez.grey;
-            level[6, 9] = Tilez.grey;
-            level[7, 9] = Tilez.grey;
-            level[8, 9] = Tilez.grey;
-            level[9, 9] = Tilez.grey;
-            level[10, 9] = Tilez.grey;
+            stringCurrentLevel = levelText;
+
+            TileMapCreation();
         }
 
-        
+        protected void TileMapCreation()
+        {
+
+
+            // Determines the number of Columns for the current level depending on the longest line in the source.
+            for (int x = 0; x < stringCurrentLevel.Length; x++)
+            {
+                if (stringCurrentLevel[x].Length > numberColumns)
+                {
+                    numberColumns = stringCurrentLevel[x].Length;
+                }
+            }
+
+
+            // Determines the number of Rows for the current level depending on the number of Rows in the source.
+            numberRows = stringCurrentLevel.Length;
+
+
+            currentLevel = new Tilez[numberColumns, numberRows];
+
+
+            // Creates the Tile Array for the Tile Manager out off the source.
+            int xCoord = 0;
+            int yCoord = 0;
+
+
+            while (yCoord < stringCurrentLevel.Length && xCoord <= stringCurrentLevel[yCoord].Length)
+            {
+                currentLevel[xCoord, yCoord] = TileConversation(stringCurrentLevel[yCoord][xCoord]);
+                Console.WriteLine(stringCurrentLevel[yCoord][xCoord]);
+
+                xCoord++;
+                if (xCoord >= stringCurrentLevel[yCoord].Length)
+                {
+                    xCoord = 0;
+                    yCoord++;
+                }
+            }
+        }
+
+        protected Tilez TileConversation(Char tile)
+        {
+            switch (tile)
+            {
+                case '3':
+                    return Tilez.black;
+                case '2':
+                    return Tilez.darkGrey;
+                case '1':
+                    return Tilez.grey;
+                default:
+                    return Tilez.white;
+            }
+        }
+
+
         public void Update()
         {
-
-            Collision();
         }
 
-        public bool Collision()
-        {
-            return false;
-        }
 
         // Determines the source rectangle on the tile sheet. 
         protected IntRect TileSourceDeterminat0r(Tilez tile)
         {
             switch (tile)
-                {
+            {
                 case Tilez.black:
                     return new IntRect(1 * tileSize, 1 * tileSize, tileSize, tileSize);
                 case Tilez.darkGrey:
@@ -83,30 +117,29 @@ namespace Game
                     return new IntRect(1 * tileSize, 0 * tileSize, tileSize, tileSize);
                 default:
                     return new IntRect(0 * tileSize, 0 * tileSize, tileSize, tileSize);
-                }
+            }
         }
-        
+
         // Draw the Tiles denpending on the upper parameter. 
-        public void Draw(RenderWindow window)
+        public void Draw(RenderWindow window, Vector2f TileMapPosition)
         {
             int yCoord = 0;
             int xCoord = 0;
 
             for (int x = 0; x < (numberColumns * numberRows); x++)
             {
-                tileSheet.Position = new Vector2f(startingPoint.X + (xCoord * tileSize), startingPoint.Y + (yCoord * tileSize));
-                tileSheet.TextureRect = TileSourceDeterminat0r(level[xCoord, yCoord]);
+                tileSheet.Position = new Vector2f((xCoord * tileSize + (int)TileMapPosition.X), (yCoord * tileSize + (int)TileMapPosition.Y));
+                tileSheet.TextureRect = TileSourceDeterminat0r(currentLevel[xCoord, yCoord]);
 
                 window.Draw(tileSheet);
 
                 xCoord++;
-                if(xCoord >= numberColumns)
+                if (xCoord >= numberColumns)
                 {
                     xCoord = 0;
                     yCoord++;
                 }
             }
         }
-
     }
 }

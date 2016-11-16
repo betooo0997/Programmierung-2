@@ -10,36 +10,41 @@ using SFML.Audio;
 
 namespace Game
 {
-    class SceneRanch : cSceneState
+    class SceneRanch : LevelState
     {
-        eSceneState targetScene;
+        protected eSceneState targetScene;
 
 
         //FONTS AND TEXTS/STRINGS
 
-        Text text;
-        Font font;
+        protected Text text;
+        protected Font font;
 
 
         //TEXTURES AND SPRITES
 
-        Texture textureDopsball;
-        Texture textureTileSheet;
-        Sprite dopsball;
-        Sprite tileSheet;
+        protected Texture textureDopsball;
+        protected Texture textureTileSheet;
+        protected Sprite dopsball;
+        protected Sprite tileSheet;
 
 
         //VECTORS
 
-        Vector2f move;
+        protected Vector2f move;
+        protected Vector2f CharacterPosition;
+        protected Vector2f TileMapPosition;
 
+        // Level Tile data in textfile format
+        protected string[] levelString;
 
         //OTHER
 
-        List<Drawable> drawList;
-        TileManager TileUndHerrsche;
-        Random rngesus;
-        Player pPlayer;
+        protected List<Drawable> drawList;
+        protected TileManager TileUndHerrsche;
+        protected Random rngesus;
+        protected Player pPlayer;
+        protected Camera cCamera;
         
 
         public SceneRanch()
@@ -57,6 +62,12 @@ namespace Game
             textureTileSheet = ContentLoader.textureTileSheet;
 
 
+            // LEVEL TEXTFILE HAS TO BE CHOSEN
+
+            levelString = System.IO.File.ReadAllLines(@"Level1.txt");
+            TileUndHerrsche = new TileManager(levelString);
+
+
             //INSTANTIATING OBJECTS : TEXTURES
 
             dopsball = new Sprite(textureDopsball);
@@ -66,22 +77,25 @@ namespace Game
             //INSTANTIATING OBJECTS : OTHER
 
             text = new Text("Test", font);
-            TileUndHerrsche = new TileManager();
             rngesus = new Random();
             move = new Vector2f(((float)(rngesus.Next(1, 3)) / 5), ((float)(rngesus.Next(1, 3)) / 5));
-            pPlayer = new Player();
+            CharacterPosition = new Vector2f(900, 500);
+            pPlayer = new Player(levelString, CharacterPosition);
+            cCamera = new Camera();
+            TileMapPosition = new Vector2f(0,0);
 
 
             //CHANGING OBJECT PARAMETERS
 
-            dopsball.Position = new Vector2f(GameLoop.windowWidth / 2f, GameLoop.windowHeight / 2f);
             textureDopsball.Smooth = true;
             textureTileSheet.Smooth = true;
         }
 
         public override eSceneState Update()
         {
-            pPlayer.Update();
+            pPlayer.Update(ref CharacterPosition);
+            cCamera.Update(CharacterPosition, ref TileMapPosition);
+
             return targetScene;
         }
 
@@ -90,11 +104,10 @@ namespace Game
             drawList = new List<Drawable>();
 
             drawList.Add(text);
-            drawList.Add(dopsball);
 
             drawList.Add(pPlayer.Draw());
 
-            TileUndHerrsche.Draw(window);
+            TileUndHerrsche.Draw(window, TileMapPosition);
 
             return drawList;
         }

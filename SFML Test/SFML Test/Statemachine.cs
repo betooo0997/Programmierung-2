@@ -17,7 +17,6 @@ namespace Game
 
         List<Drawable> drawList;
 
-
         public Statemachine()
             : base("Test", Color.Yellow)
         {
@@ -31,7 +30,6 @@ namespace Game
 
         protected override void Update()
         {
-
             switch (currentState)
             {
                 case GameState.gsGame:

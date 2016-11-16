@@ -10,7 +10,7 @@ using SFML.Audio;
 
 namespace Game
 {
-    abstract class cSceneState
+    abstract class LevelState
     {
         public abstract void Initialize();
 
