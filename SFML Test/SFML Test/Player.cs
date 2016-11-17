@@ -10,12 +10,13 @@ using SFML.Audio;
 
 namespace Game
 {
-    public class Player
+    class Player
     {
         // GENERAL PLAYER VARIABLES
         protected int iHealth;
         protected int iExperience;
-        protected float iSpeed;
+        public static float iSpeed;
+        List<Drawable> drawList;
 
 
         // PLAYER TEXTURES / SPRITES
@@ -29,107 +30,107 @@ namespace Game
 
         protected Vector2f CharacterPosition, vChracterPositionTopRight;
         protected Vector2f vChracterPositionBottomLeft, vChracterPositionSpace;
-
-        protected string[] stringTilemap;
-        protected int[,] Tilemap;
-
-        protected int numberColumns;
-        protected int numberRows;
+        
+        protected TileArrayCreation tileArrayCreation;
 
         protected bool right, left, up, down;
         protected int x, y;
 
+
         // INPUT INSTANCE
         protected Input iInput;
+
 
         // VARIABLES USED FOR PLAYERROTATION
         protected Vector2i vMousePositionFromPlayer;
         protected float iAngle;
 
 
-        public Player(string[] Tilemap, Vector2f VirtualCharacterPosition)
+        // VARIABLES USED FOR SHOOTING
+        protected Projectile pProjectile;
+
+
+        public Player(string[] stringMap, Vector2f VirtualCharacterPosition)
         {
-            iInput = new Input();
-            tCharacterTexture = ContentLoader.textureDopsball;
-            sCharacterSprite = new Sprite(tCharacterTexture);
+            // SYNCHRONISING WITH CONTENTLOADER
+            tCharacterTexture =     ContentLoader.textureDopsball;
 
-            iPlayerWidth = 50;
-            iPlayerLength = 50;
-            iSpeed = 1.5f;
-            stringTilemap = Tilemap;
 
-            ConvertToIntArray();
+            // INSTANTIATING OBJECTS
+            iInput              = new Input();
+            sCharacterSprite    = new Sprite(tCharacterTexture);
+            tileArrayCreation   = new TileArrayCreation(stringMap);
+            drawList            = new List<Drawable>();
 
-            CharacterPosition = VirtualCharacterPosition;
+
+            // SETTING CONSTANTS
+            iSpeed              = 1.5f;
+            iPlayerWidth        = 50;
+            iPlayerLength       = 50;
+
+            CharacterPosition   = VirtualCharacterPosition;
         }
 
-        public void Update(ref Vector2f VirtualCharacterPosition, RenderWindow window)
+        public void Update(ref Vector2f VirtualCharacterPosition, RenderWindow window, Vector2f TileMapPosition)
         {
-            // Updates possible directions of movement detecting Collisions
-            CollisionDetection(ref VirtualCharacterPosition);                                                
+            CollisionDetection(ref VirtualCharacterPosition);
 
-            // Updates CharacterPosition based on Player Input
             iInput.Update(ref VirtualCharacterPosition, iSpeed, up, right, down, left, window);
 
             PlayerRotation();
 
             sCharacterSprite.Position = CharacterPosition + new Vector2f(25,25);
+
+            if (Input.Shoot)
+                Shoot(TileMapPosition);
+
+            if (pProjectile != null)
+                pProjectile.Update(TileMapPosition);
         }
 
-        public Sprite Draw()
+
+        public List<Drawable> Draw()
         {
-            return sCharacterSprite;
+            drawList = new List<Drawable>();
+
+            if (pProjectile != null)
+                drawList.Add(pProjectile.Draw());
+
+            drawList.Add(sCharacterSprite);
+
+            return drawList;
         }
 
-        void ConvertToIntArray()
+
+        /// <summary>
+        /// Updates possible directions of movement based on Collisiondetection
+        /// </summary>
+        void CollisionDetection(ref Vector2f vEntityPosition)
         {
-            for (int x = 0; x < stringTilemap.Length; x++)
-            {
-                if (stringTilemap[x].Length > numberColumns)
-                {
-                    numberColumns = stringTilemap[x].Length;
-                }
-            }
-
-            numberRows = stringTilemap.Length;
-
-            Tilemap = new int[numberRows, numberColumns];
-
-            for (int y = 0; y < numberRows; y++)
-            {
-                for (int x = 0; x < numberColumns; x++)
-                {
-                    Tilemap[y, x] = FileConversion(stringTilemap[y][x]);
-                }
-            }
-        }
-
-        void CollisionDetection(ref Vector2f vChracterPositionTopLeft)
-        {
-            vChracterPositionBottomLeft.Y = vChracterPositionTopLeft.Y + iPlayerLength;
-            vChracterPositionTopRight.X = vChracterPositionTopLeft.X + iPlayerWidth;
+            vChracterPositionBottomLeft.Y = vEntityPosition.Y + iPlayerLength;
+            vChracterPositionTopRight.X = vEntityPosition.X + iPlayerWidth;
 
             left = false;
             right = false;
             up = false;
             down = false;
 
-            for (y = 0; y < Tilemap.GetLength(1); y++)
+            for (y = 0; y < tileArrayCreation.GetTilezArray().GetLength(1); y++)
             {
 
-                for (x = 0; x < Tilemap.GetLength(0); x++)
+                for (x = 0; x < tileArrayCreation.GetTilezArray().GetLength(0); x++)
                 {
 
                     //COLLISIONDETECTION ON CHARACTERSPRITE BORDER
 
-                    if (Tilemap[y, x] != 0)
+                    if (tileArrayCreation.GetTilezArray()[x, y] != Tilez.white)
                     {
 
-                        if (((vChracterPositionTopLeft.Y < (y + 1) * 50 && vChracterPositionTopLeft.Y > y * 50 - 1) ||
-                           (vChracterPositionTopLeft.Y < y * 50 && vChracterPositionTopLeft.Y > (y - 1) * 50)))
+                        if (((vEntityPosition.Y < (y + 1) * 50 && vEntityPosition.Y > y * 50 - 1) ||
+                           (vEntityPosition.Y < y * 50 && vEntityPosition.Y > (y - 1) * 50)))
                         {
 
-                            if (vChracterPositionTopLeft.X <= (x + 1) * 50 && vChracterPositionTopLeft.X >= x * 50)
+                            if (vEntityPosition.X <= (x + 1) * 50 && vEntityPosition.X >= x * 50)
                             {
                                 left = true;
                                 vChracterPositionSpace.X = (x + 1) * 50;
@@ -143,11 +144,11 @@ namespace Game
                         }
 
 
-                        if (((vChracterPositionTopLeft.X < (x + 1) * 50 && vChracterPositionTopLeft.X > x * 50 - 1) ||
+                        if (((vEntityPosition.X < (x + 1) * 50 && vEntityPosition.X > x * 50 - 1) ||
                             (vChracterPositionTopRight.X > x * 50 && vChracterPositionTopRight.X < (x + 1) * 50)))
                         {
 
-                            if (vChracterPositionTopLeft.Y <= (y + 1) * 50 && vChracterPositionTopLeft.Y >= y * 50)
+                            if (vEntityPosition.Y <= (y + 1) * 50 && vEntityPosition.Y >= y * 50)
                             {
                                 up = true;
                                 vChracterPositionSpace.Y = (y + 1) * 50;
@@ -167,14 +168,14 @@ namespace Game
 
                     if (up && right)
                     {
-                        if (vChracterPositionTopLeft.X - vChracterPositionSpace.X < vChracterPositionSpace.Y - vChracterPositionTopLeft.Y)
+                        if (vEntityPosition.X - vChracterPositionSpace.X < vChracterPositionSpace.Y - vEntityPosition.Y)
                         {
-                            vChracterPositionTopLeft.X = vChracterPositionSpace.X;
+                            vEntityPosition.X = vChracterPositionSpace.X;
                         }
 
                         else
                         { 
-                            vChracterPositionTopLeft.Y = vChracterPositionSpace.Y;
+                            vEntityPosition.Y = vChracterPositionSpace.Y;
                         }
                         break;
                     }
@@ -182,13 +183,13 @@ namespace Game
 
                     if (up && left)
                     {
-                        if (vChracterPositionSpace.X - vChracterPositionTopLeft.X < vChracterPositionSpace.Y - vChracterPositionTopLeft.Y)
+                        if (vChracterPositionSpace.X - vEntityPosition.X < vChracterPositionSpace.Y - vEntityPosition.Y)
                         {
-                            vChracterPositionTopLeft.X = vChracterPositionSpace.X;
+                            vEntityPosition.X = vChracterPositionSpace.X;
                         }
                         else
                         {
-                            vChracterPositionTopLeft.Y = vChracterPositionSpace.Y;
+                            vEntityPosition.Y = vChracterPositionSpace.Y;
                         }
                         break;
                     }
@@ -196,13 +197,13 @@ namespace Game
 
                     if (down && left)
                     {
-                        if (vChracterPositionSpace.X - vChracterPositionTopLeft.X < vChracterPositionTopLeft.Y - vChracterPositionSpace.Y)
+                        if (vChracterPositionSpace.X - vEntityPosition.X < vEntityPosition.Y - vChracterPositionSpace.Y)
                         {
-                            vChracterPositionTopLeft.X = vChracterPositionSpace.X;
+                            vEntityPosition.X = vChracterPositionSpace.X;
                         }
                         else
                         {
-                            vChracterPositionTopLeft.Y = vChracterPositionSpace.Y;
+                            vEntityPosition.Y = vChracterPositionSpace.Y;
                         }
                         break;
                     }
@@ -210,46 +211,33 @@ namespace Game
 
                     if (down && right)
                     {
-                        if (vChracterPositionTopLeft.X - vChracterPositionSpace.X < vChracterPositionTopLeft.Y - vChracterPositionSpace.Y)
+                        if (vEntityPosition.X - vChracterPositionSpace.X < vEntityPosition.Y - vChracterPositionSpace.Y)
                         {
-                            vChracterPositionTopLeft.X = vChracterPositionSpace.X;
+                            vEntityPosition.X = vChracterPositionSpace.X;
                         }
                         else
                         {
-                            vChracterPositionTopLeft.Y = vChracterPositionSpace.Y;
+                            vEntityPosition.Y = vChracterPositionSpace.Y;
                         }
                         break;
                     }
                 }
             }
         }
+        
 
-        protected int FileConversion(Char tile)
-        {
-            switch (tile)
-            {
-                case '3':
-                    return 3;
-                case '2':
-                    return 2;
-                case '1':
-                    return 1;
-                default:
-                    return 0;
-            }
-        }
-
+        /// <summary>
+        /// Rotates Player towards the Mouse
+        /// </summary>
         protected void PlayerRotation()
         {
+            // Calculating Mouse Position using the Character Position as Origin
             vMousePositionFromPlayer = (Vector2i)CharacterPosition + new Vector2i(25,25) - Input.vMousePosition;
 
-              
+
             // Calculating Angle of the Mouse Position relative to the Character
-
             iAngle = (float)Math.Acos(      (vMousePositionFromPlayer.X    *   0     +     vMousePositionFromPlayer.Y   *   1)  /
-                                            (Math.Sqrt  (Math.Pow(vMousePositionFromPlayer.X, 2)    +   Math.Pow(vMousePositionFromPlayer.Y, 2))        *       Math.Sqrt(Math.Pow(0, 2)    +   Math.Pow(1, 2))));
-
-
+                                            (Math.Sqrt(    Math.Pow(vMousePositionFromPlayer.X, 2)   +   Math.Pow(vMousePositionFromPlayer.Y, 2)   )        *       Math.Sqrt(    Math.Pow(0, 2)   +   Math.Pow(1, 2)    )    ));
 
             iAngle = (iAngle / (float)Math.PI * 180);
 
@@ -258,9 +246,14 @@ namespace Game
 
 
             // Rotating Character
-
             sCharacterSprite.Origin = new Vector2f(25,25);
             sCharacterSprite.Rotation = iAngle;
+        }
+
+
+        protected void Shoot(Vector2f TileMapPosition)
+        {
+                pProjectile = new Projectile(iAngle, CharacterPosition, vMousePositionFromPlayer, TileMapPosition);
         }
 
     }

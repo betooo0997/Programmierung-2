@@ -11,23 +11,9 @@ using SFML.Window;
 
 namespace Game
 {
-    public enum Tilez
-    {
-        white,
-        grey,
-        darkGrey,
-        black
-    }
-
     class TileManager
     {
-        protected static int tileSize = 50;
-
-        protected int numberColumns;
-        protected int numberRows;
-
-        protected string[] stringCurrentLevel;
-        protected Tilez[,] currentLevel;
+        protected TileArrayCreation tileArrayCreation;
 
         protected Texture tTileSheet;
         protected Sprite tileSheet;
@@ -38,66 +24,10 @@ namespace Game
             tTileSheet = ContentLoader.textureTileSheet;
             tileSheet = new Sprite(tTileSheet);
 
-            stringCurrentLevel = levelText;
-
-            TileMapCreation();
+            tileArrayCreation = new TileArrayCreation(levelText);
         }
 
-        protected void TileMapCreation()
-        {
-
-
-            // Determines the number of Columns for the current level depending on the longest line in the source.
-            for (int x = 0; x < stringCurrentLevel.Length; x++)
-            {
-                if (stringCurrentLevel[x].Length > numberColumns)
-                {
-                    numberColumns = stringCurrentLevel[x].Length;
-                }
-            }
-
-
-            // Determines the number of Rows for the current level depending on the number of Rows in the source.
-            numberRows = stringCurrentLevel.Length;
-
-
-            currentLevel = new Tilez[numberColumns, numberRows];
-
-
-            // Creates the Tile Array for the Tile Manager out off the source.
-            int xCoord = 0;
-            int yCoord = 0;
-
-
-            while (yCoord < stringCurrentLevel.Length && xCoord <= stringCurrentLevel[yCoord].Length)
-            {
-                currentLevel[xCoord, yCoord] = TileConversation(stringCurrentLevel[yCoord][xCoord]);
-                Console.WriteLine(stringCurrentLevel[yCoord][xCoord]);
-
-                xCoord++;
-                if (xCoord >= stringCurrentLevel[yCoord].Length)
-                {
-                    xCoord = 0;
-                    yCoord++;
-                }
-            }
-        }
-
-        protected Tilez TileConversation(Char tile)
-        {
-            switch (tile)
-            {
-                case '3':
-                    return Tilez.black;
-                case '2':
-                    return Tilez.darkGrey;
-                case '1':
-                    return Tilez.grey;
-                default:
-                    return Tilez.white;
-            }
-        }
-
+        
 
         public void Update()
         {
@@ -110,13 +40,13 @@ namespace Game
             switch (tile)
             {
                 case Tilez.black:
-                    return new IntRect(1 * tileSize, 1 * tileSize, tileSize, tileSize);
+                    return new IntRect(1 * tileArrayCreation.GetTileSize(), 1 * tileArrayCreation.GetTileSize(), tileArrayCreation.GetTileSize(), tileArrayCreation.GetTileSize());
                 case Tilez.darkGrey:
-                    return new IntRect(0 * tileSize, 1 * tileSize, tileSize, tileSize);
+                    return new IntRect(0 * tileArrayCreation.GetTileSize(), 1 * tileArrayCreation.GetTileSize(), tileArrayCreation.GetTileSize(), tileArrayCreation.GetTileSize());
                 case Tilez.grey:
-                    return new IntRect(1 * tileSize, 0 * tileSize, tileSize, tileSize);
+                    return new IntRect(1 * tileArrayCreation.GetTileSize(), 0 * tileArrayCreation.GetTileSize(), tileArrayCreation.GetTileSize(), tileArrayCreation.GetTileSize());
                 default:
-                    return new IntRect(0 * tileSize, 0 * tileSize, tileSize, tileSize);
+                    return new IntRect(0 * tileArrayCreation.GetTileSize(), 0 * tileArrayCreation.GetTileSize(), tileArrayCreation.GetTileSize(), tileArrayCreation.GetTileSize());
             }
         }
 
@@ -126,15 +56,15 @@ namespace Game
             int yCoord = 0;
             int xCoord = 0;
 
-            for (int x = 0; x < (numberColumns * numberRows); x++)
+            for (int x = 0; x < (tileArrayCreation.GetNumberColumns() * tileArrayCreation.GetNumberRows()); x++)
             {
-                tileSheet.Position = new Vector2f(((int)(xCoord * tileSize + TileMapPosition.X)), (int)((yCoord * tileSize + TileMapPosition.Y)));
-                tileSheet.TextureRect = TileSourceDeterminat0r(currentLevel[xCoord, yCoord]);
+                tileSheet.Position = new Vector2f(((int)(xCoord * tileArrayCreation.GetTileSize() + TileMapPosition.X)), (int)((yCoord * tileArrayCreation.GetTileSize() + TileMapPosition.Y)));
+                tileSheet.TextureRect = TileSourceDeterminat0r(tileArrayCreation.GetTilezArray()[xCoord, yCoord]);
 
                 window.Draw(tileSheet);
 
                 xCoord++;
-                if (xCoord >= numberColumns)
+                if (xCoord >= tileArrayCreation.GetNumberColumns())
                 {
                     xCoord = 0;
                     yCoord++;

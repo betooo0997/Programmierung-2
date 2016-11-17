@@ -89,8 +89,8 @@ namespace Game
 
         public override eSceneState Update(RenderWindow window)
         {
-            pPlayer.Update(ref CharacterPosition, window);
             cCamera.Update(CharacterPosition, ref TileMapPosition);
+            pPlayer.Update(ref CharacterPosition, window, TileMapPosition);
 
             return targetScene;
         }
@@ -101,7 +101,7 @@ namespace Game
 
             //drawList.Add(text);
 
-            drawList.Add(pPlayer.Draw());
+            drawList = pPlayer.Draw();
 
             TileUndHerrsche.Draw(window, TileMapPosition);
 
