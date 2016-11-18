@@ -74,7 +74,7 @@ namespace Game
 
             //INSTANTIATING OBJECTS : OTHER
 
-            text = new Text("Iwas hier reinschreiben", font);
+            text = new Text("Left Click to Shoot", font, 20);
             CharacterPosition = new Vector2f(900, 500);
             pPlayer = new Player(levelString, CharacterPosition);
             cCamera = new Camera();
@@ -85,6 +85,9 @@ namespace Game
 
             textureDopsball.Smooth = true;
             textureTileSheet.Smooth = true;
+            text.Position = new Vector2f(20, 20);
+            text.Color = Color.Black;
+
         }
 
         public override eSceneState Update(RenderWindow window)
@@ -99,9 +102,9 @@ namespace Game
         {
             drawList = new List<Drawable>();
 
-            //drawList.Add(text);
-
             drawList = pPlayer.Draw();
+
+            drawList.Add(text);
 
             TileUndHerrsche.Draw(window, TileMapPosition);
 

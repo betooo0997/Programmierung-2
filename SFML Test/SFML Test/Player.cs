@@ -48,6 +48,7 @@ namespace Game
 
         // VARIABLES USED FOR SHOOTING
         protected Projectile pProjectile;
+        protected List<Projectile> lProjectile;
 
 
         public Player(string[] stringMap, Vector2f VirtualCharacterPosition)
@@ -61,10 +62,11 @@ namespace Game
             sCharacterSprite    = new Sprite(tCharacterTexture);
             tileArrayCreation   = new TileArrayCreation(stringMap);
             drawList            = new List<Drawable>();
+            lProjectile         = new List<Projectile>();
 
 
             // SETTING CONSTANTS
-            iSpeed              = 1.5f;
+            iSpeed = 1.5f;
             iPlayerWidth        = 50;
             iPlayerLength       = 50;
 
@@ -84,8 +86,10 @@ namespace Game
             if (Input.Shoot)
                 Shoot(TileMapPosition);
 
-            if (pProjectile != null)
-                pProjectile.Update(TileMapPosition);
+            for (x = 0; x < lProjectile.Count; x++)
+                lProjectile[x].Update(TileMapPosition);
+
+            DisposeProjectile();
         }
 
 
@@ -93,8 +97,8 @@ namespace Game
         {
             drawList = new List<Drawable>();
 
-            if (pProjectile != null)
-                drawList.Add(pProjectile.Draw());
+            for (x = 0; x < lProjectile.Count; x++)
+                drawList.Add(lProjectile[x].Draw());
 
             drawList.Add(sCharacterSprite);
 
@@ -253,8 +257,28 @@ namespace Game
 
         protected void Shoot(Vector2f TileMapPosition)
         {
-                pProjectile = new Projectile(iAngle, CharacterPosition, vMousePositionFromPlayer, TileMapPosition);
+            pProjectile = new Projectile(iAngle, CharacterPosition, vMousePositionFromPlayer, TileMapPosition);
+
+            lProjectile.Add(pProjectile);
         }
 
+        protected void DisposeProjectile()
+        {
+            for (int x = 0; x < lProjectile.Count; x++)
+            {
+                if (lProjectile[x].Destruct())
+                {
+                    for (int y = x; y + 1 < lProjectile.Count; y++)
+                        lProjectile[y] = lProjectile[y + 1];
+
+                    if (lProjectile.Count == 1)
+                        lProjectile.RemoveAt(0);
+                    else
+                    lProjectile.RemoveAt(lProjectile.Count - 1);
+
+                    Console.WriteLine("Projectile Destroyed");
+                }
+            }
+        }
     }
 }

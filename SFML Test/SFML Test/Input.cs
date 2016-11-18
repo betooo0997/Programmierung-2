@@ -19,11 +19,13 @@ namespace Game
         public static bool bMovingDown;
         public static bool bMovingRight;
         public static bool bMovingLeft;
+        protected bool bPressed;
 
 
         public Input()
         {
             Shoot = false;
+            bPressed = true;
         }
 
 
@@ -32,11 +34,11 @@ namespace Game
         /// </summary>
         public void Update(ref Vector2f vCharacterPosition, float iCharacterVelocity, bool up, bool right, bool down, bool left, RenderWindow window)
         {
-            bMovingUp =      false;
-            bMovingDown =    false;
-            bMovingRight =   false;
-            bMovingLeft =    false;
-            Shoot =          false;
+            bMovingUp       = false;
+            bMovingDown     = false;
+            bMovingRight    = false;
+            bMovingLeft     = false;
+            Shoot           = false;
 
             // If Up/Down and Right/Left is hold simultaniously the velocity is reduced
 
@@ -73,8 +75,13 @@ namespace Game
 
             vMousePosition = Mouse.GetPosition(window);
 
-            if (Mouse.IsButtonPressed(Mouse.Button.Left))
+            if (Mouse.IsButtonPressed(Mouse.Button.Left) && !bPressed)
+            {
                 Shoot = true;
+                bPressed = true;
+            }
+            else if (!Mouse.IsButtonPressed(Mouse.Button.Left))
+                bPressed = false;
         }
     }
 }

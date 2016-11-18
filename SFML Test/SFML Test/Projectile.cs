@@ -77,9 +77,18 @@ namespace Game
             return sProjectile;
         }
 
-        public void Move()
+        void Move()
         {
             vProjectilePosition -= (Vector2f)vMousePosition / 100 + vDifferenceTileMapPosition + vPlayermovement;
+        }
+
+        public bool Destruct()
+        {
+            if (vProjectilePosition.X > 1920 || vProjectilePosition.X < -tProjectile.Size.X || vProjectilePosition.Y > 1080 || vProjectilePosition.Y < -tProjectile.Size.Y)
+                return true;
+
+            else
+                return false;
         }
     }
 }
