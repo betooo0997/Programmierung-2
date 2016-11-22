@@ -127,7 +127,7 @@ namespace Game
 
                     //COLLISIONDETECTION ON CHARACTERSPRITE BORDER
 
-                    if (tileArrayCreation.GetTilezArray()[x, y] != Tilez.white)
+                    if (tileArrayCreation.GetTilezArray()[x, y] != Tilez.grass)
                     {
 
                         if (((vEntityPosition.Y < (y + 1) * 50 && vEntityPosition.Y > y * 50 - 1) ||

@@ -37,17 +37,49 @@ namespace Game
         // Determines the source rectangle on the tile sheet. 
         protected IntRect TileSourceDeterminat0r(Tilez tile)
         {
+            int column  = 0;
+            int row     = 0;
+
             switch (tile)
             {
+                case Tilez.structureWood:
+                    column = 8;
+                    row = 0;
+                    break;
+                case Tilez.treeFoilage:
+                    column = 7;
+                    row = 0;
+                    break;
+                case Tilez.treeTop:
+                    column = 6;
+                    row = 0;
+                    break;
+                case Tilez.treeTrunk:
+                    column = 5;
+                    row = 0;
+                    break;
+                case Tilez.grass:
+                    column = 4;
+                    row = 0;
+                    break;
                 case Tilez.black:
-                    return new IntRect(1 * tileArrayCreation.GetTileSize(), 1 * tileArrayCreation.GetTileSize(), tileArrayCreation.GetTileSize(), tileArrayCreation.GetTileSize());
+                    column = 3;
+                    row = 0;
+                    break;
                 case Tilez.darkGrey:
-                    return new IntRect(0 * tileArrayCreation.GetTileSize(), 1 * tileArrayCreation.GetTileSize(), tileArrayCreation.GetTileSize(), tileArrayCreation.GetTileSize());
+                    column = 2;
+                    row = 0;
+                    break;
                 case Tilez.grey:
-                    return new IntRect(1 * tileArrayCreation.GetTileSize(), 0 * tileArrayCreation.GetTileSize(), tileArrayCreation.GetTileSize(), tileArrayCreation.GetTileSize());
+                    column  = 1;
+                    row = 0;
+                    break;
                 default:
-                    return new IntRect(0 * tileArrayCreation.GetTileSize(), 0 * tileArrayCreation.GetTileSize(), tileArrayCreation.GetTileSize(), tileArrayCreation.GetTileSize());
+                    column  = 0;
+                    row     = 0;
+                    break;
             }
+            return new IntRect(column * tileArrayCreation.GetTileSize(), row * tileArrayCreation.GetTileSize(), tileArrayCreation.GetTileSize(), tileArrayCreation.GetTileSize());
         }
 
         // Draw the Tiles denpending on the upper parameter. 
