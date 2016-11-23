@@ -10,29 +10,18 @@ using SFML.Audio;
 
 namespace Game
 {
-    class Player
+    class Player : Character
     {
         // GENERAL PLAYER VARIABLES
-        protected int iHealth;
         protected int iExperience;
-        public static float iSpeed;
         List<Drawable> drawList;
 
 
-        // PLAYER TEXTURES / SPRITES
-        protected Texture tCharacterTexture;
-        protected Sprite sCharacterSprite;
-
-
         // VARIABLES USED FOR COLLISIONDETECTION
-        protected uint iPlayerLength;
-        protected uint iPlayerWidth;
 
-        protected Vector2f CharacterPosition, vChracterPositionTopRight;
-        protected Vector2f vChracterPositionBottomLeft, vChracterPositionSpace;
+        protected Vector2f CharacterPosition;
+        protected Vector2f vChracterPositionSpace;
         
-        protected TileArrayCreation tileArrayCreation;
-
         protected bool right, left, up, down;
         protected int x, y;
 
@@ -46,30 +35,21 @@ namespace Game
         protected float iAngle;
 
 
-        // VARIABLES USED FOR SHOOTING
-        protected Projectile pProjectile;
-        protected List<Projectile> lProjectile;
-
-
         public Player(string[] stringMap, Vector2f VirtualCharacterPosition)
         {
             // SYNCHRONISING WITH CONTENTLOADER
-            tCharacterTexture =     ContentLoader.textureDopsball;
-
+            tEntity =     ContentLoader.textureDopsball;
 
             // INSTANTIATING OBJECTS
             iInput              = new Input();
-            sCharacterSprite    = new Sprite(tCharacterTexture);
-            tileArrayCreation   = new TileArrayCreation(stringMap);
+            sEntity    = new Sprite(tEntity);
+            tTileMap            = new TileArrayCreation(stringMap);
             drawList            = new List<Drawable>();
             lProjectile         = new List<Projectile>();
 
 
             // SETTING CONSTANTS
             iSpeed = 1.5f;
-            iPlayerWidth        = 50;
-            iPlayerLength       = 50;
-
             CharacterPosition   = VirtualCharacterPosition;
         }
 
@@ -98,8 +78,8 @@ namespace Game
             for (x = 0; x < lProjectile.Count; x++)
                 drawList.Add(lProjectile[x].Draw());
 
-            sCharacterSprite.Position = CharacterPosition + new Vector2f(25, 25);
-            drawList.Add(sCharacterSprite);
+            sEntity.Position = CharacterPosition + new Vector2f(25, 25);
+            drawList.Add(sEntity);
 
             return drawList;
         }
@@ -110,8 +90,8 @@ namespace Game
         /// </summary>
         void CollisionDetection(ref Vector2f vEntityPosition)
         {
-            vChracterPositionBottomLeft.Y = vEntityPosition.Y + iPlayerLength;
-            vChracterPositionTopRight.X = vEntityPosition.X + iPlayerWidth;
+            vEntityPositionBottomLeft.Y = vEntityPosition.Y + tEntity.Size.Y;
+            vEntityPositionTopRight.X = vEntityPosition.X + tEntity.Size.X;
 
             left = false;
             right = false;
@@ -135,7 +115,7 @@ namespace Game
 
                     //COLLISIONDETECTION ON CHARACTERSPRITE BORDER
 
-                    if (tileArrayCreation.GetTilezArray()[x, y] != Tilez.grass)
+                    if (tTileMap.GetTilezArray()[x, y] != Tilez.grass)
                     {
 
                         if (((vEntityPosition.Y < (y + 1) * 50 && vEntityPosition.Y > y * 50 - 1) ||
@@ -148,7 +128,7 @@ namespace Game
                                 vChracterPositionSpace.X = (x + 1) * 50;
                             }
                         
-                            else if (vChracterPositionTopRight.X >= x * 50 && vChracterPositionTopRight.X <= (x + 1) * 50)
+                            else if (vEntityPositionTopRight.X >= x * 50 && vEntityPositionTopRight.X <= (x + 1) * 50)
                             {
                                 right = true;
                                 vChracterPositionSpace.X = (x - 1) * 50;
@@ -157,7 +137,7 @@ namespace Game
 
 
                         if (((vEntityPosition.X < (x + 1) * 50 && vEntityPosition.X > x * 50 - 1) ||
-                            (vChracterPositionTopRight.X > x * 50 && vChracterPositionTopRight.X < (x + 1) * 50)))
+                            (vEntityPositionTopRight.X > x * 50 && vEntityPositionTopRight.X < (x + 1) * 50)))
                         {
 
                             if (vEntityPosition.Y <= (y + 1) * 50 && vEntityPosition.Y >= y * 50)
@@ -167,7 +147,7 @@ namespace Game
                             }
 
 
-                            else if (vChracterPositionBottomLeft.Y >= y * 50 && vChracterPositionBottomLeft.Y <= (y + 1) * 50)
+                            else if (vEntityPositionBottomLeft.Y >= y * 50 && vEntityPositionBottomLeft.Y <= (y + 1) * 50)
                             {
                                 down = true;
                                 vChracterPositionSpace.Y = (y - 1) * 50;
@@ -258,8 +238,8 @@ namespace Game
 
 
             // Rotating Character
-            sCharacterSprite.Origin = new Vector2f(25,25);
-            sCharacterSprite.Rotation = iAngle;
+            sEntity.Origin = new Vector2f(25,25);
+            sEntity.Rotation = iAngle;
         }
 
 
@@ -270,23 +250,5 @@ namespace Game
             lProjectile.Add(pProjectile);
         }
 
-        protected void DisposeProjectile()
-        {
-            for (int x = 0; x < lProjectile.Count; x++)
-            {
-                if (lProjectile[x].Destruct())
-                {
-                    for (int y = x; y + 1 < lProjectile.Count; y++)
-                        lProjectile[y] = lProjectile[y + 1];
-
-                    if (lProjectile.Count == 1)
-                        lProjectile.RemoveAt(0);
-                    else
-                    lProjectile.RemoveAt(lProjectile.Count - 1);
-
-                    Console.WriteLine("Projectile Destroyed");
-                }
-            }
-        }
     }
 }
