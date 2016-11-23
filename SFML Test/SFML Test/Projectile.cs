@@ -12,11 +12,9 @@ namespace Game
 {
     class Projectile
     {
-        protected static int iNumProjectiles = 0;
-
         protected float iAngle;
-        protected float iVelocity;
-        protected int ID;
+
+        protected float iDistanceToMouse;
 
         protected Vector2f vProjectilePosition;
 
@@ -33,32 +31,40 @@ namespace Game
 
         public Projectile(float iAngle, Vector2f vCharacterPosition, Vector2i vMousePosition, Vector2f vPresentTileMapPosition)
         {
-            this.iAngle = iAngle;
+            // SYNCHRONISING WITH CONTENT LOADER
+            tProjectile = ContentLoader.textureDopsball;
+
+            // SINCHRONYSING VARIABLES
+            vProjectilePosition = vCharacterPosition;
             this.vCharacterPosition = vCharacterPosition;
+            this.iAngle = iAngle;
             this.vMousePosition = vMousePosition;
             this.vPresentTileMapPosition = vPresentTileMapPosition;
-
-
-            tProjectile = ContentLoader.textureDopsball;
-            vPlayermovement = new Vector2f(0, 0);
+        
+            // INSTANTITATING OBJECTS
             sProjectile = new Sprite(tProjectile);
 
-            vProjectilePosition = vCharacterPosition;
+            // SETTING PROJECTILE PARAMETERS
+            sProjectile.Rotation = iAngle;
+            sProjectile.Origin = new Vector2f(25, 25);
 
-            ID = iNumProjectiles;
-            iNumProjectiles++;
+            // SETTING PLAYERMOVEMENT
+            vPlayermovement = new Vector2f(0, 0);
 
             if (Input.bMovingLeft)
-                vPlayermovement.X += Player.iSpeed;
+                vPlayermovement.X += Input.fCharacterVelocity;
 
             if (Input.bMovingRight)
-                vPlayermovement.X -= Player.iSpeed;
+                vPlayermovement.X -= Input.fCharacterVelocity;
 
             if (Input.bMovingUp)
-                vPlayermovement.Y += Player.iSpeed;
+                vPlayermovement.Y += Input.fCharacterVelocity;
 
             if (Input.bMovingDown)
-                vPlayermovement.Y -= Player.iSpeed;
+                vPlayermovement.Y -= Input.fCharacterVelocity;
+
+            // CALCULATING DISTANCE FROM CHARACTERPOSITION TO MOUSE
+            iDistanceToMouse = (float)Math.Sqrt(Math.Pow(vMousePosition.X, 2) + Math.Pow(vMousePosition.Y, 2));
         }
 
         public void Update(Vector2f vPresentTileMapPosition)
@@ -69,7 +75,7 @@ namespace Game
 
             Move();
 
-            sProjectile.Position = vProjectilePosition;
+            sProjectile.Position = vProjectilePosition + new Vector2f(25,25) ;
         }
 
         public Sprite Draw()
@@ -79,7 +85,7 @@ namespace Game
 
         void Move()
         {
-            vProjectilePosition -= (Vector2f)vMousePosition / 100 + vDifferenceTileMapPosition + vPlayermovement;
+            vProjectilePosition -= ((Vector2f)vMousePosition / iDistanceToMouse) * 2 + vDifferenceTileMapPosition + vPlayermovement;
         }
 
         public bool Destruct()

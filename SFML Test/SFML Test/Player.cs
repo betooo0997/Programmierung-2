@@ -81,8 +81,6 @@ namespace Game
 
             PlayerRotation();
 
-            sCharacterSprite.Position = CharacterPosition + new Vector2f(25,25);
-
             if (Input.Shoot)
                 Shoot(TileMapPosition);
 
@@ -100,6 +98,7 @@ namespace Game
             for (x = 0; x < lProjectile.Count; x++)
                 drawList.Add(lProjectile[x].Draw());
 
+            sCharacterSprite.Position = CharacterPosition + new Vector2f(25, 25);
             drawList.Add(sCharacterSprite);
 
             return drawList;
@@ -119,10 +118,19 @@ namespace Game
             up = false;
             down = false;
 
-            for (y = 0; y < tileArrayCreation.GetTilezArray().GetLength(1); y++)
+            int iTileNearY = (int)vEntityPosition.Y / 50 - 1;
+            int iTileNearX = (int)vEntityPosition.X / 50 - 1;
+
+            if (iTileNearY < 0)
+                iTileNearY++;
+
+            if (iTileNearX < 0)
+                iTileNearX++;
+
+            for (y = iTileNearY; y < iTileNearY + 3; y++)
             {
 
-                for (x = 0; x < tileArrayCreation.GetTilezArray().GetLength(0); x++)
+                for (x = iTileNearX; x < iTileNearX + 3; x++)
                 {
 
                     //COLLISIONDETECTION ON CHARACTERSPRITE BORDER

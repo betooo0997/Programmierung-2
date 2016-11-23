@@ -19,6 +19,7 @@ namespace Game
         public static bool bMovingDown;
         public static bool bMovingRight;
         public static bool bMovingLeft;
+        public static float fCharacterVelocity;
         protected bool bPressed;
 
 
@@ -32,44 +33,45 @@ namespace Game
         /// <summary>
         /// Updates CharacterPosition based on Player Input
         /// </summary>
-        public void Update(ref Vector2f vCharacterPosition, float iCharacterVelocity, bool up, bool right, bool down, bool left, RenderWindow window)
+        public void Update(ref Vector2f vCharacterPosition, float fcharacterVelocity, bool up, bool right, bool down, bool left, RenderWindow window)
         {
-            bMovingUp       = false;
-            bMovingDown     = false;
-            bMovingRight    = false;
-            bMovingLeft     = false;
-            Shoot           = false;
+            bMovingUp = false;
+            bMovingDown = false;
+            bMovingRight = false;
+            bMovingLeft = false;
+            Shoot = false;
+            fCharacterVelocity = fcharacterVelocity;
 
             // If Up/Down and Right/Left is hold simultaniously the velocity is reduced
 
             if (((Keyboard.IsKeyPressed(Keyboard.Key.W) && !up) && ((Keyboard.IsKeyPressed(Keyboard.Key.A) && !left) || (Keyboard.IsKeyPressed(Keyboard.Key.D) && !right))) ||
                 ((Keyboard.IsKeyPressed(Keyboard.Key.S) && !down) && ((Keyboard.IsKeyPressed(Keyboard.Key.A) && !left) || (Keyboard.IsKeyPressed(Keyboard.Key.D) && !right))))
-                iCharacterVelocity /= 1.5f;
+                fCharacterVelocity /= 1.5f;
 
 
             // Main Input Logic
 
             if (Keyboard.IsKeyPressed(Keyboard.Key.W) && !up)
             {
-                vCharacterPosition.Y -= iCharacterVelocity;
+                vCharacterPosition.Y -= fCharacterVelocity;
                 bMovingUp = true;
             }
 
             if (Keyboard.IsKeyPressed(Keyboard.Key.S) && !down)
             {
-                vCharacterPosition.Y += iCharacterVelocity;
+                vCharacterPosition.Y += fCharacterVelocity;
                 bMovingDown = true;
             }
 
             if (Keyboard.IsKeyPressed(Keyboard.Key.A) && !left)
             {
-                vCharacterPosition.X -= iCharacterVelocity;
+                vCharacterPosition.X -= fCharacterVelocity;
                 bMovingLeft = true;
             }
 
             if (Keyboard.IsKeyPressed(Keyboard.Key.D) && !right)
             {
-                vCharacterPosition.X += iCharacterVelocity;
+                vCharacterPosition.X += fCharacterVelocity;
                 bMovingRight = true;
             }
 

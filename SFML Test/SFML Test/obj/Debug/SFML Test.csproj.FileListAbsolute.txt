@@ -78,3 +78,20 @@ C:\Users\Beto\Documents\Programmierung-2\SFML Test\SFML Test\obj\Debug\SFML Test
 C:\Users\Beto\Documents\Programmierung-2\SFML Test\SFML Test\bin\Debug\Level1.txt
 C:\Users\Beto\Documents\Programmierung-2\SFML Test\SFML Test\bin\Debug\TileSheet.png
 C:\Users\Alexander\Documents\GitHub\Programmierung-2\SFML Test\SFML Test\bin\Debug\Level1.txt
+C:\Users\Beto\Videos\Programmierung-2\SFML Test\SFML Test\bin\Debug\SFML Test.exe.config
+C:\Users\Beto\Videos\Programmierung-2\SFML Test\SFML Test\obj\Debug\SFML Test.exe
+C:\Users\Beto\Videos\Programmierung-2\SFML Test\SFML Test\obj\Debug\SFML Test.pdb
+C:\Users\Beto\Videos\Programmierung-2\SFML Test\SFML Test\bin\Debug\Dopsball.png
+C:\Users\Beto\Videos\Programmierung-2\SFML Test\SFML Test\bin\Debug\Level1.txt
+C:\Users\Beto\Videos\Programmierung-2\SFML Test\SFML Test\bin\Debug\OpenTK.Compatibility.dll
+C:\Users\Beto\Videos\Programmierung-2\SFML Test\SFML Test\bin\Debug\OpenTK.dll
+C:\Users\Beto\Videos\Programmierung-2\SFML Test\SFML Test\bin\Debug\TileSheet.png
+C:\Users\Beto\Videos\Programmierung-2\SFML Test\SFML Test\bin\Debug\csfml-audio-2.dll
+C:\Users\Beto\Videos\Programmierung-2\SFML Test\SFML Test\bin\Debug\csfml-graphics-2.dll
+C:\Users\Beto\Videos\Programmierung-2\SFML Test\SFML Test\bin\Debug\csfml-system-2.dll
+C:\Users\Beto\Videos\Programmierung-2\SFML Test\SFML Test\bin\Debug\csfml-window-2.dll
+C:\Users\Beto\Videos\Programmierung-2\SFML Test\SFML Test\bin\Debug\libsndfile-1.dll
+C:\Users\Beto\Videos\Programmierung-2\SFML Test\SFML Test\bin\Debug\openal32.dll
+C:\Users\Beto\Videos\Programmierung-2\SFML Test\SFML Test\bin\Debug\SFML Test.exe
+C:\Users\Beto\Videos\Programmierung-2\SFML Test\SFML Test\bin\Debug\SFML Test.pdb
+C:\Users\Beto\Videos\Programmierung-2\SFML Test\SFML Test\obj\Debug\SFML Test.csprojResolveAssemblyReference.cache
