@@ -10,7 +10,7 @@ using SFML.Audio;
 
 namespace Game
 {
-    abstract class Entity
+    public abstract class Entity
     {
         protected Vector2f vEntityPosition;
         protected Vector2f vEntityPositionBottomLeft;
@@ -29,8 +29,8 @@ namespace Game
             vEntityPositionBottomLeft.Y = vEntityPos.Y + tEntity.Size.Y;
             vEntityPositionTopRight.X = vEntityPos.X + tEntity.Size.X;
 
-            int iTileNearY = (int)vEntityPos.Y / 50 - 1;
-            int iTileNearX = (int)vEntityPos.X / 50 - 1;
+            int iTileNearY = (int)vEntityPos.Y / 50;
+            int iTileNearX = (int)vEntityPos.X / 50;
 
             if (iTileNearY < 0)
                 iTileNearY++;
@@ -38,10 +38,10 @@ namespace Game
             if (iTileNearX < 0)
                 iTileNearX++;
 
-            for (int y = iTileNearY; y < iTileNearY + 3; y++)
+            for (int y = iTileNearY; y < iTileNearY + 2; y++)
             {
 
-                for (int x = iTileNearX; x < iTileNearX + 3; x++)
+                for (int x = iTileNearX; x < iTileNearX + 2; x++)
                 {
 
                     //COLLISIONDETECTION ON ENTITY BORDER

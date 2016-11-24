@@ -13,10 +13,12 @@ namespace Game
     abstract class Character : Entity
     {
         protected int iHealth;
-        public static float iSpeed;
+        public static float iSpeed = 1.5f;
 
         protected Projectile pProjectile;
         protected List<Projectile> lProjectile;
+        protected List<Drawable> drawList;
+
 
         protected void DisposeProjectile()
         {

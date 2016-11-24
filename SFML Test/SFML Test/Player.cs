@@ -14,7 +14,6 @@ namespace Game
     {
         // GENERAL PLAYER VARIABLES
         protected int iExperience;
-        List<Drawable> drawList;
 
 
         // VARIABLES USED FOR COLLISIONDETECTION
@@ -42,14 +41,13 @@ namespace Game
 
             // INSTANTIATING OBJECTS
             iInput              = new Input();
-            sEntity    = new Sprite(tEntity);
+            sEntity             = new Sprite(tEntity);
             tTileMap            = new TileArrayCreation(stringMap);
             drawList            = new List<Drawable>();
             lProjectile         = new List<Projectile>();
 
 
             // SETTING CONSTANTS
-            iSpeed = 1.5f;
             CharacterPosition   = VirtualCharacterPosition;
         }
 

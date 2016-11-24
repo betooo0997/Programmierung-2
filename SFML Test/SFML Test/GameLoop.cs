@@ -56,8 +56,9 @@ namespace Game
             {
                 // Game Logic
 
-                tTime = cFpsSet.ElapsedTime;
                 Window.DispatchEvents();
+                tTime = cFpsSet.ElapsedTime;
+
 
                 if (tTime.AsSeconds() * iFPSlimit >= iframes)
                 {

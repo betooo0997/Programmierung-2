@@ -15,7 +15,7 @@ namespace Game
         private GameState currentState, targetState, previousState;
         private StateGame gameState;
 
-        List<Drawable> drawList;
+        CustomList drawList;
 
         public Statemachine()
             : base("Test", Color.Yellow)
@@ -55,8 +55,8 @@ namespace Game
                     break;
             }
 
-            for (int x = 0; x < drawList.Count; x++)
-                Window.Draw(drawList.ElementAt(x));
+            for (int x = 0; x < drawList.Count(); x++)
+                Window.Draw(drawList.Draw().ElementAt(x));
             
         }
 

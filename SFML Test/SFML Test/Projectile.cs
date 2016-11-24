@@ -10,7 +10,7 @@ using SFML.Audio;
 
 namespace Game
 {
-    class Projectile : Entity
+    public class Projectile : Entity
     {
         protected float iAngle;
 
@@ -81,7 +81,7 @@ namespace Game
 
         void Move()
         {
-            vEntityPosition -= ((Vector2f)vMousePosition / iDistanceToMouse) * 2 + vDifferenceTileMapPosition + vPlayermovement;
+            vEntityPosition -= ((Vector2f)vMousePosition / iDistanceToMouse) * 5 + vDifferenceTileMapPosition + vPlayermovement;
         }
 
         public bool Destruct()

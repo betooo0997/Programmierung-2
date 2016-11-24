@@ -19,7 +19,7 @@ namespace Game
         structureWood   = 20
     }
 
-    class TileArrayCreation
+    public class TileArrayCreation
     {
         protected static int tileSize = 50;
 

@@ -12,14 +12,7 @@ namespace Game
 {
     class SceneRanch : LevelState
     {
-        protected eSceneState targetScene;
-
-
-        //FONTS AND TEXTS/STRINGS
-
         protected Text text;
-        protected Font font;
-
 
         //TEXTURES AND SPRITES
 
@@ -28,22 +21,8 @@ namespace Game
         protected Sprite dopsball;
         protected Sprite tileSheet;
 
+        Enemy cEnemy;
 
-        //VECTORS
-
-        protected Vector2f CharacterPosition;
-        protected Vector2f TileMapPosition;
-
-        // Level Tile data in textfile format
-        protected string[] levelString;
-
-        //OTHER
-
-        protected List<Drawable> drawList;
-        protected TileManager TileUndHerrsche;
-        protected Player pPlayer;
-        protected Camera cCamera;
-        
 
         public SceneRanch()
         {
@@ -76,8 +55,9 @@ namespace Game
 
             text = new Text("Left Click to Shoot", font, 20);
             CharacterPosition = new Vector2f(900, 500);
-            pPlayer = new Player(levelString, CharacterPosition);
+            cPlayer = new Player(levelString, CharacterPosition);
             cCamera = new Camera();
+            cEnemy = new Enemy(new Vector2f(300,300));
             TileMapPosition = new Vector2f(0,0);
 
 
@@ -93,24 +73,24 @@ namespace Game
         public override eSceneState Update(RenderWindow window)
         {
             cCamera.Update(CharacterPosition, ref TileMapPosition);
-            pPlayer.Update(ref CharacterPosition, window, TileMapPosition);
+            cPlayer.Update(ref CharacterPosition, window, TileMapPosition);
+
+            cEnemy.Update(TileMapPosition);
 
             return targetScene;
         }
 
-        public override List<Drawable> Draw(RenderWindow window)
+        public override CustomList Draw(RenderWindow window)
         {
-            drawList = new List<Drawable>();
+            drawList = new CustomList();
 
-            drawList = pPlayer.Draw();
-
-            drawList.Add(text);
+            drawList.AddElement(text);
+            drawList.AddList(cEnemy.Draw());
+            drawList.AddList(cPlayer.Draw());
 
             TileUndHerrsche.Draw(window, TileMapPosition);
 
             return drawList;
         }
-
-
     }
 }

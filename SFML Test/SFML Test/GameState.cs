@@ -23,7 +23,7 @@ namespace Game
 
         //OTHER
 
-        List<Drawable> drawList;
+        CustomList drawList;
 
 
 
@@ -56,9 +56,9 @@ namespace Game
             return targetState;
         }
 
-        public override List<Drawable> Draw(RenderWindow window)
+        public override CustomList Draw(RenderWindow window)
         {
-            drawList = new List<Drawable>();
+            drawList = new CustomList();
 
             switch (currentScene)
             {
