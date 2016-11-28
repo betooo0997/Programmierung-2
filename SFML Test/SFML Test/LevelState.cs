@@ -12,7 +12,7 @@ namespace Game
 {
     abstract class LevelState
     {
-        protected eSceneState targetScene;
+        protected eSceneState targetLevel;
 
         protected Font font;
 

@@ -30,7 +30,7 @@ namespace Game
 
         public override void Initialize()
         {
-            targetScene = eSceneState.ssRanch;
+            targetLevel = eSceneState.ssRanch;
 
             //SYNCHRONISING WITH CONTENTLOADER
 
@@ -72,12 +72,11 @@ namespace Game
 
         public override eSceneState Update(RenderWindow window)
         {
-            cCamera.Update(CharacterPosition, ref TileMapPosition);
             cPlayer.Update(ref CharacterPosition, window, TileMapPosition);
-
+            cCamera.Update(CharacterPosition, ref TileMapPosition);
             cEnemy.Update(TileMapPosition);
 
-            return targetScene;
+            return targetLevel;
         }
 
         public override CustomList Draw(RenderWindow window)

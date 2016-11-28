@@ -13,8 +13,7 @@ namespace Game
     class Player : Character
     {
         // GENERAL PLAYER VARIABLES
-        protected int iExperience;
-
+        protected int iLevel;
 
         // VARIABLES USED FOR COLLISIONDETECTION
 
@@ -36,19 +35,20 @@ namespace Game
 
         public Player(string[] stringMap, Vector2f VirtualCharacterPosition)
         {
-            // SYNCHRONISING WITH CONTENTLOADER
-            tEntity =     ContentLoader.textureDopsball;
-
             // INSTANTIATING OBJECTS
+            sCharacter          = new CircleShape(25, 3);
             iInput              = new Input();
-            sEntity             = new Sprite(tEntity);
             tTileMap            = new TileArrayCreation(stringMap);
             drawList            = new List<Drawable>();
             lProjectile         = new List<Projectile>();
 
 
             // SETTING CONSTANTS
-            CharacterPosition   = VirtualCharacterPosition;
+            sCharacter.Origin = new Vector2f(25, 25);
+            CharacterPosition = VirtualCharacterPosition;
+            sCharacter.FillColor = Color.White;
+            sCharacter.OutlineThickness = 1;
+            sCharacter.OutlineColor = Color.Black;
         }
 
         public void Update(ref Vector2f VirtualCharacterPosition, RenderWindow window, Vector2f TileMapPosition)
@@ -73,11 +73,10 @@ namespace Game
         {
             drawList = new List<Drawable>();
 
-            for (x = 0; x < lProjectile.Count; x++)
-                drawList.Add(lProjectile[x].Draw());
+            CustomList.AddProjectiles(drawList, lProjectile);
 
-            sEntity.Position = CharacterPosition + new Vector2f(25, 25);
-            drawList.Add(sEntity);
+            sCharacter.Position = CharacterPosition + new Vector2f(25, 25);
+            drawList.Add(sCharacter);
 
             return drawList;
         }
@@ -88,8 +87,8 @@ namespace Game
         /// </summary>
         void CollisionDetection(ref Vector2f vEntityPosition)
         {
-            vEntityPositionBottomLeft.Y = vEntityPosition.Y + tEntity.Size.Y;
-            vEntityPositionTopRight.X = vEntityPosition.X + tEntity.Size.X;
+            vEntityPositionBottomLeft.Y = vEntityPosition.Y + sCharacter.Radius * 2;
+            vEntityPositionTopRight.X = vEntityPosition.X + sCharacter.Radius * 2;
 
             left = false;
             right = false;
@@ -236,8 +235,8 @@ namespace Game
 
 
             // Rotating Character
-            sEntity.Origin = new Vector2f(25,25);
-            sEntity.Rotation = iAngle;
+            sCharacter.Rotation = iAngle;
+
         }
 
 

@@ -41,22 +41,15 @@ namespace Game
             }
         }
 
-        public void AddList(CustomList drawable)
+        public static List<Drawable> AddProjectiles(List<Drawable> a, List<Projectile> b)
         {
-            int count = drawable.drawList.Count;
+            List<Drawable> mergedList;
+            mergedList = a;
 
-            for (int x = 0; x < drawable.Count(); x++)
-            {
-                drawable.AddElement(drawable.drawList[x]);
-            }
-        }
+            for (int x = 0; x < b.Count; x++)
+                mergedList.Add(b[x].Draw());
 
-        public void AddList(List<Projectile> drawable)
-        {
-            for (int x = 0; x < drawable.Count; x++)
-            {
-                drawList.Add(drawable[x].Draw());
-            }
+            return mergedList;
         }
 
 
@@ -70,17 +63,6 @@ namespace Game
             drawList.RemoveAt(drawList.Count);
         }
 
-
-        public static List<Drawable> MergeLists(List<Drawable> a, List<Drawable> b)
-        {
-            List<Drawable> mergedList;
-            mergedList = a;
-
-            for (int x = 0; x <= b.Count; x++)
-                mergedList.Add(b[x]);
-
-            return mergedList;
-        }
 
 
         public List<Drawable> MergeLists(List<Drawable> a, List<Drawable> b, List<Drawable> c)

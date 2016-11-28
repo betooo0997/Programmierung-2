@@ -14,20 +14,25 @@ namespace Game
     {
         public Enemy(Vector2f vEnemyPosition)
         {
-            tEntity = ContentLoader.textureDopsball;
-            sEntity = new Sprite(tEntity);
+            // INSTANTIATING OBJECTS
+            sCharacter = new CircleShape(25, 3);
             vEntityPosition = vEnemyPosition;
+
+            // SETTING CONSTANTS
+            sCharacter.FillColor = Color.White;
+            sCharacter.OutlineThickness = 1;
+            sCharacter.OutlineColor = Color.Black;
         }
 
         public void Update(Vector2f vTileMapPosition)
         {
-            sEntity.Position = vTileMapPosition + vEntityPosition;
+            sCharacter.Position = vTileMapPosition + vEntityPosition;
         }
 
         public List<Drawable> Draw()
         {
             drawList = new List<Drawable>();
-            drawList.Add(sEntity);
+            drawList.Add(sCharacter);
             return drawList;
         }
     }

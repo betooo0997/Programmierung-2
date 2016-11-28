@@ -4,18 +4,22 @@ XP - Ecken
 Cooldown der Moves
 Begrenzte Anzahl der verfügbaren Attcken
 (mehr XP - mächtigere Moves?)
-kein Inventar
+Inventar
 
 Echtzeit Grafikdarstellung, kein Kampfmenü
 
 MOVES:
 Drehen,
 Sturmangriff,
-Ecken abfeuern,
 Phytagoranische Triangel (Dreieck wird dupliziert und abgefeuert),
 Vektorspeerwurf (Pfeil wird abgeschossen),
 Schild des rechten Winkels (Angriff wird geblockt),
-Euklidische Verzerrung, (Ausweichmanöver, Charakter teleportiert sich parallel zum Richtungsvektor)
+Euklidische Verzerrung, (Ausweichmanöver, Charakter teleportiert sich parallel zum Richtungsvektor),
+Transformation in die 3. Dimension
+Pibombe
+
+PLAYER:
+Kann seine Form beliebig ändern --> Muss die Formen aber erst freischalten
 
 
 POWER:
@@ -24,7 +28,8 @@ Göttliche Kreissäge (Charakter dreht sich so schnell bis die Kreisform erreicht 
 
 
 WELT:
-Figur bewegt sich
+Open World, aber durch Ecktore begrenzte bereiche
+An toren wird die Form des Players gescannt.
 
 
 Für die Zukunft:
