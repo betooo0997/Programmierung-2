@@ -86,6 +86,7 @@ namespace Game
             }
         }
 
+        // A hardcoded List of all available Types of Tiles. 
         protected Tilez TileConversation(Char tile)
         {
             switch (tile)
