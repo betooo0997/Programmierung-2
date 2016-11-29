@@ -13,7 +13,7 @@ namespace Game
     class Player : Character
     {
         // GENERAL PLAYER VARIABLES
-        protected static uint iLevel = 10;
+        protected static uint iLevel = 3;
 
         // VARIABLES USED FOR COLLISIONDETECTION
 
