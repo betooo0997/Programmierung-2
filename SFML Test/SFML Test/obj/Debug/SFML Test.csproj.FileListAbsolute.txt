@@ -128,3 +128,6 @@ C:\Users\Beto\Desktop\SFML Test\SFML Test\obj\Debug\SFML Test.exe
 C:\Users\Beto\Desktop\SFML Test\SFML Test\obj\Debug\SFML Test.pdb
 C:\Users\Beto\Documents\GitHub\Programmierung-2\SFML Test\SFML Test\bin\Debug\Level1.txt
 C:\Users\Beto\Documents\GitHub\Programmierung-2\SFML Test\SFML Test\bin\Debug\Triangle.png
+C:\Users\Alexander\Documents\GitHub\Programmierung-2\SFML Test\SFML Test\bin\Debug\Level1.txt
+C:\Users\Alexander\Documents\GitHub\Programmierung-2\SFML Test\SFML Test\bin\Debug\Triangle.png
+C:\Users\Alexander\Documents\GitHub\Programmierung-2\SFML Test\SFML Test\bin\Debug\EntitySheet.png

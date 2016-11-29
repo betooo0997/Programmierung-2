@@ -8,15 +8,18 @@ namespace Game
 {
     public enum Tilez
     {
-        white           =  0,
-        grey            =  1,
-        darkGrey        =  2,
-        black           =  3,
-        grass           =  4,
-        treeTrunk       = 10,
-        treeTop         = 11,
-        treeFoilage     = 12,
-        structureWood   = 20
+        black           =  0,
+        darkGrey        =  1,
+        grey            =  2,
+        white           =  3,
+        groundGrass     = 10,
+        groundStone     = 11,
+        groundWood      = 12,
+        treeTrunk       = 20,
+        treeTop         = 21,
+        treeFoilage     = 22,
+        structureWood   = 30,
+        structureStone  = 31
     }
 
     public class TileArrayCreation
@@ -91,6 +94,8 @@ namespace Game
         {
             switch (tile)
             {
+                case 's':
+                    return Tilez.structureStone;
                 case 'w':
                     return Tilez.structureWood;
                 case '+':
@@ -99,16 +104,20 @@ namespace Game
                     return Tilez.treeTop;
                 case 'u':
                     return Tilez.treeTrunk;
+                case 'd':
+                    return Tilez.groundWood;
+                case 'p':
+                    return Tilez.groundStone;
                 case 'g':
-                    return Tilez.grass;
-                case '#':
-                    return Tilez.black;
-                case '*':
-                    return Tilez.darkGrey;
+                    return Tilez.groundGrass;
                 case '0':
-                    return Tilez.grey;
-                default:
                     return Tilez.white;
+                case '*':
+                    return Tilez.grey;
+                case '#':
+                    return Tilez.darkGrey;
+                default:
+                    return Tilez.black;
             }
         }
 

@@ -42,35 +42,47 @@ namespace Game
 
             switch (tile)
             {
+                case Tilez.structureStone:
+                    column = 1;
+                    row = 3;
+                    break;
                 case Tilez.structureWood:
-                    column = 8;
-                    row = 0;
+                    column = 0;
+                    row = 3;
                     break;
                 case Tilez.treeFoilage:
-                    column = 7;
-                    row = 0;
+                    column = 2;
+                    row = 2;
                     break;
                 case Tilez.treeTop:
-                    column = 6;
-                    row = 0;
+                    column = 1;
+                    row = 2;
                     break;
                 case Tilez.treeTrunk:
-                    column = 5;
-                    row = 0;
+                    column = 0;
+                    row = 2;
                     break;
-                case Tilez.grass:
-                    column = 4;
-                    row = 0;
+                case Tilez.groundWood:
+                    column = 2;
+                    row = 1;
                     break;
-                case Tilez.black:
+                case Tilez.groundStone:
+                    column = 1;
+                    row = 1;
+                    break;
+                case Tilez.groundGrass:
+                    column = 0;
+                    row = 1;
+                    break;
+                case Tilez.white:
                     column = 3;
                     row = 0;
                     break;
-                case Tilez.darkGrey:
+                case Tilez.grey:
                     column = 2;
                     row = 0;
                     break;
-                case Tilez.grey:
+                case Tilez.darkGrey:
                     column  = 1;
                     row = 0;
                     break;
