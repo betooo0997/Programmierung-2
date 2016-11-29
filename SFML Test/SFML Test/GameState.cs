@@ -18,7 +18,7 @@ namespace Game
 
         //SCENES
 
-        SceneRanch scene1;
+        MainMap scene1;
 
 
         //OTHER
@@ -34,19 +34,19 @@ namespace Game
         public override void Initialize()
         {
             targetState = GameState.gsGame;
-            currentScene = eSceneState.ssRanch;
+            currentScene = eSceneState.ssMain;
 
 
             //INSTANTIATING OBJECTS : SCENES
 
-            scene1 = new SceneRanch();
+            scene1 = new MainMap();
         }
 
         public override GameState Update(RenderWindow window)
         {
             switch (currentScene)
             {
-                case eSceneState.ssRanch:
+                case eSceneState.ssMain:
                     InitializeState(scene1);
                     targetScene = scene1.Update(window);
                     DisposeState(scene1);
@@ -62,7 +62,7 @@ namespace Game
 
             switch (currentScene)
             {
-                case eSceneState.ssRanch:
+                case eSceneState.ssMain:
                     InitializeState(scene1);
                     drawList = scene1.Draw(window);
                     DisposeState(scene1);

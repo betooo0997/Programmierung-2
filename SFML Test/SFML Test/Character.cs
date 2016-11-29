@@ -21,6 +21,9 @@ namespace Game
 
         protected CircleShape sCharacter;
 
+        protected float iAngle;
+
+
         protected void DisposeProjectile()
         {
             for (int x = 0; x < lProjectile.Count; x++)

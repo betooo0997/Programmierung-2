@@ -13,14 +13,14 @@ namespace Game
     class Player : Character
     {
         // GENERAL PLAYER VARIABLES
-        protected int iLevel;
+        protected static uint iLevel = 10;
 
         // VARIABLES USED FOR COLLISIONDETECTION
 
         protected Vector2f CharacterPosition;
         protected Vector2f vChracterPositionSpace;
         
-        protected bool right, left, up, down;
+        bool right, left, up, down;
         protected int x, y;
 
 
@@ -30,13 +30,12 @@ namespace Game
 
         // VARIABLES USED FOR PLAYERROTATION
         protected Vector2i vMousePositionFromPlayer;
-        protected float iAngle;
 
 
         public Player(string[] stringMap, Vector2f VirtualCharacterPosition)
         {
             // INSTANTIATING OBJECTS
-            sCharacter          = new CircleShape(25, 3);
+            sCharacter          = new CircleShape(25, iLevel);
             iInput              = new Input();
             tTileMap            = new TileArrayCreation(stringMap);
             drawList            = new List<Drawable>();
@@ -223,20 +222,11 @@ namespace Game
             // Calculating Mouse Position using the Character Position as Origin
             vMousePositionFromPlayer = (Vector2i)CharacterPosition + new Vector2i(25,25) - Input.vMousePosition;
 
-
             // Calculating Angle of the Mouse Position relative to the Character
-            iAngle = (float)Math.Acos(      (vMousePositionFromPlayer.X    *   0     +     vMousePositionFromPlayer.Y   *   1)  /
-                                            (Math.Sqrt(    Math.Pow(vMousePositionFromPlayer.X, 2)   +   Math.Pow(vMousePositionFromPlayer.Y, 2)   )        *       Math.Sqrt(    Math.Pow(0, 2)   +   Math.Pow(1, 2)    )    ));
-
-            iAngle = (iAngle / (float)Math.PI * 180);
-
-            if (vMousePositionFromPlayer.X > 0)
-                iAngle = 360 - iAngle;
-
+            iAngle = Utilities.AngleBetweenVectors((Vector2f)vMousePositionFromPlayer, new Vector2f(0, 1));
 
             // Rotating Character
             sCharacter.Rotation = iAngle;
-
         }
 
 
@@ -246,6 +236,5 @@ namespace Game
 
             lProjectile.Add(pProjectile);
         }
-
     }
 }

@@ -16,22 +16,22 @@ namespace Game
 
         protected float iDistanceToMouse;
 
-        protected Vector2f vCharacterPosition;
         protected Vector2i vMousePosition;
         protected Vector2f vPlayermovement;
 
         protected Vector2f vPastTileMapPosition;
         protected Vector2f vDifferenceTileMapPosition;
 
+        protected bool bPlayerProjectile;
 
-        public Projectile(float iAngle, Vector2f vCharacterPosition, Vector2i vMousePosition, Vector2f vPresentTileMapPosition)
+
+        public Projectile(float iAngle, Vector2f vEntityPosition, Vector2i vMousePosition, Vector2f vPresentTileMapPosition)
         {
             // SYNCHRONISING WITH CONTENT LOADER
             tEntity = ContentLoader.textureDopsball;
 
             // SINCHRONYSING VARIABLES
-            vEntityPosition = vCharacterPosition;
-            this.vCharacterPosition = vCharacterPosition;
+            this.vEntityPosition = vEntityPosition;
             this.iAngle = iAngle;
             this.vMousePosition = vMousePosition;
             this.vTileMapPosition = vPresentTileMapPosition;
@@ -59,8 +59,33 @@ namespace Game
                 vPlayermovement.Y -= Input.fCharacterVelocity;
 
             // CALCULATING DISTANCE FROM CHARACTERPOSITION TO MOUSE
-            iDistanceToMouse = (float)Math.Sqrt(Math.Pow(vMousePosition.X, 2) + Math.Pow(vMousePosition.Y, 2));
+            iDistanceToMouse = Utilities.DistanceToVectorFromOrigin((Vector2f)vMousePosition);
+
+            // OTHER
+            bPlayerProjectile = true;
         }
+
+        public Projectile(float iAngle, Vector2f vEntityPosition, Vector2f vPresentTileMapPosition)
+        {
+            // SYNCHRONISING WITH CONTENT LOADER
+            tEntity = ContentLoader.textureDopsball;
+
+            // SINCHRONYSING VARIABLES
+            this.vEntityPosition = vEntityPosition;
+            this.iAngle = iAngle;
+            this.vTileMapPosition = vPresentTileMapPosition;
+
+            // INSTANTITATING OBJECTS
+            sEntity = new Sprite(tEntity);
+
+            // CALCULATING DISTANCE FROM CHARACTERPOSITION TO MOUSE
+            iDistanceToMouse = Utilities.DistanceBetweenVectors(vEntityPosition,MainMap.CharacterPosition);
+
+            // OTHER 
+            bPlayerProjectile = false;
+        }
+
+
 
 
         public void Update(Vector2f vPresentTileMapPosition)
@@ -69,7 +94,10 @@ namespace Game
             this.vTileMapPosition = vPresentTileMapPosition;
             vDifferenceTileMapPosition = vPastTileMapPosition - vPresentTileMapPosition;
 
-            Move();
+            if (bPlayerProjectile)
+                Move();
+            else
+                MoveE();
 
             sEntity.Position = vEntityPosition + new Vector2f(25,25) ;
         }
@@ -82,6 +110,11 @@ namespace Game
         void Move()
         {
             vEntityPosition -= ((Vector2f)vMousePosition / iDistanceToMouse) * 5 + vDifferenceTileMapPosition + vPlayermovement;
+        }
+
+        void MoveE()
+        {
+            vEntityPosition -= (vEntityPosition / iDistanceToMouse) * 5 + vDifferenceTileMapPosition;
         }
 
         public bool Destruct()

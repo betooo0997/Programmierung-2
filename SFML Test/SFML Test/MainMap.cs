@@ -10,7 +10,7 @@ using SFML.Audio;
 
 namespace Game
 {
-    class SceneRanch : LevelState
+    class MainMap : LevelState
     {
         protected Text text;
 
@@ -24,13 +24,13 @@ namespace Game
         Enemy cEnemy;
 
 
-        public SceneRanch()
+        public MainMap()
         {
         }
 
         public override void Initialize()
         {
-            targetLevel = eSceneState.ssRanch;
+            targetLevel = eSceneState.ssMain;
 
             //SYNCHRONISING WITH CONTENTLOADER
 
@@ -57,7 +57,7 @@ namespace Game
             CharacterPosition = new Vector2f(900, 500);
             cPlayer = new Player(levelString, CharacterPosition);
             cCamera = new Camera();
-            cEnemy = new Enemy(new Vector2f(300,300));
+            cEnemy = new Enemy(new Vector2f(400,400));
             TileMapPosition = new Vector2f(0,0);
 
 

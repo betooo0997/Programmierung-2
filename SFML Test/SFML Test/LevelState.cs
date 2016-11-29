@@ -16,8 +16,8 @@ namespace Game
 
         protected Font font;
 
-        protected Vector2f CharacterPosition;
-        protected Vector2f TileMapPosition;
+        public static Vector2f CharacterPosition;
+        public static Vector2f TileMapPosition;
 
         protected string[] levelString;
 
@@ -38,8 +38,6 @@ namespace Game
     public enum eSceneState
     {
         ssUndefined,
-        ssRanch,
-        ssForest,
-        ssCastle
+        ssMain
     }
 }
