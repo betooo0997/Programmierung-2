@@ -15,6 +15,8 @@ namespace Game
         public static Font fontArial;
         public static Texture textureDopsball;
         public static Texture textureTileSheet;
+        public static Texture textureTriangle;
+
 
 
         public static void LoadContent()
@@ -25,6 +27,8 @@ namespace Game
             //TEXTURES:
             textureDopsball = new Texture("Dopsball.png");
             textureTileSheet = new Texture("TileSheet.png");
+            textureTriangle = new Texture("Triangle.png");
+
         }
     }
 }

@@ -14,6 +14,7 @@ namespace Game
     {
         // GENERAL PLAYER VARIABLES
         protected static uint iLevel = 3;
+        protected CircleShape sCharacter;
 
         // VARIABLES USED FOR COLLISIONDETECTION
 

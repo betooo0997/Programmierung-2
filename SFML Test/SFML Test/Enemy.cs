@@ -10,66 +10,85 @@ using SFML.Audio;
 
 namespace Game
 {
-    class Enemy : Character
+    abstract class Enemy : Character
     {
-        public Enemy(Vector2f vEnemyPosition)
-        {
-            // INSTANTIATING OBJECTS
-            sCharacter = new CircleShape(25, 3);
-            vEntityPosition = vEnemyPosition;
-
-            // SETTING CONSTANTS
-            sCharacter.FillColor = Color.White;
-            sCharacter.OutlineThickness = 1;
-            sCharacter.OutlineColor = Color.Black;
-            sCharacter.Origin = new Vector2f(25, 25);
-            iAngle = 0;
-
-            lProjectile = new List<Projectile>();
-        }
-
-        public void Update(Vector2f vTileMapPosition)
-        {
-            DisposeProjectile();
-
-            for (int x = 0; x < lProjectile.Count; x++)
-                lProjectile[x].Update(vTileMapPosition);
-
-            if (DetectPlayer() && lProjectile.Count < 1)
-                Shoot(vTileMapPosition);
-
-            sCharacter.Rotation = iAngle;
-            sCharacter.Position = vTileMapPosition + vEntityPosition + new Vector2f(25, 25);
-            RotateEnemy();
-        }
-
-        public List<Drawable> Draw()
-        {
-            drawList = new List<Drawable>();
-
-            CustomList.AddProjectiles(drawList, lProjectile);
-
-            drawList.Add(sCharacter);
-
-            return drawList;
-        }
-
-        protected void Shoot(Vector2f TileMapPosition)
-        {
-        }
+        protected int iDistanceDetection;
 
         protected bool DetectPlayer()
         {
-            if (Utilities.MakePositive(Utilities.DistanceBetweenVectors(MainMap.CharacterPosition, vEntityPosition)) < 50)
+            if (Utilities.MakePositive(Utilities.DistanceBetweenVectors(MainMap.CharacterPosition, vEntityPosition)) < iDistanceDetection)
             {
-                sCharacter.FillColor = Color.Red;
                 return true;
             }
             else
             {
-                sCharacter.FillColor = Color.White;
                 return false;
             }
+        }
+
+        /*protected bool DetectPlayer()
+        {
+            float AngleEnemyPlayer = Utilities.AngleBetweenVectors(vEntityPosition - MainMap.CharacterPosition, new Vector2f(0, 1));
+
+            float iMin = 90 + iAngle;
+            float iMax = 270 + iAngle;
+            float metadata;
+            bool inverse;
+
+
+            if (iMax >= 360)
+                iMax -= 360;
+
+            if (iMin >= 360)
+                iMin -= 360;
+
+            if (iMin > iMax)
+            {
+                metadata = iMax;
+                iMax = iMin;
+                iMin = metadata;
+            }
+
+            Console.Clear();
+            Console.WriteLine((int)iAngle);
+            Console.WriteLine((int)iMin);
+            Console.WriteLine((int)iMax);
+
+
+            if (iAngle >= 90 && iAngle <= 270)
+                inverse = true;
+
+            else
+                inverse = false;
+
+            if (Utilities.MakePositive(Utilities.DistanceBetweenVectors(MainMap.CharacterPosition, vEntityPosition)) < iDistanceDetection &&
+                AngleDetection(inverse, AngleEnemyPlayer, iMin, iMax))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+        }
+        */
+
+        bool AngleDetection(bool inverse, float AngleEnemyPlayer, float iMin, float iMax)
+        {
+            if (!inverse)
+            {
+                if (AngleEnemyPlayer > iMin && AngleEnemyPlayer < iMax)
+                    return true;
+            }
+
+            if (inverse)
+            {
+                if (!(AngleEnemyPlayer > iMin && AngleEnemyPlayer < iMax))
+                    return true;
+            }
+
+            return false;
         }
 
         protected void RotateEnemy()
@@ -77,7 +96,13 @@ namespace Game
             // Calculating the Enemys Position using the Character Position as Origin
             Vector2f a = vEntityPosition + vTileMapPosition - MainMap.CharacterPosition;
 
-            iAngle = Utilities.AngleBetweenVectors(a, new Vector2f (0,1));
+            iAngle = Utilities.AngleBetweenVectors(a, new Vector2f (0,1)) - 120;
+
+            if (iAngle < 0)
+                iAngle += 360;
+
+            if (iAngle >= 360)
+                iAngle -= 360;
         }
     }
 }

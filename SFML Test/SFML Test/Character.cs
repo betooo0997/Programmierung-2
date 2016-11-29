@@ -19,8 +19,6 @@ namespace Game
         protected List<Projectile> lProjectile;
         protected List<Drawable> drawList;
 
-        protected CircleShape sCharacter;
-
         protected float iAngle;
 
 

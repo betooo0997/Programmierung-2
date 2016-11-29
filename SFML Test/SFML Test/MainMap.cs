@@ -21,9 +21,8 @@ namespace Game
         protected Sprite dopsball;
         protected Sprite tileSheet;
 
-        Enemy cEnemy;
-
-
+        Archer cEnemy;
+        
         public MainMap()
         {
         }
@@ -57,7 +56,7 @@ namespace Game
             CharacterPosition = new Vector2f(900, 500);
             cPlayer = new Player(levelString, CharacterPosition);
             cCamera = new Camera();
-            cEnemy = new Enemy(new Vector2f(400,400));
+            cEnemy = new Archer(new Vector2f(400,400));
             TileMapPosition = new Vector2f(0,0);
 
 
