@@ -23,6 +23,11 @@ namespace Game
         protected Texture tEntity;
         protected Sprite sEntity;
 
+
+        /// <summary>
+        /// Detects the Entity Collision
+        /// Returns 0 if no Collision
+        /// </summary>
         protected int CollisionDetection(Vector2f vEntityPosition)
         {
             Vector2f vEntityPos = vEntityPosition - vTileMapPosition;
@@ -44,7 +49,7 @@ namespace Game
                 for (int x = iTileNearX; x < iTileNearX + 2; x++)
                 {
 
-                    //COLLISIONDETECTION ON ENTITY BORDER
+                    // COLLISIONDETECTION ON ENTITY BORDER
 
                     if (tTileMap.GetTilezArray()[x, y] != Tilez.black && tTileMap.GetTilezArray()[x, y] != Tilez.darkGrey && tTileMap.GetTilezArray()[x, y] != Tilez.grey && tTileMap.GetTilezArray()[x, y] != Tilez.white && tTileMap.GetTilezArray()[x, y] != Tilez.groundGrass && tTileMap.GetTilezArray()[x, y] != Tilez.groundStone && tTileMap.GetTilezArray()[x, y] != Tilez.groundWood)
                     {

@@ -69,7 +69,7 @@ namespace Game
 
             drawList.Add(sEntity);
 
-            //ShowVectors();
+            ShowVectors();
 
             return drawList;
         }

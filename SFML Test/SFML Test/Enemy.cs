@@ -14,8 +14,12 @@ namespace Game
     {
         protected int iDistanceDetection;
         protected Vector2f Enemydirection;
+        protected Vector2f EnemyAngleOrigin;
+        protected Vector2f EnemyBottomRightPosition;
+        protected Vector2f EnemyBottomLeftPosition;
         protected float AngleEnemy;
-        protected float AngleEnemyPlayer;
+
+        protected float MaxPermittedAngle; 
 
         /// <summary>
         /// Returns true if the Player is in the Radius and Angle of Sight of the Enemy
@@ -26,10 +30,16 @@ namespace Game
 
             Enemydirection = Utilities.VectorRotierung(iAngle / 57, Enemydirection, sEntity.Position);
 
-            AngleEnemy =  Utilities.AngleBetweenVectors180(Enemydirection - sEntity.Position, new Vector2f(900, 500) + new Vector2f(25, 25) - sEntity.Position);
+            EnemyAngleOrigin = Utilities.VectorRotierung(iAngle / 57, sEntity.Position + new Vector2f(0,15), sEntity.Position);
 
+            EnemyBottomRightPosition = Utilities.VectorRotierung(iAngle / 57, sEntity.Position + new Vector2f(25, 25), sEntity.Position);
+            EnemyBottomLeftPosition = Utilities.VectorRotierung(iAngle / 57, sEntity.Position + new Vector2f(-25, 25), sEntity.Position);
 
-            if (Utilities.MakePositive(Utilities.DistanceBetweenVectors(MainMap.CharacterPosition, vEntityPosition)) < iDistanceDetection && AngleEnemy < 75)
+            AngleEnemy =  Utilities.AngleBetweenVectors180(Enemydirection - EnemyAngleOrigin, new Vector2f(925, 525) - EnemyAngleOrigin);
+
+            MaxPermittedAngle = Utilities.AngleBetweenVectors180(Enemydirection - EnemyAngleOrigin, EnemyBottomRightPosition - EnemyAngleOrigin);
+
+            if (Utilities.MakePositive(Utilities.DistanceBetweenVectors(MainMap.CharacterPosition, vEntityPosition)) < iDistanceDetection && AngleEnemy < MaxPermittedAngle)
                 return true;
 
             else
@@ -54,41 +64,59 @@ namespace Game
         }
 
         /// <summary>
-        /// Shows all the used Vectors of the Enemy
+        /// Shows all the used Vectors of the Enemy, including Sight Radius and Angle
         /// </summary>
         protected void ShowVectors()
         {
-            CircleShape a;
-            CircleShape b;
-            CircleShape c;
-            CircleShape d;
+            CircleShape cEnemyDirection;
+            CircleShape cCharacterPosition; 
+            CircleShape cEnemyPosition;
+            CircleShape cEnemyRadius;
+            RectangleShape rEnemyAngle1;
+            RectangleShape rEnemyAngle2;
+
 
             Vector2f circlePosition;
             circlePosition.X = sEntity.Position.X - iDistanceDetection;
             circlePosition.Y = sEntity.Position.Y - iDistanceDetection;
 
-            a = new CircleShape(1f);
-            b = new CircleShape(1f);
-            c = new CircleShape(1f);
-            d = new CircleShape(iDistanceDetection);
+            cEnemyDirection = new CircleShape(1f);
+            cCharacterPosition = new CircleShape(1f);
+            cEnemyPosition = new CircleShape(1f);
+            cEnemyRadius = new CircleShape(iDistanceDetection);
+            rEnemyAngle1 = new RectangleShape(new Vector2f(iDistanceDetection - 7, 1));
+            rEnemyAngle2 = new RectangleShape(new Vector2f(iDistanceDetection - 7, 1));
 
-            a.Position = Enemydirection;
-            b.Position = new Vector2f(900, 500) + new Vector2f(25, 25);
-            c.Position = sEntity.Position;
-            d.Position = circlePosition;
 
-            a.FillColor = Color.Cyan;
-            b.FillColor = Color.Black;
-            c.FillColor = Color.Red;
-            d.FillColor = Color.Transparent;
+            cEnemyDirection.Position = Enemydirection;
+            cCharacterPosition.Position = new Vector2f(900, 500) + new Vector2f(25, 25);
+            cEnemyPosition.Position = EnemyAngleOrigin;
+            cEnemyRadius.Position = circlePosition;
+            rEnemyAngle1.Position = EnemyAngleOrigin;
+            rEnemyAngle2.Position = EnemyAngleOrigin;
 
-            d.OutlineColor = Color.Cyan;
-            d.OutlineThickness = 1;
 
-            drawList.Add(a);
-            drawList.Add(b);
-            drawList.Add(c);
-            drawList.Add(d);
+            cEnemyDirection.FillColor = Color.Cyan;
+            cCharacterPosition.FillColor = Color.Black;
+            cEnemyPosition.FillColor = Color.Red;
+            cEnemyRadius.FillColor = Color.Transparent;
+            rEnemyAngle1.FillColor = Color.Cyan;
+            rEnemyAngle2.FillColor = Color.Cyan;
+
+
+            cEnemyRadius.OutlineColor = Color.Cyan;
+            cEnemyRadius.OutlineThickness = 1;
+
+            rEnemyAngle1.Rotation = 90 - MaxPermittedAngle + iAngle;
+            rEnemyAngle2.Rotation = 90 + MaxPermittedAngle + iAngle;
+
+
+            drawList.Add(cEnemyRadius);
+            drawList.Add(rEnemyAngle1);
+            drawList.Add(rEnemyAngle2);
+            drawList.Add(cEnemyDirection);
+            drawList.Add(cCharacterPosition);
+            drawList.Add(cEnemyPosition);
         }
     }
 }

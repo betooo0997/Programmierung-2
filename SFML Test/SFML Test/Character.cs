@@ -21,7 +21,9 @@ namespace Game
 
         protected float iAngle;
 
-
+        /// <summary>
+        /// Disposes a Projectile from the Projectile List if its Destruct bool is true
+        /// </summary>
         protected void DisposeProjectile()
         {
             for (int x = 0; x < lProjectile.Count; x++)

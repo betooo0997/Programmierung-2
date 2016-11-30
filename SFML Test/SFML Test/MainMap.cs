@@ -32,26 +32,22 @@ namespace Game
             targetLevel = eSceneState.ssMain;
 
             //SYNCHRONISING WITH CONTENTLOADER
-
             font = ContentLoader.fontArial;
             textureDopsball = ContentLoader.textureDopsball;
             textureTileSheet = ContentLoader.textureTileSheet;
 
 
             // LEVEL TEXTFILE HAS TO BE CHOSEN
-
             levelString = System.IO.File.ReadAllLines(@"Level1.txt");
             TileUndHerrsche = new TileManager(levelString);
 
 
             //INSTANTIATING OBJECTS : TEXTURES
-
             dopsball = new Sprite(textureDopsball);
             tileSheet = new Sprite(textureTileSheet);
 
 
             //INSTANTIATING OBJECTS : OTHER
-
             text = new Text("Left Click to Shoot", font, 20);
             CharacterPosition = new Vector2f(900, 500);
             cPlayer = new Player(levelString, CharacterPosition);
@@ -61,12 +57,10 @@ namespace Game
 
 
             //CHANGING OBJECT PARAMETERS
-
             textureDopsball.Smooth = true;
             textureTileSheet.Smooth = true;
             text.Position = new Vector2f(20, 20);
             text.Color = Color.Black;
-
         }
 
 
@@ -82,9 +76,10 @@ namespace Game
             return targetLevel;
         }
 
+
         /// <summary>
         /// Returns a List of the Elements to be drawed
-        /// Custom List is used to be to add Lists rapidly
+        /// Custom List is used to to add Lists rapidly
         /// </summary>
         public override CustomList Draw(RenderWindow window)
         {
