@@ -224,7 +224,7 @@ namespace Game
             vMousePositionFromPlayer = (Vector2i)CharacterPosition + new Vector2i(25,25) - Input.vMousePosition;
 
             // Calculating Angle of the Mouse Position relative to the Character
-            iAngle = Utilities.AngleBetweenVectors((Vector2f)vMousePositionFromPlayer, new Vector2f(0, 1));
+            iAngle = Utilities.AngleBetweenVectors360((Vector2f)vMousePositionFromPlayer, new Vector2f(0, 1));
 
             // Rotating Character
             sCharacter.Rotation = iAngle;

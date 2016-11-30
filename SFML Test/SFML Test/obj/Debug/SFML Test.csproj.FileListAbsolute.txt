@@ -131,3 +131,4 @@ C:\Users\Beto\Documents\GitHub\Programmierung-2\SFML Test\SFML Test\bin\Debug\Tr
 C:\Users\Alexander\Documents\GitHub\Programmierung-2\SFML Test\SFML Test\bin\Debug\Level1.txt
 C:\Users\Alexander\Documents\GitHub\Programmierung-2\SFML Test\SFML Test\bin\Debug\Triangle.png
 C:\Users\Alexander\Documents\GitHub\Programmierung-2\SFML Test\SFML Test\bin\Debug\EntitySheet.png
+C:\Users\Beto\Documents\GitHub\Programmierung-2\SFML Test\SFML Test\bin\Debug\EntitySheet.png

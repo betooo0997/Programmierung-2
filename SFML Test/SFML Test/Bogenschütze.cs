@@ -25,9 +25,12 @@ namespace Game
 
             lProjectile = new List<Projectile>();
 
-            iDistanceDetection = 100;
+            iDistanceDetection = 400;
         }
 
+        /// <summary>
+        /// Updates Enemy Logic
+        /// </summary>
         public void Update(Vector2f vTileMapPosition)
         {
             DisposeProjectile();
@@ -38,7 +41,7 @@ namespace Game
             if (DetectPlayer() && lProjectile.Count < 1)
                 Shoot(vTileMapPosition);
 
-            sEntity.Rotation = iAngle - 60;
+            sEntity.Rotation = iAngle;
 
             if (sEntity.Rotation < 0)
                 sEntity.Rotation += 360;
@@ -48,10 +51,16 @@ namespace Game
 
             sEntity.Position = vTileMapPosition + vEntityPosition + new Vector2f(25, 25);
 
-            if(DetectPlayer())
-              RotateEnemy();
+            if (DetectPlayer())
+            {
+                RotateEnemy();
+                Console.WriteLine("Detected");
+            }
         }
 
+        /// <summary>
+        /// Returns a List of the Elements to be drawed
+        /// </summary>
         public List<Drawable> Draw()
         {
             drawList = new List<Drawable>();
@@ -59,6 +68,8 @@ namespace Game
             CustomList.AddProjectiles(drawList, lProjectile);
 
             drawList.Add(sEntity);
+
+            //ShowVectors();
 
             return drawList;
         }

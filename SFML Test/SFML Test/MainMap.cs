@@ -57,7 +57,7 @@ namespace Game
             cPlayer = new Player(levelString, CharacterPosition);
             cCamera = new Camera();
             cEnemy = new Archer(new Vector2f(400,400));
-            TileMapPosition = new Vector2f(0,0);
+            TileMapPosition = new Vector2f(0, 0);
 
 
             //CHANGING OBJECT PARAMETERS
@@ -69,6 +69,10 @@ namespace Game
 
         }
 
+
+        /// <summary>
+        /// Updates the Main Map Logic
+        /// </summary>
         public override eSceneState Update(RenderWindow window)
         {
             cPlayer.Update(ref CharacterPosition, window, TileMapPosition);
@@ -78,13 +82,18 @@ namespace Game
             return targetLevel;
         }
 
+        /// <summary>
+        /// Returns a List of the Elements to be drawed
+        /// Custom List is used to be to add Lists rapidly
+        /// </summary>
         public override CustomList Draw(RenderWindow window)
         {
             drawList = new CustomList();
 
             drawList.AddElement(text);
-            drawList.AddList(cEnemy.Draw());
             drawList.AddList(cPlayer.Draw());
+
+            drawList.AddList(cEnemy.Draw());
 
             TileUndHerrsche.Draw(window, TileMapPosition);
 

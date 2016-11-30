@@ -31,7 +31,7 @@ namespace Game
 
 
         /// <summary>
-        /// Updates CharacterPosition based on Player Input
+        /// Updates Virtual CharacterPosition based on Player Input
         /// </summary>
         public void Update(ref Vector2f vCharacterPosition, float fcharacterVelocity, bool up, bool right, bool down, bool left, RenderWindow window)
         {

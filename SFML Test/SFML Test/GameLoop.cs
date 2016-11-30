@@ -78,6 +78,7 @@ namespace Game
                 tTime2 = cFpsReview.ElapsedTime;
                 if (tTime2.AsMilliseconds() >= 1000)
                 {
+                    Console.Clear();
                     Console.WriteLine(iframesreview + " Frames per Second");
                     iframesreview = 0;
                     cFpsReview.Restart();
