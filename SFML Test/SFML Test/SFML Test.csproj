@@ -61,6 +61,7 @@
     <Compile Include="ContentLoader.cs" />
     <Compile Include="Enemy.cs" />
     <Compile Include="Entity.cs" />
+    <Compile Include="EntityArrayCreation.cs" />
     <Compile Include="GameLoop.cs" />
     <Compile Include="Input.cs" />
     <Compile Include="LevelState.cs" />
@@ -75,6 +76,7 @@
     <Compile Include="State.cs" />
     <Compile Include="TileArrayCreation.cs" />
     <Compile Include="TileManager.cs" />
+    <Compile Include="Tilez.cs" />
     <Compile Include="Utilities.cs" />
   </ItemGroup>
   <ItemGroup>
