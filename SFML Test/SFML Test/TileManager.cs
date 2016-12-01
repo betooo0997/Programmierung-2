@@ -50,6 +50,12 @@ namespace Game
             return tileArrayCreation.GetTileSize();
         }
 
+        /// <summary>
+        /// Returns a bool for specified x and y coordinates. If those coordinates are unused, a false is returned. 
+        /// </summary>
+        /// <param name="xCoord"></param>
+        /// <param name="yCoord"></param>
+        /// <returns></returns>
         public bool GetCollisionAt(int xCoord, int yCoord)
         {
             return tileArrayCreation.CollisionReturner(xCoord, yCoord);

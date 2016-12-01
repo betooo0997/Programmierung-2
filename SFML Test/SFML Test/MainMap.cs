@@ -43,7 +43,7 @@ namespace Game
 
             // ENEMY LAYOUT IN .txt HAS TO BE CHOSEN 
             enemyLayoutString = System.IO.File.ReadAllLines(@"MainMapEnemies.txt");
-            entityManager = new EntityManager(TileUndHerrsche.GetTileArray(), enemyLayoutString, TileUndHerrsche.GetNumberColumns(), TileUndHerrsche.GetNumberRows());
+            entityManager = new EntityManager(TileUndHerrsche, enemyLayoutString);
 
             //INSTANTIATING OBJECTS : TEXTURES
             dopsball = new Sprite(textureDopsball);

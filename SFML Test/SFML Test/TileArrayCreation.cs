@@ -149,11 +149,11 @@ namespace Game
         /// <returns></returns>
         public bool CollisionReturner(int xCoord, int yCoord)
         {
-            if(xCoord < 0 || xCoord > numberRows || yCoord < 0 || yCoord > numberColumns)
+            if(xCoord < 0 || xCoord >= numberColumns || yCoord < 0 || yCoord >= numberRows)
             {
                 return false;
             }
-
+            else 
             switch (currentLevel[xCoord, yCoord])
             {
                 case Tilez.structureStone:

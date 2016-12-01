@@ -12,12 +12,12 @@ namespace Game
 {
     class EntityManager
     {
-        protected EnemyArrayCreation entityArrayCreation;
+        protected EntityArrayCreation entityArrayCreation;
 
-        public EntityManager(Tilez[,] tileArray, string[] enemyLayout, int numberColumns, int numberRows)
+        public EntityManager(TileManager tileManager, string[] enemyLayout)
         {
 
-            entityArrayCreation = new EnemyArrayCreation(tileArray, enemyLayout, numberColumns, numberRows);
+            entityArrayCreation = new EntityArrayCreation(tileManager, enemyLayout);
         }
     }
 }

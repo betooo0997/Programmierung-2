@@ -11,15 +11,20 @@ using SFML.Window;
 
 namespace Game
 {
-    class EnemyArrayCreation
+    class EntityArrayCreation
     {
         /// <summary>
-        /// Member: 
-        /// 
+        /// Generated out off the values the tile array in the constructor. 
         /// </summary>
         protected int numberColumns;
+        /// <summary>
+        /// Generated out off the values the tile array in the constructor. 
+        /// </summary>
         protected int numberRows;
 
+        /// <summary>
+        /// Created dependant on the underlying tile map. Ensured to not spawn entities on tiles with collision or out of the map boarders. 
+        /// </summary>
         protected Entity[,] entityArray;
 
 
@@ -38,11 +43,15 @@ namespace Game
             return numberRows;
         }
 
-
-        public EnemyArrayCreation(Tilez[,] currentLevel, string[] stringEnemyLayout, int columns, int rows)
+        /// <summary>
+        /// Creation of the entity array happens in the constructor. Depends on the underlying map and a specific string array. Ensured to not spawn entities on tiles with collision or out of the map boarders. 
+        /// </summary>
+        /// <param name="tileManager"></param>
+        /// <param name="stringEnemyLayout"></param>
+        public EntityArrayCreation(TileManager tileManager, string[] stringEnemyLayout)
         {
-            numberColumns = columns;
-            numberRows = rows;
+            numberColumns = tileManager.GetNumberColumns();
+            numberRows = tileManager.GetNumberRows();
 
             entityArray = new Entity[numberColumns, numberRows];
 
@@ -52,7 +61,7 @@ namespace Game
 
             while (yCoord < stringEnemyLayout.Length && xCoord < stringEnemyLayout[yCoord].Length)
             {
-                entityArray[xCoord, yCoord] = EnemyConversation(stringEnemyLayout[xCoord][yCoord], xCoord, yCoord);
+                entityArray[xCoord, yCoord] = EntityConversation(stringEnemyLayout[xCoord][yCoord], tileManager, xCoord, yCoord);
 
                 xCoord++;
                 if (xCoord >= stringEnemyLayout[yCoord].Length)
@@ -64,15 +73,28 @@ namespace Game
 
         }
 
-        protected Enemy EnemyConversation(char type, int xCoord, int yCoord)
+        /// <summary>
+        /// Returns an entity depending on the used char. Default is null. 
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="tileManager"></param>
+        /// <param name="xCoord"></param>
+        /// <param name="yCoord"></param>
+        /// <returns></returns>
+        protected Entity EntityConversation(char type, TileManager tileManager, int xCoord, int yCoord)
         {
-            switch (type)
+            if (tileManager.GetCollisionAt(xCoord, yCoord))
             {
-                case ('a'):
-                    return new Archer(new Vector2f((float)xCoord, (float)yCoord));
-                default:
-                    return null;
+                switch (type)
+                {
+                    case ('a'):
+                        return new Archer(new Vector2f((float)xCoord, (float)yCoord));
+                    default:
+                        return null;
+                }
             }
+            else
+                return null;
         }
 
     }
