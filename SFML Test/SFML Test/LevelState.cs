@@ -20,9 +20,11 @@ namespace Game
         public static Vector2f TileMapPosition;
 
         protected string[] levelString;
+        protected string[] enemyLayoutString;
 
         protected CustomList drawList;
         protected TileManager TileUndHerrsche;
+        protected EntityManager entityManager;
         protected Player cPlayer;
         protected Camera cCamera;
 

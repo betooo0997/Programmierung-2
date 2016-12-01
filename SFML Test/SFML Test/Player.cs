@@ -111,8 +111,8 @@ namespace Game
                 {
 
                     //COLLISIONDETECTION ON CHARACTERSPRITE BORDER
-
-                    if (tTileMap.GetTilezArray()[x, y] != Tilez.black && tTileMap.GetTilezArray()[x, y] != Tilez.darkGrey && tTileMap.GetTilezArray()[x, y] != Tilez.grey && tTileMap.GetTilezArray()[x, y] != Tilez.white && tTileMap.GetTilezArray()[x, y] != Tilez.groundGrass && tTileMap.GetTilezArray()[x, y] != Tilez.groundStone && tTileMap.GetTilezArray()[x, y] != Tilez.groundWood)
+                    
+                    if (tTileMap.CollisionReturner(x, y))
                     {
 
                         if (((vEntityPosition.Y < (y + 1) * 50 && vEntityPosition.Y > y * 50 - 1) ||

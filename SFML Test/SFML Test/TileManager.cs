@@ -13,12 +13,52 @@ namespace Game
 {
     class TileManager
     {
+        /// <summary>
+        /// Instance of the same named class. 
+        /// </summary>
         protected TileArrayCreation tileArrayCreation;
-
+        /// <summary>
+        /// Texture format of the loaded tile sheet. Intended to load and be converted afterwards. 
+        /// </summary>
         protected Texture tTileSheet;
+        /// <summary>
+        /// Sprite format. Is converted from the texture and used to draw tiles on the map. 
+        /// </summary>
         protected Sprite tileSheet;
 
+        /// <summary>
+        /// Getter methods used to show variables created by the instanced TileArrayCreation. 
+        /// </summary>
+        /// <returns></returns>
+        public Tilez[,] GetTileArray()
+        {
+            return tileArrayCreation.GetTilezArray();
+        }
 
+        public int GetNumberColumns()
+        {
+            return tileArrayCreation.GetNumberColumns();
+        }
+
+        public int GetNumberRows()
+        {
+            return tileArrayCreation.GetNumberRows();
+        }
+
+        public int GetTileSize()
+        {
+            return tileArrayCreation.GetTileSize();
+        }
+
+        public bool GetCollisionAt(int xCoord, int yCoord)
+        {
+            return tileArrayCreation.CollisionReturner(xCoord, yCoord);
+        }
+
+        /// <summary>
+        /// Constructor requires a one dimensional string array. 
+        /// </summary>
+        /// <param name="levelText"></param>
         public TileManager(string[] levelText)
         {
             tTileSheet = ContentLoader.textureTileSheet;
@@ -26,15 +66,13 @@ namespace Game
 
             tileArrayCreation = new TileArrayCreation(levelText);
         }
-
         
 
-        public void Update()
-        {
-        }
-
-
-        // Determines the source rectangle on the tile sheet. 
+        /// <summary>
+        /// Hardcoded list of all sources on the tile sheet. Has to be manually updated with every tile on the source sheet that is added or removed. 
+        /// </summary>
+        /// <param name="tile"></param>
+        /// <returns></returns>
         protected IntRect TileSourceDeterminat0r(Tilez tile)
         {
             int column  = 0;
@@ -94,7 +132,11 @@ namespace Game
             return new IntRect(column * tileArrayCreation.GetTileSize(), row * tileArrayCreation.GetTileSize(), tileArrayCreation.GetTileSize(), tileArrayCreation.GetTileSize());
         }
 
-        // Draw the Tiles denpending on the upper parameter. 
+        /// <summary>
+        /// Obtains the relative (0/0) position of the tile map and draws it using the corresponding tile array. Does not return anything. 
+        /// </summary>
+        /// <param name="window"></param>
+        /// <param name="TileMapPosition"></param>
         public void Draw(RenderWindow window, Vector2f TileMapPosition)
         {
             int yCoord = 0;

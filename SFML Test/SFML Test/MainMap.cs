@@ -38,9 +38,12 @@ namespace Game
 
 
             // LEVEL TEXTFILE HAS TO BE CHOSEN
-            levelString = System.IO.File.ReadAllLines(@"Level1.txt");
+            levelString = System.IO.File.ReadAllLines(@"MainMap.txt");
             TileUndHerrsche = new TileManager(levelString);
 
+            // ENEMY LAYOUT IN .txt HAS TO BE CHOSEN 
+            enemyLayoutString = System.IO.File.ReadAllLines(@"MainMapEnemies.txt");
+            entityManager = new EntityManager(TileUndHerrsche.GetTileArray(), enemyLayoutString, TileUndHerrsche.GetNumberColumns(), TileUndHerrsche.GetNumberRows());
 
             //INSTANTIATING OBJECTS : TEXTURES
             dopsball = new Sprite(textureDopsball);
