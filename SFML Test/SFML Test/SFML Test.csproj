@@ -70,6 +70,7 @@
     <Compile Include="Lists.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Projectile.cs" />
+    <Compile Include="Questtracker.cs" />
     <Compile Include="Statemachine.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

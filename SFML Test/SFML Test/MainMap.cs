@@ -12,7 +12,7 @@ namespace Game
 {
     class MainMap : LevelState
     {
-        protected Text text;
+        protected Text Quest;
 
         //TEXTURES AND SPRITES
 
@@ -58,7 +58,7 @@ namespace Game
 
 
             //INSTANTIATING OBJECTS : OTHER
-            text = new Text("Left Click to Shoot", font, 20);
+            Quest = new Text("Left Click to Shoot", font, 20);
             CharacterPosition = new Vector2f(900, 500);
             cPlayer = new Player(levelString, CharacterPosition);
             cCamera = new Camera();
@@ -72,8 +72,8 @@ namespace Game
             //CHANGING OBJECT PARAMETERS
             textureDopsball.Smooth = true;
             textureTileSheet.Smooth = true;
-            text.Position = new Vector2f(20, 20);
-            text.Color = Color.Black;
+            Quest.Position = new Vector2f(20, 20);
+            Quest.Color = Color.Black;
         }
 
 
@@ -110,7 +110,7 @@ namespace Game
         {
             drawList = new CustomList();
 
-            drawList.AddElement(text);
+            drawList.AddElement(Quest);
             drawList.AddList(cPlayer.Draw());
 
             drawList.AddList(cArcher.Draw());
