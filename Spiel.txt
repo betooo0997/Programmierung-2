@@ -1,0 +1,37 @@
+SYSTEMATIK DES SPIELS
+HP - Größe
+XP - Ecken
+Cooldown der Moves
+Begrenzte Anzahl der verfügbaren Attcken
+(mehr XP - mächtigere Moves?)
+Inventar
+
+Echtzeit Grafikdarstellung, kein Kampfmenü
+
+MOVES:
+Drehen,
+Sturmangriff,
+Phytagoranische Triangel (Dreieck wird dupliziert und abgefeuert),
+Vektorspeerwurf (Pfeil wird abgeschossen),
+Schild des rechten Winkels (Angriff wird geblockt),
+Euklidische Verzerrung, (Ausweichmanöver, Charakter teleportiert sich parallel zum Richtungsvektor),
+Transformation in die 3. Dimension
+Pibombe
+
+PLAYER:
+Kann seine Form beliebig ändern --> Muss die Formen aber erst freischalten
+
+
+POWER:
+in 1 Dimension abtauchen und bspw. unter Türen passen,
+Göttliche Kreissäge (Charakter dreht sich so schnell bis die Kreisform erreicht wird), eingesetzt um Objekte zu zerstören
+
+
+WELT:
+Open World, aber durch Ecktore begrenzte bereiche
+An toren wird die Form des Players gescannt.
+
+
+Für die Zukunft:
+-Kaufen
+-Nachbarkönigreich der Zahlen
