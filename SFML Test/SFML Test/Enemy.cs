@@ -62,15 +62,21 @@ namespace Game
         /// <summary>
         /// True if an Enemy-Player Collision occures
         /// </summary>
-        protected bool EnemyPlayerCollision;
+        protected bool bEnemyPlayerCollision;
 
-    
+
+
+        // DECLARING VARIABLES: OTHER
+        protected List<Projectile> lInvisibleProjectile;
+
+
+
         // DECLARING METHODS: PLAYER-DETECTION RELATED
 
         /// <summary>
         /// Returns true if the Player is in the Radius and Angle of Sight of the Enemy
         /// </summary>
-        protected bool DetectPlayer()
+        protected bool DetectPlayer(Vector2f vPlayerPosition)
         {
             // UPDATING vEnemyDirection
             vEnemyDirection = sEntity.Position + new Vector2f(0, 25);                                       // Creating distance to Origin
@@ -88,10 +94,15 @@ namespace Game
             MaxPermittedAngle = Utilities.AngleBetweenVectors180(vEnemyDirection - vEnemyAngleOrigin, EnemyBottomRightPosition - vEnemyAngleOrigin);
 
             if (Utilities.MakePositive(Utilities.DistanceBetweenVectors(MainMap.CharacterPosition, vEntityPosition)) < iDistanceDetection && AngleEnemy < MaxPermittedAngle)
+            {
+                ShootInvisible(MainMap.TileMapPosition);
                 return true;
+            }
 
-            else
-                return false;
+            //else if ((bPlayerVisible(vPlayerPosition) && lInvisibleProjectile.Count >= 20))
+                //return false;
+
+            return false;
         }
 
         /// <summary>
@@ -111,6 +122,21 @@ namespace Game
                 iAngle -= 360;
         }
 
+        /// <summary>
+        /// True if Player is not hidden behind Tiles with Collision
+        /// </summary>
+        protected bool bPlayerVisible(Vector2f vPlayerPosition)
+        {
+            if (lInvisibleProjectile.Count - 1 >= 0)
+            {
+                if (PlayerInvisibleProjectileCollision(vPlayerPosition, lInvisibleProjectile[lInvisibleProjectile.Count - 1].vEntityPosition))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
 
 
 
@@ -119,9 +145,9 @@ namespace Game
         /// <summary>
         /// Detects Collision between Player and Enemy and returns Collision direction
         /// </summary>
-        protected void PlayerEnemyCollision(ref Vector2f vPlayerPosition, ref bool up, ref bool down, ref bool right, ref bool left)
+        protected void PlayerEnemyCollision(ref Vector2f vPlayerPosition, Vector2f vEntityPosition, ref bool up, ref bool down, ref bool right, ref bool left)
         {
-            EnemyPlayerCollision = false;
+            bEnemyPlayerCollision = false;
 
             if (((vPlayerPosition.Y < vEntityPosition.Y + 50 && vPlayerPosition.Y > vEntityPosition.Y - 1) ||
                     (vPlayerPosition.Y < vEntityPosition.Y && vPlayerPosition.Y > vEntityPosition.Y - 50)))
@@ -131,14 +157,14 @@ namespace Game
                 {
                     left = true;
                     vChracterPositionSpace.X = vEntityPosition.X + 50;
-                    EnemyPlayerCollision = true;
+                    bEnemyPlayerCollision = true;
                 }
 
                 else if (vPlayerPosition.X + 50 >= vEntityPosition.X && vPlayerPosition.X + 50 <= vEntityPosition.X + 50)
                 {
                     right = true;
                     vChracterPositionSpace.X = vEntityPosition.X - 50;
-                    EnemyPlayerCollision = true;
+                    bEnemyPlayerCollision = true;
                 }
             }
 
@@ -151,7 +177,7 @@ namespace Game
                 {
                     up = true;
                     vChracterPositionSpace.Y = vEntityPosition.Y + 50;
-                    EnemyPlayerCollision = true;
+                    bEnemyPlayerCollision = true;
                 }
 
 
@@ -159,14 +185,14 @@ namespace Game
                 {
                     down = true;
                     vChracterPositionSpace.Y = vEntityPosition.Y - 50;
-                    EnemyPlayerCollision = true;
+                    bEnemyPlayerCollision = true;
                 }
             }
 
 
             //REPLACEMENT OF PLAYERLOCATION IN CASE OF CROSSING BORDER OF OBJECT
 
-            if (EnemyPlayerCollision)
+            if (bEnemyPlayerCollision)
             {
                 if (up && right)
                 {
@@ -220,6 +246,55 @@ namespace Game
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Detects Collision between Player and last Invisible Projectile, returns true if Collision occures
+        /// </summary>
+        protected bool PlayerInvisibleProjectileCollision(Vector2f vPlayerPosition, Vector2f vEntityPosition)
+        {
+            if (((vPlayerPosition.Y < vEntityPosition.Y + 50 && vPlayerPosition.Y > vEntityPosition.Y - 1) ||
+                    (vPlayerPosition.Y < vEntityPosition.Y && vPlayerPosition.Y > vEntityPosition.Y - 50)))
+            {
+
+                if (vPlayerPosition.X <= vEntityPosition.X + 50 && vPlayerPosition.X >= vEntityPosition.X)
+                {
+                    return true;
+                }
+
+                else if (vPlayerPosition.X + 50 >= vEntityPosition.X && vPlayerPosition.X + 50 <= vEntityPosition.X + 50)
+                {
+                    return true;
+                }
+            }
+
+            if (((vPlayerPosition.X < vEntityPosition.X + 50 && vPlayerPosition.X > vEntityPosition.X - 1) ||
+                    (vPlayerPosition.X + 50 > vEntityPosition.X && vPlayerPosition.X + 50 < vEntityPosition.X + 50)))
+            {
+
+                if (vPlayerPosition.Y <= vEntityPosition.Y + 50 && vPlayerPosition.Y >= vEntityPosition.Y)
+                {
+                    return true;
+                }
+
+
+                else if (vPlayerPosition.Y + 50 >= vEntityPosition.Y && vPlayerPosition.Y + 50 <= vEntityPosition.Y + 50)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+
+        /// <summary>
+        /// Shoots fast invisible Projectiles to check Visibility
+        /// </summary>
+        protected void ShootInvisible(Vector2f TileMapPosition)
+        {
+            pProjectile = new Projectile(iAngle, sEntity.Position, (Vector2i)vEnemyDirection, TileMapPosition, 1, 5);
+
+            lInvisibleProjectile.Add(pProjectile);
         }
 
 

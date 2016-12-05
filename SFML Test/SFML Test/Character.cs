@@ -31,7 +31,7 @@ namespace Game
         /// <summary>
         /// Disposes a Projectile from the Projectile List if its Destruct bool is true
         /// </summary>
-        protected void DisposeProjectile()
+        protected void DisposeProjectile(List<Projectile> lProjectile)
         {
             for (int x = 0; x < lProjectile.Count; x++)
             {

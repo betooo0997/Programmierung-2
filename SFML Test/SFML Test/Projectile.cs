@@ -22,12 +22,16 @@ namespace Game
         protected Vector2f vPastTileMapPosition;
         protected Vector2f vDifferenceTileMapPosition;
 
-        protected bool bPlayerProjectile;
+        protected int ProjectileType;
 
         protected Vector2f StartPosition;
 
+        protected float iVelocity;
 
-        public Projectile(float iAngle, Vector2f vEntityPosition, Vector2i Direction, Vector2f vPresentTileMapPosition, bool PlayerProjectile)
+        public new Vector2f vEntityPosition;
+
+
+        public Projectile(float iAngle, Vector2f vEntityPosition, Vector2i Direction, Vector2f vPresentTileMapPosition, int ProjectileType, float iVelocity)
         {
             // SYNCHRONISING WITH CONTENT LOADER
             tEntity = ContentLoader.textureDopsball;
@@ -36,11 +40,12 @@ namespace Game
             this.vEntityPosition = vEntityPosition;
             StartPosition = vEntityPosition;
             this.iAngle = iAngle;
+            this.iVelocity = iVelocity;
 
-            if (PlayerProjectile)
+            if (ProjectileType == 0)
                 this.Direction = Direction;
 
-            if (!PlayerProjectile)
+            if (ProjectileType != 0)
                 this.Direction = Direction - (Vector2i)vEntityPosition;
 
             this.vTileMapPosition = vPresentTileMapPosition;
@@ -71,9 +76,8 @@ namespace Game
             iDistance = Utilities.DistanceToVectorFromOrigin((Vector2f)Direction);
 
             // OTHER
-            bPlayerProjectile = PlayerProjectile;
+            this.ProjectileType = ProjectileType;
         }
-
 
 
 
@@ -83,7 +87,7 @@ namespace Game
             this.vTileMapPosition = vPresentTileMapPosition;
             vDifferenceTileMapPosition = vPastTileMapPosition - vPresentTileMapPosition;
 
-            if (bPlayerProjectile)
+            if (ProjectileType == 0)
             {
                 Move();
                 sEntity.Position = vEntityPosition + new Vector2f(25, 25);
@@ -108,7 +112,7 @@ namespace Game
 
         void Move2()
         {
-            vEntityPosition -= vDifferenceTileMapPosition - ((Vector2f)Direction) / 5;
+            vEntityPosition -= vDifferenceTileMapPosition - (((Vector2f)Direction) / 5) * iVelocity;
         }
 
         public bool Destruct()

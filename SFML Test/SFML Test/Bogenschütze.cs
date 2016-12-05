@@ -23,6 +23,7 @@ namespace Game
             sEntity = new Sprite(tEntity);
             sEntity.Origin = new Vector2f(25, 25);
             lProjectile = new List<Projectile>();
+            lInvisibleProjectile = new List<Projectile>();
 
             // SETTING CONSTANTS
             iAngle = 0;
@@ -34,22 +35,28 @@ namespace Game
         /// </summary>
         public void Update(ref Vector2f VirtualCharacterPosition,  Vector2f vTileMapPosition, ref bool up, ref bool down, ref bool right, ref bool left)
         {
-            PlayerEnemyCollision(ref VirtualCharacterPosition, ref up, ref down, ref right, ref left);
-
             sEntity.Position = vTileMapPosition + vEntityPosition + new Vector2f(25, 25);
 
-            if (DetectPlayer())
+            PlayerEnemyCollision(ref VirtualCharacterPosition, vEntityPosition, ref up, ref down, ref right, ref left);
+
+
+            if (DetectPlayer(VirtualCharacterPosition))
                 RotateEnemy();
 
             sEntity.Rotation = iAngle;
 
-            if (lProjectile.Count < 1 && DetectPlayer())
+            if (lProjectile.Count < 1 && DetectPlayer(VirtualCharacterPosition))
                 Shoot(MainMap.TileMapPosition);
 
             for (int x = 0; x < lProjectile.Count; x++)
                 lProjectile[x].Update(vTileMapPosition);
 
-            DisposeProjectile();
+            for (int x = 0; x < lInvisibleProjectile.Count; x++)
+                lInvisibleProjectile[x].Update(vTileMapPosition);
+
+            DisposeProjectile(lProjectile);
+            DisposeProjectile(lInvisibleProjectile);
+
         }
 
         /// <summary>
@@ -60,6 +67,8 @@ namespace Game
             drawList = new List<Drawable>();
 
             CustomList.AddProjectiles(drawList, lProjectile);
+            CustomList.AddProjectiles(drawList, lInvisibleProjectile);
+
 
             drawList.Add(sEntity);
 
@@ -70,7 +79,7 @@ namespace Game
 
         protected void Shoot(Vector2f TileMapPosition)
         {
-            pProjectile = new Projectile(iAngle, sEntity.Position, (Vector2i)vEnemyDirection, TileMapPosition, false);
+            pProjectile = new Projectile(iAngle, sEntity.Position, (Vector2i)vEnemyDirection, TileMapPosition, 1, 1);
 
             lProjectile.Add(pProjectile);
         }

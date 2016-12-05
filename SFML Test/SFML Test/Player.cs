@@ -61,7 +61,7 @@ namespace Game
             for (x = 0; x < lProjectile.Count; x++)
                 lProjectile[x].Update(TileMapPosition);
 
-            DisposeProjectile();
+            DisposeProjectile(lProjectile);
         }
 
 
@@ -233,7 +233,7 @@ namespace Game
 
         protected void Shoot(Vector2f TileMapPosition)
         {
-            pProjectile = new Projectile(iAngle, CharacterPosition, vMousePositionFromPlayer, TileMapPosition, true);
+            pProjectile = new Projectile(iAngle, CharacterPosition, vMousePositionFromPlayer, TileMapPosition, 0, 1);
 
             lProjectile.Add(pProjectile);
         }
