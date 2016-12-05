@@ -44,7 +44,7 @@ namespace Game
         }
 
         /// <summary>
-        /// Creation of the entity array happens in the constructor. Depends on the underlying map and a specific string array. Ensured to not spawn entities on tiles with collision or out of the map boarders. 
+        /// Creation of the entity array happens in the constructor. Depends on the underlying tile array and a specific string array. Entities placed out off the maps boarders or on tiles with collision are ignored in the creation process. 
         /// </summary>
         /// <param name="tileManager"></param>
         /// <param name="stringEnemyLayout"></param>
