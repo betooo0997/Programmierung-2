@@ -19,6 +19,11 @@ namespace Game
         protected List<Projectile> lProjectile;
         protected List<Drawable> drawList;
 
+        /// <summary>
+        /// Vector to correct the Characters Position in case of Collision
+        /// </summary>
+        protected Vector2f vChracterPositionSpace;
+
 
 
         protected float iAngle;
