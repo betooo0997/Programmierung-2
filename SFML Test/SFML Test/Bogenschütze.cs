@@ -70,7 +70,7 @@ namespace Game
 
         protected void Shoot(Vector2f TileMapPosition)
         {
-            pProjectile = new Projectile(iAngle, sEntity.Position, (Vector2i)Enemydirection, TileMapPosition, false);
+            pProjectile = new Projectile(iAngle, sEntity.Position, (Vector2i)vEnemyDirection, TileMapPosition, false);
 
             lProjectile.Add(pProjectile);
         }

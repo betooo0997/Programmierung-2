@@ -12,36 +12,87 @@ namespace Game
 {
     abstract class Enemy : Character
     {
-        protected int iDistanceDetection;
-        protected Vector2f Enemydirection;
-        protected Vector2f EnemyAngleOrigin;
+        // DECLARING VARIABLES: VECTORS
+
+        /// <summary>
+        /// Direction the Enemy is looking to
+        /// </summary>
+        protected Vector2f vEnemyDirection;
+
+        /// <summary>
+        /// Origin of Sight, aka "Eye" of the Enemy
+        /// </summary>
+        protected Vector2f vEnemyAngleOrigin;
+
+        /// <summary>
+        /// Bottom-Right Border of the Enemy
+        /// </summary>
         protected Vector2f EnemyBottomRightPosition;
+
+        /// <summary>
+        /// Bottom-Left Border of the Enemy
+        /// </summary>
         protected Vector2f EnemyBottomLeftPosition;
+
+
+
+
+        // DECLARING VARIABLES: NUMERIC TYPES
+
+        /// <summary>
+        /// Size of the Radius in which the Enemy could detect the Player
+        /// </summary>
+        protected int iDistanceDetection;
+
+        /// <summary>
+        /// Angle between the PlayerPosition and EnemyDirection taking the EnemyAngleOrigin as Origin
+        /// </summary>
         protected float AngleEnemy;
 
+        /// <summary>
+        /// Maximum Angle in which the Enemy detects the Player
+        /// </summary>
         protected float MaxPermittedAngle;
 
-        protected Vector2f vChracterPositionSpace;
+
+
+
+        // DECLARING VARIABLES: BOOLS
+
+        /// <summary>
+        /// True if an Enemy-Player Collision occures
+        /// </summary>
         protected bool EnemyPlayerCollision;
 
+        /// <summary>
+        /// True if Enemy is Boss-type
+        /// </summary>
+        protected bool bIsBoss;
+
+
+
+    
+        // DECLARING METHODS: PLAYER-DETECTION RELATED
 
         /// <summary>
         /// Returns true if the Player is in the Radius and Angle of Sight of the Enemy
         /// </summary>
         protected bool DetectPlayer()
         {
-            Enemydirection = sEntity.Position + new Vector2f(0, 25);
+            // UPDATING vEnemyDirection
+            vEnemyDirection = sEntity.Position + new Vector2f(0, 25);                                       // Creating distance to Origin
 
-            Enemydirection = Utilities.VectorRotation(iAngle / 57, Enemydirection, sEntity.Position);
+            vEnemyDirection = Utilities.VectorRotation(iAngle / 57, vEnemyDirection, sEntity.Position);     // Rotating to PlayerPosition        (TODO: NOTE: No idea why dividing with 57, if no division Vector Rotates 57 times faster than it should)
 
-            EnemyAngleOrigin = Utilities.VectorRotation(iAngle / 57, sEntity.Position + new Vector2f(0,15), sEntity.Position);
+            // UPDATING vEnemyAngleOrigin
+            vEnemyAngleOrigin = Utilities.VectorRotation(iAngle / 57, sEntity.Position + new Vector2f(0,15), sEntity.Position);     // Rotating to PlayerPosition
 
             EnemyBottomRightPosition = Utilities.VectorRotation(iAngle / 57, sEntity.Position + new Vector2f(25, 25), sEntity.Position);
             EnemyBottomLeftPosition = Utilities.VectorRotation(iAngle / 57, sEntity.Position + new Vector2f(-25, 25), sEntity.Position);
 
-            AngleEnemy =  Utilities.AngleBetweenVectors180(Enemydirection - EnemyAngleOrigin, new Vector2f(925, 525) - EnemyAngleOrigin);
+            AngleEnemy =  Utilities.AngleBetweenVectors180(vEnemyDirection - vEnemyAngleOrigin, new Vector2f(925, 525) - vEnemyAngleOrigin);
 
-            MaxPermittedAngle = Utilities.AngleBetweenVectors180(Enemydirection - EnemyAngleOrigin, EnemyBottomRightPosition - EnemyAngleOrigin);
+            MaxPermittedAngle = Utilities.AngleBetweenVectors180(vEnemyDirection - vEnemyAngleOrigin, EnemyBottomRightPosition - vEnemyAngleOrigin);
 
             if (Utilities.MakePositive(Utilities.DistanceBetweenVectors(MainMap.CharacterPosition, vEntityPosition)) < iDistanceDetection && AngleEnemy < MaxPermittedAngle)
                 return true;
@@ -67,62 +118,10 @@ namespace Game
                 iAngle -= 360;
         }
 
-        /// <summary>
-        /// Shows all the used Vectors of the Enemy, including Sight Radius and Angle
-        /// </summary>
-        protected void ShowVectors()
-        {
-            CircleShape cEnemyDirection;
-            CircleShape cCharacterPosition; 
-            CircleShape cEnemyPosition;
-            CircleShape cEnemyRadius;
-            RectangleShape rEnemyAngle1;
-            RectangleShape rEnemyAngle2;
 
 
-            Vector2f circlePosition;
-            circlePosition.X = sEntity.Position.X - iDistanceDetection;
-            circlePosition.Y = sEntity.Position.Y - iDistanceDetection;
 
-            cEnemyDirection = new CircleShape(1f);
-            cCharacterPosition = new CircleShape(1f);
-            cEnemyPosition = new CircleShape(1f);
-            cEnemyRadius = new CircleShape(iDistanceDetection);
-            rEnemyAngle1 = new RectangleShape(new Vector2f(iDistanceDetection - 7, 1));
-            rEnemyAngle2 = new RectangleShape(new Vector2f(iDistanceDetection - 7, 1));
-
-
-            cEnemyDirection.Position = Enemydirection;
-            cCharacterPosition.Position = new Vector2f(900, 500) + new Vector2f(25, 25);
-            cEnemyPosition.Position = EnemyAngleOrigin;
-            cEnemyRadius.Position = circlePosition;
-            rEnemyAngle1.Position = EnemyAngleOrigin;
-            rEnemyAngle2.Position = EnemyAngleOrigin;
-
-
-            cEnemyDirection.FillColor = Color.Cyan;
-            cCharacterPosition.FillColor = Color.Black;
-            cEnemyPosition.FillColor = Color.Red;
-            cEnemyRadius.FillColor = Color.Transparent;
-            rEnemyAngle1.FillColor = Color.Cyan;
-            rEnemyAngle2.FillColor = Color.Cyan;
-
-
-            cEnemyRadius.OutlineColor = Color.Cyan;
-            cEnemyRadius.OutlineThickness = 1;
-
-            rEnemyAngle1.Rotation = 90 - MaxPermittedAngle + iAngle;
-            rEnemyAngle2.Rotation = 90 + MaxPermittedAngle + iAngle;
-
-
-            drawList.Add(cEnemyRadius);
-            drawList.Add(rEnemyAngle1);
-            drawList.Add(rEnemyAngle2);
-            drawList.Add(cEnemyDirection);
-            drawList.Add(cCharacterPosition);
-            drawList.Add(cEnemyPosition);
-        }
-
+        // DECLARING METHODS: ENEMY-PLAYER RELATED
 
         /// <summary>
         /// Detects Collision between Player and Enemy and returns Collision direction
@@ -228,6 +227,67 @@ namespace Game
                     }
                 }
             }
+        }
+
+
+
+
+        // DECLARING METHODS: DEVELOPING STATE RELATED
+
+        /// <summary>
+        /// Shows all the used Vectors of the Enemy, including Sight Radius and Angle
+        /// </summary>
+        protected void ShowVectors()
+        {
+            CircleShape cEnemyDirection;
+            CircleShape cCharacterPosition;
+            CircleShape cEnemyPosition;
+            CircleShape cEnemyRadius;
+            RectangleShape rEnemyAngle1;
+            RectangleShape rEnemyAngle2;
+
+
+            Vector2f circlePosition;
+            circlePosition.X = sEntity.Position.X - iDistanceDetection;
+            circlePosition.Y = sEntity.Position.Y - iDistanceDetection;
+
+            cEnemyDirection = new CircleShape(1f);
+            cCharacterPosition = new CircleShape(1f);
+            cEnemyPosition = new CircleShape(1f);
+            cEnemyRadius = new CircleShape(iDistanceDetection);
+            rEnemyAngle1 = new RectangleShape(new Vector2f(iDistanceDetection - 7, 1));
+            rEnemyAngle2 = new RectangleShape(new Vector2f(iDistanceDetection - 7, 1));
+
+
+            cEnemyDirection.Position = vEnemyDirection;
+            cCharacterPosition.Position = new Vector2f(900, 500) + new Vector2f(25, 25);
+            cEnemyPosition.Position = vEnemyAngleOrigin;
+            cEnemyRadius.Position = circlePosition;
+            rEnemyAngle1.Position = vEnemyAngleOrigin;
+            rEnemyAngle2.Position = vEnemyAngleOrigin;
+
+
+            cEnemyDirection.FillColor = Color.Cyan;
+            cCharacterPosition.FillColor = Color.Black;
+            cEnemyPosition.FillColor = Color.Red;
+            cEnemyRadius.FillColor = Color.Transparent;
+            rEnemyAngle1.FillColor = Color.Cyan;
+            rEnemyAngle2.FillColor = Color.Cyan;
+
+
+            cEnemyRadius.OutlineColor = Color.Cyan;
+            cEnemyRadius.OutlineThickness = 1;
+
+            rEnemyAngle1.Rotation = 90 - MaxPermittedAngle + iAngle;
+            rEnemyAngle2.Rotation = 90 + MaxPermittedAngle + iAngle;
+
+
+            drawList.Add(cEnemyRadius);
+            drawList.Add(rEnemyAngle1);
+            drawList.Add(rEnemyAngle2);
+            drawList.Add(cEnemyDirection);
+            drawList.Add(cCharacterPosition);
+            drawList.Add(cEnemyPosition);
         }
     }
 }
