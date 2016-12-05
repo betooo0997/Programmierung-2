@@ -25,6 +25,17 @@ namespace Game
 
 
         /// <summary>
+        /// True if Enemy is Boss-type. Default is false. 
+        /// </summary>
+        protected bool bIsBoss = false;
+
+
+        public bool GetIsBoss()
+        {
+            return bIsBoss;
+        }
+
+        /// <summary>
         /// Detects the Entity Collision
         /// Returns 0 if no Collision
         /// </summary>

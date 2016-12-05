@@ -64,13 +64,6 @@ namespace Game
         /// </summary>
         protected bool EnemyPlayerCollision;
 
-        /// <summary>
-        /// True if Enemy is Boss-type
-        /// </summary>
-        protected bool bIsBoss;
-
-
-
     
         // DECLARING METHODS: PLAYER-DETECTION RELATED
 

@@ -30,7 +30,10 @@ namespace Game
                     y++;
                 }
 
-                if(entityArray[x, y].)
+                if(entityArray[x, y].GetIsBoss())
+                {
+
+                }
             }
         }
 
