@@ -23,12 +23,11 @@ namespace Game
             sEntity = new Sprite(tEntity);
             sEntity.Origin = new Vector2f(25, 25);
             lProjectile = new List<Projectile>();
-<<<<<<< HEAD
+
             bIsBoss = true;
-=======
+
             lInvisibleProjectile = new List<Projectile>();
 
->>>>>>> origin/master
             // SETTING CONSTANTS
             fAngle = 0;
             iDistanceDetection = 400;
