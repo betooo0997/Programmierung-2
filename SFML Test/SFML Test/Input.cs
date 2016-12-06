@@ -35,12 +35,6 @@ namespace Game
         /// </summary>
         public void Update(ref Vector2f vCharacterPosition, float fcharacterVelocity, bool up, bool right, bool down, bool left, RenderWindow window)
         {
-            Console.WriteLine("Up    " + up);
-            Console.WriteLine("Down  " + down);
-            Console.WriteLine("Left  " + left);
-            Console.WriteLine("Right " + right);
-
-
             bMovingUp = false;
             bMovingDown = false;
             bMovingRight = false;

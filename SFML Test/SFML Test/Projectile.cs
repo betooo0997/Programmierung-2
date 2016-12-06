@@ -16,7 +16,7 @@ namespace Game
 
         protected float iDistance;
 
-        protected Vector2i Direction;
+        protected Vector2f Direction;
         protected Vector2f vPlayermovement;
 
         protected Vector2f vPastTileMapPosition;
@@ -31,7 +31,7 @@ namespace Game
         public new Vector2f vEntityPosition;
 
 
-        public Projectile(float iAngle, Vector2f vEntityPosition, Vector2i Direction, Vector2f vPresentTileMapPosition, int ProjectileType, float iVelocity)
+        public Projectile(float iAngle, Vector2f vEntityPosition, Vector2f Direction, Vector2f vPresentTileMapPosition, int ProjectileType, float iVelocity)
         {
             // SYNCHRONISING WITH CONTENT LOADER
             tEntity = ContentLoader.textureDopsball;
@@ -46,7 +46,7 @@ namespace Game
                 this.Direction = Direction;
 
             if (ProjectileType != 0)
-                this.Direction = Direction - (Vector2i)vEntityPosition;
+                this.Direction = Direction - vEntityPosition;
 
             this.vTileMapPosition = vPresentTileMapPosition;
         
@@ -81,7 +81,7 @@ namespace Game
 
 
 
-        public void Update(Vector2f vPresentTileMapPosition)
+        public void Update(Vector2f vPresentTileMapPosition, Sprite sEnemy)
         {
             vPastTileMapPosition = this.vTileMapPosition;
             this.vTileMapPosition = vPresentTileMapPosition;
@@ -95,7 +95,7 @@ namespace Game
 
             else
             {
-                Move2();
+                Move2(sEnemy);
                 sEntity.Position = vEntityPosition;
             }
         }
@@ -110,7 +110,7 @@ namespace Game
             vEntityPosition -= ((Vector2f)Direction / iDistance) * 5 + vDifferenceTileMapPosition + vPlayermovement;
         }
 
-        void Move2()
+        void Move2(Sprite sEnemy)
         {
             vEntityPosition -= vDifferenceTileMapPosition - (((Vector2f)Direction) / 5) * iVelocity;
         }

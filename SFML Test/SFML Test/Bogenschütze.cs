@@ -26,7 +26,7 @@ namespace Game
             lInvisibleProjectile = new List<Projectile>();
 
             // SETTING CONSTANTS
-            iAngle = 0;
+            fAngle = 0;
             iDistanceDetection = 400;
         }
 
@@ -41,22 +41,21 @@ namespace Game
 
 
             if (DetectPlayer(VirtualCharacterPosition))
-                RotateEnemy();
+                RotateEnemy(ref fAngle);
 
-            sEntity.Rotation = iAngle;
+            sEntity.Rotation = fAngle;
 
             if (lProjectile.Count < 1 && DetectPlayer(VirtualCharacterPosition))
                 Shoot(MainMap.TileMapPosition);
 
             for (int x = 0; x < lProjectile.Count; x++)
-                lProjectile[x].Update(vTileMapPosition);
+                lProjectile[x].Update(vTileMapPosition, sEntity);
 
             for (int x = 0; x < lInvisibleProjectile.Count; x++)
-                lInvisibleProjectile[x].Update(vTileMapPosition);
+                lInvisibleProjectile[x].Update(vTileMapPosition, sEntity);
 
             DisposeProjectile(lProjectile);
             DisposeProjectile(lInvisibleProjectile);
-
         }
 
         /// <summary>
@@ -67,7 +66,6 @@ namespace Game
             drawList = new List<Drawable>();
 
             CustomList.AddProjectiles(drawList, lProjectile);
-            CustomList.AddProjectiles(drawList, lInvisibleProjectile);
 
 
             drawList.Add(sEntity);
@@ -79,7 +77,7 @@ namespace Game
 
         protected void Shoot(Vector2f TileMapPosition)
         {
-            pProjectile = new Projectile(iAngle, sEntity.Position, (Vector2i)vEnemyDirection, TileMapPosition, 1, 1);
+            pProjectile = new Projectile(fAngle, sEntity.Position, vEnemyDirection1, TileMapPosition, 1, 1);
 
             lProjectile.Add(pProjectile);
         }
