@@ -59,9 +59,9 @@ namespace Game
                 Shoot(TileMapPosition);
 
             for (x = 0; x < lProjectile.Count; x++)
-                lProjectile[x].Update(TileMapPosition);
+                lProjectile[x].Update(TileMapPosition, sEntity);
 
-            DisposeProjectile();
+            DisposeProjectile(lProjectile);
         }
 
 
@@ -224,16 +224,16 @@ namespace Game
             vMousePositionFromPlayer = (Vector2i)CharacterPosition + new Vector2i(25,25) - Input.vMousePosition;
 
             // Calculating Angle of the Mouse Position relative to the Character
-            iAngle = Utilities.AngleBetweenVectors360((Vector2f)vMousePositionFromPlayer, new Vector2f(0, 1));
+            fAngle = Utilities.AngleBetweenVectors360((Vector2f)vMousePositionFromPlayer, new Vector2f(0, 1));
 
             // Rotating Character
-            sCharacter.Rotation = iAngle;
+            sCharacter.Rotation = fAngle;
         }
 
 
         protected void Shoot(Vector2f TileMapPosition)
         {
-            pProjectile = new Projectile(iAngle, CharacterPosition, vMousePositionFromPlayer, TileMapPosition, true);
+            pProjectile = new Projectile(fAngle, CharacterPosition, (Vector2f)vMousePositionFromPlayer, TileMapPosition, 0, 1);
 
             lProjectile.Add(pProjectile);
         }

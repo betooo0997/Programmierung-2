@@ -85,8 +85,6 @@ namespace Game
         /// </summary>
         public override eSceneState Update(RenderWindow window)
         {
-            Console.Clear();
-
             left = false;
             right = false;
             up = false;

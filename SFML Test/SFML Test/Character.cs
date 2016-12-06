@@ -26,12 +26,12 @@ namespace Game
 
 
 
-        protected float iAngle;
+        protected float fAngle;
 
         /// <summary>
         /// Disposes a Projectile from the Projectile List if its Destruct bool is true
         /// </summary>
-        protected void DisposeProjectile()
+        protected void DisposeProjectile(List<Projectile> lProjectile)
         {
             for (int x = 0; x < lProjectile.Count; x++)
             {
@@ -44,8 +44,6 @@ namespace Game
                         lProjectile.RemoveAt(0);
                     else
                         lProjectile.RemoveAt(lProjectile.Count - 1);
-
-                    Console.WriteLine("Projectile Destroyed");
                 }
             }
         }
