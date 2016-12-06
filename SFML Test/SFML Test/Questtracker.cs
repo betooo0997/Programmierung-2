@@ -12,29 +12,73 @@ namespace Game
 {
     class Questtracker
     {
-        protected Text questtext;
-        protected int bossCount;
+        /// <summary>
+        /// Text used to display the quests state.
+        /// </summary>
+        protected string sQuesttext;
 
-        public Text GetQuestText()
+        /// <summary>
+        /// Number of Boss Enemies spawned at the beginning. 
+        /// </summary>
+        protected int iBossCount;
+
+        /// <summary>
+        /// Number of already defeated Bosses. Set to max number in the constructor. 
+        /// </summary>
+        protected int iBossesSlayed;
+
+        public string GetQuestString()
         {
-            return questtext;
+            return sQuesttext;
         }
 
+        /// <summary>
+        /// Questtracker requires the entity array used to create the current level to calculate the number of bosses in use. 
+        /// </summary>
+        /// <param name="entityArray"></param>
+        /// <param name="numberColumns"></param>
+        /// <param name="numberRows"></param>
         public Questtracker(Entity[,] entityArray, int numberColumns, int numberRows)
         {
-            for(int x = 0, y = 0; y < numberColumns; x++)
+            iBossCount = 0;
+            iBossesSlayed = 0;
+
+            for(int x = 0, y = 0; y < numberRows; x++)
             {
-                if(x >= numberRows)
+                if(entityArray[x, y] != null && entityArray[x, y].GetIsBoss())
+                {
+                    iBossCount++;
+                }
+
+                if (x >= numberColumns - 1)
                 {
                     x = 0;
                     y++;
                 }
-
-                if(entityArray[x, y].GetIsBoss())
-                {
-
-                }
             }
+            
+
+            if(iBossCount == 0)
+            {
+                sQuesttext = "Exploration Mode";
+            }
+        }
+
+         /// <summary>
+         /// Used to update the number of defeated Bosses and return the quest status string. Number of defeated Bosses has to be counted somewhere else. 
+         /// </summary>
+         /// <param name="iBossesKilled"></param>
+         /// <returns></returns>
+        public string Update(int iBossesKilled)
+        {
+
+            if(iBossCount > 0)
+            {
+                iBossesSlayed = iBossesKilled;
+                sQuesttext = iBossesSlayed + " / " + iBossCount + " Bosses defeated";
+            }
+
+            return sQuesttext;
         }
 
     }

@@ -23,7 +23,7 @@ namespace Game
             sEntity = new Sprite(tEntity);
             sEntity.Origin = new Vector2f(25, 25);
             lProjectile = new List<Projectile>();
-
+            bIsBoss = true;
             // SETTING CONSTANTS
             iAngle = 0;
             iDistanceDetection = 400;

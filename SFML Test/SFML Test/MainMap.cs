@@ -12,7 +12,8 @@ namespace Game
 {
     class MainMap : LevelState
     {
-        protected Text Quest;
+        protected Text textQuest;
+        protected Questtracker questTracker;
 
         //TEXTURES AND SPRITES
 
@@ -58,11 +59,13 @@ namespace Game
 
 
             //INSTANTIATING OBJECTS : OTHER
-            Quest = new Text("Left Click to Shoot", font, 20);
+            questTracker = new Questtracker(entityManager.GetEntityArray(), entityManager.GetArrayNumberColumns(), entityManager.GetArrayNumberRows());
+            textQuest = new Text(questTracker.GetQuestString(), font, 20);
             CharacterPosition = new Vector2f(900, 500);
             cPlayer = new Player(levelString, CharacterPosition);
             cCamera = new Camera();
             cArcher = new Archer(new Vector2f(400,400));
+            
 
             TileMapPosition = new Vector2f(0, 0);
 
@@ -72,8 +75,8 @@ namespace Game
             //CHANGING OBJECT PARAMETERS
             textureDopsball.Smooth = true;
             textureTileSheet.Smooth = true;
-            Quest.Position = new Vector2f(20, 20);
-            Quest.Color = Color.Black;
+            textQuest.Position = new Vector2f(20, 20);
+            textQuest.Color = Color.Black;
         }
 
 
@@ -91,6 +94,7 @@ namespace Game
 
             cCamera.Update(CharacterPosition, ref TileMapPosition);
             cPlayer.Update(ref CharacterPosition, window, TileMapPosition, ref up, ref down, ref right, ref left);
+            textQuest = new Text(questTracker.Update(0), font, 20);
 
             cArcher.Update(ref CharacterPosition, TileMapPosition, ref up, ref down, ref right, ref left);
 
@@ -110,7 +114,7 @@ namespace Game
         {
             drawList = new CustomList();
 
-            drawList.AddElement(Quest);
+            drawList.AddElement(textQuest);
             drawList.AddList(cPlayer.Draw());
 
             drawList.AddList(cArcher.Draw());
