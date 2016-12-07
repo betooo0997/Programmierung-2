@@ -86,6 +86,10 @@ namespace Game
 
             switch (tile)
             {
+                case Tilez.obstacleStone:
+                    column = 0;
+                    row = 4;
+                    break;
                 case Tilez.structureStone:
                     column = 1;
                     row = 3;

@@ -22,7 +22,8 @@ namespace Game
         treeTop = 21,
         treeFoilage = 22,
         structureWood = 30,
-        structureStone = 31
+        structureStone = 31,
+        obstacleStone = 40
     }
 
     public class TileArrayCreation
@@ -115,6 +116,8 @@ namespace Game
         {
             switch (tile)
             {
+                case 'o':
+                    return Tilez.obstacleStone;
                 case 's':
                     return Tilez.structureStone;
                 case 'w':
@@ -156,6 +159,8 @@ namespace Game
             else 
             switch (currentLevel[xCoord, yCoord])
             {
+                case Tilez.obstacleStone:
+                    return true;
                 case Tilez.structureStone:
                     return true;
                 case Tilez.structureWood:
