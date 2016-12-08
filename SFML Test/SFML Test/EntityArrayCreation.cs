@@ -44,7 +44,7 @@ namespace Game
         }
 
         /// <summary>
-        /// Creation of the entity array happens in the constructor. Depends on the underlying tile array and a specific string array. Entities placed out off the maps boarders or on tiles with collision are ignored in the creation process. 
+        /// Creation of the entity array happens in the constructor and is used to spawn enemies at the start of a game. Depends on the underlying tile array and a specific string array. Entities placed out off the maps boarders or on tiles with collision are ignored in the creation process. 
         /// </summary>
         /// <param name="tileManager"></param>
         /// <param name="stringEnemyLayout"></param>
@@ -55,22 +55,20 @@ namespace Game
 
             entityArray = new Entity[numberColumns, numberRows];
 
-            int xCoord = 0;
-            int yCoord = 0;
 
-
-            while (yCoord < stringEnemyLayout.Length && xCoord < stringEnemyLayout[yCoord].Length)
+            for(int x = 0, y = 0; y < numberRows; x++)
             {
-                entityArray[xCoord, yCoord] = EntityConversation(stringEnemyLayout[xCoord][yCoord], tileManager, xCoord, yCoord);
-
-                xCoord++;
-                if (xCoord >= stringEnemyLayout[yCoord].Length)
+                if (y < stringEnemyLayout.Length && x < stringEnemyLayout[y].Length)
                 {
-                    xCoord = 0;
-                    yCoord++;
+                    entityArray[x, y] = EntityConversation(stringEnemyLayout[y][x], tileManager, x, y);
+                }
+
+                if(x >= numberColumns)
+                {
+                    x = 0;
+                    y++;
                 }
             }
-
         }
 
         /// <summary>
@@ -83,12 +81,12 @@ namespace Game
         /// <returns></returns>
         protected Entity EntityConversation(char type, TileManager tileManager, int xCoord, int yCoord)
         {
-            if (tileManager.GetCollisionAt(xCoord, yCoord))
+            if (!tileManager.GetCollisionAt(xCoord, yCoord))
             {
                 switch (type)
                 {
                     case ('a'):
-                        return new Archer(new Vector2f((float)xCoord, (float)yCoord));
+                        return new Archer(new Vector2f((float)(xCoord * tileManager.GetTileSize()), (float)(yCoord * tileManager.GetTileSize())));
                     default:
                         return null;
                 }

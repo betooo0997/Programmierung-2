@@ -23,8 +23,16 @@ namespace Game
             // INSTANTIATING OBJECTS
             sEntity = new Sprite(tEntity);
             sEntity.Origin = new Vector2f(25, 25);
+<<<<<<< HEAD:SFML Test/SFML Test/Entities/Characters/Bogenschütze.cs
             lProjectile = new List<EnemyProjectile>();
             lInvisibleProjectile = new List<EnemyProjectile>();
+=======
+            lProjectile = new List<Projectile>();
+
+            bIsBoss = true;
+
+            lInvisibleProjectile = new List<Projectile>();
+>>>>>>> origin/master:SFML Test/SFML Test/Bogenschütze.cs
 
             // SETTING CONSTANTS
             fAngle = 0;
