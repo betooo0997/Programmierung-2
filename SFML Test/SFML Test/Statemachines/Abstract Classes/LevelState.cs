@@ -16,7 +16,7 @@ namespace Game
 
         protected Font font;
 
-        public static Vector2f TileMapPosition;
+        protected static Vector2f vTileMapPosition;
 
         protected string[] levelString;
         protected string[] enemyLayoutString;

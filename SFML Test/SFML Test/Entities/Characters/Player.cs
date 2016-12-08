@@ -31,6 +31,10 @@ namespace Game
         // VARIABLES USED FOR PLAYERROTATION
         protected Vector2i vMousePositionFromPlayer;
 
+        protected PlayerProjectile pProjectile;
+        protected List<PlayerProjectile> lProjectile;
+
+
 
         public Player(string[] stringMap, Vector2f VirtualCharacterPosition)
         {
@@ -38,7 +42,7 @@ namespace Game
             sCharacter          = new CircleShape(25, iLevel);
             tTileMap            = new TileArrayCreation(stringMap);
             drawList            = new List<Drawable>();
-            lProjectile         = new List<Projectile>();
+            lProjectile         = new List<PlayerProjectile>();
 
 
             // SETTING CONSTANTS
@@ -59,7 +63,7 @@ namespace Game
                 Shoot(TileMapPosition);
 
             for (x = 0; x < lProjectile.Count; x++)
-                lProjectile[x].Update(TileMapPosition, sEntity);
+                lProjectile[x].Update(sEntity);
 
             DisposeProjectile(lProjectile);
         }
@@ -69,7 +73,7 @@ namespace Game
         {
             drawList = new List<Drawable>();
 
-            CustomList.AddProjectiles(drawList, lProjectile);
+            CustomList.AddPlayerProjectiles(drawList, lProjectile);
 
             sCharacter.Position = CharacterPosition + new Vector2f(25, 25);
             drawList.Add(sCharacter);
@@ -233,7 +237,7 @@ namespace Game
 
         protected void Shoot(Vector2f TileMapPosition)
         {
-            pProjectile = new Projectile(fAngle, CharacterPosition, (Vector2f)vMousePositionFromPlayer, TileMapPosition, 0, 1);
+            pProjectile = new PlayerProjectile(fAngle, (Vector2f)vMousePositionFromPlayer, 1);
 
             lProjectile.Add(pProjectile);
         }

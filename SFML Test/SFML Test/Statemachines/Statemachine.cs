@@ -15,10 +15,14 @@ namespace Game
         private GameState currentState, targetState, previousState;
         private StateGame gameState;
 
+
         CustomList drawList;
 
+        /// <summary>
+        /// Statemachine constructor
+        /// </summary>
         public Statemachine()
-            : base("Test", Color.Yellow)
+            : base("Hier kommt der Spieltitel rein wenn wir uns fertig entschieden haben", Color.Yellow)
         {
         }
 
@@ -44,7 +48,7 @@ namespace Game
             }
         }
 
-        protected override void Draw(Drawable drawable)
+        protected override void Draw()
         {
             switch (currentState)
             {

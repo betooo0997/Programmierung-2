@@ -59,9 +59,6 @@ namespace Game
         /// </summary>
         protected float fMaxPermittedAngle;
 
-        int a = 0;
-
-
 
 
         // DECLARING VARIABLES: BOOLS
@@ -74,7 +71,11 @@ namespace Game
 
 
         // DECLARING VARIABLES: OTHER
-        protected List<Projectile> lInvisibleProjectile;
+        protected List<EnemyProjectile> lProjectile;
+
+        protected List<EnemyProjectile> lInvisibleProjectile;
+        protected EnemyProjectile pProjectile;
+
 
 
 
@@ -116,19 +117,20 @@ namespace Game
 
 
 
-            if (Utilities.MakePositive(Utilities.DistanceBetweenVectors(MainMap.CharacterPosition, vEntityPosition)) < iDistanceDetection && fAngleEnemy < fMaxPermittedAngle)
+            if (Utilities.MakePositive(Utilities.DistanceBetweenVectors(MainMap.GetVirtualCharacterPosition(), vEntityPosition)) < iDistanceDetection && fAngleEnemy < fMaxPermittedAngle)
             {
-                if (DisposeInvisibleProjectile(lInvisibleProjectile, new Vector2f(900,500)))
+                if (DisposeInvisibleProjectile(lInvisibleProjectile, new Vector2f(925,525)))
                 {
-                    ShootInvisible(MainMap.TileMapPosition, fAngle);
+                    ShootInvisible(MainMap.GetTileMapPosition(), fAngle);
                     return true;
                 }
                 else
-                    ShootInvisible(MainMap.TileMapPosition, fAnglecopy);
+                    ShootInvisible(MainMap.GetTileMapPosition(), fAnglecopy);
             }
 
             return false;
         }
+
 
         /// <summary>
         /// Rotates the Enemy towards the Player
@@ -147,18 +149,7 @@ namespace Game
                 fAngle -= 360;
         }
 
-        /// <summary>
-        /// Detects Collision between Player and Invisible Projectile, returns true if Collision occures
-        /// </summary>
-        protected bool PlayerInvisibleProjectileCollision(Vector2f vPlayerPosition, Vector2f vEntityPosition)
-        {
-            if (vPlayerPosition.Y < vEntityPosition.Y + 50 && vPlayerPosition.Y + 50 > vEntityPosition.Y &&
-                vPlayerPosition.X < vEntityPosition.X + 50 && vPlayerPosition.X + 50 > vEntityPosition.X)
-                return true;
 
-
-            return false;
-        }
 
         /// <summary>
         /// Disposes the Invisible Projectiles when Projectile-Player Collision occures
@@ -166,13 +157,11 @@ namespace Game
         /// <param name="lProjectile"></param>
         /// <param name="vPlayerPosition"></param>
         /// <returns></returns>
-        protected bool DisposeInvisibleProjectile(List<Projectile> lProjectile, Vector2f vPlayerPosition)
+        protected bool DisposeInvisibleProjectile(List<EnemyProjectile> lProjectile, Vector2f vPlayerPosition)
         {
-            a++;
-
             for (int x = 0; x < lProjectile.Count; x++)
             {
-                if (PlayerInvisibleProjectileCollision(vPlayerPosition, lProjectile[x].vEntityPosition))
+                if (PlayerProjectileCollision(vPlayerPosition, lProjectile[x].vEntityPosition, 50, 50))
                 {
                     for (int y = x; y + 1 < lProjectile.Count; y++)
                         lProjectile[y] = lProjectile[y + 1];
@@ -182,24 +171,19 @@ namespace Game
                     else
                         lProjectile.RemoveAt(lProjectile.Count - 1);
 
-                    a = 0;
-
                     return true;
                 }
             }
-
-            if (a >= 20)
                 return false;
-            else
-                return true;
         }
+
 
         /// <summary>
         /// Shoots fast invisible Projectiles to check Visibility
         /// </summary>
         protected void ShootInvisible(Vector2f TileMapPosition, float fAngle)
         {
-            pProjectile = new Projectile(fAnglecopy, sEntity.Position, vEnemyDirection2, TileMapPosition, 1, 5);
+            pProjectile = new EnemyProjectile(fAnglecopy, sEntity.Position, vEnemyDirection2, 5);
 
             lInvisibleProjectile.Add(pProjectile);
         }
@@ -374,7 +358,7 @@ namespace Game
             drawList.Add(cEnemyDirection);
             drawList.Add(cCharacterPosition);
             drawList.Add(cEnemyPosition);
-            CustomList.AddProjectiles(drawList, lInvisibleProjectile);
+            CustomList.AddEnemyProjectiles(drawList, lInvisibleProjectile);
         }
     }
 }

@@ -14,9 +14,6 @@ namespace Game
     {
         protected int iHealth;
         public static float iSpeed = 1.5f;
-
-        protected Projectile pProjectile;
-        protected List<Projectile> lProjectile;
         protected List<Drawable> drawList;
 
         /// <summary>
@@ -31,7 +28,24 @@ namespace Game
         /// <summary>
         /// Disposes a Projectile from the Projectile List if its Destruct bool is true
         /// </summary>
-        protected void DisposeProjectile(List<Projectile> lProjectile)
+        protected void DisposeProjectile(List<PlayerProjectile> lProjectile)
+        {
+            for (int x = 0; x < lProjectile.Count; x++)
+            {
+                if (lProjectile[x].Destruct())
+                {
+                    for (int y = x; y + 1 < lProjectile.Count; y++)
+                        lProjectile[y] = lProjectile[y + 1];
+
+                    if (lProjectile.Count == 1)
+                        lProjectile.RemoveAt(0);
+                    else
+                        lProjectile.RemoveAt(lProjectile.Count - 1);
+                }
+            }
+        }
+
+        protected void DisposeProjectile(List<EnemyProjectile> lProjectile)
         {
             for (int x = 0; x < lProjectile.Count; x++)
             {

@@ -13,6 +13,7 @@ namespace Game
     class Archer : Enemy
     {
 
+
         public Archer(Vector2f vEnemyPosition)
         {
             // SYNCHRONISING OBJECTS
@@ -22,8 +23,8 @@ namespace Game
             // INSTANTIATING OBJECTS
             sEntity = new Sprite(tEntity);
             sEntity.Origin = new Vector2f(25, 25);
-            lProjectile = new List<Projectile>();
-            lInvisibleProjectile = new List<Projectile>();
+            lProjectile = new List<EnemyProjectile>();
+            lInvisibleProjectile = new List<EnemyProjectile>();
 
             // SETTING CONSTANTS
             fAngle = 0;
@@ -46,13 +47,13 @@ namespace Game
             sEntity.Rotation = fAngle;
 
             if (lProjectile.Count < 1 && DetectPlayer(VirtualCharacterPosition))
-                Shoot(MainMap.TileMapPosition);
+                Shoot(MainMap.GetTileMapPosition());
 
             for (int x = 0; x < lProjectile.Count; x++)
-                lProjectile[x].Update(vTileMapPosition, sEntity);
+                lProjectile[x].Update(sEntity);
 
             for (int x = 0; x < lInvisibleProjectile.Count; x++)
-                lInvisibleProjectile[x].Update(vTileMapPosition, sEntity);
+                lInvisibleProjectile[x].Update(sEntity);
 
             DisposeProjectile(lProjectile);
             DisposeProjectile(lInvisibleProjectile);
@@ -65,19 +66,18 @@ namespace Game
         {
             drawList = new List<Drawable>();
 
-            CustomList.AddProjectiles(drawList, lProjectile);
+            ShowVectors();
 
+            CustomList.AddEnemyProjectiles(drawList, lProjectile);
 
             drawList.Add(sEntity);
-
-            ShowVectors();
 
             return drawList;
         }
 
         protected void Shoot(Vector2f TileMapPosition)
         {
-            pProjectile = new Projectile(fAngle, sEntity.Position, vEnemyDirection1, TileMapPosition, 1, 1);
+            pProjectile = new EnemyProjectile(fAngle, sEntity.Position, vEnemyDirection1, 1);
 
             lProjectile.Add(pProjectile);
         }

@@ -17,8 +17,6 @@ namespace Game
         protected Vector2f vEntityPositionTopRight;
 
         protected static TileArrayCreation tTileMap;
-        protected Vector2f vTileMapPosition;
-
 
         protected Texture tEntity;
         protected Sprite sEntity;
@@ -41,7 +39,7 @@ namespace Game
         /// </summary>
         protected int CollisionDetection(Vector2f vEntityPosition)
         {
-            Vector2f vEntityPos = vEntityPosition - vTileMapPosition;
+            Vector2f vEntityPos = vEntityPosition - MainMap.GetTileMapPosition();
             vEntityPositionBottomLeft.Y = vEntityPos.Y + tEntity.Size.Y;
             vEntityPositionTopRight.X = vEntityPos.X + tEntity.Size.X;
 
@@ -70,14 +68,10 @@ namespace Game
                         {
 
                             if (vEntityPos.X <= (x + 1) * 50 && vEntityPos.X >= x * 50)
-                            {
                                 return 1;
-                            }
 
                             else if (vEntityPositionTopRight.X >= x * 50 && vEntityPositionTopRight.X <= (x + 1) * 50)
-                            {
                                 return 2;
-                            }
                         }
 
 
@@ -86,20 +80,28 @@ namespace Game
                         {
 
                             if (vEntityPos.Y <= (y + 1) * 50 && vEntityPos.Y >= y * 50)
-                            {
                                 return 3;
-                            }
 
 
                             else if (vEntityPositionBottomLeft.Y >= y * 50 && vEntityPositionBottomLeft.Y <= (y + 1) * 50)
-                            {
                                 return 4;
-                            }
                         }
                     }
                 }
             }
             return 0;
+        }
+
+
+        /// <summary>
+        /// Detects Collision between Player and Invisible Projectile, returns true if Collision occures
+        /// </summary>
+        protected bool PlayerProjectileCollision(Vector2f vPlayerPosition, Vector2f vProjectilePosition, uint iProjectileLength, uint iProjectileHeight)
+        {
+            if (Utilities.DistanceBetweenVectors(vPlayerPosition, vProjectilePosition) <= 25)
+                return true;
+
+            return false;
         }
     }
 }

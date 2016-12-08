@@ -13,23 +13,70 @@ namespace Game
 {
     abstract class GameLoop
     {
+        /// <summary>
+        /// Window to be rendered
+        /// </summary>
         public RenderWindow Window;
+
+        /// <summary>
+        /// Color that is displayed after clearing the Window
+        /// </summary>
         protected Color ClearColor;
-        protected Drawable drawable;
+
+        /// <summary>
+        /// Width of Window
+        /// </summary>
         public static uint windowWidth;
+
+        /// <summary>
+        /// Height of Window
+        /// </summary>
         public static uint windowHeight;
+
+        /// <summary>
+        /// Clock used to measure one Second
+        /// </summary>
         protected Clock cFpsReview;
+
+        /// <summary>
+        /// Clock used to measure ellapsed Time
+        /// </summary>
         protected Clock cFpsSet;
 
-        protected Time tTime;
-        protected Time tTime2;
 
+        /// <summary>
+        /// Timer used to calculate  when to update the Game Logic
+        /// </summary>
+        protected Time tFpsSet;
+
+        /// <summary>
+        /// Timer used to calculate the FPS
+        /// </summary>
+        protected Time tFpsReview;
+
+
+        /// <summary>
+        /// Amount of total updated frames
+        /// </summary>
         protected uint iframes;
+
+        /// <summary>
+        /// Amount of frames updated in 1 Second
+        /// </summary>
         protected uint iframesreview;
+
+        /// <summary>
+        /// Limit of Frames per Seconds in the Game Logic
+        /// </summary>
         protected uint iFPSlimit;
 
 
 
+        /// <summary>
+        /// Gameloop constructor
+        /// </summary>
+        /// <param name="title">Text on the top of the Window, aka Title of the Game</param>
+        /// <param name="ClearColor">Color that is displayed after clearing the Window</param>
         protected GameLoop(string title, Color ClearColor)
         {
             windowWidth = 1920;
@@ -45,7 +92,9 @@ namespace Game
             iframes = 0;
         }
 
-
+        /// <summary>
+        /// Gameloop Update
+        /// </summary>
         public void Run()
         {
             ContentLoader.LoadContent();
@@ -57,15 +106,15 @@ namespace Game
                 // Game Logic
 
                 Window.DispatchEvents();
-                tTime = cFpsSet.ElapsedTime;
+                tFpsSet = cFpsSet.ElapsedTime;
 
 
-                if (tTime.AsSeconds() * iFPSlimit >= iframes)
+                if (tFpsSet.AsSeconds() * iFPSlimit >= iframes)
                 {
                     Update();
 
                     Window.Clear(ClearColor);
-                    Draw(drawable);
+                    Draw();
                     Window.Display();
 
                     iframes++;
@@ -75,8 +124,8 @@ namespace Game
 
                 // Reviewing FPS on Console
 
-                tTime2 = cFpsReview.ElapsedTime;
-                if (tTime2.AsMilliseconds() >= 1000)
+                tFpsReview = cFpsReview.ElapsedTime;
+                if (tFpsReview.AsMilliseconds() >= 1000)
                 {
                     Console.WriteLine(iframesreview + " Frames per Second");
                     iframesreview = 0;
@@ -84,12 +133,18 @@ namespace Game
                 }
             }
         }
+
         protected abstract void Initialize();
 
         protected abstract void Update();
 
-        protected abstract void Draw(Drawable drawable);
+        protected abstract void Draw();
 
+        /// <summary>
+        /// Closes Window
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void OnClosed(object sender, EventArgs e)
         {
             Window.Close();

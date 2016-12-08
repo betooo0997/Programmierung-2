@@ -55,38 +55,34 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Bogenschütze.cs" />
-    <Compile Include="Camera.cs" />
-    <Compile Include="Character.cs" />
-    <Compile Include="ContentLoader.cs" />
-    <Compile Include="Enemy.cs" />
-    <Compile Include="Entity.cs" />
+    <Compile Include="Entities\Characters\Bogenschütze.cs" />
+    <Compile Include="Managers\Camera.cs" />
+    <Compile Include="Entities\Characters\Character.cs" />
+    <Compile Include="Content\ContentLoader.cs" />
+    <Compile Include="Entities\Projectiles\Enemy-Projectile.cs" />
+    <Compile Include="Entities\Characters\Enemy.cs" />
+    <Compile Include="Entities\Entity.cs" />
     <Compile Include="EntityArrayCreation.cs" />
-    <Compile Include="EntityManager.cs" />
-    <Compile Include="GameLoop.cs" />
+    <Compile Include="Managers\EntityManager.cs" />
+    <Compile Include="Basic Run\GameLoop.cs" />
     <Compile Include="Input.cs" />
-    <Compile Include="LevelState.cs" />
-    <Compile Include="MainMap.cs" />
-    <Compile Include="Lists.cs" />
-    <Compile Include="Player.cs" />
-    <Compile Include="Projectile.cs" />
+    <Compile Include="Statemachines\Abstract Classes\LevelState.cs" />
+    <Compile Include="Levels\MainMap.cs" />
+    <Compile Include="Useful Classes\CustomLists.cs" />
+    <Compile Include="Entities\Projectiles\Player-Projectile.cs" />
+    <Compile Include="Entities\Characters\Player.cs" />
+    <Compile Include="Entities\Projectiles\Projectile.cs" />
     <Compile Include="Questtracker.cs" />
-    <Compile Include="Statemachine.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="Statemachines\Statemachine.cs" />
+    <Compile Include="Basic Run\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="GameState.cs" />
-    <Compile Include="State.cs" />
+    <Compile Include="Statemachines\GameState.cs" />
+    <Compile Include="Statemachines\Abstract Classes\State.cs" />
     <Compile Include="TileArrayCreation.cs" />
-    <Compile Include="TileManager.cs" />
-    <Compile Include="Utilities.cs" />
+    <Compile Include="Managers\TileManager.cs" />
+    <Compile Include="Useful Classes\Utilities.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="csfml-audio-2.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="csfml-graphics-2.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -96,19 +92,19 @@
     <Content Include="csfml-window-2.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Dopsball.png">
+    <Content Include="Content\Dopsball.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="EntitySheet.png">
+    <Content Include="Content\EntitySheet.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="libsndfile-1.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="MainMap.txt">
+    <Content Include="Content\MainMap.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="MainMapEnemies.txt">
+    <Content Include="Content\MainMapEnemies.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="openal32.dll">
@@ -120,10 +116,10 @@
     <Content Include="OpenTK.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="TileSheet.png">
+    <Content Include="Content\TileSheet.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Triangle.png">
+    <Content Include="Content\Triangle.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

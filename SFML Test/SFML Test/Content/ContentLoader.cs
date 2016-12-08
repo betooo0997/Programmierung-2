@@ -25,10 +25,9 @@ namespace Game
             fontArial = new Font("C:/Windows/Fonts/Arial.ttf");
 
             //TEXTURES:
-            textureDopsball = new Texture("Dopsball.png");
-            textureTileSheet = new Texture("TileSheet.png");
-            textureTriangle = new Texture("Triangle.png");
-
+            textureDopsball = new Texture("Content/Dopsball.png");
+            textureTileSheet = new Texture("Content/TileSheet.png");
+            textureTriangle = new Texture("Content/Triangle.png");
         }
     }
 }

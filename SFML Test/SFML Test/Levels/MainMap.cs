@@ -23,9 +23,16 @@ namespace Game
 
         Archer cArcher;
 
-        public static Vector2f CharacterPosition;
+        protected static Vector2f vCharacterVirtualPosition;
+        protected static Vector2f vCharacterStartPosition;
 
-        bool right, left, up, down;
+
+        protected bool right, left, up, down;
+
+        protected static Vector2f vPastTileMapPosition;
+        protected static Vector2f vDifferenceTileMapPosition;
+        protected static Vector2f vPresentTileMapPosition;
+
 
         // INPUT INSTANCE
         protected Input iInput;
@@ -45,11 +52,11 @@ namespace Game
 
 
             // LEVEL TEXTFILE HAS TO BE CHOSEN
-            levelString = System.IO.File.ReadAllLines(@"MainMap.txt");
+            levelString = System.IO.File.ReadAllLines(@"Content/MainMap.txt");
             TileUndHerrsche = new TileManager(levelString);
 
             // ENEMY LAYOUT IN .txt HAS TO BE CHOSEN 
-            enemyLayoutString = System.IO.File.ReadAllLines(@"MainMapEnemies.txt");
+            enemyLayoutString = System.IO.File.ReadAllLines(@"Content/MainMapEnemies.txt");
             entityManager = new EntityManager(TileUndHerrsche, enemyLayoutString);
 
             //INSTANTIATING OBJECTS : TEXTURES
@@ -59,12 +66,13 @@ namespace Game
 
             //INSTANTIATING OBJECTS : OTHER
             Quest = new Text("Left Click to Shoot", font, 20);
-            CharacterPosition = new Vector2f(900, 500);
-            cPlayer = new Player(levelString, CharacterPosition);
+            vCharacterStartPosition = new Vector2f(900, 500);
+            vCharacterVirtualPosition = vCharacterStartPosition;
+            cPlayer = new Player(levelString, vCharacterVirtualPosition);
             cCamera = new Camera();
             cArcher = new Archer(new Vector2f(400,400));
 
-            TileMapPosition = new Vector2f(0, 0);
+            vTileMapPosition = new Vector2f(0, 0);
 
             iInput = new Input();
 
@@ -74,6 +82,8 @@ namespace Game
             textureTileSheet.Smooth = true;
             Quest.Position = new Vector2f(20, 20);
             Quest.Color = Color.Black;
+
+            vPastTileMapPosition = vTileMapPosition;
         }
 
 
@@ -87,13 +97,17 @@ namespace Game
             up = false;
             down = false;
 
-            cCamera.Update(CharacterPosition, ref TileMapPosition);
-            cPlayer.Update(ref CharacterPosition, window, TileMapPosition, ref up, ref down, ref right, ref left);
+            vPastTileMapPosition = vPresentTileMapPosition;
+            vPresentTileMapPosition = vTileMapPosition;
+            vDifferenceTileMapPosition = vPastTileMapPosition - vPresentTileMapPosition;
 
-            cArcher.Update(ref CharacterPosition, TileMapPosition, ref up, ref down, ref right, ref left);
+            cCamera.Update(vCharacterVirtualPosition, ref vTileMapPosition);
+            cPlayer.Update(ref vCharacterVirtualPosition, window, vTileMapPosition, ref up, ref down, ref right, ref left);
+
+            cArcher.Update(ref vCharacterVirtualPosition, vTileMapPosition, ref up, ref down, ref right, ref left);
 
 
-            iInput.Update(ref CharacterPosition, Character.iSpeed, up, right, down, left, window);
+            iInput.Update(ref vCharacterVirtualPosition, Character.iSpeed, up, right, down, left, window);
 
 
             return targetLevel;
@@ -108,15 +122,38 @@ namespace Game
         {
             drawList = new CustomList();
 
-            drawList.AddElement(Quest);
+            //drawList.AddElement(Quest);
             drawList.AddList(cPlayer.Draw());
 
             drawList.AddList(cArcher.Draw());
 
 
-            TileUndHerrsche.Draw(window, TileMapPosition);
+            TileUndHerrsche.Draw(window, vTileMapPosition);
 
             return drawList;
+        }
+
+
+
+        public static Vector2f GetDiffTileMapPosition()
+        {
+            return vDifferenceTileMapPosition;
+        }
+
+        public static Vector2f GetTileMapPosition()
+        {
+            return vTileMapPosition;
+        }
+
+        public static Vector2f GetVirtualCharacterPosition()
+        {
+            return vCharacterVirtualPosition;
+        }
+
+
+        public static Vector2f GetStartCharacterPosition()
+        {
+            return vCharacterStartPosition;
         }
     }
 }
