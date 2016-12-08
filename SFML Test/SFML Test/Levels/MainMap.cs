@@ -66,17 +66,11 @@ namespace Game
 
 
             //INSTANTIATING OBJECTS : OTHER
-<<<<<<< HEAD:SFML Test/SFML Test/Levels/MainMap.cs
-            Quest = new Text("Left Click to Shoot", font, 20);
             vCharacterStartPosition = new Vector2f(900, 500);
             vCharacterVirtualPosition = vCharacterStartPosition;
             cPlayer = new Player(levelString, vCharacterVirtualPosition);
-=======
             questTracker = new Questtracker(entityManager.GetEntityArray(), entityManager.GetArrayNumberColumns(), entityManager.GetArrayNumberRows());
             textQuest = new Text(questTracker.GetQuestString(), font, 20);
-            CharacterPosition = new Vector2f(900, 500);
-            cPlayer = new Player(levelString, CharacterPosition);
->>>>>>> origin/master:SFML Test/SFML Test/MainMap.cs
             cCamera = new Camera();
             cArcher = new Archer(new Vector2f(400,400));
             
@@ -89,15 +83,12 @@ namespace Game
             //CHANGING OBJECT PARAMETERS
             textureDopsball.Smooth = true;
             textureTileSheet.Smooth = true;
-<<<<<<< HEAD:SFML Test/SFML Test/Levels/MainMap.cs
-            Quest.Position = new Vector2f(20, 20);
-            Quest.Color = Color.Black;
-
-            vPastTileMapPosition = vTileMapPosition;
-=======
             textQuest.Position = new Vector2f(20, 20);
             textQuest.Color = Color.Black;
->>>>>>> origin/master:SFML Test/SFML Test/MainMap.cs
+
+            vPastTileMapPosition = vTileMapPosition;
+            textQuest.Position = new Vector2f(20, 20);
+            textQuest.Color = Color.Black;
         }
 
 
@@ -111,18 +102,14 @@ namespace Game
             up = false;
             down = false;
 
-<<<<<<< HEAD:SFML Test/SFML Test/Levels/MainMap.cs
             vPastTileMapPosition = vPresentTileMapPosition;
             vPresentTileMapPosition = vTileMapPosition;
             vDifferenceTileMapPosition = vPastTileMapPosition - vPresentTileMapPosition;
 
             cCamera.Update(vCharacterVirtualPosition, ref vTileMapPosition);
             cPlayer.Update(ref vCharacterVirtualPosition, window, vTileMapPosition, ref up, ref down, ref right, ref left);
-=======
-            cCamera.Update(CharacterPosition, ref TileMapPosition);
-            cPlayer.Update(ref CharacterPosition, window, TileMapPosition, ref up, ref down, ref right, ref left);
+
             textQuest = new Text(questTracker.Update(0), font, 20);
->>>>>>> origin/master:SFML Test/SFML Test/MainMap.cs
 
             cArcher.Update(ref vCharacterVirtualPosition, vTileMapPosition, ref up, ref down, ref right, ref left);
 
@@ -142,11 +129,8 @@ namespace Game
         {
             drawList = new CustomList();
 
-<<<<<<< HEAD:SFML Test/SFML Test/Levels/MainMap.cs
             //drawList.AddElement(Quest);
-=======
             drawList.AddElement(textQuest);
->>>>>>> origin/master:SFML Test/SFML Test/MainMap.cs
             drawList.AddList(cPlayer.Draw());
 
             drawList.AddList(cArcher.Draw());
