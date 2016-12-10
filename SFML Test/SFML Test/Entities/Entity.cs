@@ -37,11 +37,11 @@ namespace Game
         /// Detects the Entity Collision
         /// Returns 0 if no Collision
         /// </summary>
-        protected int CollisionDetection(Vector2f vEntityPosition)
+        protected int CollisionDetection(Vector2f vEntityPosition, uint uLength, uint uHeight)
         {
             Vector2f vEntityPos = vEntityPosition - MainMap.GetTileMapPosition();
-            vEntityPositionBottomLeft.Y = vEntityPos.Y + tEntity.Size.Y;
-            vEntityPositionTopRight.X = vEntityPos.X + tEntity.Size.X;
+            vEntityPositionBottomLeft.Y = vEntityPos.Y + uHeight;
+            vEntityPositionTopRight.X = vEntityPos.X + uLength;
 
             int iTileNearY = (int)vEntityPos.Y / 50;
             int iTileNearX = (int)vEntityPos.X / 50;
@@ -90,18 +90,6 @@ namespace Game
                 }
             }
             return 0;
-        }
-
-
-        /// <summary>
-        /// Detects Collision between Player and Invisible Projectile, returns true if Collision occures
-        /// </summary>
-        protected bool PlayerProjectileCollision(Vector2f vPlayerPosition, Vector2f vProjectilePosition, uint iProjectileLength, uint iProjectileHeight)
-        {
-            if (Utilities.DistanceBetweenVectors(vPlayerPosition, vProjectilePosition) <= 25)
-                return true;
-
-            return false;
         }
     }
 }

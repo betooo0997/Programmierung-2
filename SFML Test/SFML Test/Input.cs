@@ -33,7 +33,7 @@ namespace Game
         /// <summary>
         /// Updates Virtual CharacterPosition based on Player Input
         /// </summary>
-        public void Update(ref Vector2f vCharacterPosition, float fcharacterVelocity, bool up, bool right, bool down, bool left, RenderWindow window)
+        public void Update(ref Vector2f vCharacterPosition, ref float fcharacterVelocity, bool up, bool right, bool down, bool left, RenderWindow window)
         {
             bMovingUp = false;
             bMovingDown = false;
@@ -41,6 +41,11 @@ namespace Game
             bMovingLeft = false;
             Shoot = false;
             fCharacterVelocity = fcharacterVelocity;
+
+
+            if (Keyboard.IsKeyPressed(Keyboard.Key.LShift))
+                fCharacterVelocity = 0.25f;
+
 
             // If Up/Down and Right/Left is hold simultaniously the velocity is reduced
 
@@ -51,7 +56,8 @@ namespace Game
 
             // Main Input Logic
 
-            if (Keyboard.IsKeyPressed(Keyboard.Key.W) && !up)
+
+                if (Keyboard.IsKeyPressed(Keyboard.Key.W) && !up)
             {
                 vCharacterPosition.Y -= fCharacterVelocity;
                 bMovingUp = true;

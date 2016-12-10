@@ -41,7 +41,7 @@ namespace Game
             }
         }
 
-        public static List<Drawable> AddEnemyProjectiles(List<Drawable> a, List<EnemyProjectile> b)
+        public static List<Drawable> AddProjectiles(List<Drawable> a, List<EnemyProjectile> b)
         {
             List<Drawable> mergedList;
             mergedList = a;
@@ -52,8 +52,18 @@ namespace Game
             return mergedList;
         }
 
+        public static List<Drawable> AddProjectiles(List<Drawable> a, List<InvisibleProjectile> b)
+        {
+            List<Drawable> mergedList;
+            mergedList = a;
 
-        public static List<Drawable> AddPlayerProjectiles(List<Drawable> a, List<PlayerProjectile> b)
+            for (int x = 0; x < b.Count; x++)
+                mergedList.Add(b[x].Draw());
+
+            return mergedList;
+        }
+
+        public static List<Drawable> AddProjectiles(List<Drawable> a, List<PlayerProjectile> b)
         {
             List<Drawable> mergedList;
             mergedList = a;

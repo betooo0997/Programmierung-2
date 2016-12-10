@@ -34,6 +34,7 @@ namespace Game
             {
                 if (lProjectile[x].Destruct())
                 {
+                    lProjectile[x].DisposeTexture();
                     for (int y = x; y + 1 < lProjectile.Count; y++)
                         lProjectile[y] = lProjectile[y + 1];
 
@@ -46,6 +47,24 @@ namespace Game
         }
 
         protected void DisposeProjectile(List<EnemyProjectile> lProjectile)
+        {
+            for (int x = 0; x < lProjectile.Count; x++)
+            {
+                if (lProjectile[x].Destruct())
+                {
+                    lProjectile[x].DisposeTexture();
+                    for (int y = x; y + 1 < lProjectile.Count; y++)
+                        lProjectile[y] = lProjectile[y + 1];
+
+                    if (lProjectile.Count == 1)
+                        lProjectile.RemoveAt(0);
+                    else
+                        lProjectile.RemoveAt(lProjectile.Count - 1);
+                }
+            }
+        }
+
+        protected void DisposeProjectile(List<InvisibleProjectile> lProjectile)
         {
             for (int x = 0; x < lProjectile.Count; x++)
             {

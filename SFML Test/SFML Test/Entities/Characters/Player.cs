@@ -73,7 +73,7 @@ namespace Game
         {
             drawList = new List<Drawable>();
 
-            CustomList.AddPlayerProjectiles(drawList, lProjectile);
+            CustomList.AddProjectiles(drawList, lProjectile);
 
             sCharacter.Position = CharacterPosition + new Vector2f(25, 25);
             drawList.Add(sCharacter);

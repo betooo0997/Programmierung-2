@@ -56,6 +56,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entities\Characters\Bogenschütze.cs" />
+    <Compile Include="Entities\Projectiles\Invisible-Projectile.cs" />
+    <Compile Include="Entities\Projectiles\VisibleProjectile.cs" />
     <Compile Include="Managers\Camera.cs" />
     <Compile Include="Entities\Characters\Character.cs" />
     <Compile Include="Content\ContentLoader.cs" />

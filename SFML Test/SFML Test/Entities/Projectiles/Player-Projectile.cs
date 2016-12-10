@@ -10,12 +10,12 @@ using SFML.Audio;
 
 namespace Game
 {
-    public class PlayerProjectile : Projectile
+    public class PlayerProjectile : VisibleProjectile
     {
         public PlayerProjectile(float iAngle, Vector2f Direction, float iVelocity)
         {
             // SYNCHRONISING WITH CONTENT LOADER
-            tEntity = ContentLoader.textureDopsball;
+            tEntity = new Texture(ContentLoader.textureDopsball);
 
             // SINCHRONYSING VARIABLES
             this.vEntityPosition = MainMap.GetStartCharacterPosition();

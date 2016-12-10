@@ -107,14 +107,14 @@ namespace Game
             vDifferenceTileMapPosition = vPastTileMapPosition - vPresentTileMapPosition;
 
             cCamera.Update(vCharacterVirtualPosition, ref vTileMapPosition);
+            cArcher.Update(ref vCharacterVirtualPosition, vTileMapPosition, ref up, ref down, ref right, ref left);
             cPlayer.Update(ref vCharacterVirtualPosition, window, vTileMapPosition, ref up, ref down, ref right, ref left);
 
             textQuest = new Text(questTracker.Update(0), font, 20);
 
-            cArcher.Update(ref vCharacterVirtualPosition, vTileMapPosition, ref up, ref down, ref right, ref left);
 
 
-            iInput.Update(ref vCharacterVirtualPosition, Character.iSpeed, up, right, down, left, window);
+            iInput.Update(ref vCharacterVirtualPosition, ref Character.iSpeed, up, right, down, left, window);
 
 
             return targetLevel;

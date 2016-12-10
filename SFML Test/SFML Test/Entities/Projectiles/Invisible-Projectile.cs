@@ -10,13 +10,13 @@ using SFML.Audio;
 
 namespace Game
 {
-    public class EnemyProjectile : VisibleProjectile
+    public class InvisibleProjectile : Projectile
     {
-        public EnemyProjectile(float iAngle, Vector2f vEntityPosition, Vector2f Direction, float iVelocity)
-        {
-            // SYNCHRONISING WITH CONTENT LOADER
-            tEntity = new Texture(ContentLoader.textureDopsball);
+        CircleShape cShape;
 
+        public InvisibleProjectile(float iAngle, Vector2f vEntityPosition, Vector2f Direction, float iVelocity)
+        {
+            tEntity = new Texture(ContentLoader.textureDopsball);
             // SINCHRONYSING VARIABLES
             this.vEntityPosition = vEntityPosition;
             StartPosition = vEntityPosition;
@@ -27,11 +27,10 @@ namespace Game
             this.Direction = Direction - vEntityPosition;
 
             // INSTANTITATING OBJECTS
-            sEntity = new Sprite(tEntity);
-
-            // SETTING PROJECTILE PARAMETERS
-            sEntity.Rotation = iAngle;
-            sEntity.Origin = new Vector2f(25, 25);
+            cShape = new CircleShape(0.5f);
+            cShape.FillColor = Color.Magenta;
+            cShape.OutlineThickness = 1;
+            cShape.OutlineColor = Color.Magenta;
 
             // SETTING PLAYERMOVEMENT
             vEntitymovement = new Vector2f(0, 0);
@@ -54,13 +53,36 @@ namespace Game
         public void Update(Sprite sEnemy)
         {
             Move(sEnemy);
-            sEntity.Position = vEntityPosition;
+            cShape.Position = vEntityPosition;
+        }
+
+        public new Drawable Draw()
+        {
+            return cShape;
         }
 
 
         void Move(Sprite sEnemy)
         {
             vEntityPosition -= MainMap.GetDiffTileMapPosition() - Direction / 5 * iVelocity;
+        }
+
+        public bool Destruct()
+        {
+            if (vEntityPosition.X > 1920 || vEntityPosition.X < 1 || vEntityPosition.Y > 1080 || vEntityPosition.Y < 1
+                || CollisionDetection(vEntityPosition, 1, 1) != 0)
+            {
+                tEntity.Dispose();
+                return true;
+            }
+
+            else
+                return false;
+        }
+
+        public Vector2f GetDirection()
+        {
+            return Direction;
         }
     }
 }

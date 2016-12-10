@@ -56,11 +56,6 @@ namespace Game
 
 
         /// <summary>
-        /// Amount of total updated frames
-        /// </summary>
-        protected uint iframes;
-
-        /// <summary>
         /// Amount of frames updated in 1 Second
         /// </summary>
         protected uint iframesreview;
@@ -89,7 +84,6 @@ namespace Game
             cFpsReview = new Clock();
             cFpsSet = new Clock();
             iFPSlimit = 120;
-            iframes = 0;
         }
 
         /// <summary>
@@ -105,19 +99,20 @@ namespace Game
             {
                 // Game Logic
 
-                Window.DispatchEvents();
                 tFpsSet = cFpsSet.ElapsedTime;
 
 
-                if (tFpsSet.AsSeconds() * iFPSlimit >= iframes)
+                if (tFpsSet.AsSeconds() >= (float)1 / (float)iFPSlimit)
                 {
+                    cFpsSet.Restart();
+
+                    Window.DispatchEvents();
                     Update();
 
                     Window.Clear(ClearColor);
                     Draw();
                     Window.Display();
 
-                    iframes++;
                     iframesreview++;
                 }
 

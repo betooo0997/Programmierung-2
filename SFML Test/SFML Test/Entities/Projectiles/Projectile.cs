@@ -28,19 +28,14 @@ namespace Game
         public new Vector2f vEntityPosition;
 
 
-        public bool Destruct()
-        {
-            if (vEntityPosition.X > 1920 || vEntityPosition.X < -tEntity.Size.X || vEntityPosition.Y > 1080 || vEntityPosition.Y < -tEntity.Size.Y
-                || CollisionDetection(vEntityPosition) != 0)
-                return true;
-
-            else
-                return false;
-        }
-
-        public Sprite Draw()
+        public Drawable Draw()
         {
             return sEntity;
+        }
+
+        public void DisposeTexture()
+        {
+            tEntity.Dispose();
         }
     }
 }

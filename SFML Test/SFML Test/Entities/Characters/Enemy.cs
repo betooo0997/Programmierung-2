@@ -17,9 +17,7 @@ namespace Game
         /// <summary>
         /// Direction the Enemy is looking to
         /// </summary>
-        protected Vector2f vEnemyDirection1;
-
-        protected Vector2f vEnemyDirection2;
+        protected Vector2f vEnemyDirection;
 
 
         /// <summary>
@@ -52,12 +50,18 @@ namespace Game
         /// </summary>
         protected float fAngleEnemy;
 
-        float fAnglecopy;
+        protected float fAnglecopy;
 
         /// <summary>
         /// Maximum Angle in which the Enemy detects the Player
         /// </summary>
         protected float fMaxPermittedAngle;
+
+
+        /// <summary>
+        /// float needed to rotate normally
+        /// </summary>
+        protected float fNumberToCorrect = 57.29f;
 
 
 
@@ -73,8 +77,12 @@ namespace Game
         // DECLARING VARIABLES: OTHER
         protected List<EnemyProjectile> lProjectile;
 
-        protected List<EnemyProjectile> lInvisibleProjectile;
+        protected List<InvisibleProjectile> lInvisibleProjectile;
         protected EnemyProjectile pProjectile;
+        protected InvisibleProjectile iProjectile;
+
+        protected Clock cClock;
+        protected Time tTimer;
 
 
 
@@ -85,47 +93,49 @@ namespace Game
         /// <summary>
         /// Returns true if the Player is in the Radius and Angle of Sight of the Enemy
         /// </summary>
-        protected bool DetectPlayer(Vector2f vPlayerPosition)
+        protected bool DetectPlayer()
         {
             // UPDATING vEnemyDirection
-            vEnemyDirection1 = sEntity.Position + new Vector2f(0, 25);                                                                                       // Creating distance to Origin
+            vEnemyDirection = sEntity.Position + new Vector2f(0, 25);                                                                                       // Creating distance to Origin
 
-            vEnemyDirection1 = Utilities.VectorRotation(fAngle / 57, vEnemyDirection1, sEntity.Position);                                                     // Rotating to PlayerPosition        
+            vEnemyDirection = Utilities.VectorRotation(fAngle / 57, vEnemyDirection, sEntity.Position);                                                     // Rotating to PlayerPosition        
                                                                                                                                                               // (TODO: NOTE: No idea why dividing with 57, if no division Vector Rotates 57 times faster than it should)
-
-            fAnglecopy = fAngle;
-            RotateEnemy(ref fAnglecopy);
-            vEnemyDirection2 = sEntity.Position + new Vector2f(0, 25);
-            vEnemyDirection2 = Utilities.VectorRotation(fAnglecopy / 57, vEnemyDirection2, sEntity.Position);
 
 
             // UPDATING vEnemyAngleOrigin
-            vEnemyAngleOrigin = Utilities.VectorRotation(fAngle / 57, sEntity.Position + new Vector2f(0,15), sEntity.Position);                             // Rotating to PlayerPosition
+            vEnemyAngleOrigin = (vEnemyDirection - sEntity.Position) * 0.80f + sEntity.Position;                                                           // Calculating based on EnemyDirection1
 
 
             // UPDATING vEnemyBottomRightPosition and vEnemyBottomLeftPosition
-            vEnemyBottomRightPosition = Utilities.VectorRotation(fAngle / 57, sEntity.Position + new Vector2f(25, 25), sEntity.Position);                   // Rotating to PlayerPosition     
-            vEnemyBottomLeftPosition = Utilities.VectorRotation(fAngle / 57, sEntity.Position + new Vector2f(-25, 25), sEntity.Position);                   // Rotating to PlayerPosition
+            vEnemyBottomRightPosition = Utilities.VectorRotation(fAngle / fNumberToCorrect, sEntity.Position + new Vector2f(25, 25), sEntity.Position);                   // Rotating to PlayerPosition     
+            vEnemyBottomLeftPosition = Utilities.VectorRotation(fAngle / fNumberToCorrect, sEntity.Position + new Vector2f(-25, 25), sEntity.Position);                   // Rotating to PlayerPosition
 
 
             // CALCULATING AngleEnemy
-            fAngleEnemy = Utilities.AngleBetweenVectors180(vEnemyDirection1 - vEnemyAngleOrigin, new Vector2f(925, 525) - vEnemyAngleOrigin);
+            fAngleEnemy = Utilities.AngleBetweenVectors180(vEnemyDirection - vEnemyAngleOrigin, new Vector2f(925, 525) - vEnemyAngleOrigin);
 
 
             // CALCULATING MaxPermittedAngle
-            fMaxPermittedAngle = Utilities.AngleBetweenVectors180(vEnemyDirection1 - vEnemyAngleOrigin, vEnemyBottomRightPosition - vEnemyAngleOrigin);
+            fMaxPermittedAngle = Utilities.AngleBetweenVectors180(vEnemyDirection - vEnemyAngleOrigin, vEnemyBottomRightPosition - vEnemyAngleOrigin);
 
-
+            tTimer = cClock.ElapsedTime;
 
             if (Utilities.MakePositive(Utilities.DistanceBetweenVectors(MainMap.GetVirtualCharacterPosition(), vEntityPosition)) < iDistanceDetection && fAngleEnemy < fMaxPermittedAngle)
             {
-                if (DisposeInvisibleProjectile(lInvisibleProjectile, new Vector2f(925,525)))
+                fAnglecopy = fAngle;
+                RotateEnemy(ref fAnglecopy);
+
+                ShootInvisible(MainMap.GetTileMapPosition(), fAnglecopy);
+
+                if (DisposeInvisibleProjectile(lInvisibleProjectile))
                 {
-                    ShootInvisible(MainMap.GetTileMapPosition(), fAngle);
+                    cClock.Restart();
+                    tTimer = cClock.ElapsedTime;
                     return true;
                 }
-                else
-                    ShootInvisible(MainMap.GetTileMapPosition(), fAnglecopy);
+
+                if (tTimer.AsMilliseconds() <= 500)
+                    return true;
             }
 
             return false;
@@ -138,14 +148,14 @@ namespace Game
         protected void RotateEnemy(ref float fAngle)
         {
             // Calculating the Enemys Position using the Character Position as Origin
-            Vector2f a = sEntity.Position - new Vector2f(925, 525);
+            Vector2f a = sEntity.Position - (MainMap.GetStartCharacterPosition() + new Vector2f(25, 25));
 
             fAngle = Utilities.AngleBetweenVectors360(a, new Vector2f(0, 1)) - 180;
 
             if (fAngle < 0)
                 fAngle += 360;
 
-            if (fAngle > 360)
+            if (fAngle >= 360)
                 fAngle -= 360;
         }
 
@@ -157,12 +167,13 @@ namespace Game
         /// <param name="lProjectile"></param>
         /// <param name="vPlayerPosition"></param>
         /// <returns></returns>
-        protected bool DisposeInvisibleProjectile(List<EnemyProjectile> lProjectile, Vector2f vPlayerPosition)
+        protected bool DisposeInvisibleProjectile(List<InvisibleProjectile> lProjectile)
         {
             for (int x = 0; x < lProjectile.Count; x++)
             {
-                if (PlayerProjectileCollision(vPlayerPosition, lProjectile[x].vEntityPosition, 50, 50))
+                if (PlayerProjectileCollision(lProjectile[x]))
                 {
+                    lProjectile[x].DisposeTexture();
                     for (int y = x; y + 1 < lProjectile.Count; y++)
                         lProjectile[y] = lProjectile[y + 1];
 
@@ -179,13 +190,48 @@ namespace Game
 
 
         /// <summary>
+        /// Detects Collision between Player and Invisible Projectile, returns true if Collision occures
+        /// </summary>
+        protected bool PlayerProjectileCollision(InvisibleProjectile iProjectile)
+        {
+            Vector2f vPlayerPosition = MainMap.GetStartCharacterPosition();
+            Vector2f b = MainMap.GetStartCharacterPosition() + new Vector2f(25, 25) - sEntity.Position;
+
+            if (vPlayerPosition.Y < iProjectile.vEntityPosition.Y && vPlayerPosition.Y + 50 > iProjectile.vEntityPosition.Y &&
+                vPlayerPosition.X < iProjectile.vEntityPosition.X && vPlayerPosition.X + 50 > iProjectile.vEntityPosition.X ||
+                (iProjectile.vEntityPosition.X - sEntity.Position.X) / iProjectile.GetDirection().X > b.X / iProjectile.GetDirection().X &&
+                (iProjectile.vEntityPosition.Y - sEntity.Position.Y) / iProjectile.GetDirection().Y > b.Y / iProjectile.GetDirection().Y)
+                return true;
+
+
+
+            return false;
+        }
+
+
+        /// <summary>
         /// Shoots fast invisible Projectiles to check Visibility
         /// </summary>
         protected void ShootInvisible(Vector2f TileMapPosition, float fAngle)
         {
-            pProjectile = new EnemyProjectile(fAnglecopy, sEntity.Position, vEnemyDirection2, 5);
+            Vector2f vEnemyDirectionLeft = sEntity.Position + new Vector2f(-20, 0);
+            vEnemyDirectionLeft = Utilities.VectorRotation(fAnglecopy / fNumberToCorrect, vEnemyDirectionLeft, sEntity.Position);
 
-            lInvisibleProjectile.Add(pProjectile);
+            Vector2f vEnemyDirectionMiddle = sEntity.Position + new Vector2f(0, 25);
+            vEnemyDirectionMiddle = Utilities.VectorRotation(fAnglecopy / fNumberToCorrect, vEnemyDirectionMiddle, sEntity.Position);
+
+            Vector2f vEnemyDirectionRight = sEntity.Position + new Vector2f(20, 0);
+            vEnemyDirectionRight = Utilities.VectorRotation(fAnglecopy / fNumberToCorrect, vEnemyDirectionRight, sEntity.Position);
+
+
+            iProjectile = new InvisibleProjectile(fAnglecopy, vEnemyDirectionLeft, vEnemyDirectionMiddle + (vEnemyDirectionLeft - sEntity.Position), 4);
+            lInvisibleProjectile.Add(iProjectile);
+
+            iProjectile = new InvisibleProjectile(fAnglecopy, sEntity.Position, vEnemyDirectionMiddle, 4);
+            lInvisibleProjectile.Add(iProjectile);
+
+            iProjectile = new InvisibleProjectile(fAnglecopy, vEnemyDirectionRight, vEnemyDirectionMiddle + (vEnemyDirectionRight - sEntity.Position), 4);
+            lInvisibleProjectile.Add(iProjectile);
         }
 
 
@@ -199,6 +245,9 @@ namespace Game
         protected void PlayerEnemyCollision(ref Vector2f vPlayerPosition, Vector2f vEntityPosition, ref bool up, ref bool down, ref bool right, ref bool left)
         {
             bEnemyPlayerCollision = false;
+
+
+            //if (Utilities.DistanceBetweenVectors(vPlayerPosition))
 
             if (((vPlayerPosition.Y < vEntityPosition.Y + 50 && vPlayerPosition.Y > vEntityPosition.Y - 1) ||
                     (vPlayerPosition.Y < vEntityPosition.Y && vPlayerPosition.Y > vEntityPosition.Y - 50)))
@@ -321,16 +370,20 @@ namespace Game
             circlePosition.X = sEntity.Position.X - iDistanceDetection;
             circlePosition.Y = sEntity.Position.Y - iDistanceDetection;
 
-            cEnemyDirection = new CircleShape(1f);
-            cCharacterPosition = new CircleShape(1f);
-            cEnemyPosition = new CircleShape(1f);
+            cEnemyDirection = new CircleShape(0.5f);
+            cCharacterPosition = new CircleShape(0.5f);
+            cEnemyPosition = new CircleShape(0.5f);
+            cEnemyDirection.OutlineThickness = 1;
+            cCharacterPosition.OutlineThickness = 1;
+            cEnemyPosition.OutlineThickness = 1;
+
             cEnemyRadius = new CircleShape(iDistanceDetection);
             rEnemyAngle1 = new RectangleShape(new Vector2f(iDistanceDetection - 7, 1));
             rEnemyAngle2 = new RectangleShape(new Vector2f(iDistanceDetection - 7, 1));
 
 
-            cEnemyDirection.Position = vEnemyDirection1;
-            cCharacterPosition.Position = new Vector2f(900, 500) + new Vector2f(25, 25);
+            cEnemyDirection.Position = vEnemyDirection;
+            cCharacterPosition.Position = MainMap.GetStartCharacterPosition() + new Vector2f(25, 25);
             cEnemyPosition.Position = vEnemyAngleOrigin;
             cEnemyRadius.Position = circlePosition;
             rEnemyAngle1.Position = vEnemyAngleOrigin;
@@ -339,11 +392,14 @@ namespace Game
 
             cEnemyDirection.FillColor = Color.Cyan;
             cCharacterPosition.FillColor = Color.Black;
-            cEnemyPosition.FillColor = Color.Red;
+            cEnemyPosition.FillColor = Color.Cyan;
             cEnemyRadius.FillColor = Color.Transparent;
             rEnemyAngle1.FillColor = Color.Cyan;
             rEnemyAngle2.FillColor = Color.Cyan;
 
+            cEnemyDirection.OutlineColor = Color.Cyan;
+            cCharacterPosition.OutlineColor = Color.Black;
+            cEnemyPosition.OutlineColor = Color.Cyan;
 
             cEnemyRadius.OutlineColor = Color.Cyan;
             cEnemyRadius.OutlineThickness = 1;
@@ -358,7 +414,7 @@ namespace Game
             drawList.Add(cEnemyDirection);
             drawList.Add(cCharacterPosition);
             drawList.Add(cEnemyPosition);
-            CustomList.AddEnemyProjectiles(drawList, lInvisibleProjectile);
+            CustomList.AddProjectiles(drawList, lInvisibleProjectile);
         }
     }
 }
