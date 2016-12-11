@@ -39,6 +39,6 @@ namespace Game
     public enum eSceneState
     {
         ssUndefined,
-        ssMain
+        ssMain,
     }
 }

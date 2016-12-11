@@ -12,8 +12,15 @@ namespace Game
 {
     class Archer : Enemy
     {
+        uint Damage;
         Clock cShooting;
+        Clock cMoving;
         Time tShooting;
+        Time tMoving;
+        Random rRandom;
+        int iRandomNumber;
+
+
 
         public Archer(Vector2f vEnemyPosition)
         {
@@ -28,6 +35,7 @@ namespace Game
             lInvisibleProjectile = new List<InvisibleProjectile>();
             cClock = new Clock();
             cShooting = new Clock();
+            cMoving = new Clock();
 
             bIsBoss = true;
 
@@ -35,6 +43,10 @@ namespace Game
             // SETTING CONSTANTS
             fAngle = 0;
             iDistanceDetection = 400;
+            Damage = 25;
+
+            rRandom = new Random();
+            iRandomNumber = rRandom.Next(0, 4);
         }
 
         /// <summary>
@@ -53,7 +65,9 @@ namespace Game
                 RotateEnemy(ref fAngle);
                 sEntity.Rotation = fAngle;
 
-                if (tShooting.AsMilliseconds() >= 750)
+                Moving();
+
+                if (tShooting.AsMilliseconds() >= 1200)
                 {
                     Shoot(MainMap.GetTileMapPosition());
                     cShooting.Restart();
@@ -67,8 +81,11 @@ namespace Game
             for (int x = 0; x < lInvisibleProjectile.Count; x++)
                 lInvisibleProjectile[x].Update(sEntity);
 
-            DisposeProjectile(lProjectile);
+            DisposeProjectile(lProjectile, Damage);
             DisposeProjectile(lInvisibleProjectile);
+
+            if (iHealth >= 0)
+                sEntity.Color = new Color(255, (byte)(255 - (255 - iHealth * 2.55f)), (byte)(255 - (255 - iHealth * 2.55f)));
         }
 
         /// <summary>
@@ -97,6 +114,68 @@ namespace Game
             lProjectile.Add(pProjectile);
         }
 
+        protected void Moving()
+        {
+            Vector2f vCharacterPositionEnemyOrigin = MainMap.GetStartCharacterPosition() + new Vector2f(25, 25) - sEntity.Position;
 
+            tMoving = cMoving.ElapsedTime;
+
+            if (tMoving.AsMilliseconds() > 500)
+            {
+                iRandomNumber = rRandom.Next(0, 4);
+                cMoving.Restart();
+            }
+
+
+                switch (iRandomNumber)
+            {
+                case (0):
+                    if (vCharacterPositionEnemyOrigin.Y < (iDistanceDetection / 3))
+                        MoveUp();
+                    break;
+
+                case (1):
+                    if (vCharacterPositionEnemyOrigin.Y > (-iDistanceDetection / 3))
+                        MoveDown();
+                    break;
+
+                case (2):
+                    if (vCharacterPositionEnemyOrigin.X > (-iDistanceDetection / 3))
+                        MoveRight();
+                    break;
+
+                case (3):
+                    if (vCharacterPositionEnemyOrigin.X < (-iDistanceDetection / 3))
+                        MoveLeft();
+                    break;
+            }
+        }
+
+
+        public Sprite GetSprite()
+        {
+            return sEntity;
+        }
+
+
+        protected void MoveUp()
+        {
+            vEntityPosition.Y -= 2;
+        }
+
+        protected void MoveDown()
+        {
+            vEntityPosition.Y += 2;
+        }
+
+        protected void MoveLeft()
+        {
+            vEntityPosition.X -= 2;
+        }
+
+        protected void MoveRight()
+        {
+            vEntityPosition.X += 2;
+        }
     }
 }

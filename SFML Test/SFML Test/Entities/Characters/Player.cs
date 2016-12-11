@@ -15,14 +15,13 @@ namespace Game
         // GENERAL PLAYER VARIABLES
         protected static uint iLevel = 3;
         protected CircleShape sCharacter;
+        protected static int iHealth;
 
         // VARIABLES USED FOR COLLISIONDETECTION
 
         Vector2f CharacterPosition;
         
         protected int x, y;
-
-        protected Vector2f vChracterPositionSpace;
 
         protected bool PlayerTileCollision;
 
@@ -48,9 +47,11 @@ namespace Game
             // SETTING CONSTANTS
             sCharacter.Origin = new Vector2f(25, 25);
             CharacterPosition = VirtualCharacterPosition;
-            sCharacter.FillColor = Color.White;
+            sCharacter.FillColor = new Color(255,255,255);
             sCharacter.OutlineThickness = 1;
             sCharacter.OutlineColor = Color.Black;
+            iHealth = 100;
+
         }
 
         public void Update(ref Vector2f VirtualCharacterPosition, RenderWindow window, Vector2f TileMapPosition, ref bool up, ref bool down, ref bool right, ref bool left)
@@ -65,7 +66,10 @@ namespace Game
             for (x = 0; x < lProjectile.Count; x++)
                 lProjectile[x].Update(sEntity);
 
-            DisposeProjectile(lProjectile);
+            DisposeProjectile(lProjectile, 20);
+
+            if (iHealth >= 0)
+                sCharacter.FillColor = new Color(255, (byte)(255 - (255 - iHealth * 2.55f)), (byte)(255 - (255 - iHealth * 2.55f)));
         }
 
 
@@ -240,6 +244,16 @@ namespace Game
             pProjectile = new PlayerProjectile(fAngle, (Vector2f)vMousePositionFromPlayer, 1);
 
             lProjectile.Add(pProjectile);
+        }
+
+        public static void ReduceHealth(uint Damage)
+        {
+            iHealth -= (int)Damage;
+        }
+
+        public static int GetHealth()
+        {
+            return iHealth;
         }
     }
 }

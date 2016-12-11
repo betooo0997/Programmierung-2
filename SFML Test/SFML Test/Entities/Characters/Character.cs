@@ -12,7 +12,6 @@ namespace Game
 {
     abstract class Character : Entity
     {
-        protected int iHealth;
         public static float iSpeed = 1.5f;
         protected List<Drawable> drawList;
 
@@ -28,11 +27,11 @@ namespace Game
         /// <summary>
         /// Disposes a Projectile from the Projectile List if its Destruct bool is true
         /// </summary>
-        protected void DisposeProjectile(List<PlayerProjectile> lProjectile)
+        protected void DisposeProjectile(List<PlayerProjectile> lProjectile, uint Damage)
         {
             for (int x = 0; x < lProjectile.Count; x++)
             {
-                if (lProjectile[x].Destruct())
+                if (lProjectile[x].Destruct() || EnemyProjectileCollision(lProjectile[x], Damage))
                 {
                     lProjectile[x].DisposeTexture();
                     for (int y = x; y + 1 < lProjectile.Count; y++)
@@ -46,11 +45,11 @@ namespace Game
             }
         }
 
-        protected void DisposeProjectile(List<EnemyProjectile> lProjectile)
+        protected void DisposeProjectile(List<EnemyProjectile> lProjectile, uint Damage)
         {
             for (int x = 0; x < lProjectile.Count; x++)
             {
-                if (lProjectile[x].Destruct() || PlayerProjectileCollision(lProjectile[x]))
+                if (lProjectile[x].Destruct() || PlayerProjectileCollision(lProjectile[x], Damage))
                 {
                     lProjectile[x].DisposeTexture();
                     for (int y = x; y + 1 < lProjectile.Count; y++)
@@ -81,14 +80,34 @@ namespace Game
             }
         }
 
-        protected bool PlayerProjectileCollision(EnemyProjectile iProjectile)
+        protected bool PlayerProjectileCollision(EnemyProjectile iProjectile, uint Damage)
         {
-            Vector2f vPlayerPosition = MainMap.GetStartCharacterPosition();
             Vector2f b = MainMap.GetStartCharacterPosition() + new Vector2f(25, 25);
 
             if (Utilities.DistanceBetweenVectors(iProjectile.vEntityPosition, b) <= 50)
+            {
+                Player.ReduceHealth(Damage);
                 return true;
+            }
 
+            return false;
+        }
+
+        protected bool EnemyProjectileCollision(PlayerProjectile iProjectile, uint Damage)
+        {
+            List<Enemy> lEnemy;
+            lEnemy = MainMap.GetEnemies();
+
+            for (int x = 0; x < lEnemy.Count; x++)
+            {
+                Vector2f b = lEnemy[x].sEntity.Position - new Vector2f(25, 25);
+
+                if (Utilities.DistanceBetweenVectors(iProjectile.vEntityPosition, b) <= 50)
+                {
+                    lEnemy[x].ReduceHealth(Damage);
+                    return true;
+                }
+            }
             return false;
         }
     }

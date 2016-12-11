@@ -63,6 +63,9 @@ namespace Game
         /// </summary>
         protected float fNumberToCorrect = 57.29f;
 
+        protected int iHealth = 100;
+
+
 
 
         // DECLARING VARIABLES: BOOLS
@@ -347,6 +350,12 @@ namespace Game
             }
         }
 
+
+
+        public void ReduceHealth(uint Damage)
+        {
+            iHealth -= (int)Damage;
+        }
 
 
 

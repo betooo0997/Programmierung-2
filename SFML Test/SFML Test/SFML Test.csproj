@@ -70,6 +70,7 @@
     <Compile Include="Input.cs" />
     <Compile Include="Statemachines\Abstract Classes\LevelState.cs" />
     <Compile Include="Levels\MainMap.cs" />
+    <Compile Include="Statemachines\GameStates\StateGameOver.cs" />
     <Compile Include="Useful Classes\CustomLists.cs" />
     <Compile Include="Entities\Projectiles\Player-Projectile.cs" />
     <Compile Include="Entities\Characters\Player.cs" />
@@ -78,7 +79,7 @@
     <Compile Include="Statemachines\Statemachine.cs" />
     <Compile Include="Basic Run\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Statemachines\GameState.cs" />
+    <Compile Include="Statemachines\GameStates\StateGame.cs" />
     <Compile Include="Statemachines\Abstract Classes\State.cs" />
     <Compile Include="TileArrayCreation.cs" />
     <Compile Include="Managers\TileManager.cs" />

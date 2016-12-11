@@ -12,7 +12,7 @@ namespace Game
 {
     class StateGame : State
     {
-        GameState targetState;
+        protected static GameState targetState;
         eSceneState currentScene, previousScene, targetScene;
 
 

@@ -12,8 +12,8 @@ namespace Game
 {
     class Statemachine : GameLoop
     {
-        private GameState currentState, targetState, previousState;
-        private StateGame gameState;
+        private static GameState currentState, targetState, previousState;
+        protected StateGame gameState;
 
 
         CustomList drawList;
@@ -37,6 +37,12 @@ namespace Game
             switch (currentState)
             {
                 case GameState.gsGame:
+                    InitializeState(gameState);
+                    targetState = gameState.Update(Window);
+                    DisposeState(gameState);
+                    break;
+
+                case GameState.gsGameOver:
                     InitializeState(gameState);
                     targetState = gameState.Update(Window);
                     DisposeState(gameState);
@@ -80,6 +86,11 @@ namespace Game
                 previousState = currentState;
                 currentState = targetState;
             }
+        }
+
+        public static void SetState(GameState gameState)
+        {
+            targetState = gameState;
         }
     }
 }

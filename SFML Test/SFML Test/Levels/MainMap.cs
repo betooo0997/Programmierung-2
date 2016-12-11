@@ -38,6 +38,9 @@ namespace Game
         // INPUT INSTANCE
         protected Input iInput;
 
+
+        protected static List<Enemy> lEnemies;
+
         public MainMap()
         {
         }
@@ -110,6 +113,13 @@ namespace Game
             cArcher.Update(ref vCharacterVirtualPosition, vTileMapPosition, ref up, ref down, ref right, ref left);
             cPlayer.Update(ref vCharacterVirtualPosition, window, vTileMapPosition, ref up, ref down, ref right, ref left);
 
+            lEnemies = new List<Enemy>();
+            lEnemies.Add(cArcher);
+
+
+            if (Player.GetHealth() <= 0)
+                Statemachine.SetState(GameState.gsGameOver);
+
             textQuest = new Text(questTracker.Update(0), font, 20);
 
 
@@ -132,9 +142,7 @@ namespace Game
             //drawList.AddElement(Quest);
             drawList.AddElement(textQuest);
             drawList.AddList(cPlayer.Draw());
-
             drawList.AddList(cArcher.Draw());
-
 
             TileUndHerrsche.Draw(window, vTileMapPosition);
 
@@ -162,6 +170,11 @@ namespace Game
         public static Vector2f GetStartCharacterPosition()
         {
             return vCharacterStartPosition;
+        }
+
+        public static List<Enemy> GetEnemies()
+        {
+            return lEnemies;
         }
     }
 }

@@ -122,7 +122,8 @@ namespace Game
                 tFpsReview = cFpsReview.ElapsedTime;
                 if (tFpsReview.AsMilliseconds() >= 1000)
                 {
-                    //Console.WriteLine(iframesreview + " Frames per Second");
+                    Console.Clear();
+                    Console.WriteLine(iframesreview + " Frames per Second");
                     iframesreview = 0;
                     cFpsReview.Restart();
                 }
