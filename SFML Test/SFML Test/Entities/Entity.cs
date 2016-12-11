@@ -91,5 +91,49 @@ namespace Game
             }
             return 0;
         }
+
+        protected bool SimpleCollisionDetection(Vector2f vEntityPosition, uint uLength, uint uHeight)
+        {
+            Vector2f vEntityPos = vEntityPosition - MainMap.GetTileMapPosition();
+
+            int iTileNearY = (int)vEntityPos.Y / 50;
+            int iTileNearX = (int)vEntityPos.X / 50;
+
+            if (iTileNearY < 0)
+                iTileNearY++;
+
+            if (iTileNearX < 0)
+                iTileNearX++;
+
+            for (int y = iTileNearY; y < iTileNearY + 2; y++)
+            {
+
+                for (int x = iTileNearX; x < iTileNearX + 2; x++)
+                {
+
+                    // COLLISIONDETECTION ON ENTITY BORDER
+
+                    if (tTileMap.CollisionReturner(x, y))
+                    {
+                        if (vEntityPos.Y < (y + 1) * 50                         &&      vEntityPos.Y > y * 50                       &&
+                           vEntityPos.X < (x + 1) * 50                          &&      vEntityPos.X > x * 50                       ||
+
+                           vEntityPos.Y + uHeight < (y + 1) * 50                &&      vEntityPos.Y + uHeight > y * 50             &&
+                           vEntityPos.X < (x + 1) * 50                          &&      vEntityPos.X > x * 50                       ||
+
+                           vEntityPos.Y < (y + 1) * 50                          &&      vEntityPos.Y > y * 50                       &&
+                           vEntityPos.X + uLength < (x + 1) * 50                &&      vEntityPos.X + uLength > x * 50             ||
+
+                           vEntityPos.Y + uHeight < (y + 1) * 50                &&      vEntityPos.Y + uHeight > y * 50             &&
+                           vEntityPos.X + uLength < (x + 1) * 50                &&      vEntityPos.X + uLength > x * 50)
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+            return false;
+        }
+
     }
 }

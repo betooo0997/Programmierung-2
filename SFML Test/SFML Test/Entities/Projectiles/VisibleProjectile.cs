@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SFML.Graphics;
+using SFML.Window;
+using SFML.System;
+using SFML.Audio;
 
 namespace Game
 {
@@ -10,8 +14,7 @@ namespace Game
     {
         public bool Destruct()
         {
-            if (vEntityPosition.X > 1920 || vEntityPosition.X < -tEntity.Size.X || vEntityPosition.Y > 1080 || vEntityPosition.Y < -tEntity.Size.Y
-                || CollisionDetection(vEntityPosition, tEntity.Size.X, tEntity.Size.Y) != 0)
+            if (vEntityPosition.X > 1920 || vEntityPosition.Y > 1080 || SimpleCollisionDetection(sEntity.Position - new Vector2f(25,25), tEntity.Size.X, tEntity.Size.Y))
             {
                 return true;
             }

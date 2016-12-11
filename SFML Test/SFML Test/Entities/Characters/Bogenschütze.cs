@@ -53,7 +53,7 @@ namespace Game
                 RotateEnemy(ref fAngle);
                 sEntity.Rotation = fAngle;
 
-                if (tShooting.AsMilliseconds() >= 500)
+                if (tShooting.AsMilliseconds() >= 750)
                 {
                     Shoot(MainMap.GetTileMapPosition());
                     cShooting.Restart();
@@ -89,9 +89,14 @@ namespace Game
 
         protected void Shoot(Vector2f TileMapPosition)
         {
-            pProjectile = new EnemyProjectile(fAngle, sEntity.Position, vEnemyDirection, 1);
+            Vector2f vEnemyShootingDirection = sEntity.Position + new Vector2f(0, 25);
+            vEnemyShootingDirection = Utilities.VectorRotation(fAnglecopy / fNumberToCorrect, vEnemyShootingDirection, sEntity.Position);
+
+            pProjectile = new EnemyProjectile(fAngle, sEntity.Position, vEnemyShootingDirection, 1);
 
             lProjectile.Add(pProjectile);
         }
+
+
     }
 }

@@ -174,6 +174,7 @@ namespace Game
                 if (PlayerProjectileCollision(lProjectile[x]))
                 {
                     lProjectile[x].DisposeTexture();
+
                     for (int y = x; y + 1 < lProjectile.Count; y++)
                         lProjectile[y] = lProjectile[y + 1];
 
@@ -198,12 +199,10 @@ namespace Game
             Vector2f b = MainMap.GetStartCharacterPosition() + new Vector2f(25, 25) - sEntity.Position;
 
             if (vPlayerPosition.Y < iProjectile.vEntityPosition.Y && vPlayerPosition.Y + 50 > iProjectile.vEntityPosition.Y &&
-                vPlayerPosition.X < iProjectile.vEntityPosition.X && vPlayerPosition.X + 50 > iProjectile.vEntityPosition.X ||
+                vPlayerPosition.X < iProjectile.vEntityPosition.X && vPlayerPosition.X + 50 > iProjectile.vEntityPosition.X  ||
                 (iProjectile.vEntityPosition.X - sEntity.Position.X) / iProjectile.GetDirection().X > b.X / iProjectile.GetDirection().X &&
                 (iProjectile.vEntityPosition.Y - sEntity.Position.Y) / iProjectile.GetDirection().Y > b.Y / iProjectile.GetDirection().Y)
                 return true;
-
-
 
             return false;
         }
@@ -214,23 +213,23 @@ namespace Game
         /// </summary>
         protected void ShootInvisible(Vector2f TileMapPosition, float fAngle)
         {
-            Vector2f vEnemyDirectionLeft = sEntity.Position + new Vector2f(-20, 0);
-            vEnemyDirectionLeft = Utilities.VectorRotation(fAnglecopy / fNumberToCorrect, vEnemyDirectionLeft, sEntity.Position);
+            Vector2f vEnemyShootingLeft = sEntity.Position + new Vector2f(-20, 0);
+            vEnemyShootingLeft = Utilities.VectorRotation(fAnglecopy / fNumberToCorrect, vEnemyShootingLeft, sEntity.Position);
 
-            Vector2f vEnemyDirectionMiddle = sEntity.Position + new Vector2f(0, 25);
-            vEnemyDirectionMiddle = Utilities.VectorRotation(fAnglecopy / fNumberToCorrect, vEnemyDirectionMiddle, sEntity.Position);
+            Vector2f vEnemyShootingMiddle = sEntity.Position + new Vector2f(0, 25);
+            vEnemyShootingMiddle = Utilities.VectorRotation(fAnglecopy / fNumberToCorrect, vEnemyShootingMiddle, sEntity.Position);
 
-            Vector2f vEnemyDirectionRight = sEntity.Position + new Vector2f(20, 0);
-            vEnemyDirectionRight = Utilities.VectorRotation(fAnglecopy / fNumberToCorrect, vEnemyDirectionRight, sEntity.Position);
+            Vector2f vEnemyShootingRight = sEntity.Position + new Vector2f(20, 0);
+            vEnemyShootingRight = Utilities.VectorRotation(fAnglecopy / fNumberToCorrect, vEnemyShootingRight, sEntity.Position);
 
 
-            iProjectile = new InvisibleProjectile(fAnglecopy, vEnemyDirectionLeft, vEnemyDirectionMiddle + (vEnemyDirectionLeft - sEntity.Position), 4);
+            iProjectile = new InvisibleProjectile(fAnglecopy, vEnemyShootingLeft, vEnemyShootingMiddle + (vEnemyShootingLeft - sEntity.Position), 2.5f);
             lInvisibleProjectile.Add(iProjectile);
 
-            iProjectile = new InvisibleProjectile(fAnglecopy, sEntity.Position, vEnemyDirectionMiddle, 4);
+            iProjectile = new InvisibleProjectile(fAnglecopy, sEntity.Position, vEnemyShootingMiddle, 2.5f);
             lInvisibleProjectile.Add(iProjectile);
 
-            iProjectile = new InvisibleProjectile(fAnglecopy, vEnemyDirectionRight, vEnemyDirectionMiddle + (vEnemyDirectionRight - sEntity.Position), 4);
+            iProjectile = new InvisibleProjectile(fAnglecopy, vEnemyShootingRight, vEnemyShootingMiddle + (vEnemyShootingRight - sEntity.Position), 2.5f);
             lInvisibleProjectile.Add(iProjectile);
         }
 

@@ -50,7 +50,7 @@ namespace Game
         {
             for (int x = 0; x < lProjectile.Count; x++)
             {
-                if (lProjectile[x].Destruct())
+                if (lProjectile[x].Destruct() || PlayerProjectileCollision(lProjectile[x]))
                 {
                     lProjectile[x].DisposeTexture();
                     for (int y = x; y + 1 < lProjectile.Count; y++)
@@ -79,6 +79,17 @@ namespace Game
                         lProjectile.RemoveAt(lProjectile.Count - 1);
                 }
             }
+        }
+
+        protected bool PlayerProjectileCollision(EnemyProjectile iProjectile)
+        {
+            Vector2f vPlayerPosition = MainMap.GetStartCharacterPosition();
+            Vector2f b = MainMap.GetStartCharacterPosition() + new Vector2f(25, 25);
+
+            if (Utilities.DistanceBetweenVectors(iProjectile.vEntityPosition, b) <= 50)
+                return true;
+
+            return false;
         }
     }
 }

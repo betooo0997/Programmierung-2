@@ -62,5 +62,10 @@ namespace Game
         {
             vEntityPosition -= MainMap.GetDiffTileMapPosition() - Direction / 5 * iVelocity;
         }
+
+        public Vector2f GetDirection()
+        {
+            return Direction;
+        }
     }
 }

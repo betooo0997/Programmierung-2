@@ -31,27 +31,13 @@ namespace Game
             cShape.FillColor = Color.Magenta;
             cShape.OutlineThickness = 1;
             cShape.OutlineColor = Color.Magenta;
-
-            // SETTING PLAYERMOVEMENT
-            vEntitymovement = new Vector2f(0, 0);
-
-            if (Input.bMovingLeft)
-                vEntitymovement.X += Input.fCharacterVelocity;
-
-            if (Input.bMovingRight)
-                vEntitymovement.X -= Input.fCharacterVelocity;
-
-            if (Input.bMovingUp)
-                vEntitymovement.Y += Input.fCharacterVelocity;
-
-            if (Input.bMovingDown)
-                vEntitymovement.Y -= Input.fCharacterVelocity;
         }
 
 
 
         public void Update(Sprite sEnemy)
         {
+            StartPosition -= MainMap.GetDiffTileMapPosition();
             Move(sEnemy);
             cShape.Position = vEntityPosition;
         }
@@ -64,15 +50,16 @@ namespace Game
 
         void Move(Sprite sEnemy)
         {
+
             vEntityPosition -= MainMap.GetDiffTileMapPosition() - Direction / 5 * iVelocity;
         }
 
         public bool Destruct()
         {
-            if (vEntityPosition.X > 1920 || vEntityPosition.X < 1 || vEntityPosition.Y > 1080 || vEntityPosition.Y < 1
-                || CollisionDetection(vEntityPosition, 1, 1) != 0)
+            if (SimpleCollisionDetection(cShape.Position, 1, 1) || Utilities.DistanceBetweenVectors(StartPosition, vEntityPosition) > 400)
             {
                 tEntity.Dispose();
+                cShape.Dispose();
                 return true;
             }
 
