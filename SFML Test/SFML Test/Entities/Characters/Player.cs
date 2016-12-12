@@ -20,11 +20,6 @@ namespace Game
         // VARIABLES USED FOR COLLISIONDETECTION
 
         Vector2f CharacterPosition;
-        
-        protected int x, y;
-
-        protected bool PlayerTileCollision;
-
 
 
         // VARIABLES USED FOR PLAYERROTATION
@@ -51,7 +46,6 @@ namespace Game
             sCharacter.OutlineThickness = 1;
             sCharacter.OutlineColor = Color.Black;
             iHealth = 100;
-
         }
 
         public void Update(ref Vector2f VirtualCharacterPosition, RenderWindow window, Vector2f TileMapPosition, ref bool up, ref bool down, ref bool right, ref bool left)

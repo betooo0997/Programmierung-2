@@ -13,45 +13,37 @@ namespace Game
     class StateGameOver : State
     {
         protected static GameState targetState;
-        eSceneState currentScene, previousScene, targetScene;
-
-
-        //SCENES
-
-        MainMap scene1;
 
 
         //OTHER
 
         CustomList drawList;
-
+        Text teGameOver;
+        Text teContinue;
+        Font fFont;
 
 
         public StateGameOver()
         {
+            Initialize();
         }
 
         public override void Initialize()
         {
-            targetState = GameState.gsGame;
-            currentScene = eSceneState.ssMain;
+            targetState = GameState.gsGameOver;
 
+            fFont = new Font(ContentLoader.fontArial);
 
-            //INSTANTIATING OBJECTS : SCENES
-
-            scene1 = new MainMap();
+            teGameOver = new Text("GAME OVER", fFont, 50);
+            teContinue = new Text("Press ESC to continue", fFont, 15);
+            teGameOver.Position = GameLoop.GetWindowSize() / 2 - new Vector2f(teGameOver.CharacterSize * 4.5f, teGameOver.CharacterSize / 2);
+            teContinue.Position = teGameOver.Position + new Vector2f(77,60);
         }
 
         public override GameState Update(RenderWindow window)
         {
-            switch (currentScene)
-            {
-                case eSceneState.ssMain:
-                    InitializeState(scene1);
-                    targetScene = scene1.Update(window);
-                    DisposeState(scene1);
-                    break;
-            }
+            if (Keyboard.IsKeyPressed(Keyboard.Key.Escape))
+                targetState = GameState.gsMainMenu;
 
             return targetState;
         }
@@ -60,34 +52,10 @@ namespace Game
         {
             drawList = new CustomList();
 
-            switch (currentScene)
-            {
-                case eSceneState.ssMain:
-                    InitializeState(scene1);
-                    drawList = scene1.Draw(window);
-                    DisposeState(scene1);
-                    break;
-            }
+            drawList.AddElement(teGameOver);
+            drawList.AddElement(teContinue);
 
             return drawList;
-        }
-
-        private void InitializeState(LevelState state)
-        {
-            if (previousScene != currentScene)
-            {
-                state.Initialize();
-                previousScene = currentScene;
-            }
-        }
-
-        private void DisposeState(LevelState state)
-        {
-            if (targetScene != currentScene)
-            {
-                previousScene = currentScene;
-                currentScene = targetScene;
-            }
         }
     }
 }

@@ -20,7 +20,9 @@ namespace Game
         /// </summary>
         protected Vector2f vChracterPositionSpace;
 
+        protected int x, y;
 
+        protected bool PlayerTileCollision;
 
         protected float fAngle;
 
@@ -63,11 +65,11 @@ namespace Game
             }
         }
 
-        protected void DisposeProjectile(List<InvisibleProjectile> lProjectile)
+        protected void DisposeProjectile(List<InvisibleProjectile> lProjectile, int iDistanceDetection)
         {
             for (int x = 0; x < lProjectile.Count; x++)
             {
-                if (lProjectile[x].Destruct())
+                if (lProjectile[x].Destruct(iDistanceDetection))
                 {
                     for (int y = x; y + 1 < lProjectile.Count; y++)
                         lProjectile[y] = lProjectile[y + 1];

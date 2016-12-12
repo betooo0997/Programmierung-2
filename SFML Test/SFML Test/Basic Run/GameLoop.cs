@@ -145,5 +145,10 @@ namespace Game
         {
             Window.Close();
         }
+
+        public static Vector2f GetWindowSize()
+        {
+            return new Vector2f(windowWidth, windowHeight);
+        }
     }
 }

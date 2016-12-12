@@ -52,7 +52,10 @@ namespace Game
                     DisposeState(scene1);
                     break;
             }
-                
+
+            if (Player.GetHealth() <= 0)
+                targetState = GameState.gsGameOver;
+
             return targetState;
         }
 
@@ -63,9 +66,7 @@ namespace Game
             switch (currentScene)
             {
                 case eSceneState.ssMain:
-                    InitializeState(scene1);
                     drawList = scene1.Draw(window);
-                    DisposeState(scene1);
                     break;
             }
 

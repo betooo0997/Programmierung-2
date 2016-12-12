@@ -116,13 +116,9 @@ namespace Game
             lEnemies = new List<Enemy>();
             lEnemies.Add(cArcher);
 
-
-            if (Player.GetHealth() <= 0)
-                Statemachine.SetState(GameState.gsGameOver);
+            Console.Write(Player.GetHealth());
 
             textQuest = new Text(questTracker.Update(0), font, 20);
-
-
 
             iInput.Update(ref vCharacterVirtualPosition, ref Character.iSpeed, up, right, down, left, window);
 
@@ -165,7 +161,6 @@ namespace Game
         {
             return vCharacterVirtualPosition;
         }
-
 
         public static Vector2f GetStartCharacterPosition()
         {

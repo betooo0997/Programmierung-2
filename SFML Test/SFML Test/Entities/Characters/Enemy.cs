@@ -65,6 +65,8 @@ namespace Game
 
         protected int iHealth = 100;
 
+        protected float fSpeed;
+
 
 
 
@@ -163,12 +165,10 @@ namespace Game
         }
 
 
-
         /// <summary>
         /// Disposes the Invisible Projectiles when Projectile-Player Collision occures
         /// </summary>
-        /// <param name="lProjectile"></param>
-        /// <param name="vPlayerPosition"></param>
+        /// <param name="lProjectile">List of all Invisible Projectiles that the Enemy has fired</param>
         /// <returns></returns>
         protected bool DisposeInvisibleProjectile(List<InvisibleProjectile> lProjectile)
         {
@@ -194,17 +194,19 @@ namespace Game
 
 
         /// <summary>
-        /// Detects Collision between Player and Invisible Projectile, returns true if Collision occures
+         /// Detects Collision between Player and Invisible Projectile, returns true if Collision occures
         /// </summary>
+        /// <param name="iProjectile">Projectile that Collision is checked with</param>
+        /// <returns></returns>
         protected bool PlayerProjectileCollision(InvisibleProjectile iProjectile)
         {
             Vector2f vPlayerPosition = MainMap.GetStartCharacterPosition();
             Vector2f b = MainMap.GetStartCharacterPosition() + new Vector2f(25, 25) - sEntity.Position;
 
             if (vPlayerPosition.Y < iProjectile.vEntityPosition.Y && vPlayerPosition.Y + 50 > iProjectile.vEntityPosition.Y &&
-                vPlayerPosition.X < iProjectile.vEntityPosition.X && vPlayerPosition.X + 50 > iProjectile.vEntityPosition.X  ||
+                vPlayerPosition.X < iProjectile.vEntityPosition.X && vPlayerPosition.X + 50 > iProjectile.vEntityPosition.X  /*||
                 (iProjectile.vEntityPosition.X - sEntity.Position.X) / iProjectile.GetDirection().X > b.X / iProjectile.GetDirection().X &&
-                (iProjectile.vEntityPosition.Y - sEntity.Position.Y) / iProjectile.GetDirection().Y > b.Y / iProjectile.GetDirection().Y)
+                (iProjectile.vEntityPosition.Y - sEntity.Position.Y) / iProjectile.GetDirection().Y > b.Y / iProjectile.GetDirection().Y*/)
                 return true;
 
             return false;
@@ -214,6 +216,8 @@ namespace Game
         /// <summary>
         /// Shoots fast invisible Projectiles to check Visibility
         /// </summary>
+        /// <param name="TileMapPosition">Position of the TileMap</param>
+        /// <param name="fAngle">Angle where to shoot the Invisible Projectile to</param>
         protected void ShootInvisible(Vector2f TileMapPosition, float fAngle)
         {
             Vector2f vEnemyShootingLeft = sEntity.Position + new Vector2f(-20, 0);
@@ -226,15 +230,16 @@ namespace Game
             vEnemyShootingRight = Utilities.VectorRotation(fAnglecopy / fNumberToCorrect, vEnemyShootingRight, sEntity.Position);
 
 
-            iProjectile = new InvisibleProjectile(fAnglecopy, vEnemyShootingLeft, vEnemyShootingMiddle + (vEnemyShootingLeft - sEntity.Position), 2.5f);
+            iProjectile = new InvisibleProjectile(fAnglecopy, vEnemyShootingLeft, vEnemyShootingMiddle + (vEnemyShootingLeft - sEntity.Position), 3.5f);
             lInvisibleProjectile.Add(iProjectile);
 
-            iProjectile = new InvisibleProjectile(fAnglecopy, sEntity.Position, vEnemyShootingMiddle, 2.5f);
+            iProjectile = new InvisibleProjectile(fAnglecopy, sEntity.Position, vEnemyShootingMiddle, 3.5f);
             lInvisibleProjectile.Add(iProjectile);
 
-            iProjectile = new InvisibleProjectile(fAnglecopy, vEnemyShootingRight, vEnemyShootingMiddle + (vEnemyShootingRight - sEntity.Position), 2.5f);
+            iProjectile = new InvisibleProjectile(fAnglecopy, vEnemyShootingRight, vEnemyShootingMiddle + (vEnemyShootingRight - sEntity.Position), 3.5f);
             lInvisibleProjectile.Add(iProjectile);
         }
+
 
 
 
@@ -244,25 +249,31 @@ namespace Game
         /// <summary>
         /// Detects Collision between Player and Enemy and returns Collision direction
         /// </summary>
-        protected void PlayerEnemyCollision(ref Vector2f vPlayerPosition, Vector2f vEntityPosition, ref bool up, ref bool down, ref bool right, ref bool left)
+        /// <param name="vVirtualPlayerPosition">Virtual PlayerPosition, aka Position if Player would be moving, no the Map</param>
+        /// <param name="vEntityPosition">Position of the Enemy if Player would be moving, not the Map</param>
+        /// <param name="up">Bool that prohibites Up-Movement if of the Player true</param>
+        /// <param name="down">Bool that prohibites Down-Movement of the Player if true</param>
+        /// <param name="right">Bool that prohibites Right-Movement of the Player if true</param>
+        /// <param name="left">Bool that prohibites Left-Movement of the Player if true</param>
+        protected void PlayerEnemyCollision(ref Vector2f vVirtualPlayerPosition, Vector2f vEntityPosition, ref bool up, ref bool down, ref bool right, ref bool left)
         {
             bEnemyPlayerCollision = false;
 
 
             //if (Utilities.DistanceBetweenVectors(vPlayerPosition))
 
-            if (((vPlayerPosition.Y < vEntityPosition.Y + 50 && vPlayerPosition.Y > vEntityPosition.Y - 1) ||
-                    (vPlayerPosition.Y < vEntityPosition.Y && vPlayerPosition.Y > vEntityPosition.Y - 50)))
+            if (((vVirtualPlayerPosition.Y < vEntityPosition.Y + 50 && vVirtualPlayerPosition.Y > vEntityPosition.Y - 1) ||
+                    (vVirtualPlayerPosition.Y < vEntityPosition.Y && vVirtualPlayerPosition.Y > vEntityPosition.Y - 50)))
             {
 
-                if (vPlayerPosition.X <= vEntityPosition.X + 50 && vPlayerPosition.X >= vEntityPosition.X)
+                if (vVirtualPlayerPosition.X <= vEntityPosition.X + 50 && vVirtualPlayerPosition.X >= vEntityPosition.X)
                 {
                     left = true;
                     vChracterPositionSpace.X = vEntityPosition.X + 50;
                     bEnemyPlayerCollision = true;
                 }
 
-                else if (vPlayerPosition.X + 50 >= vEntityPosition.X && vPlayerPosition.X + 50 <= vEntityPosition.X + 50)
+                else if (vVirtualPlayerPosition.X + 50 >= vEntityPosition.X && vVirtualPlayerPosition.X + 50 <= vEntityPosition.X + 50)
                 {
                     right = true;
                     vChracterPositionSpace.X = vEntityPosition.X - 50;
@@ -271,11 +282,11 @@ namespace Game
             }
 
 
-            if (((vPlayerPosition.X < vEntityPosition.X + 50 && vPlayerPosition.X > vEntityPosition.X - 1) ||
-                    (vPlayerPosition.X + 50 > vEntityPosition.X && vPlayerPosition.X + 50 < vEntityPosition.X + 50)))
+            if (((vVirtualPlayerPosition.X < vEntityPosition.X + 50 && vVirtualPlayerPosition.X > vEntityPosition.X - 1) ||
+                    (vVirtualPlayerPosition.X + 50 > vEntityPosition.X && vVirtualPlayerPosition.X + 50 < vEntityPosition.X + 50)))
             {
 
-                if (vPlayerPosition.Y <= vEntityPosition.Y + 50 && vPlayerPosition.Y >= vEntityPosition.Y)
+                if (vVirtualPlayerPosition.Y <= vEntityPosition.Y + 50 && vVirtualPlayerPosition.Y >= vEntityPosition.Y)
                 {
                     up = true;
                     vChracterPositionSpace.Y = vEntityPosition.Y + 50;
@@ -283,7 +294,7 @@ namespace Game
                 }
 
 
-                else if (vPlayerPosition.Y + 50 >= vEntityPosition.Y && vPlayerPosition.Y + 50 <= vEntityPosition.Y + 50)
+                else if (vVirtualPlayerPosition.Y + 50 >= vEntityPosition.Y && vVirtualPlayerPosition.Y + 50 <= vEntityPosition.Y + 50)
                 {
                     down = true;
                     vChracterPositionSpace.Y = vEntityPosition.Y - 50;
@@ -298,64 +309,195 @@ namespace Game
             {
                 if (up && right)
                 {
-                    if (vPlayerPosition.X - vChracterPositionSpace.X < vChracterPositionSpace.Y - vPlayerPosition.Y)
-                    {
-                        vPlayerPosition.X = vChracterPositionSpace.X;
-                    }
+                    if (vVirtualPlayerPosition.X - vChracterPositionSpace.X < vChracterPositionSpace.Y - vVirtualPlayerPosition.Y)
+                        vVirtualPlayerPosition.X = vChracterPositionSpace.X;
 
                     else
-                    {
-                        vPlayerPosition.Y = vChracterPositionSpace.Y;
-                    }
+                        vVirtualPlayerPosition.Y = vChracterPositionSpace.Y;
                 }
 
 
                 if (up && left)
                 {
-                    if (vChracterPositionSpace.X - vPlayerPosition.X < vChracterPositionSpace.Y - vPlayerPosition.Y)
-                    {
-                        vPlayerPosition.X = vChracterPositionSpace.X;
-                    }
+                    if (vChracterPositionSpace.X - vVirtualPlayerPosition.X < vChracterPositionSpace.Y - vVirtualPlayerPosition.Y)
+                        vVirtualPlayerPosition.X = vChracterPositionSpace.X;
                     else
-                    {
-                        vPlayerPosition.Y = vChracterPositionSpace.Y;
-                    }
+                        vVirtualPlayerPosition.Y = vChracterPositionSpace.Y;
                 }
 
 
                 if (down && left)
                 {
-                    if (vChracterPositionSpace.X - vPlayerPosition.X < vPlayerPosition.Y - vChracterPositionSpace.Y)
-                    {
-                        vPlayerPosition.X = vChracterPositionSpace.X;
-                    }
+                    if (vChracterPositionSpace.X - vVirtualPlayerPosition.X < vVirtualPlayerPosition.Y - vChracterPositionSpace.Y)
+                        vVirtualPlayerPosition.X = vChracterPositionSpace.X;
                     else
-                    {
-                        vPlayerPosition.Y = vChracterPositionSpace.Y;
-                    }
+                        vVirtualPlayerPosition.Y = vChracterPositionSpace.Y;
                 }
 
 
                 if (down && right)
                     {
-                        if (vPlayerPosition.X - vChracterPositionSpace.X < vPlayerPosition.Y - vChracterPositionSpace.Y)
-                        {
-                            vPlayerPosition.X = vChracterPositionSpace.X;
-                        }
+                        if (vVirtualPlayerPosition.X - vChracterPositionSpace.X < vVirtualPlayerPosition.Y - vChracterPositionSpace.Y)
+                            vVirtualPlayerPosition.X = vChracterPositionSpace.X;
                     else
+                        vVirtualPlayerPosition.Y = vChracterPositionSpace.Y;
+                }
+            }
+        }
+
+
+        /// <summary>
+        /// Reduces Health of the Enemy
+        /// </summary>
+        /// <param name="Damage">Damage that the Enemy takes</param>
+        public void ReduceHealth(uint Damage)
+        {
+            iHealth -= (int)Damage;
+        }
+
+
+
+
+
+        // DECLARING METHODS: OTHER
+
+        /// <summary>
+        /// Updates possible directions of movement based on Collisiondetection
+        /// </summary>
+        protected void CollisionDetection(ref Vector2f vEntityPosition, ref bool up, ref bool down, ref bool right, ref bool left)
+        {
+            vEntityPositionBottomLeft.Y = vEntityPosition.Y + tEntity.Size.Y;
+            vEntityPositionTopRight.X = vEntityPosition.X + tEntity.Size.X;
+
+            PlayerTileCollision = false;
+
+            int iTileNearY = (int)vEntityPosition.Y / 50 - 1;
+            int iTileNearX = (int)vEntityPosition.X / 50 - 1;
+
+            if (iTileNearY < 0)
+                iTileNearY++;
+
+            if (iTileNearX < 0)
+                iTileNearX++;
+
+            for (y = iTileNearY; y < iTileNearY + 3; y++)
+            {
+
+                for (x = iTileNearX; x < iTileNearX + 3; x++)
+                {
+
+                    //COLLISIONDETECTION ON CHARACTERSPRITE BORDER
+
+                    if (tTileMap.CollisionReturner(x, y))
                     {
-                        vPlayerPosition.Y = vChracterPositionSpace.Y;
+
+                        if (((vEntityPosition.Y < (y + 1) * 50 && vEntityPosition.Y > y * 50 - 1) ||
+                           (vEntityPosition.Y < y * 50 && vEntityPosition.Y > (y - 1) * 50)))
+                        {
+
+                            if (vEntityPosition.X <= (x + 1) * 50 && vEntityPosition.X >= x * 50)
+                            {
+                                left = true;
+                                vChracterPositionSpace.X = (x + 1) * 50;
+                                PlayerTileCollision = true;
+                            }
+
+                            else if (vEntityPositionTopRight.X >= x * 50 && vEntityPositionTopRight.X <= (x + 1) * 50)
+                            {
+                                right = true;
+                                vChracterPositionSpace.X = (x - 1) * 50;
+                                PlayerTileCollision = true;
+                            }
+                        }
+
+
+                        if (((vEntityPosition.X < (x + 1) * 50 && vEntityPosition.X > x * 50 - 1) ||
+                            (vEntityPositionTopRight.X > x * 50 && vEntityPositionTopRight.X < (x + 1) * 50)))
+                        {
+
+                            if (vEntityPosition.Y <= (y + 1) * 50 && vEntityPosition.Y >= y * 50)
+                            {
+                                up = true;
+                                vChracterPositionSpace.Y = (y + 1) * 50;
+                                PlayerTileCollision = true;
+                            }
+
+
+                            else if (vEntityPositionBottomLeft.Y >= y * 50 && vEntityPositionBottomLeft.Y <= (y + 1) * 50)
+                            {
+                                down = true;
+                                vChracterPositionSpace.Y = (y - 1) * 50;
+                                PlayerTileCollision = true;
+                            }
+                        }
+                    }
+
+
+                    //REPLACEMENT OF PLAYERLOCATION IN CASE OF CROSSING BORDER OF OBJECT
+
+                    if (PlayerTileCollision)
+                    {
+                        if (up && right)
+                        {
+                            if (vEntityPosition.X - vChracterPositionSpace.X < vChracterPositionSpace.Y - vEntityPosition.Y)
+                            {
+                                vEntityPosition.X = vChracterPositionSpace.X;
+                            }
+
+                            else
+                            {
+                                vEntityPosition.Y = vChracterPositionSpace.Y;
+                            }
+                            break;
+                        }
+
+
+                        if (up && left)
+                        {
+                            if (vChracterPositionSpace.X - vEntityPosition.X < vChracterPositionSpace.Y - vEntityPosition.Y)
+                            {
+                                vEntityPosition.X = vChracterPositionSpace.X;
+                            }
+                            else
+                            {
+                                vEntityPosition.Y = vChracterPositionSpace.Y;
+                            }
+                            break;
+                        }
+
+
+                        if (down && left)
+                        {
+                            if (vChracterPositionSpace.X - vEntityPosition.X < vEntityPosition.Y - vChracterPositionSpace.Y)
+                            {
+                                vEntityPosition.X = vChracterPositionSpace.X;
+                            }
+                            else
+                            {
+                                vEntityPosition.Y = vChracterPositionSpace.Y;
+                            }
+                            break;
+                        }
+
+
+                        if (down && right)
+                        {
+                            if (vEntityPosition.X - vChracterPositionSpace.X < vEntityPosition.Y - vChracterPositionSpace.Y)
+                            {
+                                vEntityPosition.X = vChracterPositionSpace.X;
+                            }
+                            else
+                            {
+                                vEntityPosition.Y = vChracterPositionSpace.Y;
+                            }
+                            break;
+                        }
                     }
                 }
             }
         }
 
 
-
-        public void ReduceHealth(uint Damage)
-        {
-            iHealth -= (int)Damage;
-        }
 
 
 

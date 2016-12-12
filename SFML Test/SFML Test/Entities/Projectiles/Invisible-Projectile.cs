@@ -54,9 +54,9 @@ namespace Game
             vEntityPosition -= MainMap.GetDiffTileMapPosition() - Direction / 5 * iVelocity;
         }
 
-        public bool Destruct()
+        public bool Destruct(int iDistanceDetection)
         {
-            if (SimpleCollisionDetection(cShape.Position, 1, 1) || Utilities.DistanceBetweenVectors(StartPosition, vEntityPosition) > 400)
+            if (SimpleCollisionDetection(cShape.Position, 1, 1) || Utilities.DistanceBetweenVectors(StartPosition, vEntityPosition) > iDistanceDetection)
             {
                 tEntity.Dispose();
                 cShape.Dispose();

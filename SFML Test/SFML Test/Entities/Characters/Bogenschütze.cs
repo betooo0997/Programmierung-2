@@ -20,6 +20,11 @@ namespace Game
         Random rRandom;
         int iRandomNumber;
 
+        bool bCollisionUp;
+        bool bCollisionDown;
+        bool bCollisionRight;
+        bool bCollisionLeft;
+
 
 
         public Archer(Vector2f vEnemyPosition)
@@ -42,8 +47,9 @@ namespace Game
 
             // SETTING CONSTANTS
             fAngle = 0;
-            iDistanceDetection = 400;
+            iDistanceDetection = 600;
             Damage = 25;
+            fSpeed = 1.5f * 0.8f;
 
             rRandom = new Random();
             iRandomNumber = rRandom.Next(0, 4);
@@ -52,13 +58,13 @@ namespace Game
         /// <summary>
         /// Updates Enemy Logic
         /// </summary>
-        public void Update(ref Vector2f VirtualCharacterPosition,  Vector2f vTileMapPosition, ref bool up, ref bool down, ref bool right, ref bool left)
+        public void Update(ref Vector2f VirtualPlayerPosition,  Vector2f vTileMapPosition, ref bool up, ref bool down, ref bool right, ref bool left)
         {
             tShooting = cShooting.ElapsedTime;
 
             sEntity.Position = vTileMapPosition + vEntityPosition + new Vector2f(25, 25);
 
-            PlayerEnemyCollision(ref VirtualCharacterPosition, vEntityPosition, ref up, ref down, ref right, ref left);
+            PlayerEnemyCollision(ref VirtualPlayerPosition, vEntityPosition, ref up, ref down, ref right, ref left);
 
             if (DetectPlayer())
             {
@@ -82,7 +88,7 @@ namespace Game
                 lInvisibleProjectile[x].Update(sEntity);
 
             DisposeProjectile(lProjectile, Damage);
-            DisposeProjectile(lInvisibleProjectile);
+            DisposeProjectile(lInvisibleProjectile, iDistanceDetection);
 
             if (iHealth >= 0)
                 sEntity.Color = new Color(255, (byte)(255 - (255 - iHealth * 2.55f)), (byte)(255 - (255 - iHealth * 2.55f)));
@@ -99,7 +105,7 @@ namespace Game
 
             drawList.Add(sEntity);
 
-            ShowVectors();
+            //ShowVectors();
 
             return drawList;
         }
@@ -114,9 +120,23 @@ namespace Game
             lProjectile.Add(pProjectile);
         }
 
+        /// <summary>
+        /// Moves Enemy Randomly, but always to a Position within the DetectionRadius and respecting Collision with Tiles
+        /// </summary>
         protected void Moving()
         {
+            bCollisionUp = false;
+            bCollisionDown = false;
+            bCollisionRight = false;
+            bCollisionLeft = false;
+
+            bool bRepeat = false;
+            int iRepeating = 0;
+
             Vector2f vCharacterPositionEnemyOrigin = MainMap.GetStartCharacterPosition() + new Vector2f(25, 25) - sEntity.Position;
+
+
+            CollisionDetection(ref vEntityPosition, ref bCollisionUp, ref bCollisionDown, ref bCollisionRight, ref bCollisionLeft);
 
             tMoving = cMoving.ElapsedTime;
 
@@ -126,29 +146,47 @@ namespace Game
                 cMoving.Restart();
             }
 
+            do
+            {
+                if (bRepeat)
+                {
+                    bRepeat = false;
+                    iRandomNumber = rRandom.Next(0, 4);
+                    iRepeating++;
+                }
 
                 switch (iRandomNumber)
-            {
-                case (0):
-                    if (vCharacterPositionEnemyOrigin.Y < (iDistanceDetection / 3))
-                        MoveUp();
-                    break;
+                {
+                    case (0):
+                        if (vCharacterPositionEnemyOrigin.Y < (iDistanceDetection / 2) && !bCollisionUp )
+                            MoveUp();
+                        else
+                            bRepeat = true;
+                        break;
 
-                case (1):
-                    if (vCharacterPositionEnemyOrigin.Y > (-iDistanceDetection / 3))
-                        MoveDown();
-                    break;
+                    case (1):
+                        if (vCharacterPositionEnemyOrigin.Y > (-iDistanceDetection / 2) && !bCollisionDown)
+                            MoveDown();
+                        else
+                            bRepeat = true;
+                        break;
 
-                case (2):
-                    if (vCharacterPositionEnemyOrigin.X > (-iDistanceDetection / 3))
-                        MoveRight();
-                    break;
+                    case (2):
+                        if (vCharacterPositionEnemyOrigin.X > (-iDistanceDetection / 2) && !bCollisionRight)
+                            MoveRight();
+                        else
+                            bRepeat = true;
+                        break;
 
-                case (3):
-                    if (vCharacterPositionEnemyOrigin.X < (-iDistanceDetection / 3))
-                        MoveLeft();
-                    break;
+                    case (3):
+                        if (vCharacterPositionEnemyOrigin.X < (iDistanceDetection / 2) && !bCollisionLeft)
+                            MoveLeft();
+                        else
+                            bRepeat = true;
+                        break;
+                }
             }
+            while (bRepeat && iRepeating < 2);
         }
 
 
@@ -160,22 +198,22 @@ namespace Game
 
         protected void MoveUp()
         {
-            vEntityPosition.Y -= 2;
+            vEntityPosition.Y -= fSpeed;
         }
 
         protected void MoveDown()
         {
-            vEntityPosition.Y += 2;
+            vEntityPosition.Y += fSpeed;
         }
 
         protected void MoveLeft()
         {
-            vEntityPosition.X -= 2;
+            vEntityPosition.X -= fSpeed;
         }
 
         protected void MoveRight()
         {
-            vEntityPosition.X += 2;
+            vEntityPosition.X += fSpeed;
         }
     }
 }
