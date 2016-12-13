@@ -150,21 +150,38 @@ namespace Game
         /// Obtains the relative position of the tile map and draws all tiles within the screen using the corresponding tile array. Does not return anything. 
         /// </summary>
         /// <param name="window"></param>
-        /// <param name="TileMapPosition"></param>
-        public void Draw(RenderWindow window, Vector2f TileMapPosition)
+        /// <param name="tileMapPosition"></param>
+        public void Draw(RenderWindow window, Vector2f tileMapPosition)
         {
-            for (int xCoord = 0, yCoord = 0, xLimit = (int)((GameLoop.GetWindowSize().X / tileArrayCreation.GetTileSize()) + 1), yLimit = (int)((GameLoop.GetWindowSize().Y / tileArrayCreation.GetTileSize()) + 1); yCoord <= yLimit; xCoord++)
-            {
-
-            }
-
             /*
+            int tileMapPositionXNormalized = (int)((-tileMapPosition.X) / tileArrayCreation.GetTileSize());
+            int tileMapPositionYNormalized = (int)((-tileMapPosition.Y) / tileArrayCreation.GetTileSize());
+
+            for (int xCoord = 0, yCoord = 0, xLimit = (int)((GameLoop.GetWindowSize().X / tileArrayCreation.GetTileSize()) + 1), 
+                yLimit = (int)((GameLoop.GetWindowSize().Y / tileArrayCreation.GetTileSize()) + 1); yCoord <= yLimit; xCoord++)
+            {
+                    tileSheet.Position = new Vector2f(((int)(tileMapPositionXNormalized + xCoord * tileArrayCreation.GetTileSize() + tileMapPosition.X)), (int)((tileMapPositionYNormalized + yCoord * tileArrayCreation.GetTileSize() + tileMapPosition.Y)));
+                    tileSheet.TextureRect = TileSourceDeterminat0r(tileArrayCreation.GetTilezArray()[xCoord, yCoord]);
+
+                    window.Draw(tileSheet);
+                
+
+                xCoord++;
+                if(xCoord > xLimit)
+                {
+                    xCoord = 0;
+                    yCoord++;
+                }
+            }
+            */
+            
+
             int yCoord = 0;
             int xCoord = 0;
 
             for (int x = 0; x < (tileArrayCreation.GetNumberColumns() * tileArrayCreation.GetNumberRows()); x++)
             {
-                tileSheet.Position = new Vector2f(((int)(xCoord * tileArrayCreation.GetTileSize() + TileMapPosition.X)), (int)((yCoord * tileArrayCreation.GetTileSize() + TileMapPosition.Y)));
+                tileSheet.Position = new Vector2f(((int)(xCoord * tileArrayCreation.GetTileSize() + tileMapPosition.X)), (int)((yCoord * tileArrayCreation.GetTileSize() + tileMapPosition.Y)));
 
 
                 if (tileSheet.Position.X >= (-tileArrayCreation.GetTileSize()) && tileSheet.Position.X <= (GameLoop.GetWindowSize().X + tileArrayCreation.GetTileSize()) &&
@@ -180,7 +197,7 @@ namespace Game
                     xCoord = 0;
                     yCoord++;
                 }
-                */
+            }
         }
     }
 }
