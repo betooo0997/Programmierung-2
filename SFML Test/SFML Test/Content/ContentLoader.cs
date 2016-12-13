@@ -32,6 +32,7 @@ namespace Game
             textureTileSheet = new Texture("Content/TileSheet.png");
             textureTriangle = new Texture("Content/Triangle.png");
 
+            /*
             // SOUNDS 
             soundClick = new SoundBuffer("Content/113087__edgardedition__click2.wav");
             // Source: https://www.freesound.org/people/EdgardEdition/sounds/113087/
@@ -39,6 +40,7 @@ namespace Game
             // Source: https://www.freesound.org/people/Halgrimm/sounds/156895/
             soundProjectileHit = new SoundBuffer("Content/151713__bowlingballout__pvc-rocket-cannon.wav");
             // Source: https://www.freesound.org/people/bowlingballout/sounds/151713/
+            */
         }
     }
 }
