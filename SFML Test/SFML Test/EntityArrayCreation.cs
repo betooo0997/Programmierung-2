@@ -86,7 +86,7 @@ namespace Game
                 switch (type)
                 {
                     case ('a'):
-                        return new Archer(new Vector2f((float)(xCoord * tileManager.GetTileSize()), (float)(yCoord * tileManager.GetTileSize())));
+                        //return new Archer(new Vector2f((float)(xCoord * tileManager.GetTileSize()), (float)(yCoord * tileManager.GetTileSize())));
                     default:
                         return null;
                 }

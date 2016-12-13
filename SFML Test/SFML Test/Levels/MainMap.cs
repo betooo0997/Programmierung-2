@@ -23,6 +23,7 @@ namespace Game
         protected Sprite tileSheet;
 
         Archer cArcher;
+        Archer cArcher2;
 
         protected static Vector2f vCharacterVirtualPosition;
         protected static Vector2f vCharacterStartPosition;
@@ -75,8 +76,10 @@ namespace Game
             questTracker = new Questtracker(entityManager.GetEntityArray(), entityManager.GetArrayNumberColumns(), entityManager.GetArrayNumberRows());
             textQuest = new Text(questTracker.GetQuestString(), font, 20);
             cCamera = new Camera();
-            cArcher = new Archer(new Vector2f(400,400));
-            
+            cArcher = new Archer(new Vector2f(400, 400), 1);
+            cArcher2 = new Archer(new Vector2f(900, 400), 2);
+
+
 
             vTileMapPosition = new Vector2f(0, 0);
 
@@ -105,16 +108,20 @@ namespace Game
             up = false;
             down = false;
 
+            lEnemies = new List<Enemy>();
+            lEnemies.Add(cArcher);
+            lEnemies.Add(cArcher2);
+
             vPastTileMapPosition = vPresentTileMapPosition;
             vPresentTileMapPosition = vTileMapPosition;
             vDifferenceTileMapPosition = vPastTileMapPosition - vPresentTileMapPosition;
 
             cCamera.Update(vCharacterVirtualPosition, ref vTileMapPosition);
-            cArcher.Update(ref vCharacterVirtualPosition, vTileMapPosition, ref up, ref down, ref right, ref left);
-            cPlayer.Update(ref vCharacterVirtualPosition, window, vTileMapPosition, ref up, ref down, ref right, ref left);
+            cArcher.Update(ref vCharacterVirtualPosition, ref up, ref down, ref right, ref left);
+            cArcher2.Update(ref vCharacterVirtualPosition, ref up, ref down, ref right, ref left);
 
-            lEnemies = new List<Enemy>();
-            lEnemies.Add(cArcher);
+            cPlayer.Update(ref vCharacterVirtualPosition, ref up, ref down, ref right, ref left);
+
 
             Console.Write(Player.GetHealth());
 
@@ -139,6 +146,8 @@ namespace Game
             drawList.AddElement(textQuest);
             drawList.AddList(cPlayer.Draw());
             drawList.AddList(cArcher.Draw());
+            drawList.AddList(cArcher2.Draw());
+
 
             TileUndHerrsche.Draw(window, vTileMapPosition);
 
@@ -167,6 +176,9 @@ namespace Game
             return vCharacterStartPosition;
         }
 
+        /// <summary>
+        /// Returns a List with all the Enemies on the Map
+        /// </summary>
         public static List<Enemy> GetEnemies()
         {
             return lEnemies;

@@ -38,7 +38,26 @@ namespace Game
 
 
 
+
         // DECLARING VARIABLES: NUMERIC TYPES
+
+        /// <summary>
+        /// Health of the Enemy
+        /// </summary>
+        protected int iHealth = 100;
+
+        /// <summary>
+        /// Speed of the Enemy
+        /// </summary>
+        protected float fSpeed;
+
+        /// <summary>
+        /// Base Damage the Enemy inflicts to the Player
+        /// </summary>
+        protected uint uDamage;
+
+        protected uint uID;
+
 
         /// <summary>
         /// Size of the Radius in which the Enemy could detect the Player
@@ -46,10 +65,15 @@ namespace Game
         protected int iDistanceDetection;
 
         /// <summary>
-        /// Angle between the PlayerPosition and EnemyDirection taking the EnemyAngleOrigin as Origin
+        /// Angle between the PlayerPosition and EnemyDirection taking the EnemyAngleOrigin as Origin,
+        /// updated when in Enemy Radius, Angle and Player is visible
         /// </summary>
         protected float fAngleEnemy;
 
+        /// <summary>
+        /// Angle between the PlayerPosition and EnemyDirection taking the EnemyAngleOrigin as Origin, 
+        /// updated when in Enemy Radius and Angle
+        /// </summary>
         protected float fAnglecopy;
 
         /// <summary>
@@ -63,10 +87,16 @@ namespace Game
         /// </summary>
         protected float fNumberToCorrect = 57.29f;
 
-        protected int iHealth = 100;
 
-        protected float fSpeed;
+        /// <summary>
+        /// Random Number created with rRandom to move the Enemy to a random direction
+        /// </summary>
+        protected int iRandomNumber;
 
+        /// <summary>
+        /// Divider to Check if fAngleEnemy is NaN
+        /// </summary>
+        private float Zero = 0;
 
 
 
@@ -77,17 +107,72 @@ namespace Game
         /// </summary>
         protected bool bEnemyPlayerCollision;
 
+        /// <summary>
+        /// True if Collision on upper Side of the Enemy occures
+        /// </summary>
+        protected bool bCollisionUp;
+
+        /// <summary>
+        /// True if Collision on down Side of the Enemy occures
+        /// </summary>
+        protected bool bCollisionDown;
+
+        /// <summary>
+        /// True if Collision on right Side of the Enemy occures
+        /// </summary>
+        protected bool bCollisionRight;
+
+        /// <summary>
+        /// True if Collision on left Side of the Enemy occures
+        /// </summary>
+        protected bool bCollisionLeft;
+
+
+
+
+        // DECLARING VARIABLES: PROJECTILE RELATED
+
+        /// <summary>
+        /// List of Projectiles that the Enemy has thrown
+        /// </summary>
+        protected List<EnemyProjectile> lProjectile;
+
+        /// <summary>
+        /// List of Invisible Projectiles that the Enemy has thrown
+        /// </summary>
+        protected List<InvisibleProjectile> lInvisibleProjectile;
+
+        /// <summary>
+        /// Projectile that inflicts Damage to the Player when hit
+        /// </summary>
+        protected EnemyProjectile pProjectile;
+
+        /// <summary>
+        /// Projectile that is used to detect the Player and permits him to hide behind Tiles with Collision
+        /// </summary>
+        protected InvisibleProjectile iProjectile;
+
+
+
 
 
         // DECLARING VARIABLES: OTHER
-        protected List<EnemyProjectile> lProjectile;
 
-        protected List<InvisibleProjectile> lInvisibleProjectile;
-        protected EnemyProjectile pProjectile;
-        protected InvisibleProjectile iProjectile;
+        /// <summary>
+        /// Clock used for detecting Player for a short period of time even when he's hidden
+        /// </summary>
+        protected Clock cDetecting;
 
-        protected Clock cClock;
-        protected Time tTimer;
+        /// <summary>
+        /// Timer used to Measure cDetecting
+        /// </summary>
+        protected Time tDetecting;
+
+        /// <summary>
+        /// Random Class to create iRandomNumber
+        /// </summary>
+        protected Random rRandom;
+
 
 
 
@@ -96,15 +181,15 @@ namespace Game
         // DECLARING METHODS: PLAYER-DETECTION RELATED
 
         /// <summary>
-        /// Returns true if the Player is in the Radius and Angle of Sight of the Enemy
+        /// Returns true if the Player is in the Radius and Angle of Sight of the Enemy and isn't hidden behind a Tile with Collision
         /// </summary>
         protected bool DetectPlayer()
         {
             // UPDATING vEnemyDirection
-            vEnemyDirection = sEntity.Position + new Vector2f(0, 25);                                                                                       // Creating distance to Origin
+            vEnemyDirection = sEntity.Position + new Vector2f(0, 25);                                                                                      // Creating distance to Origin
 
-            vEnemyDirection = Utilities.VectorRotation(fAngle / 57, vEnemyDirection, sEntity.Position);                                                     // Rotating to PlayerPosition        
-                                                                                                                                                              // (TODO: NOTE: No idea why dividing with 57, if no division Vector Rotates 57 times faster than it should)
+            vEnemyDirection = Utilities.VectorRotation(fAngle / 57, vEnemyDirection, sEntity.Position);                                                    // Rotating to PlayerPosition        
+                                                                                                                                                           // (TODO: NOTE: No idea why dividing with 57, if no division Vector Rotates 57 times faster than it should)
 
 
             // UPDATING vEnemyAngleOrigin
@@ -112,20 +197,27 @@ namespace Game
 
 
             // UPDATING vEnemyBottomRightPosition and vEnemyBottomLeftPosition
-            vEnemyBottomRightPosition = Utilities.VectorRotation(fAngle / fNumberToCorrect, sEntity.Position + new Vector2f(25, 25), sEntity.Position);                   // Rotating to PlayerPosition     
-            vEnemyBottomLeftPosition = Utilities.VectorRotation(fAngle / fNumberToCorrect, sEntity.Position + new Vector2f(-25, 25), sEntity.Position);                   // Rotating to PlayerPosition
+            vEnemyBottomRightPosition = Utilities.VectorRotation(fAngle / fNumberToCorrect, sEntity.Position + new Vector2f(25, 25), sEntity.Position);    // Rotating to PlayerPosition     
+            vEnemyBottomLeftPosition = Utilities.VectorRotation(fAngle / fNumberToCorrect, sEntity.Position + new Vector2f(-25, 25), sEntity.Position);    // Rotating to PlayerPosition
 
 
             // CALCULATING AngleEnemy
             fAngleEnemy = Utilities.AngleBetweenVectors180(vEnemyDirection - vEnemyAngleOrigin, new Vector2f(925, 525) - vEnemyAngleOrigin);
 
+            if (fAngleEnemy.Equals(0 / Zero))
+                fAngleEnemy = 0;
+
 
             // CALCULATING MaxPermittedAngle
             fMaxPermittedAngle = Utilities.AngleBetweenVectors180(vEnemyDirection - vEnemyAngleOrigin, vEnemyBottomRightPosition - vEnemyAngleOrigin);
 
-            tTimer = cClock.ElapsedTime;
+            tDetecting = cDetecting.ElapsedTime;
 
-            if (Utilities.MakePositive(Utilities.DistanceBetweenVectors(MainMap.GetVirtualCharacterPosition(), vEntityPosition)) < iDistanceDetection && fAngleEnemy < fMaxPermittedAngle)
+            if (fAngleEnemy == 0)
+                fAngleEnemy = 0.0001f;
+
+            if (Utilities.MakePositive(Utilities.DistanceBetweenVectors(MainMap.GetVirtualCharacterPosition(), vEntityPosition)) < iDistanceDetection && 
+                fAngleEnemy < fMaxPermittedAngle)
             {
                 fAnglecopy = fAngle;
                 RotateEnemy(ref fAnglecopy);
@@ -134,34 +226,16 @@ namespace Game
 
                 if (DisposeInvisibleProjectile(lInvisibleProjectile))
                 {
-                    cClock.Restart();
-                    tTimer = cClock.ElapsedTime;
+                    cDetecting.Restart();
+                    tDetecting = cDetecting.ElapsedTime;
                     return true;
                 }
 
-                if (tTimer.AsMilliseconds() <= 500)
+                if (tDetecting.AsMilliseconds() <= 500)
                     return true;
             }
 
             return false;
-        }
-
-
-        /// <summary>
-        /// Rotates the Enemy towards the Player
-        /// </summary>
-        protected void RotateEnemy(ref float fAngle)
-        {
-            // Calculating the Enemys Position using the Character Position as Origin
-            Vector2f a = sEntity.Position - (MainMap.GetStartCharacterPosition() + new Vector2f(25, 25));
-
-            fAngle = Utilities.AngleBetweenVectors360(a, new Vector2f(0, 1)) - 180;
-
-            if (fAngle < 0)
-                fAngle += 360;
-
-            if (fAngle >= 360)
-                fAngle -= 360;
         }
 
 
@@ -247,20 +321,35 @@ namespace Game
         // DECLARING METHODS: ENEMY-PLAYER RELATED
 
         /// <summary>
+        /// Rotates the Enemy towards the Player
+        /// </summary>
+        protected void RotateEnemy(ref float fAngle)
+        {
+            // Calculating the Enemys Position using the Character Position as Origin
+            Vector2f a = sEntity.Position - (MainMap.GetStartCharacterPosition() + new Vector2f(25, 25));
+
+            fAngle = Utilities.AngleBetweenVectors360(a, new Vector2f(0, 1)) - 180;
+
+            if (fAngle < 0)
+                fAngle += 360;
+
+            if (fAngle >= 360)
+                fAngle -= 360;
+        }
+
+
+        /// <summary>
         /// Detects Collision between Player and Enemy and returns Collision direction
         /// </summary>
         /// <param name="vVirtualPlayerPosition">Virtual PlayerPosition, aka Position if Player would be moving, no the Map</param>
         /// <param name="vEntityPosition">Position of the Enemy if Player would be moving, not the Map</param>
-        /// <param name="up">Bool that prohibites Up-Movement if of the Player true</param>
+        /// <param name="up">Bool that prohibites Up-Movement of the Player if true</param>
         /// <param name="down">Bool that prohibites Down-Movement of the Player if true</param>
         /// <param name="right">Bool that prohibites Right-Movement of the Player if true</param>
         /// <param name="left">Bool that prohibites Left-Movement of the Player if true</param>
-        protected void PlayerEnemyCollision(ref Vector2f vVirtualPlayerPosition, Vector2f vEntityPosition, ref bool up, ref bool down, ref bool right, ref bool left)
+        protected void PlayerEnemyCollision(ref Vector2f vVirtualPlayerPosition, ref bool up, ref bool down, ref bool right, ref bool left)
         {
             bEnemyPlayerCollision = false;
-
-
-            //if (Utilities.DistanceBetweenVectors(vPlayerPosition))
 
             if (((vVirtualPlayerPosition.Y < vEntityPosition.Y + 50 && vVirtualPlayerPosition.Y > vEntityPosition.Y - 1) ||
                     (vVirtualPlayerPosition.Y < vEntityPosition.Y && vVirtualPlayerPosition.Y > vEntityPosition.Y - 50)))
@@ -347,6 +436,114 @@ namespace Game
 
 
         /// <summary>
+        /// Detects Collision between Enemies and returns Collision direction
+        /// </summary>
+        /// <param name="vEntityPosition">Position of the Enemy if Player would be moving, not the Map</param>
+        /// <param name="up">Bool that prohibites Up-Movement of the Enemy if true</param>
+        /// <param name="down">Bool that prohibites Down-Movement of the Enemy if true</param>
+        /// <param name="right">Bool that prohibites Right-Movement of the Enemy if true</param>
+        /// <param name="left">Bool that prohibites Left-Movement of the Enemy if true</param>
+        protected void EnemyEnemyCollision(ref Vector2f vEntityPosition, ref bool up, ref bool down, ref bool right, ref bool left)
+        {
+            List<Enemy> lEnemy;
+            lEnemy = MainMap.GetEnemies();
+
+
+            for (int x = 0; x < lEnemy.Count; x++)
+            {
+                if (lEnemy[x].uID == uID)
+                    continue;
+
+                bEnemyPlayerCollision = false;
+
+                Vector2f Entity2Position = lEnemy[x].vEntityPosition;
+
+                if (((vEntityPosition.Y < Entity2Position.Y + 50 && vEntityPosition.Y > Entity2Position.Y - 1) ||
+                        (vEntityPosition.Y < Entity2Position.Y && vEntityPosition.Y > Entity2Position.Y - 50)))
+                {
+
+                    if (vEntityPosition.X <= Entity2Position.X + 50 && vEntityPosition.X >= Entity2Position.X)
+                    {
+                        left = true;
+                        vChracterPositionSpace.X = Entity2Position.X + 50;
+                        bEnemyPlayerCollision = true;
+                    }
+
+                    else if (vEntityPosition.X + 50 >= Entity2Position.X && vEntityPosition.X + 50 <= Entity2Position.X + 50)
+                    {
+                        right = true;
+                        vChracterPositionSpace.X = Entity2Position.X - 50;
+                        bEnemyPlayerCollision = true;
+                    }
+                }
+
+
+                if (((vEntityPosition.X < Entity2Position.X + 50 && vEntityPosition.X > Entity2Position.X - 1) ||
+                        (vEntityPosition.X + 50 > Entity2Position.X && vEntityPosition.X + 50 < Entity2Position.X + 50)))
+                {
+
+                    if (vEntityPosition.Y <= Entity2Position.Y + 50 && vEntityPosition.Y >= Entity2Position.Y)
+                    {
+                        up = true;
+                        vChracterPositionSpace.Y = Entity2Position.Y + 50;
+                        bEnemyPlayerCollision = true;
+                    }
+
+
+                    else if (vEntityPosition.Y + 50 >= Entity2Position.Y && vEntityPosition.Y + 50 <= Entity2Position.Y + 50)
+                    {
+                        down = true;
+                        vChracterPositionSpace.Y = Entity2Position.Y - 50;
+                        bEnemyPlayerCollision = true;
+                    }
+                }
+
+
+                //REPLACEMENT OF PLAYERLOCATION IN CASE OF CROSSING BORDER OF OBJECT
+
+                if (bEnemyPlayerCollision)
+                {
+                    if (up && right)
+                    {
+                        if (vEntityPosition.X - vChracterPositionSpace.X < vChracterPositionSpace.Y - vEntityPosition.Y)
+                            vEntityPosition.X = vChracterPositionSpace.X;
+
+                        else
+                            vEntityPosition.Y = vChracterPositionSpace.Y;
+                    }
+
+
+                    if (up && left)
+                    {
+                        if (vChracterPositionSpace.X - vEntityPosition.X < vChracterPositionSpace.Y - vEntityPosition.Y)
+                            vEntityPosition.X = vChracterPositionSpace.X;
+                        else
+                            vEntityPosition.Y = vChracterPositionSpace.Y;
+                    }
+
+
+                    if (down && left)
+                    {
+                        if (vChracterPositionSpace.X - vEntityPosition.X < vEntityPosition.Y - vChracterPositionSpace.Y)
+                            vEntityPosition.X = vChracterPositionSpace.X;
+                        else
+                            vEntityPosition.Y = vChracterPositionSpace.Y;
+                    }
+
+
+                    if (down && right)
+                    {
+                        if (vEntityPosition.X - vChracterPositionSpace.X < vEntityPosition.Y - vChracterPositionSpace.Y)
+                            vEntityPosition.X = vChracterPositionSpace.X;
+                        else
+                            vEntityPosition.Y = vChracterPositionSpace.Y;
+                    }
+                }
+            }
+        }
+
+
+        /// <summary>
         /// Reduces Health of the Enemy
         /// </summary>
         /// <param name="Damage">Damage that the Enemy takes</param>
@@ -359,142 +556,61 @@ namespace Game
 
 
 
-        // DECLARING METHODS: OTHER
+        // DECLARING METHODS: ENEMY MOVEMENT RELATED
 
         /// <summary>
-        /// Updates possible directions of movement based on Collisiondetection
+        /// Moves the Enemy
         /// </summary>
-        protected void CollisionDetection(ref Vector2f vEntityPosition, ref bool up, ref bool down, ref bool right, ref bool left)
+        protected abstract void Move();
+
+
+        /// <summary>
+        /// Moves the Enemy Up
+        /// </summary>
+        protected void MoveUp()
         {
-            vEntityPositionBottomLeft.Y = vEntityPosition.Y + tEntity.Size.Y;
-            vEntityPositionTopRight.X = vEntityPosition.X + tEntity.Size.X;
-
-            PlayerTileCollision = false;
-
-            int iTileNearY = (int)vEntityPosition.Y / 50 - 1;
-            int iTileNearX = (int)vEntityPosition.X / 50 - 1;
-
-            if (iTileNearY < 0)
-                iTileNearY++;
-
-            if (iTileNearX < 0)
-                iTileNearX++;
-
-            for (y = iTileNearY; y < iTileNearY + 3; y++)
-            {
-
-                for (x = iTileNearX; x < iTileNearX + 3; x++)
-                {
-
-                    //COLLISIONDETECTION ON CHARACTERSPRITE BORDER
-
-                    if (tTileMap.CollisionReturner(x, y))
-                    {
-
-                        if (((vEntityPosition.Y < (y + 1) * 50 && vEntityPosition.Y > y * 50 - 1) ||
-                           (vEntityPosition.Y < y * 50 && vEntityPosition.Y > (y - 1) * 50)))
-                        {
-
-                            if (vEntityPosition.X <= (x + 1) * 50 && vEntityPosition.X >= x * 50)
-                            {
-                                left = true;
-                                vChracterPositionSpace.X = (x + 1) * 50;
-                                PlayerTileCollision = true;
-                            }
-
-                            else if (vEntityPositionTopRight.X >= x * 50 && vEntityPositionTopRight.X <= (x + 1) * 50)
-                            {
-                                right = true;
-                                vChracterPositionSpace.X = (x - 1) * 50;
-                                PlayerTileCollision = true;
-                            }
-                        }
+            vEntityPosition.Y -= fSpeed;
+        }
 
 
-                        if (((vEntityPosition.X < (x + 1) * 50 && vEntityPosition.X > x * 50 - 1) ||
-                            (vEntityPositionTopRight.X > x * 50 && vEntityPositionTopRight.X < (x + 1) * 50)))
-                        {
-
-                            if (vEntityPosition.Y <= (y + 1) * 50 && vEntityPosition.Y >= y * 50)
-                            {
-                                up = true;
-                                vChracterPositionSpace.Y = (y + 1) * 50;
-                                PlayerTileCollision = true;
-                            }
+        /// <summary>
+        /// Moves the Enemy Down
+        /// </summary>
+        protected void MoveDown()
+        {
+            vEntityPosition.Y += fSpeed;
+        }
 
 
-                            else if (vEntityPositionBottomLeft.Y >= y * 50 && vEntityPositionBottomLeft.Y <= (y + 1) * 50)
-                            {
-                                down = true;
-                                vChracterPositionSpace.Y = (y - 1) * 50;
-                                PlayerTileCollision = true;
-                            }
-                        }
-                    }
+        /// <summary>
+        /// Moves the Enemy to the Left
+        /// </summary>
+        protected void MoveLeft()
+        {
+            vEntityPosition.X -= fSpeed;
+        }
 
 
-                    //REPLACEMENT OF PLAYERLOCATION IN CASE OF CROSSING BORDER OF OBJECT
-
-                    if (PlayerTileCollision)
-                    {
-                        if (up && right)
-                        {
-                            if (vEntityPosition.X - vChracterPositionSpace.X < vChracterPositionSpace.Y - vEntityPosition.Y)
-                            {
-                                vEntityPosition.X = vChracterPositionSpace.X;
-                            }
-
-                            else
-                            {
-                                vEntityPosition.Y = vChracterPositionSpace.Y;
-                            }
-                            break;
-                        }
+        /// <summary>
+        /// Moves the Enemy to the Right
+        /// </summary>
+        protected void MoveRight()
+        {
+            vEntityPosition.X += fSpeed;
+        }
 
 
-                        if (up && left)
-                        {
-                            if (vChracterPositionSpace.X - vEntityPosition.X < vChracterPositionSpace.Y - vEntityPosition.Y)
-                            {
-                                vEntityPosition.X = vChracterPositionSpace.X;
-                            }
-                            else
-                            {
-                                vEntityPosition.Y = vChracterPositionSpace.Y;
-                            }
-                            break;
-                        }
 
 
-                        if (down && left)
-                        {
-                            if (vChracterPositionSpace.X - vEntityPosition.X < vEntityPosition.Y - vChracterPositionSpace.Y)
-                            {
-                                vEntityPosition.X = vChracterPositionSpace.X;
-                            }
-                            else
-                            {
-                                vEntityPosition.Y = vChracterPositionSpace.Y;
-                            }
-                            break;
-                        }
 
+        //DECLARING METHODS: GETTER FUNCTIONS
 
-                        if (down && right)
-                        {
-                            if (vEntityPosition.X - vChracterPositionSpace.X < vEntityPosition.Y - vChracterPositionSpace.Y)
-                            {
-                                vEntityPosition.X = vChracterPositionSpace.X;
-                            }
-                            else
-                            {
-                                vEntityPosition.Y = vChracterPositionSpace.Y;
-                            }
-                            break;
-                        }
-                    }
-                }
-            }
+        /// <summary>
+        /// Gets the Sprite of the Enemy
+        /// </summary>        
+        public Sprite GetSprite()
+        {
+            return sEntity;
         }
 
 
@@ -568,4 +684,3 @@ namespace Game
         }
     }
 }
-

@@ -45,17 +45,17 @@ namespace Game
             sCharacter.FillColor = new Color(255,255,255);
             sCharacter.OutlineThickness = 1;
             sCharacter.OutlineColor = Color.Black;
-            iHealth = 100;
+            iHealth = 100000;
         }
 
-        public void Update(ref Vector2f VirtualCharacterPosition, RenderWindow window, Vector2f TileMapPosition, ref bool up, ref bool down, ref bool right, ref bool left)
+        public void Update(ref Vector2f VirtualCharacterPosition, ref bool up, ref bool down, ref bool right, ref bool left)
         {
-            CollisionDetection(ref VirtualCharacterPosition, ref up, ref down, ref right, ref left);
+            CollisionDetection(ref VirtualCharacterPosition, ref up, ref down, ref right, ref left, sCharacter.Radius * 2, sCharacter.Radius * 2);
 
             PlayerRotation();
 
             if (Input.Shoot)
-                Shoot(TileMapPosition);
+                Shoot(MainMap.GetTileMapPosition());
 
             for (x = 0; x < lProjectile.Count; x++)
                 lProjectile[x].Update(sEntity);
@@ -77,143 +77,6 @@ namespace Game
             drawList.Add(sCharacter);
 
             return drawList;
-        }
-
-
-        /// <summary>
-        /// Updates possible directions of movement based on Collisiondetection
-        /// </summary>
-        void CollisionDetection(ref Vector2f vEntityPosition, ref bool up, ref bool down, ref bool right, ref bool left)
-        {
-            vEntityPositionBottomLeft.Y = vEntityPosition.Y + sCharacter.Radius * 2;
-            vEntityPositionTopRight.X = vEntityPosition.X + sCharacter.Radius * 2;
-
-            PlayerTileCollision = false;
-
-            int iTileNearY = (int)vEntityPosition.Y / 50 - 1;
-            int iTileNearX = (int)vEntityPosition.X / 50 - 1;
-
-            if (iTileNearY < 0)
-                iTileNearY++;
-
-            if (iTileNearX < 0)
-                iTileNearX++;
-
-            for (y = iTileNearY; y < iTileNearY + 3; y++)
-            {
-
-                for (x = iTileNearX; x < iTileNearX + 3; x++)
-                {
-
-                    //COLLISIONDETECTION ON CHARACTERSPRITE BORDER
-                    
-                    if (tTileMap.CollisionReturner(x, y))
-                    {
-
-                        if (((vEntityPosition.Y < (y + 1) * 50 && vEntityPosition.Y > y * 50 - 1) ||
-                           (vEntityPosition.Y < y * 50 && vEntityPosition.Y > (y - 1) * 50)))
-                        {
-
-                            if (vEntityPosition.X <= (x + 1) * 50 && vEntityPosition.X >= x * 50)
-                            {
-                                left = true;
-                                vChracterPositionSpace.X = (x + 1) * 50;
-                                PlayerTileCollision = true;
-                            }
-
-                            else if (vEntityPositionTopRight.X >= x * 50 && vEntityPositionTopRight.X <= (x + 1) * 50)
-                            {
-                                right = true;
-                                vChracterPositionSpace.X = (x - 1) * 50;
-                                PlayerTileCollision = true;
-                            }
-                        }
-
-
-                        if (((vEntityPosition.X < (x + 1) * 50 && vEntityPosition.X > x * 50 - 1) ||
-                            (vEntityPositionTopRight.X > x * 50 && vEntityPositionTopRight.X < (x + 1) * 50)))
-                        {
-
-                            if (vEntityPosition.Y <= (y + 1) * 50 && vEntityPosition.Y >= y * 50)
-                            {
-                                up = true;
-                                vChracterPositionSpace.Y = (y + 1) * 50;
-                                PlayerTileCollision = true;
-                            }
-
-
-                            else if (vEntityPositionBottomLeft.Y >= y * 50 && vEntityPositionBottomLeft.Y <= (y + 1) * 50)
-                            {
-                                down = true;
-                                vChracterPositionSpace.Y = (y - 1) * 50;
-                                PlayerTileCollision = true;
-                            }
-                        }
-                    }
-
-
-                    //REPLACEMENT OF PLAYERLOCATION IN CASE OF CROSSING BORDER OF OBJECT
-
-                    if (PlayerTileCollision)
-                    {
-                        if (up && right)
-                        {
-                            if (vEntityPosition.X - vChracterPositionSpace.X < vChracterPositionSpace.Y - vEntityPosition.Y)
-                            {
-                                vEntityPosition.X = vChracterPositionSpace.X;
-                            }
-
-                            else
-                            {
-                                vEntityPosition.Y = vChracterPositionSpace.Y;
-                            }
-                            break;
-                        }
-
-
-                        if (up && left)
-                        {
-                            if (vChracterPositionSpace.X - vEntityPosition.X < vChracterPositionSpace.Y - vEntityPosition.Y)
-                            {
-                                vEntityPosition.X = vChracterPositionSpace.X;
-                            }
-                            else
-                            {
-                                vEntityPosition.Y = vChracterPositionSpace.Y;
-                            }
-                            break;
-                        }
-
-
-                        if (down && left)
-                        {
-                            if (vChracterPositionSpace.X - vEntityPosition.X < vEntityPosition.Y - vChracterPositionSpace.Y)
-                            {
-                                vEntityPosition.X = vChracterPositionSpace.X;
-                            }
-                            else
-                            {
-                                vEntityPosition.Y = vChracterPositionSpace.Y;
-                            }
-                            break;
-                        }
-
-
-                        if (down && right)
-                        {
-                            if (vEntityPosition.X - vChracterPositionSpace.X < vEntityPosition.Y - vChracterPositionSpace.Y)
-                            {
-                                vEntityPosition.X = vChracterPositionSpace.X;
-                            }
-                            else
-                            {
-                                vEntityPosition.Y = vChracterPositionSpace.Y;
-                            }
-                            break;
-                        }
-                    }
-                }
-            }
         }
 
 
