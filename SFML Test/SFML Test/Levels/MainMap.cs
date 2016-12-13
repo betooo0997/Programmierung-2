@@ -176,6 +176,11 @@ namespace Game
             return vCharacterStartPosition;
         }
 
+        protected bool GetCollisionAt(int xCoord, int yCoord)
+        {
+            return TileUndHerrsche.GetCollisionAt(xCoord, yCoord);
+        }
+
         /// <summary>
         /// Returns a List with all the Enemies on the Map
         /// </summary>

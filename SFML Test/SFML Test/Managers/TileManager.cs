@@ -147,21 +147,32 @@ namespace Game
         }
 
         /// <summary>
-        /// Obtains the relative (0/0) position of the tile map and draws it using the corresponding tile array. Does not return anything. 
+        /// Obtains the relative position of the tile map and draws all tiles within the screen using the corresponding tile array. Does not return anything. 
         /// </summary>
         /// <param name="window"></param>
         /// <param name="TileMapPosition"></param>
         public void Draw(RenderWindow window, Vector2f TileMapPosition)
         {
+            for(int xCoord = 0, yCoord = 0, xLimit = (int)((GameLoop.GetWindowSize().X / tileArrayCreation.GetTileSize()) + 1), yLimit = (int)((GameLoop.GetWindowSize().Y / tileArrayCreation.GetTileSize()) + 1); yCoord <= yLimit; xCoord++)
+            {
+
+            }
+
+            /*
             int yCoord = 0;
             int xCoord = 0;
 
             for (int x = 0; x < (tileArrayCreation.GetNumberColumns() * tileArrayCreation.GetNumberRows()); x++)
             {
                 tileSheet.Position = new Vector2f(((int)(xCoord * tileArrayCreation.GetTileSize() + TileMapPosition.X)), (int)((yCoord * tileArrayCreation.GetTileSize() + TileMapPosition.Y)));
-                tileSheet.TextureRect = TileSourceDeterminat0r(tileArrayCreation.GetTilezArray()[xCoord, yCoord]);
 
-                window.Draw(tileSheet);
+
+                if (tileSheet.Position.X >= (-tileArrayCreation.GetTileSize()) && tileSheet.Position.X <= (GameLoop.GetWindowSize().X + tileArrayCreation.GetTileSize()) &&
+                    tileSheet.Position.Y >= (-tileArrayCreation.GetTileSize()) && tileSheet.Position.Y <= (GameLoop.GetWindowSize().Y + tileArrayCreation.GetTileSize()))
+                {
+                    tileSheet.TextureRect = TileSourceDeterminat0r(tileArrayCreation.GetTilezArray()[xCoord, yCoord]);
+                    window.Draw(tileSheet);
+                }
 
                 xCoord++;
                 if (xCoord >= tileArrayCreation.GetNumberColumns())
@@ -169,6 +180,7 @@ namespace Game
                     xCoord = 0;
                     yCoord++;
                 }
+                */
             }
         }
     }

@@ -26,12 +26,12 @@ namespace Game
         /// <summary>
         /// Width of Window
         /// </summary>
-        public static uint windowWidth;
+        protected static uint windowWidth;
 
         /// <summary>
         /// Height of Window
         /// </summary>
-        public static uint windowHeight;
+        protected static uint windowHeight;
 
         /// <summary>
         /// Clock used to measure one Second
