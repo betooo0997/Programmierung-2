@@ -68,6 +68,7 @@
     <Compile Include="Managers\EntityManager.cs" />
     <Compile Include="Basic Run\GameLoop.cs" />
     <Compile Include="Input.cs" />
+    <Compile Include="Managers\SoundManager.cs" />
     <Compile Include="Statemachines\Abstract Classes\LevelState.cs" />
     <Compile Include="Levels\MainMap.cs" />
     <Compile Include="Statemachines\GameStates\StateGameOver.cs" />
