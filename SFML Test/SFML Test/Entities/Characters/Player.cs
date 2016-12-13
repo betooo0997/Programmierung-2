@@ -28,6 +28,9 @@ namespace Game
         protected PlayerProjectile pProjectile;
         protected List<PlayerProjectile> lProjectile;
 
+        protected Clock cShoot;
+        protected Time tShoot;
+
 
 
         public Player(string[] stringMap, Vector2f VirtualCharacterPosition)
@@ -37,6 +40,7 @@ namespace Game
             tTileMap            = new TileArrayCreation(stringMap);
             drawList            = new List<Drawable>();
             lProjectile         = new List<PlayerProjectile>();
+            cShoot              = new Clock();
 
 
             // SETTING CONSTANTS
@@ -55,7 +59,15 @@ namespace Game
             PlayerRotation();
 
             if (Input.Shoot)
-                Shoot(MainMap.GetTileMapPosition());
+            {
+                tShoot = cShoot.ElapsedTime;
+
+                if (tShoot.AsMilliseconds() > 333)
+                {
+                    cShoot.Restart();
+                    Shoot(MainMap.GetTileMapPosition());
+                }
+            }
 
             for (x = 0; x < lProjectile.Count; x++)
                 lProjectile[x].Update(sEntity);
@@ -103,10 +115,12 @@ namespace Game
             lProjectile.Add(pProjectile);
         }
 
+
         public static void ReduceHealth(uint Damage)
         {
             iHealth -= (int)Damage;
         }
+
 
         public static int GetHealth()
         {

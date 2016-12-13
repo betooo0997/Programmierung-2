@@ -14,8 +14,11 @@ namespace Game
     {
         Clock cShooting;
         Clock cMoving;
+        Clock cSuspecting;
         Time tShooting;
         Time tMoving;
+        Time tSuspecting;
+        bool bSuspecting;
 
 
         public Archer(Vector2f vEnemyPosition, uint uID)
@@ -32,24 +35,31 @@ namespace Game
             cDetecting = new Clock();
             cShooting = new Clock();
             cMoving = new Clock();
+            cSuspecting = new Clock();
+            rRandom = new Random();
+
+
+
+            // SETTING CONSTANTS
+            this.uID = uID;
+            uDamage = 25;
+            fSpeed = 1.5f * 0.8f;
+            iDistanceDetection = 600;
+            bSuspecting = false;
 
             bIsBoss = true;
 
-            // SETTING CONSTANTS
-            fAngle = 0;
-            iDistanceDetection = 600;
-            uDamage = 25;
-            fSpeed = 1.5f * 0.8f;
+            for (x = 0; x < uID; x++)
+                fAngle = rRandom.Next(0, 360);
+            sEntity.Rotation = fAngle;
 
-            rRandom = new Random();
             iRandomNumber = rRandom.Next(0, 4);
-            this.uID = uID;
         }
 
         /// <summary>
         /// Updates Enemy Logic
         /// </summary>
-        public void Update(ref Vector2f VirtualPlayerPosition,  ref bool up, ref bool down, ref bool right, ref bool left)
+        public override void Update(ref Vector2f VirtualPlayerPosition,  ref bool up, ref bool down, ref bool right, ref bool left)
         {
             tShooting = cShooting.ElapsedTime;
 
@@ -60,7 +70,7 @@ namespace Game
 
             if (DetectPlayer())
             {
-                RotateEnemy(ref fAngle);
+                RotateEnemy(ref fAngle, MainMap.GetStartCharacterPosition() + new Vector2f(25, 25));
                 sEntity.Rotation = fAngle;
 
                 Move();
@@ -70,6 +80,26 @@ namespace Game
                     Shoot();
                     cShooting.Restart();
                 }
+            }
+            else if (Utilities.MakePositive(vRegisteredProjectilePosition.X) > 0)
+            {
+                if (!bSuspecting)
+                {
+                    cSuspecting.Restart();
+                    bSuspecting = true;
+                }
+
+                tSuspecting = cSuspecting.ElapsedTime;
+
+                if (tSuspecting.AsMilliseconds() <= 3500)
+                    vEntityPosition += vRegisteredProjectilePosition;
+                else
+                    vRegisteredProjectilePosition = new Vector2f();
+            }
+            else
+            {
+                if (bSuspecting)
+                    bSuspecting = false;
             }
 
 
@@ -84,13 +114,14 @@ namespace Game
 
             if (iHealth >= 0)
                 sEntity.Color = new Color(255, (byte)(255 - (255 - iHealth * 2.55f)), (byte)(255 - (255 - iHealth * 2.55f)));
+
         }
 
 
         /// <summary>
         /// Returns a List of the Elements to be drawed
         /// </summary>
-        public List<Drawable> Draw()
+        public override List<Drawable> Draw()
         {
             drawList = new List<Drawable>();
 

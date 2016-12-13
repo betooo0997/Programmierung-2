@@ -36,6 +36,12 @@ namespace Game
         protected Vector2f vEnemyBottomLeftPosition;
 
 
+        /// <summary>
+        /// If a Player-Projectile collides with the Enemy without having detected the Player, its direction is saved under this Variable.
+        /// Used to inspect the Area where the Projectile came from.
+        /// </summary>
+        protected Vector2f vRegisteredProjectilePosition;
+
 
 
 
@@ -56,6 +62,9 @@ namespace Game
         /// </summary>
         protected uint uDamage;
 
+        /// <summary>
+        /// ID of the Enemy
+        /// </summary>
         protected uint uID;
 
 
@@ -97,6 +106,7 @@ namespace Game
         /// Divider to Check if fAngleEnemy is NaN
         /// </summary>
         private float Zero = 0;
+
 
 
 
@@ -220,7 +230,7 @@ namespace Game
                 fAngleEnemy < fMaxPermittedAngle)
             {
                 fAnglecopy = fAngle;
-                RotateEnemy(ref fAnglecopy);
+                RotateEnemy(ref fAnglecopy, MainMap.GetStartCharacterPosition() + new Vector2f(25, 25));
 
                 ShootInvisible(MainMap.GetTileMapPosition(), fAnglecopy);
 
@@ -323,10 +333,10 @@ namespace Game
         /// <summary>
         /// Rotates the Enemy towards the Player
         /// </summary>
-        protected void RotateEnemy(ref float fAngle)
+        protected void RotateEnemy(ref float fAngle, Vector2f vPositionToRotateTo)
         {
             // Calculating the Enemys Position using the Character Position as Origin
-            Vector2f a = sEntity.Position - (MainMap.GetStartCharacterPosition() + new Vector2f(25, 25));
+            Vector2f a = sEntity.Position - vPositionToRotateTo;
 
             fAngle = Utilities.AngleBetweenVectors360(a, new Vector2f(0, 1)) - 180;
 
@@ -547,9 +557,12 @@ namespace Game
         /// Reduces Health of the Enemy
         /// </summary>
         /// <param name="Damage">Damage that the Enemy takes</param>
-        public void ReduceHealth(uint Damage)
+        public void ReduceHealth(uint Damage, Vector2f Direction)
         {
             iHealth -= (int)Damage;
+            vRegisteredProjectilePosition = Direction;
+            RotateEnemy(ref fAngle, Direction + MainMap.GetStartCharacterPosition() + new Vector2f(25, 25));
+            sEntity.Rotation = fAngle;
         }
 
 
@@ -611,6 +624,15 @@ namespace Game
         public Sprite GetSprite()
         {
             return sEntity;
+        }
+
+
+        /// <summary>
+        /// Gets the Health of the Enemy
+        /// </summary>
+        public int GetHealth()
+        {
+            return iHealth;
         }
 
 
@@ -682,5 +704,27 @@ namespace Game
             drawList.Add(cEnemyPosition);
             CustomList.AddProjectiles(drawList, lInvisibleProjectile);
         }
+
+
+
+
+        //DECLARING METHODS: BASIC FUNCTIONS
+
+        /// <summary>
+        /// Updates Enemy Logic
+        /// </summary>
+        /// <param name="VirtualPlayerPosition"></param>
+        /// <param name="up"></param>
+        /// <param name="down"></param>
+        /// <param name="right"></param>
+        /// <param name="left"></param>
+        public abstract void Update(ref Vector2f VirtualPlayerPosition, ref bool up, ref bool down, ref bool right, ref bool left);
+
+
+        /// <summary>
+        /// Returns a List with all the Elements to Draw
+        /// </summary>
+        /// <returns></returns>
+        public abstract List<Drawable> Draw();
     }
 }

@@ -106,7 +106,7 @@ namespace Game
 
                 if (Utilities.DistanceBetweenVectors(iProjectile.vEntityPosition, b) <= 50)
                 {
-                    lEnemy[x].ReduceHealth(Damage);
+                    lEnemy[x].ReduceHealth(Damage, iProjectile.GetDirection());
                     return true;
                 }
             }
