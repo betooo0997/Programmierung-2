@@ -77,8 +77,11 @@ namespace Game
             textQuest = new Text(questTracker.GetQuestString(), font, 20);
             cCamera = new Camera();
             cArcher = new Archer(new Vector2f(400, 400), 1);
-            cArcher2 = new Archer(new Vector2f(900, 400), 2);
+            cArcher2 = new Archer(new Vector2f(1300, 400), 2);
 
+            lEnemies = new List<Enemy>();
+            lEnemies.Add(cArcher);
+            lEnemies.Add(cArcher2);
 
 
             vTileMapPosition = new Vector2f(0, 0);
@@ -108,22 +111,28 @@ namespace Game
             up = false;
             down = false;
 
-            lEnemies = new List<Enemy>();
-            lEnemies.Add(cArcher);
-            lEnemies.Add(cArcher2);
-
             vPastTileMapPosition = vPresentTileMapPosition;
             vPresentTileMapPosition = vTileMapPosition;
             vDifferenceTileMapPosition = vPastTileMapPosition - vPresentTileMapPosition;
 
             cCamera.Update(vCharacterVirtualPosition, ref vTileMapPosition);
-            cArcher.Update(ref vCharacterVirtualPosition, ref up, ref down, ref right, ref left);
-            cArcher2.Update(ref vCharacterVirtualPosition, ref up, ref down, ref right, ref left);
+
+            for (int x = 0; x < lEnemies.Count; x++)
+            {
+                lEnemies[x].Update(ref vCharacterVirtualPosition, ref up, ref down, ref right, ref left);
+
+                if (lEnemies[x].GetHealth() < 0)
+                {
+                    for (int y = x; y < lEnemies.Count - 1; y++)
+                    {
+                        lEnemies[x] = lEnemies[x + 1];
+                    }
+                    lEnemies[lEnemies.Count - 1] = null;
+                    lEnemies.RemoveAt(lEnemies.Count - 1);
+                }
+            }
 
             cPlayer.Update(ref vCharacterVirtualPosition, ref up, ref down, ref right, ref left);
-
-
-            Console.Write(Player.GetHealth());
 
             textQuest = new Text(questTracker.Update(0), font, 20);
 
@@ -145,9 +154,9 @@ namespace Game
             //drawList.AddElement(Quest);
             drawList.AddElement(textQuest);
             drawList.AddList(cPlayer.Draw());
-            drawList.AddList(cArcher.Draw());
-            drawList.AddList(cArcher2.Draw());
 
+            for (int x = 0; x < lEnemies.Count; x++)
+                drawList.AddList(lEnemies[x].Draw());
 
             TileUndHerrsche.Draw(window, vTileMapPosition);
 
@@ -174,11 +183,6 @@ namespace Game
         public static Vector2f GetStartCharacterPosition()
         {
             return vCharacterStartPosition;
-        }
-
-        protected bool GetCollisionAt(int xCoord, int yCoord)
-        {
-            return TileUndHerrsche.GetCollisionAt(xCoord, yCoord);
         }
 
         /// <summary>
