@@ -24,7 +24,7 @@ namespace Game
             this.iVelocity = iVelocity;
 
 
-            this.Direction = Direction - vEntityPosition;
+            this.vDirection = Direction - vEntityPosition;
 
             // INSTANTITATING OBJECTS
             sEntity = new Sprite(tEntity);
@@ -60,12 +60,12 @@ namespace Game
 
         void Move(Sprite sEnemy)
         {
-            vEntityPosition -= MainMap.GetDiffTileMapPosition() - Direction / 5 * iVelocity;
+            vEntityPosition -= MainMap.GetDiffTileMapPosition() - vDirection / 5 * iVelocity;
         }
 
         public Vector2f GetDirection()
         {
-            return Direction;
+            return vDirection;
         }
     }
 }

@@ -16,7 +16,7 @@ namespace Game
 
         protected float iDistance;
 
-        protected Vector2f Direction;
+        protected Vector2f vDirection;
         protected Vector2f vEntitymovement;
 
         protected int ProjectileType;
@@ -36,6 +36,11 @@ namespace Game
         public void DisposeTexture()
         {
             tEntity.Dispose();
+        }
+
+        public Vector2f GetDirection()
+        {
+            return vDirection;
         }
     }
 }

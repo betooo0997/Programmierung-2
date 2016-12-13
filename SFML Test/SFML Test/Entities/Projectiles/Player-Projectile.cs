@@ -23,8 +23,6 @@ namespace Game
             this.iAngle = iAngle;
             this.iVelocity = iVelocity;
 
-            this.Direction = Direction;
-
             // INSTANTITATING OBJECTS
             sEntity = new Sprite(tEntity);
 
@@ -49,6 +47,8 @@ namespace Game
 
             // CALCULATING DISTANCE FROM CHARACTERPOSITION TO MOUSE
             iDistance = Utilities.DistanceToVectorFromOrigin((Vector2f)Direction);
+
+            vDirection = Direction / iDistance;
         }
 
 
@@ -62,7 +62,7 @@ namespace Game
 
         void Move()
         {
-            vEntityPosition -= (Direction / iDistance) * 5 + MainMap.GetDiffTileMapPosition() + vEntitymovement;
+            vEntityPosition -= vDirection * 5 + MainMap.GetDiffTileMapPosition() + vEntitymovement;
         }
     }
 }

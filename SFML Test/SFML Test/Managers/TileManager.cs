@@ -72,7 +72,7 @@ namespace Game
 
             tileArrayCreation = new TileArrayCreation(levelText);
         }
-        
+
 
         /// <summary>
         /// Hardcoded list of all sources on the tile sheet. Has to be manually updated with every tile on the source sheet that is added or removed. 
@@ -81,8 +81,8 @@ namespace Game
         /// <returns></returns>
         protected IntRect TileSourceDeterminat0r(Tilez tile)
         {
-            int column  = 0;
-            int row     = 0;
+            int column = 0;
+            int row = 0;
 
             switch (tile)
             {
@@ -135,12 +135,12 @@ namespace Game
                     row = 0;
                     break;
                 case Tilez.darkGrey:
-                    column  = 1;
+                    column = 1;
                     row = 0;
                     break;
                 default:
-                    column  = 0;
-                    row     = 0;
+                    column = 0;
+                    row = 0;
                     break;
             }
             return new IntRect(column * tileArrayCreation.GetTileSize(), row * tileArrayCreation.GetTileSize(), tileArrayCreation.GetTileSize(), tileArrayCreation.GetTileSize());
@@ -153,7 +153,7 @@ namespace Game
         /// <param name="TileMapPosition"></param>
         public void Draw(RenderWindow window, Vector2f TileMapPosition)
         {
-            for(int xCoord = 0, yCoord = 0, xLimit = (int)((GameLoop.GetWindowSize().X / tileArrayCreation.GetTileSize()) + 1), yLimit = (int)((GameLoop.GetWindowSize().Y / tileArrayCreation.GetTileSize()) + 1); yCoord <= yLimit; xCoord++)
+            for (int xCoord = 0, yCoord = 0, xLimit = (int)((GameLoop.GetWindowSize().X / tileArrayCreation.GetTileSize()) + 1), yLimit = (int)((GameLoop.GetWindowSize().Y / tileArrayCreation.GetTileSize()) + 1); yCoord <= yLimit; xCoord++)
             {
 
             }
@@ -181,7 +181,6 @@ namespace Game
                     yCoord++;
                 }
                 */
-            }
         }
     }
 }

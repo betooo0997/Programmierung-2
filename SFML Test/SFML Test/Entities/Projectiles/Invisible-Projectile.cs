@@ -24,7 +24,7 @@ namespace Game
             this.iVelocity = iVelocity;
 
 
-            this.Direction = Direction - vEntityPosition;
+            this.vDirection = Direction - vEntityPosition;
 
             // INSTANTITATING OBJECTS
             cShape = new CircleShape(0.5f);
@@ -51,7 +51,7 @@ namespace Game
         void Move(Sprite sEnemy)
         {
 
-            vEntityPosition -= MainMap.GetDiffTileMapPosition() - Direction / 5 * iVelocity;
+            vEntityPosition -= MainMap.GetDiffTileMapPosition() - vDirection / 5 * iVelocity;
         }
 
         public bool Destruct(int iDistanceDetection)
@@ -69,7 +69,7 @@ namespace Game
 
         public Vector2f GetDirection()
         {
-            return Direction;
+            return vDirection;
         }
     }
 }
