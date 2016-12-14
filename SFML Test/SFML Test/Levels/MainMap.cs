@@ -192,5 +192,10 @@ namespace Game
         {
             return lEnemies;
         }
+
+        public static TileManager GetTileManager()
+        {
+            return TileUndHerrsche;
+        }
     }
 }
