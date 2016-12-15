@@ -93,7 +93,7 @@ namespace Game
             startNode = keyNode;
             SetiGCost();
             iHCost = 0;
-        
+
             iFCost = iGCost + iHCost;
         }
 

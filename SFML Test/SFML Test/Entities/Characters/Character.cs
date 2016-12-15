@@ -147,7 +147,7 @@ namespace Game
 
                     //COLLISIONDETECTION ON CHARACTERSPRITE BORDER
 
-                    if (tTileMap.CollisionReturner(x, y))
+                    if (TileArrayCreation.CollisionReturner(x, y))
                     {
 
                         if (((vEntityPosition.Y < (y + 1) * 50 && vEntityPosition.Y > y * 50 - 1) ||

@@ -15,18 +15,22 @@ namespace Game
     {
         public static Vector2i vMousePosition;
         public static bool Shoot;
+        public static bool FindPath;
+
         public static bool bMovingUp;
         public static bool bMovingDown;
         public static bool bMovingRight;
         public static bool bMovingLeft;
         public static float fCharacterVelocity;
-        protected bool bPressed;
+        protected bool bMousePressed;
+
 
 
         public Input()
         {
+            FindPath = false;
             Shoot = false;
-            bPressed = true;
+            bMousePressed = true;
         }
 
 
@@ -40,6 +44,7 @@ namespace Game
             bMovingRight = false;
             bMovingLeft = false;
             Shoot = false;
+            FindPath = false;
             fCharacterVelocity = fcharacterVelocity;
 
 
@@ -83,13 +88,18 @@ namespace Game
 
             vMousePosition = Mouse.GetPosition(window);
 
-            if (Mouse.IsButtonPressed(Mouse.Button.Left) && !bPressed)
+            if (Mouse.IsButtonPressed(Mouse.Button.Left) && !bMousePressed)
             {
                 Shoot = true;
-                bPressed = true;
+                bMousePressed = true;
             }
             else if (!Mouse.IsButtonPressed(Mouse.Button.Left))
-                bPressed = false;
+                bMousePressed = false;
+
+            if (Keyboard.IsKeyPressed(Keyboard.Key.F))
+            {
+                FindPath = true;
+            }
         }
     }
 }
