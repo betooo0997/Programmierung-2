@@ -157,7 +157,7 @@ namespace Game
         {
             if(xCoord < 0 || xCoord >= numberColumns || yCoord < 0 || yCoord >= numberRows)
             {
-                return true;
+                return false;
             }
             else 
             switch (currentLevel[xCoord, yCoord])
@@ -181,30 +181,5 @@ namespace Game
             }
         }
 
-        public bool CollisionReturnerProjectiles(int xCoord, int yCoord)
-        {
-            if (xCoord < 0 || xCoord >= numberColumns || yCoord < 0 || yCoord >= numberRows)
-            {
-                return true;
-            }
-            else
-                switch (currentLevel[xCoord, yCoord])
-                {
-                    case Tilez.obstacleStone:
-                        return true;
-                    case Tilez.structureStone:
-                        return true;
-                    case Tilez.structureWood:
-                        return true;
-                    case Tilez.treeFoilage:
-                        return true;
-                    case Tilez.treeTop:
-                        return true;
-                    case Tilez.treeTrunk:
-                        return true;
-                    default:
-                        return false;
-                }
-        }
     }
 }

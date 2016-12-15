@@ -153,25 +153,48 @@ namespace Game
         /// <param name="tileMapPosition"></param>
         public void Draw(RenderWindow window, Vector2f tileMapPosition)
         {
+            /*
             int tileMapPositionXNormalized = (int)((-tileMapPosition.X) / tileArrayCreation.GetTileSize());
             int tileMapPositionYNormalized = (int)((-tileMapPosition.Y) / tileArrayCreation.GetTileSize());
 
-            for (int xCoord = 0, yCoord = 0, xLimit = (int)((GameLoop.GetWindowSize().X / tileArrayCreation.GetTileSize()) + 1),
+            for (int xCoord = 0, yCoord = 0, xLimit = (int)((GameLoop.GetWindowSize().X / tileArrayCreation.GetTileSize()) + 1), 
                 yLimit = (int)((GameLoop.GetWindowSize().Y / tileArrayCreation.GetTileSize()) + 1); yCoord <= yLimit; xCoord++)
             {
-                if ((xCoord + tileMapPositionXNormalized) >= 0 && (xCoord + tileMapPositionXNormalized) < GetNumberColumns() &&
-                    (yCoord + tileMapPositionYNormalized) >= 0 && (yCoord + tileMapPositionYNormalized) < GetNumberRows())
-                {
-                    tileSheet.Position = new Vector2f(((int)(((xCoord + tileMapPositionXNormalized) * tileArrayCreation.GetTileSize()) + tileMapPosition.X)),
-                        (int)((((yCoord + tileMapPositionYNormalized) * tileArrayCreation.GetTileSize()) + tileMapPosition.Y)));
-                    tileSheet.TextureRect = TileSourceDeterminat0r(tileArrayCreation.GetTilezArray()[xCoord + tileMapPositionXNormalized, tileMapPositionYNormalized + yCoord]);
+                    tileSheet.Position = new Vector2f(((int)(tileMapPositionXNormalized + xCoord * tileArrayCreation.GetTileSize() + tileMapPosition.X)), (int)((tileMapPositionYNormalized + yCoord * tileArrayCreation.GetTileSize() + tileMapPosition.Y)));
+                    tileSheet.TextureRect = TileSourceDeterminat0r(tileArrayCreation.GetTilezArray()[xCoord, yCoord]);
 
+                    window.Draw(tileSheet);
+                
+
+                xCoord++;
+                if(xCoord > xLimit)
+                {
+                    xCoord = 0;
+                    yCoord++;
+                }
+            }
+            */
+            
+
+            int yCoord = 0;
+            int xCoord = 0;
+
+            for (int x = 0; x < (tileArrayCreation.GetNumberColumns() * tileArrayCreation.GetNumberRows()); x++)
+            {
+                tileSheet.Position = new Vector2f(((int)(xCoord * tileArrayCreation.GetTileSize() + tileMapPosition.X)), (int)((yCoord * tileArrayCreation.GetTileSize() + tileMapPosition.Y)));
+
+
+                if (tileSheet.Position.X >= (-tileArrayCreation.GetTileSize()) && tileSheet.Position.X <= (GameLoop.GetWindowSize().X + tileArrayCreation.GetTileSize()) &&
+                    tileSheet.Position.Y >= (-tileArrayCreation.GetTileSize()) && tileSheet.Position.Y <= (GameLoop.GetWindowSize().Y + tileArrayCreation.GetTileSize()))
+                {
+                    tileSheet.TextureRect = TileSourceDeterminat0r(tileArrayCreation.GetTilezArray()[xCoord, yCoord]);
                     window.Draw(tileSheet);
                 }
 
-                if (xCoord > xLimit)
+                xCoord++;
+                if (xCoord >= tileArrayCreation.GetNumberColumns())
                 {
-                    xCoord = -1;
+                    xCoord = 0;
                     yCoord++;
                 }
             }
