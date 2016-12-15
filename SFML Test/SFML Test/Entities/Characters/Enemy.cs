@@ -105,7 +105,7 @@ namespace Game
         /// <summary>
         /// Divider to Check if fAngleEnemy is NaN
         /// </summary>
-        private float Zero = 0;
+        protected float Zero = 0;
 
 
 
