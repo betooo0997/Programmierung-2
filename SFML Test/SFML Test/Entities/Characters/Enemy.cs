@@ -137,11 +137,6 @@ namespace Game
         /// </summary>
         protected bool bCollisionLeft;
 
-        /// <summary>
-        /// True if Enemy detects Player
-        /// </summary>
-        protected bool bAlert;
-
 
 
 
@@ -188,6 +183,7 @@ namespace Game
         /// </summary>
         protected Random rRandom;
 
+<<<<<<< HEAD
         protected List<Node> Path;
 
         protected List<Node> Closed;
@@ -196,6 +192,18 @@ namespace Game
 
 
 
+=======
+        /// <summary>
+        /// Used to set Spawn values. Use soly to setup enemies in the level. 
+        /// </summary>
+        /// <param name="position"></param>
+        /// <param name="id"></param>
+        public void SetSpawnValues (Vector2f position, uint id)
+        {
+            vEntityPosition = position;
+            uID = id;
+        }
+>>>>>>> origin/master
 
 
 
@@ -247,12 +255,8 @@ namespace Game
 
                 if (DisposeInvisibleProjectile(lInvisibleProjectile))
                 {
-                    bAlert = true;
                     cDetecting.Restart();
                     tDetecting = cDetecting.ElapsedTime;
-
-                    AlertOtherEnemies();
-
                     return true;
                 }
 
@@ -260,7 +264,6 @@ namespace Game
                     return true;
             }
 
-            bAlert = false;
             return false;
         }
 
@@ -341,31 +344,6 @@ namespace Game
         }
 
 
-        /// <summary>
-        /// Alerts other Enenmies in the Radius of iDistanceDetection
-        /// </summary>
-        protected void AlertOtherEnemies()
-        {
-            List<Enemy> lEnemy;
-            lEnemy = MainMap.GetEnemies();
-
-            for (int x = 0; x < lEnemy.Count; x++)
-            {
-                if (lEnemy[x].uID == uID || lEnemy[x].bAlert)
-                    continue;
-
-                if (Utilities.DistanceBetweenVectors(sEntity.Position, lEnemy[x].sEntity.Position) <= iDistanceDetection)
-                {
-                    lEnemy[x].RotateEnemy(ref lEnemy[x].fAngle, MainMap.GetStartCharacterPosition() + new Vector2f(25, 25));
-                    lEnemy[x].sEntity.Rotation = lEnemy[x].fAngle;
-
-                    Vector2f vMovingDirection = vEntityPosition - lEnemy[x].vEntityPosition;
-                    lEnemy[x].vEntityPosition += vMovingDirection / Utilities.MakePositive(Utilities.DistanceBetweenVectors(lEnemy[x].vEntityPosition, vEntityPosition));
-                }
-            }
-        }
-
-
 
 
 
@@ -374,7 +352,7 @@ namespace Game
         /// <summary>
         /// Rotates the Enemy towards the Player
         /// </summary>
-        public void RotateEnemy(ref float fAngle, Vector2f vPositionToRotateTo)
+        protected void RotateEnemy(ref float fAngle, Vector2f vPositionToRotateTo)
         {
             // Calculating the Enemys Position using the Character Position as Origin
             Vector2f a = sEntity.Position - vPositionToRotateTo;

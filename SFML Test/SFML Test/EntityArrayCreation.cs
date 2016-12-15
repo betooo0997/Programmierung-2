@@ -23,14 +23,18 @@ namespace Game
         protected int numberRows;
 
         /// <summary>
+        /// Generated out off the values the tile array in the constructor. 
+        /// </summary>
+        protected int tileSize;
+        /// <summary>
         /// Created dependant on the underlying tile map. Ensured to not spawn entities on tiles with collision or out of the map boarders. 
         /// </summary>
-        protected Entity[,] entityArray;
+        protected Enemy[,] enemyArray;
 
 
-        public Entity[,] GetEntityArray()
+        public Enemy[,] GetEntityArray()
         {
-            return entityArray;
+            return enemyArray;
         }
         
         public int GetNumberColumns()
@@ -43,6 +47,11 @@ namespace Game
             return numberRows;
         }
 
+        public int GetTileSize()
+        {
+            return tileSize;
+        }
+
         /// <summary>
         /// Creation of the entity array happens in the constructor and is used to spawn enemies at the start of a game. Depends on the underlying tile array and a specific string array. Entities placed out off the maps boarders or on tiles with collision are ignored in the creation process. 
         /// </summary>
@@ -53,19 +62,19 @@ namespace Game
             numberColumns = tileManager.GetNumberColumns();
             numberRows = tileManager.GetNumberRows();
 
-            entityArray = new Entity[numberColumns, numberRows];
+            enemyArray = new Enemy[numberColumns, numberRows];
 
 
             for(int x = 0, y = 0; y < numberRows; x++)
             {
                 if (y < stringEnemyLayout.Length && x < stringEnemyLayout[y].Length)
                 {
-                    entityArray[x, y] = EntityConversation(stringEnemyLayout[y][x], tileManager, x, y);
+                    enemyArray[x, y] = EnemyConversation(stringEnemyLayout[y][x], tileManager, x, y);
                 }
 
                 if(x >= numberColumns)
                 {
-                    x = 0;
+                    x = -1;
                     y++;
                 }
             }
@@ -79,7 +88,7 @@ namespace Game
         /// <param name="xCoord"></param>
         /// <param name="yCoord"></param>
         /// <returns></returns>
-        protected Entity EntityConversation(char type, TileManager tileManager, int xCoord, int yCoord)
+        protected Enemy EnemyConversation(char type, TileManager tileManager, int xCoord, int yCoord)
         {
             if (!tileManager.GetCollisionAt(xCoord, yCoord))
             {

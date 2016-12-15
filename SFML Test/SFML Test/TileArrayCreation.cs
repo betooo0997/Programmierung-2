@@ -157,7 +157,7 @@ namespace Game
         {
             if(xCoord < 0 || xCoord >= numberColumns || yCoord < 0 || yCoord >= numberRows)
             {
-                return true;
+                return false;
             }
             else 
             switch (currentLevel[xCoord, yCoord])
@@ -181,6 +181,7 @@ namespace Game
             }
         }
 
+<<<<<<< HEAD
         public bool CollisionReturnerProjectiles(int xCoord, int yCoord)
         {
             if (xCoord < 0 || xCoord >= numberColumns || yCoord < 0 || yCoord >= numberRows)
@@ -229,5 +230,7 @@ namespace Game
                     return false;
             }
         }
+=======
+>>>>>>> origin/master
     }
 }

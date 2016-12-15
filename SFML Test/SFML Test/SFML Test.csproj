@@ -73,7 +73,6 @@
     <Compile Include="Levels\MainMap.cs" />
     <Compile Include="Statemachines\GameStates\StateGameOver.cs" />
     <Compile Include="Statemachines\GameStates\StateMainMenu.cs" />
-    <Compile Include="Node.cs" />
     <Compile Include="Useful Classes\CustomLists.cs" />
     <Compile Include="Entities\Projectiles\Player-Projectile.cs" />
     <Compile Include="Entities\Characters\Player.cs" />

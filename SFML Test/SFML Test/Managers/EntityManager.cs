@@ -21,7 +21,7 @@ namespace Game
         /// Returns the entity array created by the included instance of entityArrayCreation. 
         /// </summary>
         /// <returns></returns>
-        public Entity[,] GetEntityArray()
+        public Enemy[,] GetEnemyArray()
         {
             return entityArrayCreation.GetEntityArray();
         }
@@ -36,7 +36,6 @@ namespace Game
             return entityArrayCreation.GetNumberRows();
         }
 
-
         /// <summary>
         /// Requires the Instance of TileManager und the txt file used to create the current level. 
         /// </summary>
@@ -48,23 +47,33 @@ namespace Game
         }
 
         /// <summary>
-        /// Method tu opdate all Entities created at the start of the game. 
+        /// Returns a list of Enemies created in dependency of the initial Entity array, so Enemies get their type and spawn location. Ignores all non-hostile Entities. 
         /// </summary>
-        /// <param name="CharacterPosition"></param>
-        /// <param name="TileMapPosition"></param>
-        /// <param name="up"></param>
-        /// <param name="down"></param>
-        /// <param name="right"></param>
-        /// <param name="left"></param>
-        public void UpdateEntitySpawnedAt(Vector2f CharacterPosition, Vector2f TileMapPosition, bool up, bool down, bool right, bool left)
+        /// <returns></returns>
+        public List<Enemy> ReturnListCreatedOutOfArray()
         {
-            for(int x = 0, y = 0; y < GetArrayNumberColumns(); x++)
-            {
-                if(GetEntityArray()[x, y] != null)
-                {
+            uint id = 1;
+            List<Enemy> list = new List<Enemy>();
 
+            for (int x = 0, y = 0; y < GetArrayNumberRows(); x++)
+            {
+                if(GetEnemyArray()[x, y] != null)
+                {
+                    list.Add(GetEnemyArray()[x, y]);
+
+                    list[(int)id].SetSpawnValues(new Vector2f(x * entityArrayCreation.GetTileSize(), y * entityArrayCreation.GetTileSize()), id);
+
+                    id++;
+                }
+
+                if(x >= GetArrayNumberColumns())
+                {
+                    x = -1;
+                    y++;
                 }
             }
+
+            return list;
         }
     }
 }
