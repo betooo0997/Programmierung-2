@@ -157,7 +157,7 @@ namespace Game
         {
             if(xCoord < 0 || xCoord >= numberColumns || yCoord < 0 || yCoord >= numberRows)
             {
-                return false;
+                return true;
             }
             else 
             switch (currentLevel[xCoord, yCoord])
@@ -211,22 +211,14 @@ namespace Game
         {
             switch (Tile)
             {
-                case Tilez.water:
-                    return true;
-                case Tilez.obstacleStone:
-                    return true;
-                case Tilez.structureStone:
-                    return true;
-                case Tilez.structureWood:
-                    return true;
-                case Tilez.treeFoilage:
-                    return true;
-                case Tilez.treeTop:
-                    return true;
-                case Tilez.treeTrunk:
-                    return true;
-                default:
+                case Tilez.groundGrass:
                     return false;
+                case Tilez.groundStone:
+                    return false;
+                case Tilez.groundWood:
+                    return false;
+                default:
+                    return true;
             }
         }
     }

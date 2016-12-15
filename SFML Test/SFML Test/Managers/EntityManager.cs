@@ -70,5 +70,10 @@ namespace Game
 
             return list;
         }
+
+        public void DrawChosenEntity(Entity entity)
+        {
+
+        }
     }
 }
