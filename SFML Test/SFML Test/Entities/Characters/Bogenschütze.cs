@@ -71,7 +71,7 @@ namespace Game
 
             sEntity.Position = MainMap.GetTileMapPosition() + vEntityPosition + new Vector2f(25, 25);
 
-            DetectLogic();
+            //DetectLogic();
 
             for (int x = 0; x < lProjectile.Count; x++)
                 lProjectile[x].Update(sEntity);
@@ -87,26 +87,41 @@ namespace Game
                 PathFinder(vEntityPosition + new Vector2f(25, 25), MainMap.GetVirtualCharacterPosition() + new Vector2f(25, 25));
 
                 CurrentGoal = Path[Path.Count - 1].Position + MainMap.GetTileMapPosition() + new Vector2f(25, 25) - sEntity.Position;
-                Vector2f Movement = (CurrentGoal / Utilities.MakePositive(Utilities.DistanceToVectorFromOrigin(CurrentGoal)));
+                float MovementX = (CurrentGoal.X / Utilities.MakePositive(Utilities.DistanceToVectorFromOrigin(new Vector2f(CurrentGoal.X, 0))));
+                float MovementY = (CurrentGoal.Y / Utilities.MakePositive(Utilities.DistanceToVectorFromOrigin(new Vector2f(0, CurrentGoal.Y))));
 
 
-                int PositionX1 = (int)((vEntityPosition.X + Movement.X) / 50);
-                int PositionY1 = (int)((vEntityPosition.Y - 25 + Movement.Y) / 50);
+                Console.Clear();
+                Console.WriteLine(MovementX + "  " + MovementY);
+
+                int PositionX1 = (int)((vEntityPosition.X + MovementX) / 50);
+                int PositionY1 = (int)((vEntityPosition.Y + MovementY) / 50);
 
                 int PositionX = (int)((vEntityPosition.X) / 50);
                 int PositionY = (int)((vEntityPosition.Y) / 50);
 
-                if (!TileArrayCreation.CollisionReturner(PositionX1,        PositionY)      &&
-                    !TileArrayCreation.CollisionReturner(PositionX1 + 1,    PositionY)      &&
-                    !TileArrayCreation.CollisionReturner(PositionX1,        PositionY + 1)  &&
-                    !TileArrayCreation.CollisionReturner(PositionX1 + 1,    PositionY + 1))
-                    vEntityPosition.X += Movement.X;
+                if (!TileArrayCreation.CollisionReturner(PositionX1, PositionY) &&
+                    !TileArrayCreation.CollisionReturner(PositionX1 + 1, PositionY) &&
+                    !TileArrayCreation.CollisionReturner(PositionX1, PositionY + 1) &&
+                    !TileArrayCreation.CollisionReturner(PositionX1 + 1, PositionY + 1))
+                {
+                    if (!MovementX.Equals(0 / Zero))
+                        vEntityPosition.X += MovementX;
+                    else 
+                        vEntityPosition.X = Path[Path.Count - 1].Position.X;
+                }
 
-                if (!TileArrayCreation.CollisionReturner(PositionX,         PositionY1)     &&
-                    !TileArrayCreation.CollisionReturner(PositionX + 1,     PositionY1)     &&
-                    !TileArrayCreation.CollisionReturner(PositionX,         PositionY1 + 1) &&
-                    !TileArrayCreation.CollisionReturner(PositionX + 1,     PositionY1 + 1))
-                    vEntityPosition.Y += Movement.Y;
+
+                if (!TileArrayCreation.CollisionReturner(PositionX, PositionY1) &&
+                    !TileArrayCreation.CollisionReturner(PositionX + 1, PositionY1) &&
+                    !TileArrayCreation.CollisionReturner(PositionX, PositionY1 + 1) &&
+                    !TileArrayCreation.CollisionReturner(PositionX + 1, PositionY1 + 1))
+                {
+                    if (!MovementY.Equals(0 / Zero))
+                        vEntityPosition.Y += MovementY;
+                    else
+                        vEntityPosition.Y = Path[Path.Count - 1].Position.Y;
+                }
             }
 
             DisposeProjectile(lProjectile, uDamage);
