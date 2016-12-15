@@ -40,7 +40,7 @@ namespace Game
         /// If a Player-Projectile collides with the Enemy without having detected the Player, its direction is saved under this Variable.
         /// Used to inspect the Area where the Projectile came from.
         /// </summary>
-        protected Vector2f vRegisteredProjectilePosition;
+        protected Vector2f vRegisteredPlayerPosition;
 
 
 
@@ -564,7 +564,7 @@ namespace Game
         public void ReduceHealth(uint Damage, Vector2f Direction)
         {
             iHealth -= (int)Damage;
-            vRegisteredProjectilePosition = Direction;
+            vRegisteredPlayerPosition = MainMap.GetVirtualCharacterPosition();
             RotateEnemy(ref fAngle, Direction + MainMap.GetStartCharacterPosition() + new Vector2f(25, 25));
             sEntity.Rotation = fAngle;
         }
@@ -848,8 +848,8 @@ namespace Game
 
             Tilez[,] tManager = MainMap.GetTileManager().GetTileArray();
 
-            int startX = (int)vPosition.X / 50;
-            int startY = (int)vPosition.Y / 50;
+            int startX = (int)((vPosition.X + 25) / 50);
+            int startY = (int)((vPosition.Y + 25) / 50);
 
             int goalX = (int)vGoalPosition.X / 50;
             int goalY = (int)vGoalPosition.Y / 50;
