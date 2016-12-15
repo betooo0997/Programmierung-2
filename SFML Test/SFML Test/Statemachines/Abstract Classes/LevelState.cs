@@ -22,7 +22,7 @@ namespace Game
         protected string[] enemyLayoutString;
 
         protected CustomList drawList;
-        protected TileManager TileUndHerrsche;
+        protected static TileManager TileUndHerrsche;
         protected EntityManager entityManager;
         protected Player cPlayer;
         protected Camera cCamera;

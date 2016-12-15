@@ -183,7 +183,6 @@ namespace Game
         /// </summary>
         protected Random rRandom;
 
-<<<<<<< HEAD
         protected List<Node> Path;
 
         protected List<Node> Closed;
@@ -192,7 +191,6 @@ namespace Game
 
 
 
-=======
         /// <summary>
         /// Used to set Spawn values. Use soly to setup enemies in the level. 
         /// </summary>
@@ -203,7 +201,6 @@ namespace Game
             vEntityPosition = position;
             uID = id;
         }
->>>>>>> origin/master
 
 
 
