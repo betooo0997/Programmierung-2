@@ -20,12 +20,12 @@ namespace Game
         /// <summary>
         /// Number of Boss Enemies spawned at the beginning. 
         /// </summary>
-        protected int iBossCount;
+        protected uint uiBossCount;
 
         /// <summary>
         /// Number of already defeated Bosses. Set to max number in the constructor. 
         /// </summary>
-        protected int iBossesSlayed;
+        protected uint uiBossesSlayed;
 
         public string GetQuestString()
         {
@@ -40,14 +40,14 @@ namespace Game
         /// <param name="numberRows"></param>
         public Questtracker(Entity[,] entityArray, int numberColumns, int numberRows)
         {
-            iBossCount = 0;
-            iBossesSlayed = 0;
+            uiBossCount = 0;
+            uiBossesSlayed = 0;
 
             for(int x = 0, y = 0; y < numberRows; x++)
             {
                 if(entityArray[x, y] != null && entityArray[x, y].GetIsBoss())
                 {
-                    iBossCount++;
+                    uiBossCount++;
                 }
 
                 if (x >= numberColumns - 1)
@@ -58,7 +58,7 @@ namespace Game
             }
             
 
-            if(iBossCount == 0)
+            if(uiBossCount == 0)
             {
                 sQuesttext = "Exploration Mode";
             }
@@ -69,13 +69,13 @@ namespace Game
          /// </summary>
          /// <param name="iBossesKilled"></param>
          /// <returns></returns>
-        public string Update(int iBossesKilled)
+        public string Update(uint uiBossesKilled)
         {
 
-            if(iBossCount > 0)
+            if(uiBossCount > 0)
             {
-                iBossesSlayed = iBossesKilled;
-                sQuesttext = iBossesSlayed + " / " + iBossCount + " Bosses defeated";
+                uiBossesSlayed = uiBossesKilled;
+                sQuesttext = uiBossesSlayed + " / " + uiBossCount + " Bosses defeated";
             }
 
             return sQuesttext;

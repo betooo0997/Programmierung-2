@@ -14,6 +14,7 @@ namespace Game
     {
         protected Text textQuest;
         protected Questtracker questTracker;
+        protected uint uiKillCount;
 
         //TEXTURES AND SPRITES
 
@@ -73,6 +74,7 @@ namespace Game
             cPlayer = new Player(levelString, vCharacterVirtualPosition);
             questTracker = new Questtracker(entityManager.GetEnemyArray(), entityManager.GetArrayNumberColumns(), entityManager.GetArrayNumberRows());
             textQuest = new Text(questTracker.GetQuestString(), font, 20);
+            uiKillCount = 0;
             cCamera = new Camera();
 
             lEnemies = entityManager.ReturnListCreatedOutOfArray();
@@ -117,6 +119,11 @@ namespace Game
 
                 if (lEnemies[x].GetHealth() < 0)
                 {
+                    if (lEnemies[x].GetIsBoss())
+                    {
+                        uiKillCount++;
+                    }
+
                     for (int y = x; y < lEnemies.Count - 1; y++)
                     {
                         lEnemies[x] = lEnemies[x + 1];
@@ -128,7 +135,7 @@ namespace Game
 
             cPlayer.Update(ref vCharacterVirtualPosition, ref up, ref down, ref right, ref left);
 
-            textQuest = new Text(questTracker.Update(0), font, 20);
+            textQuest = new Text(questTracker.Update(uiKillCount), font, 20);
 
             iInput.Update(ref vCharacterVirtualPosition, ref Character.iSpeed, up, right, down, left, window);
 
@@ -185,6 +192,11 @@ namespace Game
         public static List<Enemy> GetEnemies()
         {
             return lEnemies;
+        }
+
+        public static TileManager GetTileManager()
+        {
+            return TileUndHerrsche;
         }
     }
 }

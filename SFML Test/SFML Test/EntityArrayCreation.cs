@@ -17,15 +17,12 @@ namespace Game
         /// Generated out off the values the tile array in the constructor. 
         /// </summary>
         protected int numberColumns;
-        /// <summary>
-        /// Generated out off the values the tile array in the constructor. 
-        /// </summary>
-        protected int numberRows;
 
         /// <summary>
         /// Generated out off the values the tile array in the constructor. 
         /// </summary>
-        protected int tileSize;
+        protected int numberRows;
+        
         /// <summary>
         /// Created dependant on the underlying tile map. Ensured to not spawn entities on tiles with collision or out of the map boarders. 
         /// </summary>
@@ -46,11 +43,7 @@ namespace Game
         {
             return numberRows;
         }
-
-        public int GetTileSize()
-        {
-            return tileSize;
-        }
+        
 
         /// <summary>
         /// Creation of the entity array happens in the constructor and is used to spawn enemies at the start of a game. Depends on the underlying tile array and a specific string array. Entities placed out off the maps boarders or on tiles with collision are ignored in the creation process. 
@@ -62,14 +55,17 @@ namespace Game
             numberColumns = tileManager.GetNumberColumns();
             numberRows = tileManager.GetNumberRows();
 
-            enemyArray = new Enemy[numberColumns, numberRows];
+            enemyArray = new Enemy[numberColumns + 1, numberRows + 1];
 
+            uint id = 1;
 
             for(int x = 0, y = 0; y < numberRows; x++)
             {
                 if (y < stringEnemyLayout.Length && x < stringEnemyLayout[y].Length)
                 {
-                    enemyArray[x, y] = EnemyConversation(stringEnemyLayout[y][x], tileManager, x, y);
+                    enemyArray[x, y] = EnemyConversation(stringEnemyLayout[y][x], tileManager, x, y, id);
+
+                    id++;
                 }
 
                 if(x >= numberColumns)
@@ -88,14 +84,14 @@ namespace Game
         /// <param name="xCoord"></param>
         /// <param name="yCoord"></param>
         /// <returns></returns>
-        protected Enemy EnemyConversation(char type, TileManager tileManager, int xCoord, int yCoord)
+        protected Enemy EnemyConversation(char type, TileManager tileManager, int xCoord, int yCoord, uint id)
         {
             if (!tileManager.GetCollisionAt(xCoord, yCoord))
             {
                 switch (type)
                 {
                     case ('a'):
-                        //return new Archer(new Vector2f((float)(xCoord * tileManager.GetTileSize()), (float)(yCoord * tileManager.GetTileSize())));
+                        return new Archer(new Vector2f((float)(xCoord * tileManager.GetTileSize()), (float)(yCoord * tileManager.GetTileSize())), id);
                     default:
                         return null;
                 }

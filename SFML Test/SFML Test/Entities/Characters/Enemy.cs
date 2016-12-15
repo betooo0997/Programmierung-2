@@ -188,19 +188,7 @@ namespace Game
         protected List<Node> Closed;
 
         protected Vector2f CurrentGoal;
-
-
-
-        /// <summary>
-        /// Used to set Spawn values. Use soly to setup enemies in the level. 
-        /// </summary>
-        /// <param name="position"></param>
-        /// <param name="id"></param>
-        public void SetSpawnValues (Vector2f position, uint id)
-        {
-            vEntityPosition = position;
-            uID = id;
-        }
+        
 
 
 

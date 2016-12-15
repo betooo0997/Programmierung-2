@@ -52,7 +52,6 @@ namespace Game
         /// <returns></returns>
         public List<Enemy> ReturnListCreatedOutOfArray()
         {
-            uint id = 1;
             List<Enemy> list = new List<Enemy>();
 
             for (int x = 0, y = 0; y < GetArrayNumberRows(); x++)
@@ -60,10 +59,6 @@ namespace Game
                 if(GetEnemyArray()[x, y] != null)
                 {
                     list.Add(GetEnemyArray()[x, y]);
-
-                    list[(int)id].SetSpawnValues(new Vector2f(x * entityArrayCreation.GetTileSize(), y * entityArrayCreation.GetTileSize()), id);
-
-                    id++;
                 }
 
                 if(x >= GetArrayNumberColumns())

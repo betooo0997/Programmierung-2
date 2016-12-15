@@ -149,3 +149,4 @@ C:\Users\Mario\Documents\GitHub\Programmierung-2\SFML Test\SFML Test\bin\Debug\C
 C:\Users\Mario\Documents\GitHub\Programmierung-2\SFML Test\SFML Test\bin\Debug\Content\Triangle.png
 C:\Users\Mario\Documents\GitHub\Programmierung-2\SFML Test\SFML Test\bin\Debug\Content\MainMapEnemies.txt
 C:\Users\Beto\Documents\GitHub\Programmierung-2\SFML Test\SFML Test\bin\Debug\Content\MainMap - Copy.txt
+C:\Users\Alexander\Documents\GitHub\Programmierung-2\SFML Test\SFML Test\bin\Debug\Content\MainMap - Copy.txt
