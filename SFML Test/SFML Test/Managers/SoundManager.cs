@@ -12,18 +12,30 @@ namespace Game
 {
     static class SoundManager
     {
-        static Sound[] soundArray;
-        static string[] soundNames;
+        private static int numberOfSounds;
+        private static Sound[] soundArray;
+        private static string[] soundNames;
 
-        public static void SetSoundList(Sound[] sounds, string[] names)
+        static SoundManager()
         {
-            soundArray = sounds;
-            soundNames = names;
+            numberOfSounds = 4;
+            soundArray = new Sound[numberOfSounds];
+            soundNames = new string[numberOfSounds];
+
+            soundArray[0] = new Sound(ContentLoader.soundClick);
+            soundNames[0] = "Click";
+            soundArray[1] = new Sound(ContentLoader.soundProjectileShot);
+            soundNames[1] = "Shot";
+            soundArray[2] = new Sound(ContentLoader.soundProjectileImpact);
+            soundNames[2] = "Impact";
+            soundArray[3] = new Sound(ContentLoader.soundEnemyDeath);
+            soundNames[3] = "Death";
+
         }
 
         public static void PlaySpecificSound(string name)
         {
-            for(int x = 0; x < soundNames.Length && x < soundArray.Length; x++)
+            for(int x = 0; x < numberOfSounds; x++)
             {
                 if(soundNames[x] == name)
                 {

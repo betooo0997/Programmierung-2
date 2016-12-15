@@ -1,0 +1,14 @@
+'e'= Water 
+'o'= Obstacle Stone 
+'s'= Structure made out of Stone 
+'w'= Structure made out of Wood 
+'+'= Tree Foilage 
+'x'= Tree Top 
+'u'= Tree Trunk 
+'d'= Ground Wood (walkable) 
+'p'= Ground Stone (walkable) 
+'g'= Ground Grass (walkable) 
+'0'= Unicolor White 
+'*'= Unicolor Grey 
+'#'= Unicolor Dark Grey 
+default: Unicolor Black 
