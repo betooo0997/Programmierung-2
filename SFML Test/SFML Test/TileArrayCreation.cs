@@ -36,15 +36,15 @@ namespace Game
         /// <summary>
         /// Is generated in the constructor depending on the longest line in the source file (exactly: Biggest number of chars in the longest entry of the received string array). 
         /// </summary>
-        protected int numberColumns;
+        protected static int numberColumns;
         /// <summary>
         /// Is generated in the consctructor depending on the number of lines in the source file (exactly: Number of entries in the received string array). 
         /// </summary>
-        protected int numberRows;
+        protected static int numberRows;
         /// <summary>
         /// Return value 
         /// </summary>
-        protected Tilez[,] currentLevel;
+        protected static Tilez[,] currentLevel;
 
    
         public Tilez[,] GetTilezArray()
@@ -153,7 +153,7 @@ namespace Game
         /// </summary>
         /// <param name="tile"></param>
         /// <returns></returns>
-        public bool CollisionReturner(int xCoord, int yCoord)
+        public static bool CollisionReturner(int xCoord, int yCoord)
         {
             if(xCoord < 0 || xCoord >= numberColumns || yCoord < 0 || yCoord >= numberRows)
             {
@@ -205,6 +205,29 @@ namespace Game
                     default:
                         return false;
                 }
+        }
+
+        public static bool CollisionReturner(Tilez Tile)
+        {
+            switch (Tile)
+            {
+                case Tilez.water:
+                    return true;
+                case Tilez.obstacleStone:
+                    return true;
+                case Tilez.structureStone:
+                    return true;
+                case Tilez.structureWood:
+                    return true;
+                case Tilez.treeFoilage:
+                    return true;
+                case Tilez.treeTop:
+                    return true;
+                case Tilez.treeTrunk:
+                    return true;
+                default:
+                    return false;
+            }
         }
     }
 }

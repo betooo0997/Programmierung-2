@@ -188,6 +188,12 @@ namespace Game
         /// </summary>
         protected Random rRandom;
 
+        protected List<Node> Path;
+
+        protected List<Node> Closed;
+
+        protected Vector2f CurrentGoal;
+
 
 
 
@@ -738,7 +744,111 @@ namespace Game
             drawList.Add(cCharacterPosition);
             drawList.Add(cEnemyPosition);
             CustomList.AddProjectiles(drawList, lInvisibleProjectile);
+
+            if (Path.Count > 1)
+            {
+                CircleShape cShape;
+
+                cShape = new CircleShape(5);
+                cShape.FillColor = Color.White;
+                cShape.Position = Path[Path.Count - 1].Position + MainMap.GetTileMapPosition() + new Vector2f(25, 25) - new Vector2f(cShape.Radius, cShape.Radius);
+                drawList.Add(cShape);
+            }
         }
+
+        /// <summary>
+        /// Shows all the used Nodes in the Path Finding Algorithm
+        /// </summary>
+        protected void DrawPathFinder(Font ffont)
+        {
+            List<CircleShape> lCircles;
+            lCircles = new List<CircleShape>();
+
+            for (int x = 0; x < Closed.Count; x++)
+            {
+                CircleShape cShape;
+                Text tText;
+
+                cShape = new CircleShape(25, 4);
+                cShape.Origin = new Vector2f(25, 25);
+                cShape.Rotation = 45;
+                cShape.FillColor = Color.Cyan;
+                cShape.Position = Closed[x].Position * 50 + MainMap.GetTileMapPosition() + new Vector2f(25, 25);
+                drawList.Add(cShape);
+
+                tText = new Text(Closed[x].iFCost.ToString(), ffont, 15);
+                tText.Position = cShape.Position - new Vector2f(14f, 3f);
+                tText.Color = Color.Black;
+                drawList.Add(tText);
+
+                tText = new Text(Closed[x].iGCost.ToString(), ffont, 10);
+                tText.Position = cShape.Position - new Vector2f(18f, 15f);
+                tText.Color = Color.Black;
+                drawList.Add(tText);
+
+                tText = new Text(Closed[x].iHCost.ToString(), ffont, 10);
+                tText.Position = cShape.Position - new Vector2f(-2f, 15f);
+                tText.Color = Color.Black;
+                drawList.Add(tText);
+            }
+
+            for (int x = 0; x < Path.Count; x++)
+            {
+                CircleShape cShape;
+                Text tText;
+
+                cShape = new CircleShape(25, 4);
+                cShape.Origin = new Vector2f(25, 25);
+                cShape.Rotation = 45;
+                cShape.FillColor = Color.Blue;
+                cShape.Position = Path[x].Position + MainMap.GetTileMapPosition() + new Vector2f(25, 25);
+                drawList.Add(cShape);
+
+                tText = new Text(Path[x].iFCost.ToString(), ffont, 15);
+                tText.Position = cShape.Position - new Vector2f(14f, 3f);
+                tText.Color = Color.Black;
+                drawList.Add(tText);
+
+                tText = new Text(Path[x].iGCost.ToString(), ffont, 10);
+                tText.Position = cShape.Position - new Vector2f(18f, 15f);
+                tText.Color = Color.Black;
+                drawList.Add(tText);
+
+                tText = new Text(Path[x].iHCost.ToString(), ffont, 10);
+                tText.Position = cShape.Position - new Vector2f(-2f, 15f);
+                tText.Color = Color.Black;
+                drawList.Add(tText);
+            }
+
+            if (Path.Count > 1)
+            {
+                CircleShape cShape;
+                Text tText;
+
+                cShape = new CircleShape(25, 4);
+                cShape.Origin = new Vector2f(25, 25);
+                cShape.Rotation = 45;
+                cShape.FillColor = Color.Black;
+                cShape.Position = Path[Path.Count - 1].Position + MainMap.GetTileMapPosition() + new Vector2f(25, 25);
+                drawList.Add(cShape);
+
+                tText = new Text(Path[Path.Count - 1].iFCost.ToString(), ffont, 15);
+                tText.Position = cShape.Position - new Vector2f(14f, 3f);
+                tText.Color = Color.White;
+                drawList.Add(tText);
+
+                tText = new Text(Path[Path.Count - 1].iGCost.ToString(), ffont, 10);
+                tText.Position = cShape.Position - new Vector2f(18f, 15f);
+                tText.Color = Color.White;
+                drawList.Add(tText);
+
+                tText = new Text(Path[Path.Count - 1].iHCost.ToString(), ffont, 10);
+                tText.Position = cShape.Position - new Vector2f(-2f, 15f);
+                tText.Color = Color.White;
+                drawList.Add(tText);
+            }
+        }
+
 
 
 
@@ -761,5 +871,150 @@ namespace Game
         /// </summary>
         /// <returns></returns>
         public abstract List<Drawable> Draw();
+
+
+
+
+
+        // DECLARING METHODS: PATH FINDING ALGORITHM
+
+        public void PathFinder(Vector2f vPosition, Vector2f vGoalPosition)
+        {
+            List<Node> Open; // set of nodes to be evaluated
+            Open = new List<Node>();
+
+            Tilez[,] tManager = MainMap.GetTileManager().GetTileArray();
+
+            int startX = (int)vPosition.X / 50;
+            int startY = (int)vPosition.Y / 50;
+
+            int goalX = (int)vGoalPosition.X / 50;
+            int goalY = (int)vGoalPosition.Y / 50;
+
+            Node startNode = new Node(tManager[startX, startY], new Vector2f(startX, startY), new Vector2f(goalX, goalY));
+            Node targetNode = new Node(tManager[goalX, goalY], new Vector2f(goalX, goalY), startNode);
+
+            Open.Add(startNode);
+
+
+            bool loop = true;
+
+            Node current;
+            current = Open[0];
+            int currentindex = 0;
+
+
+            while (loop)
+            {
+                for (int x = 0; x < Open.Count; x++)
+                {
+                    if (x == 0)
+                        current = Open[Open.Count - 1];
+
+                    if (Open[x].iFCost <= current.iFCost)
+                    {
+                        current = Open[x];
+                        currentindex = x;
+                    }
+                }
+
+
+                Open.RemoveAt(currentindex);
+                Closed.Add(current);
+
+                if (current.Position == targetNode.Position)
+                    break;
+
+                int X = (int)current.Position.X;
+                int Y = (int)current.Position.Y;
+
+                Node[] neighbour = new Node[] { };
+
+                CreateNeighbours(X, Y, ref neighbour, tManager, current, targetNode);
+
+
+                foreach (Node element in neighbour)
+                {
+                    if (element.Collision || Closed.Exists(x => x.Position == element.Position))
+                        continue;
+
+                    if (Open.Find(x => x.Position == element.Position) == null)
+                    {
+                        element.ParentNode = current;
+
+                        Open.Add(element);
+                    }
+
+                    else if (element.iFCost < Open.Find(x => x.Position == element.Position).iFCost)
+                    {
+                        element.ParentNode = current;
+
+                        Open[Open.IndexOf((Open.Find(x => x.Position == element.Position)))] = element;
+                    }
+                }
+            }
+
+            Node NodeWay;
+            NodeWay = current;
+
+            while (NodeWay != startNode)
+            {
+                NodeWay.Position *= 50;
+                Path.Add(NodeWay);
+                NodeWay = NodeWay.ParentNode;
+            }
+        }
+
+
+        protected void CreateNeighbours(int X, int Y, ref Node[] neighbour, Tilez[,] tManager, Node current, Node targetNode)
+        {
+            if (X > 0 && Y > 0)
+            {
+                neighbour = new Node[] { new Node(tManager[X - 1,   Y - 1],   new Vector2f(X - 1,   Y - 1), current, targetNode),
+                                     new Node(tManager[X,       Y - 1],   new Vector2f(X,       Y - 1), current, targetNode),
+                                     new Node(tManager[X + 1,   Y - 1],   new Vector2f(X + 1,   Y - 1), current, targetNode),
+
+                                     new Node(tManager[X - 1,   Y],       new Vector2f(X - 1,   Y),     current, targetNode),
+                                     new Node(tManager[X + 1,   Y],       new Vector2f(X + 1,   Y),     current, targetNode),
+
+                                     new Node(tManager[X - 1,   Y + 1],   new Vector2f(X - 1,   Y + 1), current, targetNode),
+                                     new Node(tManager[X,       Y + 1],   new Vector2f(X,       Y + 1), current, targetNode),
+                                     new Node(tManager[X + 1,   Y + 1],   new Vector2f(X + 1,   Y + 1), current, targetNode)};
+            }
+
+            else if (X <= 0 && Y <= 0)
+            {
+                neighbour = new Node[] {
+                                     new Node(tManager[X + 1,   Y],       new Vector2f(X + 1,   Y),     current, targetNode),
+
+                                     new Node(tManager[X,       Y + 1],   new Vector2f(X,       Y + 1), current, targetNode),
+                                     new Node(tManager[X + 1,   Y + 1],   new Vector2f(X + 1,   Y + 1), current, targetNode)};
+            }
+
+            else if (X <= 0)
+            {
+                neighbour = new Node[] {
+                                     new Node(tManager[X,       Y - 1],   new Vector2f(X,       Y - 1), current, targetNode),
+                                     new Node(tManager[X + 1,   Y - 1],   new Vector2f(X + 1,   Y - 1), current, targetNode),
+
+                                     new Node(tManager[X + 1,   Y],       new Vector2f(X + 1,   Y),     current, targetNode),
+
+                                     new Node(tManager[X,       Y + 1],   new Vector2f(X,       Y + 1), current, targetNode),
+                                     new Node(tManager[X + 1,   Y + 1],   new Vector2f(X + 1,   Y + 1), current, targetNode)};
+            }
+
+            else if (Y <= 0)
+            {
+                neighbour = new Node[] {
+
+                                     new Node(tManager[X - 1,   Y],       new Vector2f(X - 1,   Y),     current, targetNode),
+
+                                     new Node(tManager[X + 1,   Y],       new Vector2f(X + 1,   Y),     current, targetNode),
+
+                                     new Node(tManager[X - 1,   Y + 1],   new Vector2f(X - 1,   Y + 1), current, targetNode),
+                                     new Node(tManager[X,       Y + 1],   new Vector2f(X,       Y + 1), current, targetNode),
+                                     new Node(tManager[X + 1,   Y + 1],   new Vector2f(X + 1,   Y + 1), current, targetNode)};
+            }
+        }
     }
 }

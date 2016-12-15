@@ -58,7 +58,7 @@ namespace Game
         /// <returns></returns>
         public bool GetCollisionAt(int xCoord, int yCoord)
         {
-            return tileArrayCreation.CollisionReturner(xCoord, yCoord);
+            return TileArrayCreation.CollisionReturner(xCoord, yCoord);
         }
 
         /// <summary>

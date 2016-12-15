@@ -60,7 +60,7 @@ namespace Game
 
                     // COLLISIONDETECTION ON ENTITY BORDER
 
-                    if (tTileMap.CollisionReturner(x, y))
+                    if (TileArrayCreation.CollisionReturner(x, y))
                     {
 
                         if (((vEntityPos.Y < (y + 1) * 50 && vEntityPos.Y > y * 50 - 1) ||
@@ -113,7 +113,7 @@ namespace Game
 
                     // COLLISIONDETECTION ON ENTITY BORDER
 
-                    if (tTileMap.CollisionReturner(x, y))
+                    if (TileArrayCreation.CollisionReturner(x, y))
                     {
                         if (vEntityPos.Y < (y + 1) * 50                         &&      vEntityPos.Y > y * 50                       &&
                            vEntityPos.X < (x + 1) * 50                          &&      vEntityPos.X > x * 50                       ||

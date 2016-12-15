@@ -81,7 +81,6 @@ namespace Game
 
             lEnemies = new List<Enemy>();
             lEnemies.Add(cArcher);
-            lEnemies.Add(cArcher2);
 
 
             vTileMapPosition = new Vector2f(0, 0);
@@ -117,6 +116,8 @@ namespace Game
 
             cCamera.Update(vCharacterVirtualPosition, ref vTileMapPosition);
 
+            cPlayer.Update(ref vCharacterVirtualPosition, ref up, ref down, ref right, ref left);
+
             for (int x = 0; x < lEnemies.Count; x++)
             {
                 lEnemies[x].Update(ref vCharacterVirtualPosition, ref up, ref down, ref right, ref left);
@@ -131,8 +132,6 @@ namespace Game
                     lEnemies.RemoveAt(lEnemies.Count - 1);
                 }
             }
-
-            cPlayer.Update(ref vCharacterVirtualPosition, ref up, ref down, ref right, ref left);
 
             textQuest = new Text(questTracker.Update(0), font, 20);
 

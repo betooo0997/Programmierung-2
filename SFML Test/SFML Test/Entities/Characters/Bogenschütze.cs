@@ -19,6 +19,7 @@ namespace Game
         Time tMoving;
         Time tSuspecting;
         bool bSuspecting;
+        Font ffont;
 
 
         public Archer(Vector2f vEnemyPosition, uint uID)
@@ -37,6 +38,7 @@ namespace Game
             cMoving = new Clock();
             cSuspecting = new Clock();
             rRandom = new Random();
+            ffont = ContentLoader.fontArial;
 
 
 
@@ -62,46 +64,14 @@ namespace Game
         public override void Update(ref Vector2f VirtualPlayerPosition,  ref bool up, ref bool down, ref bool right, ref bool left)
         {
             tShooting = cShooting.ElapsedTime;
+            Closed = new List<Node>();
+            Path = new List<Node>();
 
             PlayerEnemyCollision(ref VirtualPlayerPosition, ref up, ref down, ref right, ref left);
 
             sEntity.Position = MainMap.GetTileMapPosition() + vEntityPosition + new Vector2f(25, 25);
 
-
-            if (DetectPlayer())
-            {
-                RotateEnemy(ref fAngle, MainMap.GetStartCharacterPosition() + new Vector2f(25, 25));
-                sEntity.Rotation = fAngle;
-
-                Move();
-
-                if (tShooting.AsMilliseconds() >= 1200)
-                {
-                    Shoot();
-                    cShooting.Restart();
-                }
-            }
-            else if (Utilities.MakePositive(vRegisteredProjectilePosition.X) > 0)
-            {
-                if (!bSuspecting)
-                {
-                    cSuspecting.Restart();
-                    bSuspecting = true;
-                }
-
-                tSuspecting = cSuspecting.ElapsedTime;
-
-                if (tSuspecting.AsMilliseconds() <= 3500)
-                    vEntityPosition += vRegisteredProjectilePosition;
-                else
-                    vRegisteredProjectilePosition = new Vector2f();
-            }
-            else
-            {
-                if (bSuspecting)
-                    bSuspecting = false;
-            }
-
+            DetectLogic();
 
             for (int x = 0; x < lProjectile.Count; x++)
                 lProjectile[x].Update(sEntity);
@@ -109,12 +79,38 @@ namespace Game
             for (int x = 0; x < lInvisibleProjectile.Count; x++)
                 lInvisibleProjectile[x].Update(sEntity);
 
-            DisposeProjectile(lProjectile, uDamage);
-            DisposeProjectile(lInvisibleProjectile, iDistanceDetection);
-
             if (iHealth >= 0)
                 sEntity.Color = new Color(255, (byte)(255 - (255 - iHealth * 2.55f)), (byte)(255 - (255 - iHealth * 2.55f)));
 
+            if (Input.FindPath)
+            {
+                PathFinder(vEntityPosition + new Vector2f(25, 25), MainMap.GetVirtualCharacterPosition() + new Vector2f(25, 25));
+
+                CurrentGoal = Path[Path.Count - 1].Position + MainMap.GetTileMapPosition() + new Vector2f(25, 25) - sEntity.Position;
+                Vector2f Movement = (CurrentGoal / Utilities.MakePositive(Utilities.DistanceToVectorFromOrigin(CurrentGoal)));
+
+
+                int PositionX1 = (int)((vEntityPosition.X + Movement.X) / 50);
+                int PositionY1 = (int)((vEntityPosition.Y - 25 + Movement.Y) / 50);
+
+                int PositionX = (int)((vEntityPosition.X) / 50);
+                int PositionY = (int)((vEntityPosition.Y) / 50);
+
+                if (!TileArrayCreation.CollisionReturner(PositionX1,        PositionY)      &&
+                    !TileArrayCreation.CollisionReturner(PositionX1 + 1,    PositionY)      &&
+                    !TileArrayCreation.CollisionReturner(PositionX1,        PositionY + 1)  &&
+                    !TileArrayCreation.CollisionReturner(PositionX1 + 1,    PositionY + 1))
+                    vEntityPosition.X += Movement.X;
+
+                if (!TileArrayCreation.CollisionReturner(PositionX,         PositionY1)     &&
+                    !TileArrayCreation.CollisionReturner(PositionX + 1,     PositionY1)     &&
+                    !TileArrayCreation.CollisionReturner(PositionX,         PositionY1 + 1) &&
+                    !TileArrayCreation.CollisionReturner(PositionX + 1,     PositionY1 + 1))
+                    vEntityPosition.Y += Movement.Y;
+            }
+
+            DisposeProjectile(lProjectile, uDamage);
+            DisposeProjectile(lInvisibleProjectile, iDistanceDetection);
         }
 
 
@@ -129,7 +125,9 @@ namespace Game
 
             drawList.Add(sEntity);
 
+            DrawPathFinder(ffont);
             ShowVectors();
+
 
             return drawList;
         }
@@ -217,6 +215,46 @@ namespace Game
                 }
             }
             while (bRepeat && iRepeating < 2);
+        }
+
+
+        protected void DetectLogic()
+        {
+            if (DetectPlayer())
+            {
+                RotateEnemy(ref fAngle, MainMap.GetStartCharacterPosition() + new Vector2f(25, 25));
+                sEntity.Rotation = fAngle;
+
+                Move();
+
+                if (tShooting.AsMilliseconds() >= 1200)
+                {
+                    Shoot();
+                    cShooting.Restart();
+                }
+            }
+
+            else if (Utilities.MakePositive(vRegisteredProjectilePosition.X) > 0)
+            {
+                if (!bSuspecting)
+                {
+                    cSuspecting.Restart();
+                    bSuspecting = true;
+                }
+
+                tSuspecting = cSuspecting.ElapsedTime;
+
+                if (tSuspecting.AsMilliseconds() <= 3500)
+                    vEntityPosition += vRegisteredProjectilePosition;
+                else
+                    vRegisteredProjectilePosition = new Vector2f();
+            }
+
+            else
+            {
+                if (bSuspecting)
+                    bSuspecting = false;
+            }
         }
     }
 }

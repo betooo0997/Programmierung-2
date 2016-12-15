@@ -147,7 +147,7 @@ namespace Game
 
                     //COLLISIONDETECTION ON CHARACTERSPRITE BORDER
 
-                    if (tTileMap.CollisionReturner(x, y))
+                    if (TileArrayCreation.CollisionReturner(x, y))
                     {
 
                         if (((vEntityPosition.Y < (y + 1) * 50 && vEntityPosition.Y > y * 50 - 1) ||
@@ -253,38 +253,6 @@ namespace Game
                         }
                     }
                 }
-            }
-        }
-
-        protected void PathFinder(Vector2f vPosition)
-        {
-            List<Node> All;
-            All = new List<Node>();
-
-            List<Node> Open; // set of nodes to be evaluated
-            Open = new List<Node>();
-
-            List<Node> Closed; // set of nodes already evaluated
-            Closed = new List<Node>();
-
-
-            Tilez[,] tManager = MainMap.GetTileManager().GetTileArray();
-
-            for (int x = 0; x < tManager.GetLength(0); x++)
-            {
-                for (int y = 0; y < tManager.GetLength(1); y++)
-                    All.Add(new Node(tManager[x,y]));
-            }
-
-            //Open.Add[new Node(tManager)]
-
-
-
-            bool loop = true;
-
-            while (loop)
-            {
-                Node current =
             }
         }
     }

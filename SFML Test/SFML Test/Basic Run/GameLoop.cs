@@ -60,11 +60,15 @@ namespace Game
         /// </summary>
         protected uint iframesreview;
 
+        protected uint iframesreview2;
+
+
         /// <summary>
         /// Limit of Frames per Seconds in the Game Logic
         /// </summary>
         protected uint iFPSlimit;
 
+        bool UpdateTime;
 
 
         /// <summary>
@@ -83,7 +87,8 @@ namespace Game
 
             cFpsReview = new Clock();
             cFpsSet = new Clock();
-            iFPSlimit = 120;
+            iFPSlimit = 110;
+            UpdateTime = true;
         }
 
         /// <summary>
@@ -94,27 +99,36 @@ namespace Game
             ContentLoader.LoadContent();
             Initialize();
 
+            tFpsSet = cFpsSet.ElapsedTime;
 
             while (Window.IsOpen)
             {
                 // Game Logic
 
-                tFpsSet = cFpsSet.ElapsedTime;
-
+                if (UpdateTime)
+                {
+                    Window.DispatchEvents();
+                    Update();
+                    UpdateTime = false;
+                    tFpsSet = cFpsSet.ElapsedTime;
+                }
 
                 if (tFpsSet.AsSeconds() >= (float)1 / (float)iFPSlimit)
                 {
                     cFpsSet.Restart();
-
-                    Window.DispatchEvents();
-                    Update();
 
                     Window.Clear(ClearColor);
                     Draw();
                     Window.Display();
 
                     iframesreview++;
+
+                    tFpsSet = cFpsSet.ElapsedTime;
+                    UpdateTime = true;
                 }
+                else
+                    tFpsSet = cFpsSet.ElapsedTime;
+
 
 
                 // Reviewing FPS on Console
