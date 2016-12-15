@@ -73,12 +73,12 @@ namespace Game
             vCharacterStartPosition = new Vector2f(900, 500);
             vCharacterVirtualPosition = vCharacterStartPosition;
             cPlayer = new Player(levelString, vCharacterVirtualPosition);
-            questTracker = new Questtracker(entityManager.GetEntityArray(), entityManager.GetArrayNumberColumns(), entityManager.GetArrayNumberRows());
+            questTracker = new Questtracker(entityManager.GetEnemyArray(), entityManager.GetArrayNumberColumns(), entityManager.GetArrayNumberRows());
             textQuest = new Text(questTracker.GetQuestString(), font, 20);
             cCamera = new Camera();
             cArcher = new Archer(new Vector2f(400, 400), 1);
             cArcher2 = new Archer(new Vector2f(1300, 400), 2);
-
+            
             lEnemies = new List<Enemy>();
             lEnemies.Add(cArcher);
             lEnemies.Add(cArcher2);
