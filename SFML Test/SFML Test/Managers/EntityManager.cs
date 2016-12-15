@@ -37,7 +37,7 @@ namespace Game
         }
 
         /// <summary>
-        /// Requires the Instance of TileManager und the txt file used to create the current level. 
+        /// Requires the Instance of TileManager und the .txt file used to create the current level. 
         /// </summary>
         /// <param name="tileManager"></param>
         /// <param name="enemyLayout"></param>

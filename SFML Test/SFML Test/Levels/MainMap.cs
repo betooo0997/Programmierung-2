@@ -21,9 +21,7 @@ namespace Game
         protected Texture textureTileSheet;
         protected Sprite dopsball;
         protected Sprite tileSheet;
-
-        Archer cArcher;
-        Archer cArcher2;
+        
 
         protected static Vector2f vCharacterVirtualPosition;
         protected static Vector2f vCharacterStartPosition;
@@ -76,12 +74,8 @@ namespace Game
             questTracker = new Questtracker(entityManager.GetEnemyArray(), entityManager.GetArrayNumberColumns(), entityManager.GetArrayNumberRows());
             textQuest = new Text(questTracker.GetQuestString(), font, 20);
             cCamera = new Camera();
-            cArcher = new Archer(new Vector2f(400, 400), 1);
-            cArcher2 = new Archer(new Vector2f(1300, 400), 2);
-            
-            lEnemies = new List<Enemy>();
-            lEnemies.Add(cArcher);
-            lEnemies.Add(cArcher2);
+
+            lEnemies = entityManager.ReturnListCreatedOutOfArray();
 
 
             vTileMapPosition = new Vector2f(0, 0);
