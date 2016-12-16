@@ -42,6 +42,8 @@ namespace Game
             cSuspecting = new Clock();
             rRandom = new Random();
             ffont = ContentLoader.fontArial;
+            Closed = new List<Node>();
+            Path = new List<Node>();
 
 
 
@@ -68,8 +70,6 @@ namespace Game
         public override void Update(ref Vector2f VirtualPlayerPosition,  ref bool up, ref bool down, ref bool right, ref bool left)
         {
             tShooting = cShooting.ElapsedTime;
-            Closed = new List<Node>();
-            Path = new List<Node>();
 
             PlayerEnemyCollision(ref VirtualPlayerPosition, ref up, ref down, ref right, ref left);
 
@@ -203,6 +203,8 @@ namespace Game
                 RotateEnemy(ref fAngle, MainMap.GetStartCharacterPosition() + new Vector2f(25, 25));
                 sEntity.Rotation = fAngle;
                 cSuspecting.Restart();
+                Closed = new List<Node>();
+                Path = new List<Node>();
 
                 Move();
 
@@ -211,6 +213,9 @@ namespace Game
                     Shoot();
                     cShooting.Restart();
                 }
+
+                if (bSuspecting)
+                    bSuspecting = false;
             }
 
             else if (Utilities.MakePositive(vRegisteredPlayerPosition.X) > 0)
@@ -219,6 +224,7 @@ namespace Game
                 {
                     cSuspecting.Restart();
                     bSuspecting = true;
+                    PathFinder(vEntityPosition, vRegisteredPlayerPosition);
                 }
 
                 tSuspecting = cSuspecting.ElapsedTime;
@@ -230,12 +236,6 @@ namespace Game
 
                 else
                     vRegisteredPlayerPosition = new Vector2f();
-            }
-
-            else
-            {
-                if (bSuspecting)
-                    bSuspecting = false;
             }
         }
 
@@ -267,15 +267,6 @@ namespace Game
                 MovingDown = true;
 
 
-            Console.Clear();
-            Console.WriteLine("Up " + MovingUp);
-            Console.WriteLine("Down " + MovingDown);
-            Console.WriteLine("Right " + MovingRight);
-            Console.WriteLine("Left " + MovingLeft);
-
-
-            PathFinder(vEntityPosition, vRegisteredPlayerPosition);
-
             if (Path.Count - 1 >= 0)
             {
                 CurrentGoal = Path[Path.Count - 1].Position + MainMap.GetTileMapPosition() + new Vector2f(25, 25);
@@ -305,6 +296,10 @@ namespace Game
                     if (CurrentGoalOrigin.Y < 0 && !MovingUp)
                         vEntityPosition.Y -= 1;
                 }
+
+                if (sEntity.Position.X - 15 <= CurrentGoal.X && sEntity.Position.X + 15 >= CurrentGoal.X &&
+                    sEntity.Position.Y - 15 <= CurrentGoal.Y && sEntity.Position.Y + 15 >= CurrentGoal.Y)
+                    Path.RemoveAt(Path.Count - 1);
 
                 RotateEnemy(ref fAngle, vRegisteredPlayerPosition + MainMap.GetTileMapPosition());
             }
