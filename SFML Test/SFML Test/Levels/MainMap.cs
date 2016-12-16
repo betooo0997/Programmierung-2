@@ -137,7 +137,7 @@ namespace Game
 
             textQuest = new Text(questTracker.Update(uiKillCount), font, 20);
 
-            iInput.Update(ref vCharacterVirtualPosition, ref Character.iSpeed, up, right, down, left, window);
+            iInput.Update(ref vCharacterVirtualPosition, ref Character.fSpeed, up, right, down, left, window);
 
 
             return targetLevel;

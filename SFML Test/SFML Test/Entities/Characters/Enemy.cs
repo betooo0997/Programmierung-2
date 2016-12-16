@@ -52,10 +52,6 @@ namespace Game
         /// </summary>
         protected int iHealth = 100;
 
-        /// <summary>
-        /// Speed of the Enemy
-        /// </summary>
-        protected float fSpeed;
 
         /// <summary>
         /// Base Damage the Enemy inflicts to the Player
@@ -150,7 +146,12 @@ namespace Game
         /// <summary>
         /// List of Invisible Projectiles that the Enemy has thrown
         /// </summary>
-        protected List<InvisibleProjectile> lInvisibleProjectile;
+        protected List<InvisibleProjectile> lInvisibleProjectileLeft;
+
+        protected List<InvisibleProjectile> lInvisibleProjectileMiddle;
+
+        protected List<InvisibleProjectile> lInvisibleProjectileRight;
+
 
         /// <summary>
         /// Projectile that inflicts Damage to the Player when hit
@@ -187,8 +188,13 @@ namespace Game
 
         protected List<Node> Closed;
 
-        protected Vector2f CurrentGoalOrigin;
-        protected Vector2f CurrentGoal;
+        protected Vector2i CurrentGoalOrigin;
+        protected Vector2i CurrentGoal;
+
+        protected bool DisposingInvisibleListLeft;
+        protected bool DisposingInvisibleListMiddle;
+        protected bool DisposingInvisibleListRight;
+
 
 
 
@@ -202,6 +208,10 @@ namespace Game
         /// </summary>
         protected bool DetectPlayer()
         {
+            DisposingInvisibleListLeft = false;
+            DisposingInvisibleListMiddle = false;
+            DisposingInvisibleListRight = false;
+
             // UPDATING vEnemyDirection
             vEnemyDirection = sEntity.Position + new Vector2f(0, 25);                                                                                      // Creating distance to Origin
 
@@ -241,7 +251,16 @@ namespace Game
 
                 ShootInvisible(MainMap.GetTileMapPosition(), fAnglecopy);
 
-                if (DisposeInvisibleProjectile(lInvisibleProjectile))
+                if (DisposeInvisibleProjectile(lInvisibleProjectileLeft))
+                    DisposingInvisibleListLeft = true;
+
+                if (DisposeInvisibleProjectile(lInvisibleProjectileMiddle))
+                    DisposingInvisibleListMiddle = true;
+
+                if (DisposeInvisibleProjectile(lInvisibleProjectileRight))
+                    DisposingInvisibleListRight = true;
+
+                if(DisposingInvisibleListLeft || DisposingInvisibleListMiddle || DisposingInvisibleListRight)
                 {
                     cDetecting.Restart();
                     tDetecting = cDetecting.ElapsedTime;
@@ -322,13 +341,13 @@ namespace Game
 
 
             iProjectile = new InvisibleProjectile(fAnglecopy, vEnemyShootingLeft, vEnemyShootingMiddle + (vEnemyShootingLeft - sEntity.Position), 3.5f);
-            lInvisibleProjectile.Add(iProjectile);
+            lInvisibleProjectileLeft.Add(iProjectile);
 
             iProjectile = new InvisibleProjectile(fAnglecopy, sEntity.Position, vEnemyShootingMiddle, 3.5f);
-            lInvisibleProjectile.Add(iProjectile);
+            lInvisibleProjectileMiddle.Add(iProjectile);
 
             iProjectile = new InvisibleProjectile(fAnglecopy, vEnemyShootingRight, vEnemyShootingMiddle + (vEnemyShootingRight - sEntity.Position), 3.5f);
-            lInvisibleProjectile.Add(iProjectile);
+            lInvisibleProjectileRight.Add(iProjectile);
         }
 
 
@@ -709,7 +728,10 @@ namespace Game
             drawList.Add(cEnemyDirection);
             drawList.Add(cCharacterPosition);
             drawList.Add(cEnemyPosition);
-            CustomList.AddProjectiles(drawList, lInvisibleProjectile);
+            CustomList.AddProjectiles(drawList, lInvisibleProjectileLeft);
+            CustomList.AddProjectiles(drawList, lInvisibleProjectileMiddle);
+            CustomList.AddProjectiles(drawList, lInvisibleProjectileRight);
+
 
             if (Path.Count > 1)
             {

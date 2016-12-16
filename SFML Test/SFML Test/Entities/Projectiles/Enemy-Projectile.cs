@@ -31,7 +31,7 @@ namespace Game
 
             // SETTING PROJECTILE PARAMETERS
             sEntity.Rotation = iAngle;
-            sEntity.Origin = new Vector2f(25, 25);
+            sEntity.Origin = new Vector2f(tEntity.Size.X / 2, tEntity.Size.Y / 2);
 
             // SETTING PLAYERMOVEMENT
             vEntitymovement = new Vector2f(0, 0);
@@ -61,11 +61,6 @@ namespace Game
         void Move(Sprite sEnemy)
         {
             vEntityPosition -= MainMap.GetDiffTileMapPosition() - vDirection / 5 * iVelocity;
-        }
-
-        public Vector2f GetDirection()
-        {
-            return vDirection;
         }
     }
 }

@@ -12,7 +12,7 @@ namespace Game
 {
     abstract class Character : Entity
     {
-        public static float iSpeed = 1.5f;
+        public static float fSpeed = 1.5f;
         protected List<Drawable> drawList;
 
         /// <summary>
@@ -86,7 +86,7 @@ namespace Game
         {
             Vector2f b = MainMap.GetStartCharacterPosition() + new Vector2f(25, 25);
 
-            if (Utilities.DistanceBetweenVectors(iProjectile.vEntityPosition, b) <= 50)
+            if (Utilities.DistanceBetweenVectors(iProjectile.vEntityPosition, b) <= 25)
             {
                 Player.ReduceHealth(Damage);
                 return true;
@@ -102,9 +102,9 @@ namespace Game
 
             for (int x = 0; x < lEnemy.Count; x++)
             {
-                Vector2f b = lEnemy[x].sEntity.Position - new Vector2f(25, 25);
+                Vector2f b = lEnemy[x].sEntity.Position;
 
-                if (Utilities.DistanceBetweenVectors(iProjectile.vEntityPosition, b) <= 50)
+                if (Utilities.DistanceBetweenVectors(iProjectile.vEntityPosition, b) <= 25)
                 {
                     lEnemy[x].ReduceHealth(Damage, iProjectile.GetDirection());
                     return true;

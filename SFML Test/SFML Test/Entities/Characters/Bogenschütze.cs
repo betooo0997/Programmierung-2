@@ -35,7 +35,10 @@ namespace Game
             sEntity.Origin = new Vector2f(25, 25);
             cShape.Origin = new Vector2f(25, 25);
             lProjectile = new List<EnemyProjectile>();
-            lInvisibleProjectile = new List<InvisibleProjectile>();
+            lInvisibleProjectileLeft = new List<InvisibleProjectile>();
+            lInvisibleProjectileMiddle = new List<InvisibleProjectile>();
+            lInvisibleProjectileRight = new List<InvisibleProjectile>();
+
             cDetecting = new Clock();
             cShooting = new Clock();
             cMoving = new Clock();
@@ -50,7 +53,7 @@ namespace Game
             // SETTING CONSTANTS
             this.uID = uID;
             uDamage = 25;
-            fSpeed = 1.5f * 0.8f;
+            fSpeed = 1;
             iDistanceDetection = 600;
             bSuspecting = false;
 
@@ -75,20 +78,13 @@ namespace Game
 
             DetectLogic();
 
-            for (int x = 0; x < lProjectile.Count; x++)
-                lProjectile[x].Update(sEntity);
-
-            for (int x = 0; x < lInvisibleProjectile.Count; x++)
-                lInvisibleProjectile[x].Update(sEntity);
+            UpdatingProjectiles();
 
             if (iHealth >= 0)
                 sEntity.Color = new Color(255, (byte)(255 - (255 - iHealth * 2.55f)), (byte)(255 - (255 - iHealth * 2.55f)));
 
             sEntity.Rotation = fAngle;
             sEntity.Position = MainMap.GetTileMapPosition() + vEntityPosition + new Vector2f(25, 25);
-
-            DisposeProjectile(lProjectile, uDamage);
-            DisposeProjectile(lInvisibleProjectile, iDistanceDetection);
         }
 
 
@@ -103,8 +99,8 @@ namespace Game
 
             drawList.Add(sEntity);
 
-            DrawPathFinder(ffont);
-            ShowVectors();
+            //DrawPathFinder(ffont);
+            //ShowVectors();
 
             return drawList;
         }
@@ -142,7 +138,6 @@ namespace Game
             CollisionDetection(ref vEntityPosition, ref bCollisionUp, ref bCollisionDown, ref bCollisionRight, ref bCollisionLeft, tEntity.Size.X, tEntity.Size.Y);
             EnemyEnemyCollision(ref vEntityPosition, ref bCollisionUp, ref bCollisionDown, ref bCollisionRight, ref bCollisionLeft);
 
-
             tMoving = cMoving.ElapsedTime;
 
             if (tMoving.AsMilliseconds() > 500)
@@ -150,6 +145,18 @@ namespace Game
                 iRandomNumber = rRandom.Next(0, 4);
                 cMoving.Restart();
             }
+
+            if (MainMap.GetStartCharacterPosition().X + 25 - vEnemyDirection.X < 30 && fAngle > 180 && fAngle < 270)
+                bCollisionRight = true;
+
+            if (MainMap.GetStartCharacterPosition().X + 25 - vEnemyDirection.X > -30 && fAngle > 0 && fAngle < 180)
+                bCollisionLeft = true;
+
+            if (MainMap.GetStartCharacterPosition().Y + 25 - vEnemyDirection.Y < 30 && (fAngle > 270 || fAngle < 90))
+                bCollisionDown = true;
+
+            if (MainMap.GetStartCharacterPosition().Y + 25 - vEnemyDirection.Y > -30 && fAngle > 90 && fAngle < 280)
+                bCollisionUp = true;
 
             do
             {
@@ -163,7 +170,7 @@ namespace Game
                 switch (iRandomNumber)
                 {
                     case (0):
-                        if (vCharacterPositionEnemyOrigin.Y < (iDistanceDetection / 2) && !bCollisionUp )
+                        if (vCharacterPositionEnemyOrigin.Y < (iDistanceDetection / 2) && !bCollisionUp)
                             MoveUp();
                         else
                             bRepeat = true;
@@ -191,7 +198,7 @@ namespace Game
                         break;
                 }
             }
-            while (bRepeat && iRepeating < 2);
+            while (bRepeat && iRepeating < 4);
         }
 
 
@@ -230,9 +237,7 @@ namespace Game
                 tSuspecting = cSuspecting.ElapsedTime;
 
                 if (tSuspecting.AsMilliseconds() <= 10000)
-                {
                     PathfinderLogic();
-                }
 
                 else
                     vRegisteredPlayerPosition = new Vector2f();
@@ -269,8 +274,8 @@ namespace Game
 
             if (Path.Count - 1 >= 0)
             {
-                CurrentGoal = Path[Path.Count - 1].Position + MainMap.GetTileMapPosition() + new Vector2f(25, 25);
-                CurrentGoalOrigin = CurrentGoal - sEntity.Position;
+                CurrentGoal = (Vector2i)Path[Path.Count - 1].Position + (Vector2i)MainMap.GetTileMapPosition() + new Vector2i(25, 25);
+                CurrentGoalOrigin = CurrentGoal - (Vector2i)sEntity.Position;
                 float MovementX = (CurrentGoalOrigin.X / Utilities.MakePositive(Utilities.DistanceToVectorFromOrigin(new Vector2f(CurrentGoalOrigin.X, 0))));
                 float MovementY = (CurrentGoalOrigin.Y / Utilities.MakePositive(Utilities.DistanceToVectorFromOrigin(new Vector2f(0, CurrentGoalOrigin.Y))));
 
@@ -284,17 +289,17 @@ namespace Game
                 if (!MovementX.Equals(0 / Zero))
                 {
                     if (CurrentGoalOrigin.X > 0 && !MovingRight)
-                        vEntityPosition.X += 1;
+                        vEntityPosition.X += fSpeed;
                     if (CurrentGoalOrigin.X < 0 && !MovingLeft)
-                        vEntityPosition.X -= 1;
+                        vEntityPosition.X -= fSpeed;
                 }
 
                 if (!MovementY.Equals(0 / Zero))
                 {
                     if (CurrentGoalOrigin.Y > 0 && !MovingDown)
-                        vEntityPosition.Y += 1;
+                        vEntityPosition.Y += fSpeed;
                     if (CurrentGoalOrigin.Y < 0 && !MovingUp)
-                        vEntityPosition.Y -= 1;
+                        vEntityPosition.Y -= fSpeed;
                 }
 
                 if (sEntity.Position.X - 15 <= CurrentGoal.X && sEntity.Position.X + 15 >= CurrentGoal.X &&
@@ -303,6 +308,26 @@ namespace Game
 
                 RotateEnemy(ref fAngle, vRegisteredPlayerPosition + MainMap.GetTileMapPosition());
             }
+        }
+
+        protected void UpdatingProjectiles()
+        {
+            for (int x = 0; x < lProjectile.Count; x++)
+                lProjectile[x].Update(sEntity);
+
+            for (int x = 0; x < lInvisibleProjectileLeft.Count; x++)
+                lInvisibleProjectileLeft[x].Update(sEntity);
+
+            for (int x = 0; x < lInvisibleProjectileMiddle.Count; x++)
+                lInvisibleProjectileMiddle[x].Update(sEntity);
+
+            for (int x = 0; x < lInvisibleProjectileRight.Count; x++)
+                lInvisibleProjectileRight[x].Update(sEntity);
+
+            DisposeProjectile(lProjectile, uDamage);
+            DisposeProjectile(lInvisibleProjectileLeft, iDistanceDetection);
+            DisposeProjectile(lInvisibleProjectileMiddle, iDistanceDetection);
+            DisposeProjectile(lInvisibleProjectileRight, iDistanceDetection);
         }
     }
 }

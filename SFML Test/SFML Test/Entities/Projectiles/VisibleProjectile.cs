@@ -14,7 +14,7 @@ namespace Game
     {
         public bool Destruct()
         {
-            if (vEntityPosition.X > 1920 || vEntityPosition.Y > 1080 || SimpleCollisionDetection(sEntity.Position - new Vector2f(25,25), tEntity.Size.X, tEntity.Size.Y))
+            if (vEntityPosition.X > 1920 || vEntityPosition.Y > 1080 || SimpleCollisionDetection(sEntity.Position - new Vector2f(tEntity.Size.X / 2, tEntity.Size.Y / 2), tEntity.Size.X, tEntity.Size.Y))
             {
                 return true;
             }

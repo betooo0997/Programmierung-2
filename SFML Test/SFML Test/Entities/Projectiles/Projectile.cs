@@ -42,5 +42,10 @@ namespace Game
         {
             return vDirection;
         }
+
+        public Texture GetTexture()
+        {
+            return tEntity;
+        }
     }
 }

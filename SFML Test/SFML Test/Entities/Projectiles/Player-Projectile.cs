@@ -18,7 +18,7 @@ namespace Game
             tEntity = new Texture(ContentLoader.textureDopsball);
 
             // SINCHRONYSING VARIABLES
-            this.vEntityPosition = MainMap.GetStartCharacterPosition();
+            this.vEntityPosition = MainMap.GetStartCharacterPosition() + new Vector2f(25, 25);
             StartPosition = vEntityPosition;
             this.iAngle = iAngle;
             this.iVelocity = iVelocity;
@@ -28,7 +28,7 @@ namespace Game
 
             // SETTING PROJECTILE PARAMETERS
             sEntity.Rotation = iAngle;
-            sEntity.Origin = new Vector2f(25, 25);
+            sEntity.Origin = new Vector2f(tEntity.Size.X / 2, tEntity.Size.Y / 2);
 
             // SETTING PLAYERMOVEMENT
             vEntitymovement = new Vector2f(0, 0);
@@ -55,8 +55,8 @@ namespace Game
 
         public void Update(Sprite sEnemy)
         {
-                Move();
-                sEntity.Position = vEntityPosition + new Vector2f(25, 25);
+            Move();
+            sEntity.Position = vEntityPosition;
         }
 
 
