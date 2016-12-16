@@ -185,7 +185,9 @@ namespace Game
                             else if (vEntityPositionBottomLeft.Y >= y * 50 && vEntityPositionBottomLeft.Y <= (y + 1) * 50)
                             {
                                 down = true;
+
                                 vChracterPositionSpace.Y = (y - 1) * 50;
+
                                 PlayerTileCollision = true;
                             }
                         }
@@ -194,6 +196,7 @@ namespace Game
 
                     //REPLACEMENT OF PLAYERLOCATION IN CASE OF CROSSING BORDER OF OBJECT
 
+                    
                     if (PlayerTileCollision)
                     {
                         if (up && right)
