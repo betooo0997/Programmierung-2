@@ -89,11 +89,9 @@ namespace Game
             textureDopsball.Smooth = true;
             textureTileSheet.Smooth = true;
             textQuest.Position = new Vector2f(20, 20);
-            textQuest.Color = Color.Black;
+            textQuest.Color = Color.White;
 
             vPastTileMapPosition = vTileMapPosition;
-            textQuest.Position = new Vector2f(20, 20);
-            textQuest.Color = Color.Black;
         }
 
 
@@ -152,9 +150,10 @@ namespace Game
         {
             drawList = new CustomList();
 
-            //drawList.AddElement(Quest);
             drawList.AddElement(textQuest);
             drawList.AddList(cPlayer.Draw());
+            drawList.AddElement(TextStreamer.TextForPlayer("blablablabla"));
+            drawList.AddElement(TextStreamer.TextForPlayer("blablablabla", Color.Black, 100, 2));
 
             for (int x = 0; x < lEnemies.Count; x++)
                 drawList.AddList(lEnemies[x].Draw());
@@ -187,13 +186,17 @@ namespace Game
         }
 
         /// <summary>
-        /// Returns a List with all the Enemies on the Map
+        /// Returns a List with all the active Enemies on the Map
         /// </summary>
         public static List<Enemy> GetEnemies()
         {
             return lEnemies;
         }
 
+        /// <summary>
+        /// Returns the active TileManager. 
+        /// </summary>
+        /// <returns></returns>
         public static TileManager GetTileManager()
         {
             return TileUndHerrsche;
