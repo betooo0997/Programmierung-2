@@ -74,7 +74,6 @@ namespace Game
             PlayerEnemyCollision(ref VirtualPlayerPosition, ref up, ref down, ref right, ref left);
 
             DetectLogic();
-            cShape.Rotation = fAngle;
 
             for (int x = 0; x < lProjectile.Count; x++)
                 lProjectile[x].Update(sEntity);
@@ -85,9 +84,8 @@ namespace Game
             if (iHealth >= 0)
                 sEntity.Color = new Color(255, (byte)(255 - (255 - iHealth * 2.55f)), (byte)(255 - (255 - iHealth * 2.55f)));
 
-
+            sEntity.Rotation = fAngle;
             sEntity.Position = MainMap.GetTileMapPosition() + vEntityPosition + new Vector2f(25, 25);
-            cShape.Position = sEntity.Position;
 
             DisposeProjectile(lProjectile, uDamage);
             DisposeProjectile(lInvisibleProjectile, iDistanceDetection);
@@ -103,9 +101,9 @@ namespace Game
 
             CustomList.AddProjectiles(drawList, lProjectile);
 
-            drawList.Add(cShape);
+            drawList.Add(sEntity);
 
-            //DrawPathFinder(ffont);
+            DrawPathFinder(ffont);
             ShowVectors();
 
             return drawList;
@@ -201,7 +199,7 @@ namespace Game
         {
             if (DetectPlayer())
             {
-                vRegisteredPlayerPosition = MainMap.GetVirtualCharacterPosition();
+                vRegisteredPlayerPosition = MainMap.GetVirtualCharacterPosition() + new Vector2f(25, 25);
                 RotateEnemy(ref fAngle, MainMap.GetStartCharacterPosition() + new Vector2f(25, 25));
                 sEntity.Rotation = fAngle;
                 cSuspecting.Restart();
@@ -226,7 +224,9 @@ namespace Game
                 tSuspecting = cSuspecting.ElapsedTime;
 
                 if (tSuspecting.AsMilliseconds() <= 10000)
+                {
                     PathfinderLogic();
+                }
 
                 else
                     vRegisteredPlayerPosition = new Vector2f();
@@ -246,15 +246,42 @@ namespace Game
             bool MovingRight = false;
             bool MovingLeft = false;
 
-            CollisionDetection(ref vEntityPosition, ref MovingUp, ref MovingDown, ref MovingRight, ref MovingLeft, tEntity.Size.X, tEntity.Size.Y);
+            if (MainMap.GetTileManager().GetCollisionAt(((int)(vEntityPosition.X - 1) / 50), (int)(vEntityPosition.Y / 50)) ||
+                MainMap.GetTileManager().GetCollisionAt(((int)(vEntityPosition.X - 1) / 50), (int)((vEntityPosition.Y + 25) / 50)) ||
+                MainMap.GetTileManager().GetCollisionAt(((int)(vEntityPosition.X - 1) / 50), (int)((vEntityPosition.Y + 49) / 50)))
+                MovingLeft = true;
+
+            if (MainMap.GetTileManager().GetCollisionAt(((int)(vEntityPosition.X + 50) / 50), (int)(vEntityPosition.Y / 50)) ||
+                MainMap.GetTileManager().GetCollisionAt(((int)(vEntityPosition.X + 50) / 50), (int)((vEntityPosition.Y + 25) / 50)) ||
+                MainMap.GetTileManager().GetCollisionAt(((int)(vEntityPosition.X + 50) / 50), (int)((vEntityPosition.Y + 49) / 50)))
+                MovingRight = true;
+
+            if (MainMap.GetTileManager().GetCollisionAt(((int)(vEntityPosition.X) / 50), (int)((vEntityPosition.Y - 1)/ 50)) ||
+                MainMap.GetTileManager().GetCollisionAt(((int)(vEntityPosition.X + 25) / 50), (int)((vEntityPosition.Y - 1) / 50)) ||
+                MainMap.GetTileManager().GetCollisionAt(((int)(vEntityPosition.X + 49) / 50), (int)((vEntityPosition.Y - 1) / 50)))
+                MovingUp = true;
+
+            if (MainMap.GetTileManager().GetCollisionAt(((int)(vEntityPosition.X) / 50), (int)((vEntityPosition.Y + 50) / 50)) ||
+                MainMap.GetTileManager().GetCollisionAt(((int)(vEntityPosition.X + 25) / 50), (int)((vEntityPosition.Y + 50) / 50)) ||
+                MainMap.GetTileManager().GetCollisionAt(((int)(vEntityPosition.X + 49) / 50), (int)((vEntityPosition.Y + 50) / 50)))
+                MovingDown = true;
+
+
+            Console.Clear();
+            Console.WriteLine("Up " + MovingUp);
+            Console.WriteLine("Down " + MovingDown);
+            Console.WriteLine("Right " + MovingRight);
+            Console.WriteLine("Left " + MovingLeft);
+
 
             PathFinder(vEntityPosition, vRegisteredPlayerPosition);
 
             if (Path.Count - 1 >= 0)
             {
-                CurrentGoal = Path[Path.Count - 1].Position + MainMap.GetTileMapPosition() + new Vector2f(25, 25) - sEntity.Position;
-                float MovementX = (CurrentGoal.X / Utilities.MakePositive(Utilities.DistanceToVectorFromOrigin(new Vector2f(CurrentGoal.X, 0))));
-                float MovementY = (CurrentGoal.Y / Utilities.MakePositive(Utilities.DistanceToVectorFromOrigin(new Vector2f(0, CurrentGoal.Y))));
+                CurrentGoal = Path[Path.Count - 1].Position + MainMap.GetTileMapPosition() + new Vector2f(25, 25);
+                CurrentGoalOrigin = CurrentGoal - sEntity.Position;
+                float MovementX = (CurrentGoalOrigin.X / Utilities.MakePositive(Utilities.DistanceToVectorFromOrigin(new Vector2f(CurrentGoalOrigin.X, 0))));
+                float MovementY = (CurrentGoalOrigin.Y / Utilities.MakePositive(Utilities.DistanceToVectorFromOrigin(new Vector2f(0, CurrentGoalOrigin.Y))));
 
 
                 int PositionX1 = (int)((vEntityPosition.X + MovementX) / 50);
@@ -265,22 +292,21 @@ namespace Game
 
                 if (!MovementX.Equals(0 / Zero))
                 {
-                    if (CurrentGoal.X > 0 && !MovingRight)
+                    if (CurrentGoalOrigin.X > 0 && !MovingRight)
                         vEntityPosition.X += 1;
-                    if (CurrentGoal.X < 0 && !MovingLeft)
+                    if (CurrentGoalOrigin.X < 0 && !MovingLeft)
                         vEntityPosition.X -= 1;
                 }
 
                 if (!MovementY.Equals(0 / Zero))
                 {
-                    if (CurrentGoal.Y > 0 && !MovingUp)
+                    if (CurrentGoalOrigin.Y > 0 && !MovingDown)
                         vEntityPosition.Y += 1;
-                    if (CurrentGoal.Y < 0 && !MovingDown)
+                    if (CurrentGoalOrigin.Y < 0 && !MovingUp)
                         vEntityPosition.Y -= 1;
                 }
 
-                
-                RotateEnemy(ref fAngle, vRegisteredPlayerPosition + new Vector2f(25,25));
+                RotateEnemy(ref fAngle, vRegisteredPlayerPosition + MainMap.GetTileMapPosition());
             }
         }
     }

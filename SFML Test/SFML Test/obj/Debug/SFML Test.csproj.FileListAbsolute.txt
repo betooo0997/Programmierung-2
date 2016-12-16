@@ -155,3 +155,8 @@ C:\Users\Alexander\Documents\GitHub\Programmierung-2\SFML Test\SFML Test\bin\Deb
 C:\Users\Alexander\Documents\GitHub\Programmierung-2\SFML Test\SFML Test\bin\Debug\Content\156895__halgrimm__a-shot.wav
 C:\Users\Alexander\Documents\GitHub\Programmierung-2\SFML Test\SFML Test\bin\Debug\csfml-audio-2.dll
 C:\Users\Alexander\Documents\GitHub\Programmierung-2\SFML Test\SFML Test\bin\Debug\Content\173126__replix__death-sound-male.wav
+C:\Users\Beto\Documents\GitHub\Programmierung-2\SFML Test\SFML Test\bin\Debug\Content\113087__edgardedition__click2_16Bit.wav
+C:\Users\Beto\Documents\GitHub\Programmierung-2\SFML Test\SFML Test\bin\Debug\Content\151713__bowlingballout__pvc-rocket-cannon_16Bit.wav
+C:\Users\Beto\Documents\GitHub\Programmierung-2\SFML Test\SFML Test\bin\Debug\Content\156895__halgrimm__a-shot.wav
+C:\Users\Beto\Documents\GitHub\Programmierung-2\SFML Test\SFML Test\bin\Debug\Content\173126__replix__death-sound-male.wav
+C:\Users\Beto\Documents\GitHub\Programmierung-2\SFML Test\SFML Test\bin\Debug\csfml-audio-2.dll

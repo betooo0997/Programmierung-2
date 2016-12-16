@@ -187,8 +187,11 @@ namespace Game
 
         protected List<Node> Closed;
 
+        protected Vector2f CurrentGoalOrigin;
         protected Vector2f CurrentGoal;
-        
+
+
+
 
 
 

@@ -164,7 +164,7 @@ namespace Game
                             else if (vEntityPositionTopRight.X >= x * 50 && vEntityPositionTopRight.X <= (x + 1) * 50)
                             {
                                 right = true;
-                                vChracterPositionSpace.X = (x - 1) * 50 - 1;
+                                vChracterPositionSpace.X = (x - 1) * 50;
                                 PlayerTileCollision = true;
                             }
                         }
@@ -177,7 +177,7 @@ namespace Game
                             if (vEntityPosition.Y <= (y + 1) * 50 && vEntityPosition.Y >= y * 50)
                             {
                                 up = true;
-                                vChracterPositionSpace.Y = (y + 1) * 50 + 1;
+                                vChracterPositionSpace.Y = (y + 1) * 50;
                                 PlayerTileCollision = true;
                             }
 
@@ -186,7 +186,7 @@ namespace Game
                             {
                                 down = true;
 
-                                vChracterPositionSpace.Y = (y - 1) * 50 - 1;
+                                vChracterPositionSpace.Y = (y - 1) * 50;
 
                                 PlayerTileCollision = true;
                             }
