@@ -24,7 +24,7 @@ namespace Game
         /// Statemachine constructor
         /// </summary>
         public Statemachine()
-            : base("Hier kommt der Spieltitel rein wenn wir uns fertig entschieden haben", Color.Black)
+            : base("Edgy", Color.Black)
         {
         }
 

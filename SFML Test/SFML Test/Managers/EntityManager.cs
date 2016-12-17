@@ -60,11 +60,19 @@ namespace Game
             return entityArrayCreation.GetEntityArray();
         }
 
+        /// <summary>
+        /// Returns the number of Columns of the enemy array created by the underlying Creator. 
+        /// </summary>
+        /// <returns></returns>
         public int GetArrayNumberColumns()
         {
             return entityArrayCreation.GetNumberColumns();
         }
 
+        /// <summary>
+        /// Returns the number of Rows of the enemy array created by the underlying Creator. 
+        /// </summary>
+        /// <returns></returns>
         public int GetArrayNumberRows()
         {
             return entityArrayCreation.GetNumberRows();
@@ -106,6 +114,11 @@ namespace Game
             return list;
         }
 
+        /// <summary>
+        /// Draw function to render a chosen Entity in dependency on its position and appearance. 
+        /// </summary>
+        /// <param name="window"></param>
+        /// <param name="entity"></param>
         public void DrawChosenEntity(RenderWindow window, Entity entity)
         {
             entitySheet.Position = entity.GetPosition();
@@ -114,6 +127,11 @@ namespace Game
             window.Draw(entitySheet);
         }
 
+        /// <summary>
+        /// Returns the Source Rectangle for the chosen Entity Appearance on the Entity Sheet. 
+        /// </summary>
+        /// <param name="appearance"></param>
+        /// <returns></returns>
         protected IntRect EntitySourceDeterminat0r(EntityAppearance appearance)
         {
             int column = 0;

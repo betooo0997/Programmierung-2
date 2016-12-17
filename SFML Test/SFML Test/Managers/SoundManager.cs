@@ -23,8 +23,17 @@ namespace Game
 
     static class SoundManager
     {
+        /// <summary>
+        /// Hardcoded number of available sounds. 
+        /// </summary>
         private static int numberOfSounds;
+        /// <summary>
+        /// Contains all available sounds. 
+        /// </summary>
         private static Sound[] soundArray;
+        /// <summary>
+        /// Contains the name of the sound at the number of the correspondending sound array. 
+        /// </summary>
         private static Sounds[] soundNames;
 
         static SoundManager()
@@ -44,6 +53,10 @@ namespace Game
 
         }
 
+        /// <summary>
+        /// Static method to play a chosen sound. Accepts sound names from the public enum. 
+        /// </summary>
+        /// <param name="name"></param>
         public static void PlaySpecificSound(Sounds name)
         {
             for(int x = 0; x < numberOfSounds; x++)
