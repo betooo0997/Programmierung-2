@@ -181,7 +181,7 @@ namespace Game
             }
         }
 
-        public bool CollisionReturnerProjectiles(int xCoord, int yCoord)
+        public static bool CollisionReturnerProjectiles(int xCoord, int yCoord)
         {
             if (xCoord < 0 || xCoord >= numberColumns || yCoord < 0 || yCoord >= numberRows)
             {
