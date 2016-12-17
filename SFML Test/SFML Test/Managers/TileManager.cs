@@ -147,7 +147,7 @@ namespace Game
         }
 
         /// <summary>
-        /// Obtains the relative position of the tile map and draws all tiles within the screen using the corresponding tile array. Does not return anything. 
+        /// Obtains the relative position of the tile map and draws all tiles within the screen using the corresponding tile array. Additionally, all tiles out of the map are drawn as tree foilage. 
         /// </summary>
         /// <param name="window"></param>
         /// <param name="tileMapPosition"></param>
@@ -156,7 +156,7 @@ namespace Game
             
             int tileMapPositionXNormalized = (int)((-tileMapPosition.X) / tileArrayCreation.GetTileSize());
             int tileMapPositionYNormalized = (int)((-tileMapPosition.Y) / tileArrayCreation.GetTileSize());
-            int xLimit = (int)((GameLoop.GetWindowSize().X / tileArrayCreation.GetTileSize()) + 1);
+            int xLimit = (int)((GameLoop.GetWindowSize().X / tileArrayCreation.GetTileSize()));
             int yLimit = (int)((GameLoop.GetWindowSize().Y / tileArrayCreation.GetTileSize()) + 1);
 
             for (int xCoord = 0, yCoord = 0; yCoord <= yLimit; xCoord++)
@@ -164,7 +164,8 @@ namespace Game
                 if (tileMapPositionXNormalized + xCoord >= 0 && tileMapPositionXNormalized + xCoord < tileArrayCreation.GetNumberColumns() &&
                     tileMapPositionYNormalized + yCoord >= 0 && tileMapPositionYNormalized + yCoord < tileArrayCreation.GetNumberRows())
                 {
-                    tileSheet.Position = new Vector2f(((int)((tileMapPositionXNormalized + xCoord) * tileArrayCreation.GetTileSize() + tileMapPosition.X)), (int)(((tileMapPositionYNormalized + yCoord) * tileArrayCreation.GetTileSize() + tileMapPosition.Y)));
+                    tileSheet.Position = new Vector2f(((int)((tileMapPositionXNormalized + xCoord) * tileArrayCreation.GetTileSize() + tileMapPosition.X)),
+                    (int)(((tileMapPositionYNormalized + yCoord) * tileArrayCreation.GetTileSize() + tileMapPosition.Y)));
                     tileSheet.TextureRect = TileSourceDeterminat0r(tileArrayCreation.GetTilezArray()[xCoord + tileMapPositionXNormalized, yCoord + tileMapPositionYNormalized]);
 
                     window.Draw(tileSheet);

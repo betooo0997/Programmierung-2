@@ -42,7 +42,7 @@ namespace Game
             // Source: https://www.freesound.org/people/Halgrimm/sounds/156895/
             soundProjectileImpact = new SoundBuffer("Content/151713__bowlingballout__pvc-rocket-cannon_16Bit.wav");
             // Source: https://www.freesound.org/people/bowlingballout/sounds/151713/
-            // Modified with Audacity to use 16 Bit flow.
+            // Shortened and modified with Audacity to use 16 Bit flow.
             soundEnemyDeath = new SoundBuffer("Content/173126__replix__death-sound-male.wav");
             // Source: https://www.freesound.org/people/Replix/sounds/173126/ 
         }

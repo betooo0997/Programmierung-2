@@ -28,6 +28,10 @@ namespace Game
         /// </summary>
         protected Enemy[,] enemyArray;
 
+        /// <summary>
+        /// Number used to mark created Enemies. 
+        /// </summary>
+        protected uint id = 1;
 
         public Enemy[,] GetEntityArray()
         {
@@ -57,15 +61,13 @@ namespace Game
 
             enemyArray = new Enemy[numberColumns + 1, numberRows + 1];
 
-            uint id = 1;
+            id = 1;
 
             for(int x = 0, y = 0; y < numberRows; x++)
             {
                 if (y < stringEnemyLayout.Length && x < stringEnemyLayout[y].Length)
                 {
-                    enemyArray[x, y] = EnemyConversation(stringEnemyLayout[y][x], tileManager, x, y, id);
-
-                    id++;
+                    enemyArray[x, y] = EnemyConversation(stringEnemyLayout[y][x], tileManager, x, y);
                 }
 
                 if(x >= numberColumns)
@@ -84,14 +86,15 @@ namespace Game
         /// <param name="xCoord"></param>
         /// <param name="yCoord"></param>
         /// <returns></returns>
-        protected Enemy EnemyConversation(char type, TileManager tileManager, int xCoord, int yCoord, uint id)
+        protected Enemy EnemyConversation(char type, TileManager tileManager, int xCoord, int yCoord)
         {
             if (!tileManager.GetCollisionAt(xCoord, yCoord))
             {
                 switch (type)
                 {
                     case ('a'):
-                        return new Archer(new Vector2f((float)(xCoord * tileManager.GetTileSize()), (float)(yCoord * tileManager.GetTileSize())), id);
+                        id++;
+                        return new Archer(new Vector2f((float)(xCoord * tileManager.GetTileSize()), (float)(yCoord * tileManager.GetTileSize())), id - 1);
                     default:
                         return null;
                 }

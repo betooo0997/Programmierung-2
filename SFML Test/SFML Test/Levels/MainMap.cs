@@ -122,6 +122,8 @@ namespace Game
                         uiKillCount++;
                     }
 
+                    SoundManager.PlaySpecificSound(Sounds.Death);
+
                     for (int y = x; y < lEnemies.Count - 1; y++)
                     {
                         lEnemies[x] = lEnemies[x + 1];
