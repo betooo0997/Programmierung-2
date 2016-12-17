@@ -18,19 +18,31 @@ namespace Game
 
         protected static TileArrayCreation tTileMap;
 
+        /// <summary>
+        /// Determines look of the Entity. 
+        /// </summary>
+        protected EntityAppearance appearance;
         protected Texture tEntity;
         protected Sprite sEntity;
-
 
         /// <summary>
         /// True if Enemy is Boss-type. Default is false. 
         /// </summary>
         protected bool bIsBoss = false;
 
+        public EntityAppearance GetAppearance()
+        {
+            return appearance;
+        }
 
         public bool GetIsBoss()
         {
             return bIsBoss;
+        }
+
+        public Vector2f GetPosition()
+        {
+            return vEntityPosition;
         }
 
         /// <summary>
