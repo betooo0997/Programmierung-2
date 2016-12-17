@@ -12,7 +12,6 @@ namespace Game
 {
     abstract class Character : Entity
     {
-        public static float fSpeed = 1.5f;
         protected List<Drawable> drawList;
 
         /// <summary>

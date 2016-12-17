@@ -16,6 +16,8 @@ namespace Game
         protected static uint iLevel = 3;
         protected CircleShape sCharacter;
         protected static int iHealth;
+        public static float fSpeed;
+
 
         // VARIABLES USED FOR COLLISIONDETECTION
 
@@ -50,6 +52,7 @@ namespace Game
             sCharacter.OutlineThickness = 1;
             sCharacter.OutlineColor = Color.Black;
             iHealth = 100000;
+            fSpeed = 1.5f;
         }
 
         public void Update(ref Vector2f VirtualCharacterPosition, ref bool up, ref bool down, ref bool right, ref bool left)

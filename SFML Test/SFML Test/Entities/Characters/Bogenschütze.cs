@@ -100,7 +100,7 @@ namespace Game
             drawList.Add(sEntity);
 
             //DrawPathFinder(ffont);
-            //ShowVectors();
+            ShowVectors();
 
             return drawList;
         }
@@ -129,6 +129,11 @@ namespace Game
             bCollisionDown = false;
             bCollisionRight = false;
             bCollisionLeft = false;
+            bool nearright = false;
+            bool nearleft = false;
+            bool nearup = false;
+            bool neardown = false;
+
 
             bool bRepeat = false;
             int iRepeating = 0;
@@ -146,17 +151,78 @@ namespace Game
                 cMoving.Restart();
             }
 
-            if (MainMap.GetStartCharacterPosition().X + 25 - vEnemyDirection.X < 30 && fAngle > 180 && fAngle < 270)
-                bCollisionRight = true;
-
-            if (MainMap.GetStartCharacterPosition().X + 25 - vEnemyDirection.X > -30 && fAngle > 0 && fAngle < 180)
+            // Enemy does not Push the Player around
+            if (Utilities.MakePositive(MainMap.GetStartCharacterPosition().X + 25 - vEnemyDirection.X + fSpeed) < 40 &&
+                Utilities.MakePositive(MainMap.GetStartCharacterPosition().Y + 25 - vEnemyDirection.Y) < 40)
                 bCollisionLeft = true;
 
-            if (MainMap.GetStartCharacterPosition().Y + 25 - vEnemyDirection.Y < 30 && (fAngle > 270 || fAngle < 90))
+            if (Utilities.MakePositive(MainMap.GetStartCharacterPosition().X + 25 - vEnemyDirection.X - fSpeed) < 40 &&
+                Utilities.MakePositive(MainMap.GetStartCharacterPosition().Y + 25 - vEnemyDirection.Y) < 40)
+                bCollisionRight = true;
+
+            if (Utilities.MakePositive(MainMap.GetStartCharacterPosition().X + 25 - vEnemyDirection.X) < 40 && 
+                Utilities.MakePositive(MainMap.GetStartCharacterPosition().Y + 25 - vEnemyDirection.Y + fSpeed) < 40)
+                bCollisionUp = true;
+
+            if (Utilities.MakePositive(MainMap.GetStartCharacterPosition().X + 25 - vEnemyDirection.X) < 30 &&
+                Utilities.MakePositive(MainMap.GetStartCharacterPosition().Y + 25 - vEnemyDirection.Y - fSpeed) < 40)
                 bCollisionDown = true;
 
-            if (MainMap.GetStartCharacterPosition().Y + 25 - vEnemyDirection.Y > -30 && fAngle > 90 && fAngle < 280)
+
+            float CharacterPosEnemyOriginX = MainMap.GetVirtualCharacterPosition().X - vEntityPosition.X;
+            float CharacterPosEnemyOriginY = MainMap.GetVirtualCharacterPosition().Y - vEntityPosition.Y;
+
+            // Enemy does not accidently hide behind Tiles with Collision
+            if (CharacterPosEnemyOriginX > 0 &&
+                DisposingInvisibleListLeft && !DisposingInvisibleListRight  ||
+
+                CharacterPosEnemyOriginX < 0 &&
+                !DisposingInvisibleListLeft && DisposingInvisibleListRight)
+
+                bCollisionDown = true;
+
+            else if (CharacterPosEnemyOriginX > 0 &&
+                !DisposingInvisibleListLeft && DisposingInvisibleListRight  ||
+                CharacterPosEnemyOriginX < 0 &&
+                DisposingInvisibleListLeft && !DisposingInvisibleListRight)
+
                 bCollisionUp = true;
+
+            if (CharacterPosEnemyOriginY > 0 &&
+                DisposingInvisibleListLeft && !DisposingInvisibleListRight  ||
+                CharacterPosEnemyOriginY < 0 &&
+                !DisposingInvisibleListLeft && DisposingInvisibleListRight)
+
+                bCollisionLeft = true;
+
+            else if (CharacterPosEnemyOriginY > 0 &&
+                !DisposingInvisibleListLeft && DisposingInvisibleListRight  ||
+                CharacterPosEnemyOriginY < 0 &&
+                DisposingInvisibleListLeft && !DisposingInvisibleListRight)
+
+                bCollisionRight = true;
+
+
+            // Enemy does not go outside a specific range of the Player
+            if (vCharacterPositionEnemyOrigin.X > (-iDistanceDetection / 2) ||
+               vCharacterPositionEnemyOrigin.X < (iDistanceDetection / 2))
+            {
+                if (vCharacterPositionEnemyOrigin.Y < (iDistanceDetection / 2))
+                    nearup = true;
+                if (vCharacterPositionEnemyOrigin.Y > (-iDistanceDetection / 2))
+                    neardown = true;
+            }
+
+            if (vCharacterPositionEnemyOrigin.Y < (iDistanceDetection / 2) ||
+                vCharacterPositionEnemyOrigin.Y > (-iDistanceDetection / 2))
+            {
+                if (vCharacterPositionEnemyOrigin.X > (-iDistanceDetection / 2))
+                    nearright = true;
+                if (vCharacterPositionEnemyOrigin.X < (iDistanceDetection / 2))
+                    nearleft = true;
+            }
+
+
 
             do
             {
@@ -170,35 +236,35 @@ namespace Game
                 switch (iRandomNumber)
                 {
                     case (0):
-                        if (vCharacterPositionEnemyOrigin.Y < (iDistanceDetection / 2) && !bCollisionUp)
+                        if (nearup && !bCollisionUp)
                             MoveUp();
                         else
                             bRepeat = true;
                         break;
 
                     case (1):
-                        if (vCharacterPositionEnemyOrigin.Y > (-iDistanceDetection / 2) && !bCollisionDown)
+                        if (neardown && !bCollisionDown)
                             MoveDown();
                         else
                             bRepeat = true;
                         break;
 
                     case (2):
-                        if (vCharacterPositionEnemyOrigin.X > (-iDistanceDetection / 2) && !bCollisionRight)
+                        if (nearright && !bCollisionRight)
                             MoveRight();
                         else
                             bRepeat = true;
                         break;
 
                     case (3):
-                        if (vCharacterPositionEnemyOrigin.X < (iDistanceDetection / 2) && !bCollisionLeft)
+                        if (nearleft && !bCollisionLeft)
                             MoveLeft();
                         else
                             bRepeat = true;
                         break;
                 }
             }
-            while (bRepeat && iRepeating < 4);
+            while (bRepeat && iRepeating <= 2);
         }
 
 
@@ -251,6 +317,7 @@ namespace Game
             bool MovingRight = false;
             bool MovingLeft = false;
 
+            /*
             if (MainMap.GetTileManager().GetCollisionAt(((int)(vEntityPosition.X - 1) / 50), (int)(vEntityPosition.Y / 50)) ||
                 MainMap.GetTileManager().GetCollisionAt(((int)(vEntityPosition.X - 1) / 50), (int)((vEntityPosition.Y + 25) / 50)) ||
                 MainMap.GetTileManager().GetCollisionAt(((int)(vEntityPosition.X - 1) / 50), (int)((vEntityPosition.Y + 49) / 50)))
@@ -270,7 +337,9 @@ namespace Game
                 MainMap.GetTileManager().GetCollisionAt(((int)(vEntityPosition.X + 25) / 50), (int)((vEntityPosition.Y + 50) / 50)) ||
                 MainMap.GetTileManager().GetCollisionAt(((int)(vEntityPosition.X + 49) / 50), (int)((vEntityPosition.Y + 50) / 50)))
                 MovingDown = true;
+                */
 
+            CollisionDetection(ref vEntityPosition, ref MovingUp, ref MovingDown, ref MovingRight, ref MovingLeft, tEntity.Size.X, tEntity.Size.Y);
 
             if (Path.Count - 1 >= 0)
             {
@@ -306,7 +375,7 @@ namespace Game
                     sEntity.Position.Y - 15 <= CurrentGoal.Y && sEntity.Position.Y + 15 >= CurrentGoal.Y)
                     Path.RemoveAt(Path.Count - 1);
 
-                RotateEnemy(ref fAngle, vRegisteredPlayerPosition + MainMap.GetTileMapPosition());
+                RotateEnemy(ref fAngle, vRegisteredPlayerPosition + MainMap.GetTileMapPosition() + (vEnemyDirection - sEntity.Position));
             }
         }
 
