@@ -1,12 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using SFML.Graphics;
-using SFML.Window;
 using SFML.System;
-using SFML.Audio;
 
 namespace Game
 {
@@ -78,9 +73,14 @@ namespace Game
         /// <summary>
         /// Constructor of the Archer
         /// </summary>
-        /// <param name="vArcherPosition">Startposition of the Archer</param>
-        /// <param name="uID">ID of the Archer</param>
-        public Archer(Vector2f vArcherPosition, uint uID, EntityAppearance eAppearance, uint uDamage, int iDistanceDetection, bool bIsBoss)
+        /// <param name="vArcherPosition"   >Startposition of the Archer</param>
+        /// <param name="uID"               >ID of the Archer</param>
+        /// <param name="eAppearance"       >Enum that indicates the texture of the Archer</param>
+        /// <param name="uDamage"           >Damage that the Archer inflicts when Player is hit by a Projectile</param>
+        /// <param name="iDistanceDetection">Sight Radius of the Archer</param>
+        /// <param name="bIsBoss"           >If true Archer is Boss Type</param>
+        /// <param name="iHealth"           >Health of the Archer</param>
+        public Archer(Vector2f vArcherPosition, uint uID, EntityAppearance eAppearance, uint uDamage, int iDistanceDetection, bool bIsBoss, int iHealth)
         {
             // SYNCHRONISING DRAWABLES WITH CONTENTLOADER
             tEntity     = ContentLoader.textureTriangle;
@@ -107,6 +107,7 @@ namespace Game
 
             // SETTING VARIABLES
             vEntityPosition         = vArcherPosition;
+            this.iHealth            = iHealth;
             this.uID                = uID;
             this.uDamage            = uDamage;
             this.iDistanceDetection = iDistanceDetection;
