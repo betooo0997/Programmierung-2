@@ -1,0 +1,14 @@
+Pentagons: 
+'+'= Centurio 
+'-'= Civil (Pentagon) 
+Squares: 
+'3'= General 
+'2'= Commander 
+'1'= Soldier 
+'0'= Civil (Square) 
+Triangles: 
+'d'= Lord 
+'c'= Scout 
+'b'= Brute 
+'a'= Bandit 
+'z'= Civil (Triangle) 

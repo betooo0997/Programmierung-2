@@ -29,30 +29,90 @@ namespace Game
         /// Standard Texture for the Triangle Civil. 
         /// </summary>
         public static Texture textureTriangleCivil;
+        /// <summary>
+        /// First variant for Triangle Bandit Texture. 
+        /// </summary>
         public static Texture textureTriangleBandit1;
+        /// <summary>
+        /// Second variant for Triangle Bandit Texture. 
+        /// </summary>
         public static Texture textureTriangleBandit2;
+        /// <summary>
+        /// Third variant for Triangle Bandit Texture. 
+        /// </summary>
         public static Texture textureTriangleBandit3;
+        /// <summary>
+        /// Standard Texture for Triangle Brute. 
+        /// </summary>
         public static Texture textureTriangleBrute;
+        /// <summary>
+        /// Standard Texture for Triangle Bomber. 
+        /// </summary>
         public static Texture textureTriangleBomber;
+        /// <summary>
+        /// Standard Texture for Triangle Lord. Uses some colors. 
+        /// </summary>
         public static Texture textureTriangleLord;
 
+        /// <summary>
+        /// Standard Texture for Square Civils. 
+        /// </summary>
         public static Texture textureSquareCivil;
+        /// <summary>
+        /// First variant for Square Soldier Texture. 
+        /// </summary>
         public static Texture textureSquareSoldier1;
+        /// <summary>
+        /// Second variant for Square Soldier Texture. 
+        /// </summary>
         public static Texture textureSquareSoldier2;
+        /// <summary>
+        /// Third variant for Square Soldier Texture. 
+        /// </summary>
         public static Texture textureSquareSoldier3;
+        /// <summary>
+        /// Standard Texture for Square Commander. 
+        /// </summary>
         public static Texture textureSquareCommander;
+        /// <summary>
+        /// Standard Texture for Square General. Uses some colors. 
+        /// </summary>
         public static Texture textureSquareGeneral;
 
+        /// <summary>
+        /// Standard Texture for Pentagon Civil. 
+        /// </summary>
         public static Texture texturePentagonCivil;
+        /// <summary>
+        /// Standard Texture for Pentagon Centurio. 
+        /// </summary>
         public static Texture texturePentagonCenturio;
 
+        /// <summary>
+        /// Standard Texture for Projectile Vector. 
+        /// </summary>
         public static Texture textureProjectileVector;
+        /// <summary>
+        /// Standard Texture for Projectile Edge. 
+        /// </summary>
         public static Texture textureProjectileEdge;
         
 
+        /// <summary>
+        /// SoundBuffer for click sound. Useful for things like buttons. 
+        /// </summary>
         public static SoundBuffer soundClick;
+        /// <summary>
+        /// SoundBuffer for shooting any projectile. 
+        /// </summary>
         public static SoundBuffer soundProjectileShot;
+        /// <summary>
+        /// SoundBuffer for any projectile impact. 
+        /// </summary>
         public static SoundBuffer soundProjectileImpact;
+        /// <summary>
+        /// SoundBuffer for Enemy death. 
+        /// </summary>
         public static SoundBuffer soundEnemyDeath;
 
         /// <summary>
