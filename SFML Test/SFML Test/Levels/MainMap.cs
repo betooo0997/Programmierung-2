@@ -126,23 +126,19 @@ namespace Game
                         uiKillCount++;
                         Player.LevelUp();
                     }
-
                     SoundManager.PlaySpecificSound(Sounds.Death);
 
-                    for (int y = x; y < lEnemies.Count - 1; y++)
-                        lEnemies[x] = lEnemies[x + 1];
-
-                    lEnemies[lEnemies.Count - 1] = null;
-                    lEnemies.RemoveAt(lEnemies.Count - 1);
+                    lEnemies.RemoveAt(x);
                 }
             }
+
+            Console.WriteLine(lEnemies.Count);
 
             cPlayer.Update(ref vCharacterVirtualPosition, ref up, ref down, ref right, ref left);
 
             textQuest = new Text(questTracker.Update(uiKillCount), font, 20);
 
             iInput.Update(ref vCharacterVirtualPosition, ref Player.fSpeed, up, right, down, left, window);
-
 
             return targetLevel;
         }
