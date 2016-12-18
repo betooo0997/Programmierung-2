@@ -16,7 +16,7 @@ namespace Game
 
         public InvisibleProjectile(float iAngle, Vector2f vEntityPosition, Vector2f Direction, float iVelocity)
         {
-            tEntity = new Texture(ContentLoader.textureDopsball);
+            tEntity = new Texture(ContentLoader.textureProjectileEdge);
             // SINCHRONYSING VARIABLES
             this.vEntityPosition = vEntityPosition;
             StartPosition = vEntityPosition;

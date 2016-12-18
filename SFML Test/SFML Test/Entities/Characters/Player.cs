@@ -46,7 +46,7 @@ namespace Game
 
 
             // SETTING CONSTANTS
-            sCharacter.Origin = new Vector2f(25, 25);
+            sCharacter.Origin = new Vector2f(sCharacter.Radius, sCharacter.Radius);
             CharacterPosition = VirtualCharacterPosition;
             sCharacter.FillColor = new Color(255,255,255);
             sCharacter.OutlineThickness = 1;
@@ -116,6 +116,8 @@ namespace Game
             pProjectile = new PlayerProjectile(fAngle, (Vector2f)vMousePositionFromPlayer, 1);
 
             lProjectile.Add(pProjectile);
+
+            SoundManager.PlaySpecificSound(Sounds.Shot);
         }
 
 
