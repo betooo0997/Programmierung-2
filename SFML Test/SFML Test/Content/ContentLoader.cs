@@ -15,10 +15,19 @@ namespace Game
     /// </summary>
     class ContentLoader
     {
+        /// <summary>
+        /// Standard Font. 
+        /// </summary>
         public static Font fontArial;
         
+        /// <summary>
+        /// Texture Sheet with all available tiles. 
+        /// </summary>
         public static Texture textureTileSheet;
 
+        /// <summary>
+        /// Standard Texture for the Triangle Civil. 
+        /// </summary>
         public static Texture textureTriangleCivil;
         public static Texture textureTriangleBandit1;
         public static Texture textureTriangleBandit2;
