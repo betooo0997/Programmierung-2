@@ -17,8 +17,10 @@ namespace Game
         protected uint uiKillCount;
 
         //TEXTURES AND SPRITES
-        
+
+        protected Texture textureDopsball;
         protected Texture textureTileSheet;
+        protected Sprite dopsball;
         protected Sprite tileSheet;
         
 
@@ -49,6 +51,7 @@ namespace Game
 
             //SYNCHRONISING WITH CONTENTLOADER
             font = ContentLoader.fontArial;
+            textureDopsball = ContentLoader.textureDopsball;
             textureTileSheet = ContentLoader.textureTileSheet;
 
 
@@ -61,6 +64,7 @@ namespace Game
             entityManager = new EntityManager(TileUndHerrsche, enemyLayoutString);
 
             //INSTANTIATING OBJECTS : TEXTURES
+            dopsball = new Sprite(textureDopsball);
             tileSheet = new Sprite(textureTileSheet);
 
 
@@ -82,6 +86,7 @@ namespace Game
 
 
             //CHANGING OBJECT PARAMETERS
+            textureDopsball.Smooth = true;
             textureTileSheet.Smooth = true;
             textQuest.Position = new Vector2f(20, 20);
             textQuest.Color = Color.White;
@@ -119,7 +124,7 @@ namespace Game
 
                 lEnemies[x].Update(ref vCharacterVirtualPosition, ref up, ref down, ref right, ref left);
 
-                if (lEnemies[x].GetHealth() <= 0)
+                if (lEnemies[x].GetHealth() < 0)
                 {
                     if (lEnemies[x].GetIsBoss())
                         uiKillCount++;
@@ -167,8 +172,8 @@ namespace Game
                 drawList.AddList(lEnemies[x].Draw());
             }
 
-            drawList.AddElement(TextStreamer.TextForPlayer("blablablabla"));
-            drawList.AddElement(TextStreamer.TextForPlayer("blablablabla", Color.Black, 100, 2));
+            drawList.AddElement(TextStreamer.TextForPlayer("Nieder mit den Vierecken"));
+            drawList.AddElement(TextStreamer.TextForPlayer("Dreieckige Sandwiches für Alle!", Color.Black, 100, 2));
 
 
             TileUndHerrsche.Draw(window, vTileMapPosition);

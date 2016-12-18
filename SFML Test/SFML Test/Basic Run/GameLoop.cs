@@ -87,7 +87,7 @@ namespace Game
 
             cFpsReview = new Clock();
             cFpsSet = new Clock();
-            iFPSlimit = 120;
+            iFPSlimit = 110;
             UpdateTime = true;
         }
 
