@@ -224,6 +224,8 @@ namespace Game
         /// </summary>
         protected bool DisposingInvisibleListRight;
 
+        protected bool bAlert = false;
+
 
 
 
@@ -290,6 +292,7 @@ namespace Game
                 {
                     cDetecting.Restart();
                     tDetecting = cDetecting.ElapsedTime;
+                    bAlert = true;
                     return true;
                 }
 
@@ -370,6 +373,23 @@ namespace Game
 
             iProjectile = new InvisibleProjectile(fAnglecopy, vEnemyShootingRight, vEnemyShootingMiddle + (vEnemyShootingRight - sEntity.Position), 3.5f);
             lInvisibleProjectileLeft.Add(iProjectile);
+        }
+
+
+        /// <summary>
+        /// Alerts other Enemys in a determined Radius if Player is detected
+        /// </summary>
+        protected void Alert()
+        {
+            List<Enemy> lEnemy = MainMap.GetEnemies();
+
+            for (int x = 0; x < lEnemy.Count; x++)
+            {
+                if (lEnemy[x].uID == uID || Utilities.DistanceBetweenVectors(lEnemy[x].GetVirtualPosition(), vEntityPosition) > iDistanceDetection / 2 || lEnemy[x].vRegisteredPlayerPosition != new Vector2f())
+                    continue;
+
+                lEnemy[x].vRegisteredPlayerPosition = MainMap.GetVirtualCharacterPosition();
+            }
         }
 
 
