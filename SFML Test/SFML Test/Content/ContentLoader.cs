@@ -10,29 +10,73 @@ using SFML.Audio;
 
 namespace Game
 {
+    /// <summary>
+    /// Loads Textures, SoundBuffers and Fonts once and makes them available for all classes. 
+    /// </summary>
     class ContentLoader
     {
         public static Font fontArial;
-
-        public static Texture textureDopsball;
+        
         public static Texture textureTileSheet;
-        public static Texture textureTriangle;
+
+        public static Texture textureTriangleCivil;
+        public static Texture textureTriangleBandit1;
+        public static Texture textureTriangleBandit2;
+        public static Texture textureTriangleBandit3;
+        public static Texture textureTriangleBrute;
+        public static Texture textureTriangleBomber;
+        public static Texture textureTriangleLord;
+
+        public static Texture textureSquareCivil;
+        public static Texture textureSquareSoldier1;
+        public static Texture textureSquareSoldier2;
+        public static Texture textureSquareSoldier3;
+        public static Texture textureSquareCommander;
+        public static Texture textureSquareGeneral;
+
+        public static Texture texturePentagonCivil;
+        public static Texture texturePentagonCenturio;
+
+        public static Texture textureProjectileVector;
+        public static Texture textureProjectileEdge;
+        
 
         public static SoundBuffer soundClick;
         public static SoundBuffer soundProjectileShot;
         public static SoundBuffer soundProjectileImpact;
         public static SoundBuffer soundEnemyDeath;
 
+        /// <summary>
+        /// Loads all available Texture, SoundBuffers and Fonts to make them usable. 
+        /// </summary>
         public static void LoadContent()
         {
             //FONTS:
             fontArial = new Font("C:/Windows/Fonts/Arial.ttf");
 
             //TEXTURES:
-            textureDopsball = new Texture("Content/Dopsball.png");
             textureTileSheet = new Texture("Content/TileSheet.png");
-            textureTriangle = new Texture("Content/Triangle.png");
 
+            textureTriangleCivil = new Texture("Content/TriangleCivil.png");
+            textureTriangleBandit1 = new Texture("Content/TriangleBandit1.png");
+            textureTriangleBandit2 = new Texture("Content/TriangleBandit2.png");
+            textureTriangleBandit3 = new Texture("Content/TriangleBandit3.png");
+            textureTriangleBrute = new Texture("Content/TriangleBrute.png");
+            textureTriangleBomber = new Texture("Content/TriangleBomber.png");
+            textureTriangleLord = new Texture("Content/TriangleLord.png");
+
+            textureSquareCivil = new Texture("Content/SquareCivil.png");
+            textureSquareSoldier1 = new Texture("Content/SquareSoldier1.png");
+            textureSquareSoldier2 = new Texture("Content/SquareSoldier2.png");
+            textureSquareSoldier3 = new Texture("Content/SquareSoldier3.png");
+            textureSquareCommander = new Texture("Content/SquareCommander.png");
+            textureSquareGeneral = new Texture("Content/SquareGeneral.png");
+
+            texturePentagonCivil = new Texture("Content/PentagonCivil.png");
+            texturePentagonCenturio = new Texture("Content/PentagonCenturio.png");
+
+            textureProjectileVector = new Texture("Content/ProjectileVector.png");
+            textureProjectileEdge = new Texture("Content/ProjectileEdge.png");
             
             // SOUNDS 
             soundClick = new SoundBuffer("Content/113087__edgardedition__click2_16Bit.wav");
