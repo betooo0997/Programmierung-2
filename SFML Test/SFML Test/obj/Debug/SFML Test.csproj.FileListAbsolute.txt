@@ -136,12 +136,9 @@ C:\Users\Beto\Documents\GitHub\Programmierung-2\SFML Test\SFML Test\bin\Debug\CO
 C:\Users\Beto\Documents\GitHub\Programmierung-2\SFML Test\SFML Test\bin\Debug\Content\MainMap.txt
 C:\Users\Beto\Documents\GitHub\Programmierung-2\SFML Test\SFML Test\bin\Debug\Content\MainMapEnemies.txt
 C:\Users\Beto\Documents\GitHub\Programmierung-2\SFML Test\SFML Test\obj\Debug\SFML Test.csprojResolveAssemblyReference.cache
-C:\Users\Alexander\Documents\GitHub\Programmierung-2\SFML Test\SFML Test\bin\Debug\Content\Dopsball.png
-C:\Users\Alexander\Documents\GitHub\Programmierung-2\SFML Test\SFML Test\bin\Debug\Content\EntitySheet.png
 C:\Users\Alexander\Documents\GitHub\Programmierung-2\SFML Test\SFML Test\bin\Debug\Content\MainMap.txt
 C:\Users\Alexander\Documents\GitHub\Programmierung-2\SFML Test\SFML Test\bin\Debug\Content\MainMapEnemies.txt
 C:\Users\Alexander\Documents\GitHub\Programmierung-2\SFML Test\SFML Test\bin\Debug\Content\TileSheet.png
-C:\Users\Alexander\Documents\GitHub\Programmierung-2\SFML Test\SFML Test\bin\Debug\Content\Triangle.png
 C:\Users\Mario\Documents\GitHub\Programmierung-2\SFML Test\SFML Test\bin\Debug\Content\Dopsball.png
 C:\Users\Mario\Documents\GitHub\Programmierung-2\SFML Test\SFML Test\bin\Debug\Content\EntitySheet.png
 C:\Users\Mario\Documents\GitHub\Programmierung-2\SFML Test\SFML Test\bin\Debug\Content\MainMap.txt
@@ -166,3 +163,20 @@ C:\Users\Mario\Documents\GitHub\Programmierung-2\SFML Test\SFML Test\bin\Debug\C
 C:\Users\Mario\Documents\GitHub\Programmierung-2\SFML Test\SFML Test\bin\Debug\Content\173126__replix__death-sound-male.wav
 C:\Users\Mario\Documents\GitHub\Programmierung-2\SFML Test\SFML Test\bin\Debug\Content\MainMap - Copy.txt
 C:\Users\Mario\Documents\GitHub\Programmierung-2\SFML Test\SFML Test\bin\Debug\csfml-audio-2.dll
+C:\Users\Alexander\Documents\GitHub\Programmierung-2\SFML Test\SFML Test\bin\Debug\Content\PentagonCenturio.png
+C:\Users\Alexander\Documents\GitHub\Programmierung-2\SFML Test\SFML Test\bin\Debug\Content\PentagonCivil.png
+C:\Users\Alexander\Documents\GitHub\Programmierung-2\SFML Test\SFML Test\bin\Debug\Content\ProjectileEdge.png
+C:\Users\Alexander\Documents\GitHub\Programmierung-2\SFML Test\SFML Test\bin\Debug\Content\ProjectileVector.png
+C:\Users\Alexander\Documents\GitHub\Programmierung-2\SFML Test\SFML Test\bin\Debug\Content\SquareCivil.png
+C:\Users\Alexander\Documents\GitHub\Programmierung-2\SFML Test\SFML Test\bin\Debug\Content\SquareCommander.png
+C:\Users\Alexander\Documents\GitHub\Programmierung-2\SFML Test\SFML Test\bin\Debug\Content\SquareGeneral.png
+C:\Users\Alexander\Documents\GitHub\Programmierung-2\SFML Test\SFML Test\bin\Debug\Content\SquareSoldier1.png
+C:\Users\Alexander\Documents\GitHub\Programmierung-2\SFML Test\SFML Test\bin\Debug\Content\SquareSoldier2.png
+C:\Users\Alexander\Documents\GitHub\Programmierung-2\SFML Test\SFML Test\bin\Debug\Content\SquareSoldier3.png
+C:\Users\Alexander\Documents\GitHub\Programmierung-2\SFML Test\SFML Test\bin\Debug\Content\TriangleBandit1.png
+C:\Users\Alexander\Documents\GitHub\Programmierung-2\SFML Test\SFML Test\bin\Debug\Content\TriangleBandit2.png
+C:\Users\Alexander\Documents\GitHub\Programmierung-2\SFML Test\SFML Test\bin\Debug\Content\TriangleBandit3.png
+C:\Users\Alexander\Documents\GitHub\Programmierung-2\SFML Test\SFML Test\bin\Debug\Content\TriangleBomber.png
+C:\Users\Alexander\Documents\GitHub\Programmierung-2\SFML Test\SFML Test\bin\Debug\Content\TriangleBrute.png
+C:\Users\Alexander\Documents\GitHub\Programmierung-2\SFML Test\SFML Test\bin\Debug\Content\TriangleCivil.png
+C:\Users\Alexander\Documents\GitHub\Programmierung-2\SFML Test\SFML Test\bin\Debug\Content\TriangleLord.png

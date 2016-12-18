@@ -15,7 +15,7 @@ namespace Game
         public EnemyProjectile(float iAngle, Vector2f vEntityPosition, Vector2f Direction, float iVelocity)
         {
             // SYNCHRONISING WITH CONTENT LOADER
-            tEntity = new Texture(ContentLoader.textureDopsball);
+            tEntity = new Texture(ContentLoader.textureProjectileEdge);
 
             // SINCHRONYSING VARIABLES
             this.vEntityPosition = vEntityPosition;
