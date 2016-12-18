@@ -14,7 +14,7 @@ namespace Game
     {
         // GENERAL PLAYER VARIABLES
         protected static uint iLevel = 3;
-        protected CircleShape sCharacter;
+        protected static CircleShape sCharacter;
         protected static int iHealth;
         public static float fSpeed;
 
@@ -131,6 +131,12 @@ namespace Game
         public static int GetHealth()
         {
             return iHealth;
+        }
+
+        public static void LevelUp()
+        {
+            iLevel++;
+            sCharacter.SetPointCount(iLevel);
         }
     }
 }
