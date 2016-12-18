@@ -114,21 +114,39 @@ namespace Game
             {
                 switch (type)
                 {
+                    case ('+'):
+                        id++;
+                        return new Archer(new Vector2f((float)(xCoord * tileManager.GetTileSize()), (float)(yCoord * tileManager.GetTileSize())), id - 1, EntityAppearance.PentagonCenturio, 25, 400, false, 180);
+                    case ('-'):
+                        id++;
+                        return new Archer(new Vector2f((float)(xCoord * tileManager.GetTileSize()), (float)(yCoord * tileManager.GetTileSize())), id - 1, EntityAppearance.PentagonCivil, 5, 200, false, 50);
+                    case ('3'):
+                        id++;
+                        return new Archer(new Vector2f((float)(xCoord * tileManager.GetTileSize()), (float)(yCoord * tileManager.GetTileSize())), id - 1, EntityAppearance.SquareGeneral, 30, 800, true, 300);
+                    case ('2'):
+                        id++;
+                        return new Archer(new Vector2f((float)(xCoord * tileManager.GetTileSize()), (float)(yCoord * tileManager.GetTileSize())), id - 1, EntityAppearance.SquareCommander, 25, 900, false, 150);
+                    case ('1'):
+                        id++;
+                        return new Archer(new Vector2f((float)(xCoord * tileManager.GetTileSize()), (float)(yCoord * tileManager.GetTileSize())), id - 1, AppearanceRandomizer(4), 18, 600, false, 120);
+                    case ('0'):
+                        id++;
+                        return new Archer(new Vector2f((float)(xCoord * tileManager.GetTileSize()), (float)(yCoord * tileManager.GetTileSize())), id - 1, EntityAppearance.SquareCivil, 5, 200, false, 50);
                     case ('d'):
                         id++;
-                        return new Archer(new Vector2f((float)(xCoord * tileManager.GetTileSize()), (float)(yCoord * tileManager.GetTileSize())), id - 1, EntityAppearance.TriangleBandit1, 25, 600, false, 100);
+                        return new Archer(new Vector2f((float)(xCoord * tileManager.GetTileSize()), (float)(yCoord * tileManager.GetTileSize())), id - 1, EntityAppearance.TriangleLord, 25, 600, true, 250);
                     case ('c'):
                         id++;
-                        return new Archer(new Vector2f((float)(xCoord * tileManager.GetTileSize()), (float)(yCoord * tileManager.GetTileSize())), id - 1, EntityAppearance.TriangleBandit1, 25, 600, false, 100);
+                        return new Archer(new Vector2f((float)(xCoord * tileManager.GetTileSize()), (float)(yCoord * tileManager.GetTileSize())), id - 1, EntityAppearance.TriangleBomber, 25, 800, false, 80);
                     case ('b'):
                         id++;
-                        return new Archer(new Vector2f((float)(xCoord * tileManager.GetTileSize()), (float)(yCoord * tileManager.GetTileSize())), id - 1, EntityAppearance.TriangleBandit1, 25, 600, false, 100);
+                        return new Archer(new Vector2f((float)(xCoord * tileManager.GetTileSize()), (float)(yCoord * tileManager.GetTileSize())), id - 1, EntityAppearance.TriangleBrute, 30, 450, false, 200);
                     case ('a'):
                         id++;
-                        return new Archer(new Vector2f((float)(xCoord * tileManager.GetTileSize()), (float)(yCoord * tileManager.GetTileSize())), id - 1, AppearanceRandomizer(3), 25, 600, false, 100);
+                        return new Archer(new Vector2f((float)(xCoord * tileManager.GetTileSize()), (float)(yCoord * tileManager.GetTileSize())), id - 1, AppearanceRandomizer(3), 15, 600, false, 100);
                     case ('z'):
                         id++;
-                        return new Archer(new Vector2f((float)(xCoord * tileManager.GetTileSize()), (float)(yCoord * tileManager.GetTileSize())), id - 1, EntityAppearance.TriangleCivil, 10, 200, false, 50);
+                        return new Archer(new Vector2f((float)(xCoord * tileManager.GetTileSize()), (float)(yCoord * tileManager.GetTileSize())), id - 1, EntityAppearance.TriangleCivil, 5, 200, false, 50);
                     default:
                         return null;
                 }
