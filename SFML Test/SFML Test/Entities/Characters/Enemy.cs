@@ -50,11 +50,6 @@ namespace Game
 
 
         /// <summary>
-        /// Base Damage the Enemy inflicts to the Player
-        /// </summary>
-        protected uint uDamage;
-
-        /// <summary>
         /// ID of the Enemy
         /// </summary>
         protected uint uID;
@@ -99,6 +94,10 @@ namespace Game
         /// </summary>
         protected float Zero = 0;
 
+
+        /// <summary>
+        /// Speed of the Enemy
+        /// </summary>
         public float fSpeed;
 
 
@@ -144,12 +143,18 @@ namespace Game
         protected List<EnemyProjectile> lProjectile;
 
         /// <summary>
-        /// List of Invisible Projectiles that the Enemy has thrown
+        /// List of Invisible Projectiles that the Enemy has thrown (Left)
         /// </summary>
         protected List<InvisibleProjectile> lInvisibleProjectileLeft;
 
+        /// <summary>
+        /// List of Invisible Projectiles that the Enemy has thrown (Middle)
+        /// </summary>
         protected List<InvisibleProjectile> lInvisibleProjectileMiddle;
 
+        /// <summary>
+        /// List of Invisible Projectiles that the Enemy has thrown (Right)
+        /// </summary>
         protected List<InvisibleProjectile> lInvisibleProjectileRight;
 
 
@@ -184,15 +189,39 @@ namespace Game
         /// </summary>
         protected Random rRandom;
 
+        /// <summary>
+        /// Path to the TargePosition, Updated by the Pathfinder Algorithm
+        /// </summary>
         protected List<Node> Path;
 
+        /// <summary>
+        /// All Nodes that have been evaluated in the Pathfinder Algorithm
+        /// </summary>
         protected List<Node> Closed;
 
+        /// <summary>
+        /// Position of the next Node that the Enmey moves to when following the Path created by the Pathfinder Algorithm. Vector uses sEntity.Position as Origin
+        /// </summary>
         protected Vector2i CurrentGoalOrigin;
+
+        /// <summary>
+        /// Position of the next Node that the Enmey moves to when following the Path created by the Pathfinder Algorithm
+        /// </summary>
         protected Vector2i CurrentGoal;
 
+        /// <summary>
+        /// Indicates whether the last Projectile of the lInvisibleProjectileLeft has been disposed or not 
+        /// </summary>
         protected bool DisposingInvisibleListLeft;
+
+        /// <summary>
+        /// Indicates whether the last Projectile of the lInvisibleProjectileMiddle has been disposed or not 
+        /// </summary>
         protected bool DisposingInvisibleListMiddle;
+
+        /// <summary>
+        /// Indicates whether the last Projectile of the lInvisibleProjectileRight has been disposed or not 
+        /// </summary>
         protected bool DisposingInvisibleListRight;
 
 
@@ -214,7 +243,6 @@ namespace Game
             vEnemyDirection = sEntity.Position + new Vector2f(0, 25);                                                                                      // Creating distance to Origin
 
             vEnemyDirection = Utilities.VectorRotation(fAngle / 57, vEnemyDirection, sEntity.Position);                                                    // Rotating to PlayerPosition        
-                                                                                                                                                           // (TODO: NOTE: No idea why dividing with 57, if no division Vector Rotates 57 times faster than it should)
 
 
             // UPDATING vEnemyAngleOrigin
@@ -310,9 +338,7 @@ namespace Game
             Vector2f b = MainMap.GetStartCharacterPosition() + new Vector2f(25, 25) - sEntity.Position;
 
             if (vPlayerPosition.Y < iProjectile.vEntityPosition.Y && vPlayerPosition.Y + 50 > iProjectile.vEntityPosition.Y &&
-                vPlayerPosition.X < iProjectile.vEntityPosition.X && vPlayerPosition.X + 50 > iProjectile.vEntityPosition.X  /*||
-                (iProjectile.vEntityPosition.X - sEntity.Position.X) / iProjectile.GetDirection().X > b.X / iProjectile.GetDirection().X &&
-                (iProjectile.vEntityPosition.Y - sEntity.Position.Y) / iProjectile.GetDirection().Y > b.Y / iProjectile.GetDirection().Y*/)
+                vPlayerPosition.X < iProjectile.vEntityPosition.X && vPlayerPosition.X + 50 > iProjectile.vEntityPosition.X)
                 return true;
 
             return false;
@@ -374,7 +400,6 @@ namespace Game
         /// Detects Collision between Player and Enemy and returns Collision direction
         /// </summary>
         /// <param name="vVirtualPlayerPosition">Virtual PlayerPosition, aka Position if Player would be moving, no the Map</param>
-        /// <param name="vEntityPosition">Position of the Enemy if Player would be moving, not the Map</param>
         /// <param name="up">Bool that prohibites Up-Movement of the Player if true</param>
         /// <param name="down">Bool that prohibites Down-Movement of the Player if true</param>
         /// <param name="right">Bool that prohibites Right-Movement of the Player if true</param>
@@ -857,14 +882,28 @@ namespace Game
         public abstract List<Drawable> Draw();
 
 
+        /// <summary>
+        /// Updates only EnemyPosition, used to optimize performance
+        /// </summary>
+        public void PassiveUpdate()
+        {
+            sEntity.Position = MainMap.GetTileMapPosition() + vEntityPosition + new Vector2f(25, 25);
+        }
+
+
 
 
 
         // DECLARING METHODS: PATH FINDING ALGORITHM
 
-        public void PathFinder(Vector2f vPosition, Vector2f vGoalPosition)
+        /// <summary>
+        /// PathFinder Algorithm, searches the shortest way from the EnemyPosition to the PlayerPosition respecting Tiles with Collision
+        /// </summary>
+        /// <param name="vPosition">StartPosition, Pathfinder starts here</param>
+        /// <param name="vTargetPosition">Position where the Pathfinder looks for a path to get</param>
+        public void PathFinder(Vector2f vPosition, Vector2f vTargetPosition)
         {
-            List<Node> Open; // set of nodes to be evaluated
+            List<Node> Open; // List of Nodes to be evaluated
             Open = new List<Node>();
 
             Tilez[,] tManager = MainMap.GetTileManager().GetTileArray();
@@ -872,19 +911,18 @@ namespace Game
             int startX = (int)((vPosition.X + 25) / 50);
             int startY = (int)((vPosition.Y + 25) / 50);
 
-            int goalX = (int)vGoalPosition.X / 50;
-            int goalY = (int)vGoalPosition.Y / 50;
+            int goalX = (int)vTargetPosition.X / 50;
+            int goalY = (int)vTargetPosition.Y / 50;
 
             Node startNode = new Node(tManager[startX, startY], new Vector2f(startX, startY), new Vector2f(goalX, goalY));
             Node targetNode = new Node(tManager[goalX, goalY], new Vector2f(goalX, goalY), startNode);
 
             Open.Add(startNode);
 
+            bool loop = true; // Bool used to loop until the shortest path is found
 
-            bool loop = true;
-
-            Node current;
-            current = Open[0];
+            Node nCurrent; // Node being currently inspected
+            nCurrent = Open[0];
             int currentindex = 0;
 
 
@@ -893,28 +931,28 @@ namespace Game
                 for (int x = 0; x < Open.Count; x++)
                 {
                     if (x == 0)
-                        current = Open[Open.Count - 1];
+                        nCurrent = Open[Open.Count - 1];
 
-                    if (Open[x].iFCost <= current.iFCost)
+                    if (Open[x].iFCost <= nCurrent.iFCost)
                     {
-                        current = Open[x];
+                        nCurrent = Open[x];
                         currentindex = x;
                     }
                 }
 
 
                 Open.RemoveAt(currentindex);
-                Closed.Add(current);
+                Closed.Add(nCurrent);
 
-                if (current.Position == targetNode.Position)
+                if (nCurrent.Position == targetNode.Position)
                     break;
-
-                int X = (int)current.Position.X;
-                int Y = (int)current.Position.Y;
+                
+                int X = (int)nCurrent.Position.X;
+                int Y = (int)nCurrent.Position.Y;
 
                 Node[] neighbour = new Node[] { };
 
-                CreateNeighbours(X, Y, ref neighbour, tManager, current, targetNode);
+                CreateNeighbours(X, Y, ref neighbour, tManager, nCurrent, targetNode);
 
 
                 foreach (Node element in neighbour)
@@ -924,14 +962,14 @@ namespace Game
 
                     if (Open.Find(x => x.Position == element.Position) == null)
                     {
-                        element.ParentNode = current;
+                        element.ParentNode = nCurrent;
 
                         Open.Add(element);
                     }
 
                     else if (element.iFCost < Open.Find(x => x.Position == element.Position).iFCost)
                     {
-                        element.ParentNode = current;
+                        element.ParentNode = nCurrent;
 
                         Open[Open.IndexOf((Open.Find(x => x.Position == element.Position)))] = element;
                     }
@@ -939,7 +977,7 @@ namespace Game
             }
 
             Node NodeWay;
-            NodeWay = current;
+            NodeWay = nCurrent;
 
             while (NodeWay != startNode)
             {
@@ -950,54 +988,56 @@ namespace Game
         }
 
 
-        protected void CreateNeighbours(int X, int Y, ref Node[] neighbour, Tilez[,] tManager, Node current, Node targetNode)
+        /// <summary>
+        /// Initializes an Array of Nodes that surrounds the nCurrent Node in the Pathfinder
+        /// </summary>
+        /// <param name="X">X Coordinate of nCurrent's Position</param>
+        /// <param name="Y">Y Coordinate of nCurrent's Position</param>
+        /// <param name="anNeighbour">Array of Nodes to be initialised</param>
+        /// <param name="tManager">2 Dimensional Array of Tilez needed for giving each Node in anNeighbour their Tilez Type</param>
+        /// <param name="nCurrent">Node being evaluated</param>
+        /// <param name="nTargetNode">Node where the Pathfinder looks for a path to get</param>
+        protected void CreateNeighbours(int X, int Y, ref Node[] anNeighbour, Tilez[,] tManager, Node nCurrent, Node nTargetNode)
         {
             if (X > 0 && Y > 0)
             {
-                neighbour = new Node[] { new Node(tManager[X - 1,   Y - 1],   new Vector2f(X - 1,   Y - 1), current, targetNode),
-                                     new Node(tManager[X,       Y - 1],   new Vector2f(X,       Y - 1), current, targetNode),
-                                     new Node(tManager[X + 1,   Y - 1],   new Vector2f(X + 1,   Y - 1), current, targetNode),
-
-                                     new Node(tManager[X - 1,   Y],       new Vector2f(X - 1,   Y),     current, targetNode),
-                                     new Node(tManager[X + 1,   Y],       new Vector2f(X + 1,   Y),     current, targetNode),
-
-                                     new Node(tManager[X - 1,   Y + 1],   new Vector2f(X - 1,   Y + 1), current, targetNode),
-                                     new Node(tManager[X,       Y + 1],   new Vector2f(X,       Y + 1), current, targetNode),
-                                     new Node(tManager[X + 1,   Y + 1],   new Vector2f(X + 1,   Y + 1), current, targetNode)};
-            }
-
-            else if (X <= 0 && Y <= 0)
-            {
-                neighbour = new Node[] {
-                                     new Node(tManager[X + 1,   Y],       new Vector2f(X + 1,   Y),     current, targetNode),
-
-                                     new Node(tManager[X,       Y + 1],   new Vector2f(X,       Y + 1), current, targetNode),
-                                     new Node(tManager[X + 1,   Y + 1],   new Vector2f(X + 1,   Y + 1), current, targetNode)};
+                anNeighbour = new Node[] {
+                                     new Node(tManager[X - 1,   Y - 1],   new Vector2f(X - 1,   Y - 1), nCurrent, nTargetNode),
+                                     new Node(tManager[X,       Y - 1],   new Vector2f(X,       Y - 1), nCurrent, nTargetNode),
+                                     new Node(tManager[X + 1,   Y - 1],   new Vector2f(X + 1,   Y - 1), nCurrent, nTargetNode),
+                                     new Node(tManager[X - 1,   Y],       new Vector2f(X - 1,   Y),     nCurrent, nTargetNode),
+                                     new Node(tManager[X + 1,   Y],       new Vector2f(X + 1,   Y),     nCurrent, nTargetNode),
+                                     new Node(tManager[X - 1,   Y + 1],   new Vector2f(X - 1,   Y + 1), nCurrent, nTargetNode),
+                                     new Node(tManager[X,       Y + 1],   new Vector2f(X,       Y + 1), nCurrent, nTargetNode),
+                                     new Node(tManager[X + 1,   Y + 1],   new Vector2f(X + 1,   Y + 1), nCurrent, nTargetNode)};
             }
 
             else if (X <= 0)
             {
-                neighbour = new Node[] {
-                                     new Node(tManager[X,       Y - 1],   new Vector2f(X,       Y - 1), current, targetNode),
-                                     new Node(tManager[X + 1,   Y - 1],   new Vector2f(X + 1,   Y - 1), current, targetNode),
-
-                                     new Node(tManager[X + 1,   Y],       new Vector2f(X + 1,   Y),     current, targetNode),
-
-                                     new Node(tManager[X,       Y + 1],   new Vector2f(X,       Y + 1), current, targetNode),
-                                     new Node(tManager[X + 1,   Y + 1],   new Vector2f(X + 1,   Y + 1), current, targetNode)};
+                anNeighbour = new Node[] {
+                                     new Node(tManager[X,       Y - 1],   new Vector2f(X,       Y - 1), nCurrent, nTargetNode),
+                                     new Node(tManager[X + 1,   Y - 1],   new Vector2f(X + 1,   Y - 1), nCurrent, nTargetNode),
+                                     new Node(tManager[X + 1,   Y],       new Vector2f(X + 1,   Y),     nCurrent, nTargetNode),
+                                     new Node(tManager[X,       Y + 1],   new Vector2f(X,       Y + 1), nCurrent, nTargetNode),
+                                     new Node(tManager[X + 1,   Y + 1],   new Vector2f(X + 1,   Y + 1), nCurrent, nTargetNode)};
             }
 
             else if (Y <= 0)
             {
-                neighbour = new Node[] {
+                anNeighbour = new Node[] {
+                                     new Node(tManager[X - 1,   Y],       new Vector2f(X - 1,   Y),     nCurrent, nTargetNode),
+                                     new Node(tManager[X + 1,   Y],       new Vector2f(X + 1,   Y),     nCurrent, nTargetNode),
+                                     new Node(tManager[X - 1,   Y + 1],   new Vector2f(X - 1,   Y + 1), nCurrent, nTargetNode),
+                                     new Node(tManager[X,       Y + 1],   new Vector2f(X,       Y + 1), nCurrent, nTargetNode),
+                                     new Node(tManager[X + 1,   Y + 1],   new Vector2f(X + 1,   Y + 1), nCurrent, nTargetNode)};
+            }
 
-                                     new Node(tManager[X - 1,   Y],       new Vector2f(X - 1,   Y),     current, targetNode),
-
-                                     new Node(tManager[X + 1,   Y],       new Vector2f(X + 1,   Y),     current, targetNode),
-
-                                     new Node(tManager[X - 1,   Y + 1],   new Vector2f(X - 1,   Y + 1), current, targetNode),
-                                     new Node(tManager[X,       Y + 1],   new Vector2f(X,       Y + 1), current, targetNode),
-                                     new Node(tManager[X + 1,   Y + 1],   new Vector2f(X + 1,   Y + 1), current, targetNode)};
+            else if (X <= 0 && Y <= 0)
+            {
+                anNeighbour = new Node[] {
+                                     new Node(tManager[X + 1,   Y],       new Vector2f(X + 1,   Y),     nCurrent, nTargetNode),
+                                     new Node(tManager[X,       Y + 1],   new Vector2f(X,       Y + 1), nCurrent, nTargetNode),
+                                     new Node(tManager[X + 1,   Y + 1],   new Vector2f(X + 1,   Y + 1), nCurrent, nTargetNode)};
             }
         }
     }

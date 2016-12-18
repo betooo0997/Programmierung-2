@@ -40,10 +40,17 @@ namespace Game
             return bIsBoss;
         }
 
-        public Vector2f GetPosition()
+        public Vector2f GetVirtualPosition()
         {
             return vEntityPosition;
         }
+
+        public Vector2f GetPosition()
+        {
+            return sEntity.Position - new Vector2f(25,25);
+        }
+
+
 
         /// <summary>
         /// Detects the Entity Collision
