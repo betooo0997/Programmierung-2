@@ -32,7 +32,6 @@ namespace Game
 
         protected float fProcentualHealth;
 
-        protected int HealthMax;
 
         /// <summary>
         /// Disposes a Projectile from the Projectile List if its Destruct bool is true
@@ -104,6 +103,7 @@ namespace Game
             if (Utilities.DistanceBetweenVectors(iProjectile.vEntityPosition, b) <= 25)
             {
                 Player.ReduceHealth(Damage);
+                Player.RestartRegenerateTimer();
                 return true;
             }
 

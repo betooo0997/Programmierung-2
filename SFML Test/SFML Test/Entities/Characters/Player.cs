@@ -15,8 +15,10 @@ namespace Game
         // GENERAL PLAYER VARIABLES
         protected static uint iLevel = 3;
         protected static CircleShape sCharacter;
-        protected static int iHealth;
+        protected static float fHealth;
         public static float fSpeed;
+        protected static int iHealthMax;
+
 
 
         // VARIABLES USED FOR COLLISIONDETECTION
@@ -33,6 +35,9 @@ namespace Game
         protected Clock cShoot;
         protected Time tShoot;
 
+        protected static Clock cRegenarate;
+        protected Time tRegenerate;
+
 
 
         public Player(string[] stringMap, Vector2f VirtualCharacterPosition)
@@ -43,6 +48,7 @@ namespace Game
             drawList            = new List<Drawable>();
             lProjectile         = new List<PlayerProjectile>();
             cShoot              = new Clock();
+            cRegenarate         = new Clock();
 
 
             // SETTING CONSTANTS
@@ -51,11 +57,11 @@ namespace Game
             sCharacter.FillColor = new Color(255,255,255);
             sCharacter.OutlineThickness = 1;
             sCharacter.OutlineColor = Color.Black;
-            iHealth = 1000;
+            fHealth = 1000;
             fSpeed = 1.5f;
             uDamage = 20;
-            HealthMax = iHealth;
-            fProcentualHealth = (float)iHealth / (float)HealthMax;
+            iHealthMax = (int)fHealth;
+            fProcentualHealth = (float)fHealth / (float)iHealthMax;
         }
 
         public void Update(ref Vector2f VirtualCharacterPosition, ref bool up, ref bool down, ref bool right, ref bool left)
@@ -80,10 +86,21 @@ namespace Game
 
             DisposeProjectile(lProjectile, uDamage);
 
-            fProcentualHealth = (float)iHealth / (float)HealthMax;
+            fProcentualHealth = (float)fHealth / (float)iHealthMax;
 
-            if (iHealth >= 0)
+            if (fHealth >= 0)
                 sCharacter.FillColor = new Color(255, (byte)(0 + (255 * fProcentualHealth)), (byte)(0 + (255 * fProcentualHealth)));
+
+            tRegenerate = cRegenarate.ElapsedTime;
+
+            if (tRegenerate.AsSeconds() > 3 && fHealth < iHealthMax)
+            {
+                fHealth += (float)100 / 1500;
+                if (fHealth > iHealthMax)
+                    fHealth = iHealthMax;
+            }
+            Console.Clear();
+            Console.WriteLine(fHealth);
         }
 
 
@@ -128,19 +145,25 @@ namespace Game
 
         public static void ReduceHealth(uint Damage)
         {
-            iHealth -= (int)Damage;
+            fHealth -= (int)Damage;
         }
 
 
-        public static int GetHealth()
+        public static float GetHealth()
         {
-            return iHealth;
+            return fHealth;
         }
 
         public static void LevelUp()
         {
             iLevel++;
             sCharacter.SetPointCount(iLevel);
+            iHealthMax += 25;            
+        }
+
+        public static void RestartRegenerateTimer()
+        {
+            cRegenarate.Restart();
         }
     }
 }

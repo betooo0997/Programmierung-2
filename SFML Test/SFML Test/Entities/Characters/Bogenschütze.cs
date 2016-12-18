@@ -112,7 +112,7 @@ namespace Game
             // SETTING VARIABLES
             vEntityPosition         = vArcherPosition;
             this.iHealth            = iHealth;
-            HealthMax               = iHealth;
+            iHealthMax               = iHealth;
             this.uID                = uID;
             this.uDamage            = uDamage;
             this.iDistanceDetection = iDistanceDetection;
@@ -126,7 +126,7 @@ namespace Game
 
             bSuspecting             = false;
             iRandomNumber           = rRandom.Next(0, 4);
-            fProcentualHealth                   = (float)iHealth / (float)HealthMax;
+            fProcentualHealth                   = (float)iHealth / (float)iHealthMax;
         }
 
 
@@ -143,7 +143,7 @@ namespace Game
 
             UpdatingProjectiles();
 
-            fProcentualHealth = (float)iHealth / (float)HealthMax;
+            fProcentualHealth = (float)iHealth / (float)iHealthMax;
 
             if (iHealth >= 0)
                 sEntity.Color = new Color(255, (byte)(0 + (255 * fProcentualHealth)), (byte)(0 + (255 * fProcentualHealth)));

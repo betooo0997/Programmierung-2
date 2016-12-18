@@ -226,7 +226,7 @@ namespace Game
 
         protected bool bAlert = false;
 
-
+        protected int iHealthMax;
 
 
 
