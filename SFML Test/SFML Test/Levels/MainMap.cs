@@ -14,6 +14,8 @@ namespace Game
     {
         protected Text textQuest;
         protected Questtracker questTracker;
+        protected Clock cText;
+        protected Time tText;
         protected uint uiKillCount;
 
         //TEXTURES AND SPRITES
@@ -31,6 +33,7 @@ namespace Game
         protected static Vector2f vPastTileMapPosition;
         protected static Vector2f vDifferenceTileMapPosition;
         protected static Vector2f vPresentTileMapPosition;
+
 
 
         // INPUT INSTANCE
@@ -71,6 +74,7 @@ namespace Game
             questTracker = new Questtracker(entityManager.GetEnemyArray(), entityManager.GetArrayNumberColumns(), entityManager.GetArrayNumberRows());
             textQuest = new Text(questTracker.GetQuestString(), font, 20);
             uiKillCount = 0;
+            cText = new Clock();
             cCamera = new Camera();
 
             lEnemies = entityManager.ReturnListCreatedOutOfArray();
@@ -170,8 +174,16 @@ namespace Game
                 drawList.AddList(lEnemies[x].Draw());
             }
 
-            drawList.AddElement(TextStreamer.TextForPlayer("Nieder mit den Vierecken"));
-            drawList.AddElement(TextStreamer.TextForPlayer("Dreieckige Sandwiches für Alle!", Color.Black, 100, 2));
+            if(cText != null)
+            tText = cText.ElapsedTime;
+
+            if (tText.AsSeconds() <= 10)
+            {
+                drawList.AddElement(TextStreamer.TextForPlayer("Dreieckige Sandwiches für Alle!", new Color(100, 0, 100), 100, 2));
+                drawList.AddElement(TextStreamer.TextForPlayer("Nieder mit den Vierecken!", new Color(100, 0, 100), 100, 0));
+            }
+            else
+                cText = null;
 
 
             TileUndHerrsche.Draw(window, vTileMapPosition);
