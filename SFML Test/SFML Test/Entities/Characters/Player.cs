@@ -46,7 +46,7 @@ namespace Game
 
 
             // SETTING CONSTANTS
-            sCharacter.Origin = new Vector2f(25, 25);
+            sCharacter.Origin = new Vector2f(sCharacter.Radius, sCharacter.Radius);
             CharacterPosition = VirtualCharacterPosition;
             sCharacter.FillColor = new Color(255,255,255);
             sCharacter.OutlineThickness = 1;

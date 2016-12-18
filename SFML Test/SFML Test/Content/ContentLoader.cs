@@ -10,6 +10,9 @@ using SFML.Audio;
 
 namespace Game
 {
+    /// <summary>
+    /// Loads Textures, SoundBuffers and Fonts once and makes them available for all classes. 
+    /// </summary>
     class ContentLoader
     {
         public static Font fontArial;
@@ -43,6 +46,9 @@ namespace Game
         public static SoundBuffer soundProjectileImpact;
         public static SoundBuffer soundEnemyDeath;
 
+        /// <summary>
+        /// Loads all available Texture, SoundBuffers and Fonts to make them usable. 
+        /// </summary>
         public static void LoadContent()
         {
             //FONTS:
@@ -50,7 +56,24 @@ namespace Game
 
             //TEXTURES:
             textureTileSheet = new Texture("Content/TileSheet.png");
+
             textureTriangleCivil = new Texture("Content/TriangleCivil.png");
+            textureTriangleBandit1 = new Texture("Content/TriangleBandit1.png");
+            textureTriangleBandit2 = new Texture("Content/TriangleBandit2.png");
+            textureTriangleBandit3 = new Texture("Content/TriangleBandit3.png");
+            textureTriangleBrute = new Texture("Content/TriangleBrute.png");
+            textureTriangleBomber = new Texture("Content/TriangleBomber.png");
+            textureTriangleLord = new Texture("Content/TriangleLord.png");
+
+            textureSquareCivil = new Texture("Content/SquareCivil.png");
+            textureSquareSoldier1 = new Texture("Content/SquareSoldier1.png");
+            textureSquareSoldier2 = new Texture("Content/SquareSoldier2.png");
+            textureSquareSoldier3 = new Texture("Content/SquareSoldier3.png");
+            textureSquareCommander = new Texture("Content/SquareCommander.png");
+            textureSquareGeneral = new Texture("Content/SquareGeneral.png");
+
+            texturePentagonCivil = new Texture("Content/PentagonCivil.png");
+            texturePentagonCenturio = new Texture("Content/PentagonCenturio.png");
 
             textureProjectileVector = new Texture("Content/ProjectileVector.png");
             textureProjectileEdge = new Texture("Content/ProjectileEdge.png");

@@ -21,7 +21,7 @@ namespace Game
         /// <summary>
         /// Determines look of the Entity. 
         /// </summary>
-        protected EntityAppearance appearance;
+        protected EntityAppearance eAppearance;
         protected Texture tEntity;
         protected Sprite sEntity;
 
@@ -32,7 +32,7 @@ namespace Game
 
         public EntityAppearance GetAppearance()
         {
-            return appearance;
+            return eAppearance;
         }
 
         public bool GetIsBoss()
@@ -147,5 +147,51 @@ namespace Game
             return false;
         }
 
+        /// <summary>
+        /// A protected function to get the correct Texture from the Content Loader depending on the chosen Appearance. Default is Triangle Civil. 
+        /// </summary>
+        /// <returns></returns>
+        protected Texture GetAppearanceTexture()
+        {
+            switch(eAppearance)
+            {
+                case EntityAppearance.ProjectileEdge:
+                    return ContentLoader.textureProjectileEdge;
+                case EntityAppearance.ProjectileVector:
+                    return ContentLoader.textureProjectileVector;
+                case EntityAppearance.PentagonCenturio:
+                    return ContentLoader.texturePentagonCenturio;
+                case EntityAppearance.PentagonCivil:
+                    return ContentLoader.texturePentagonCivil;
+                case EntityAppearance.SquareGeneral:
+                    return ContentLoader.textureSquareGeneral;
+                case EntityAppearance.SquareCommander:
+                    return ContentLoader.textureSquareCommander;
+                case EntityAppearance.SquareSoldier3:
+                    return ContentLoader.textureSquareSoldier3;
+                case EntityAppearance.SquareSoldier2:
+                    return ContentLoader.textureSquareSoldier2;
+                case EntityAppearance.SquareSoldier1:
+                    return ContentLoader.textureSquareSoldier1;
+                case EntityAppearance.SquareCivil:
+                    return ContentLoader.textureSquareCivil;
+                case EntityAppearance.TriangleLord:
+                    return ContentLoader.textureTriangleLord;
+                case EntityAppearance.TriangleBomber:
+                    return ContentLoader.textureTriangleBomber;
+                case EntityAppearance.TriangleBrute:
+                    return ContentLoader.textureTriangleBrute;
+                case EntityAppearance.TriangleBandit3:
+                    return ContentLoader.textureTriangleBandit3;
+                case EntityAppearance.TriangleBandit2:
+                    return ContentLoader.textureTriangleBandit2;
+                case EntityAppearance.TriangleBandit1:
+                    return ContentLoader.textureTriangleBandit1;
+                case EntityAppearance.TriangleCivil:
+                    return ContentLoader.textureTriangleCivil;
+                default:
+                    return ContentLoader.textureTriangleCivil;
+            }
+        }
     }
 }
