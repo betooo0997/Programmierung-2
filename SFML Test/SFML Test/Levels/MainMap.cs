@@ -158,8 +158,8 @@ namespace Game
             for (int x = 0; x < lEnemies.Count; x++)
                 drawList.AddList(lEnemies[x].Draw());
 
-            drawList.AddElement(TextStreamer.TextForPlayer("blablablabla"));
-            drawList.AddElement(TextStreamer.TextForPlayer("blablablabla", Color.Black, 100, 2));
+            drawList.AddElement(TextStreamer.TextForPlayer("Nieder mit den Vierecken"));
+            drawList.AddElement(TextStreamer.TextForPlayer("Dreieckige Sandwiches für Alle!", Color.Black, 100, 2));
 
 
             TileUndHerrsche.Draw(window, vTileMapPosition);
