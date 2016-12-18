@@ -17,10 +17,8 @@ namespace Game
         protected uint uiKillCount;
 
         //TEXTURES AND SPRITES
-
-        protected Texture textureDopsball;
+        
         protected Texture textureTileSheet;
-        protected Sprite dopsball;
         protected Sprite tileSheet;
         
 
@@ -51,7 +49,6 @@ namespace Game
 
             //SYNCHRONISING WITH CONTENTLOADER
             font = ContentLoader.fontArial;
-            textureDopsball = ContentLoader.textureDopsball;
             textureTileSheet = ContentLoader.textureTileSheet;
 
 
@@ -64,7 +61,6 @@ namespace Game
             entityManager = new EntityManager(TileUndHerrsche, enemyLayoutString);
 
             //INSTANTIATING OBJECTS : TEXTURES
-            dopsball = new Sprite(textureDopsball);
             tileSheet = new Sprite(textureTileSheet);
 
 
@@ -86,7 +82,6 @@ namespace Game
 
 
             //CHANGING OBJECT PARAMETERS
-            textureDopsball.Smooth = true;
             textureTileSheet.Smooth = true;
             textQuest.Position = new Vector2f(20, 20);
             textQuest.Color = Color.White;

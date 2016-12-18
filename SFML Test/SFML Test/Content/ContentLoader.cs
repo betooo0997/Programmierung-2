@@ -13,10 +13,30 @@ namespace Game
     class ContentLoader
     {
         public static Font fontArial;
-
-        public static Texture textureDopsball;
+        
         public static Texture textureTileSheet;
-        public static Texture textureTriangle;
+
+        public static Texture textureTriangleCivil;
+        public static Texture textureTriangleBandit1;
+        public static Texture textureTriangleBandit2;
+        public static Texture textureTriangleBandit3;
+        public static Texture textureTriangleBrute;
+        public static Texture textureTriangleBomber;
+        public static Texture textureTriangleLord;
+
+        public static Texture textureSquareCivil;
+        public static Texture textureSquareSoldier1;
+        public static Texture textureSquareSoldier2;
+        public static Texture textureSquareSoldier3;
+        public static Texture textureSquareCommander;
+        public static Texture textureSquareGeneral;
+
+        public static Texture texturePentagonCivil;
+        public static Texture texturePentagonCenturio;
+
+        public static Texture textureProjectileVector;
+        public static Texture textureProjectileEdge;
+        
 
         public static SoundBuffer soundClick;
         public static SoundBuffer soundProjectileShot;
@@ -29,10 +49,11 @@ namespace Game
             fontArial = new Font("C:/Windows/Fonts/Arial.ttf");
 
             //TEXTURES:
-            textureDopsball = new Texture("Content/Dopsball.png");
             textureTileSheet = new Texture("Content/TileSheet.png");
-            textureTriangle = new Texture("Content/Triangle.png");
+            textureTriangleCivil = new Texture("Content/TriangleCivil.png");
 
+            textureProjectileVector = new Texture("Content/ProjectileVector.png");
+            textureProjectileEdge = new Texture("Content/ProjectileEdge.png");
             
             // SOUNDS 
             soundClick = new SoundBuffer("Content/113087__edgardedition__click2_16Bit.wav");

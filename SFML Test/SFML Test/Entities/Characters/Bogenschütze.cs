@@ -26,7 +26,7 @@ namespace Game
         public Archer(Vector2f vEnemyPosition, uint uID)
         {
             // SYNCHRONISING OBJECTS
-            tEntity = ContentLoader.textureTriangle;
+            tEntity = ContentLoader.textureTriangleCivil;
             vEntityPosition = vEnemyPosition;
 
             // INSTANTIATING OBJECTS
