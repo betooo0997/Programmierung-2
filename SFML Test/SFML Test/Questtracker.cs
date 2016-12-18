@@ -75,7 +75,12 @@ namespace Game
             if(uiBossCount > 0)
             {
                 uiBossesSlayed = uiBossesKilled;
-                sQuesttext = uiBossesSlayed + " / " + uiBossCount + " Bosses defeated";
+                if(uiBossesSlayed == uiBossCount)
+                {
+                    sQuesttext = uiBossesSlayed + " / " + uiBossCount + " Bosses defeated. Congratulations!";
+                }
+                else
+                    sQuesttext = uiBossesSlayed + " / " + uiBossCount + " Bosses defeated";
             }
 
             return sQuesttext;
