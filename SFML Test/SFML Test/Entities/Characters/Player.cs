@@ -51,9 +51,11 @@ namespace Game
             sCharacter.FillColor = new Color(255,255,255);
             sCharacter.OutlineThickness = 1;
             sCharacter.OutlineColor = Color.Black;
-            iHealth = 100000;
+            iHealth = 1000;
             fSpeed = 1.5f;
             uDamage = 20;
+            HealthMax = iHealth;
+            fProcentualHealth = (float)iHealth / (float)HealthMax;
         }
 
         public void Update(ref Vector2f VirtualCharacterPosition, ref bool up, ref bool down, ref bool right, ref bool left)
@@ -78,8 +80,10 @@ namespace Game
 
             DisposeProjectile(lProjectile, uDamage);
 
+            fProcentualHealth = (float)iHealth / (float)HealthMax;
+
             if (iHealth >= 0)
-                sCharacter.FillColor = new Color(255, (byte)(255 - (255 - iHealth * 2.55f)), (byte)(255 - (255 - iHealth * 2.55f)));
+                sCharacter.FillColor = new Color(255, (byte)(0 + (255 * fProcentualHealth)), (byte)(0 + (255 * fProcentualHealth)));
         }
 
 

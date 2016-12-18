@@ -30,6 +30,10 @@ namespace Game
 
         protected float fAngle;
 
+        protected float fProcentualHealth;
+
+        protected int HealthMax;
+
         /// <summary>
         /// Disposes a Projectile from the Projectile List if its Destruct bool is true
         /// </summary>

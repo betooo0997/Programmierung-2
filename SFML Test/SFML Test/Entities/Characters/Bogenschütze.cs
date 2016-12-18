@@ -46,6 +46,8 @@ namespace Game
 
 
 
+
+
         // DECLARING VARIABLES: BOOLS
 
         /// <summary>
@@ -110,6 +112,7 @@ namespace Game
             // SETTING VARIABLES
             vEntityPosition         = vArcherPosition;
             this.iHealth            = iHealth;
+            HealthMax               = iHealth;
             this.uID                = uID;
             this.uDamage            = uDamage;
             this.iDistanceDetection = iDistanceDetection;
@@ -123,6 +126,7 @@ namespace Game
 
             bSuspecting             = false;
             iRandomNumber           = rRandom.Next(0, 4);
+            fProcentualHealth                   = (float)iHealth / (float)HealthMax;
         }
 
 
@@ -139,8 +143,10 @@ namespace Game
 
             UpdatingProjectiles();
 
+            fProcentualHealth = (float)iHealth / (float)HealthMax;
+
             if (iHealth >= 0)
-                sEntity.Color = new Color(255, (byte)(255 - (255 - iHealth * 2.55f)), (byte)(255 - (255 - iHealth * 2.55f)));
+                sEntity.Color = new Color(255, (byte)(0 + (255 * fProcentualHealth)), (byte)(0 + (255 * fProcentualHealth)));
 
             sEntity.Rotation = fAngle;
             sEntity.Position = MainMap.GetTileMapPosition() + vEntityPosition + new Vector2f(25, 25);
