@@ -119,7 +119,7 @@ namespace Game
 
                 lEnemies[x].Update(ref vCharacterVirtualPosition, ref up, ref down, ref right, ref left);
 
-                if (lEnemies[x].GetHealth() < 0)
+                if (lEnemies[x].GetHealth() <= 0)
                 {
                     if (lEnemies[x].GetIsBoss())
                         uiKillCount++;
