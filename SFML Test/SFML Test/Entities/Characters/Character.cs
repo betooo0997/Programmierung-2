@@ -15,6 +15,11 @@ namespace Game
         protected List<Drawable> drawList;
 
         /// <summary>
+        /// Base Damage the Character inflicts
+        /// </summary>
+        protected uint uDamage;
+
+        /// <summary>
         /// Vector to correct the Characters Position in case of Collision
         /// </summary>
         protected Vector2f vChracterPositionSpace;

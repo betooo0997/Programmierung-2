@@ -108,21 +108,27 @@ namespace Game
 
             for (int x = 0; x < lEnemies.Count; x++)
             {
+                Vector2f EnemyPosition = lEnemies[x].GetPosition();
+
+                if (EnemyPosition.X > GameLoop.GetWindowSize().X || EnemyPosition.X < -50 ||
+                    EnemyPosition.Y > GameLoop.GetWindowSize().Y || EnemyPosition.Y < -50)
+                {
+                    lEnemies[x].PassiveUpdate();
+                    continue;
+                }
+
                 lEnemies[x].Update(ref vCharacterVirtualPosition, ref up, ref down, ref right, ref left);
 
                 if (lEnemies[x].GetHealth() < 0)
                 {
                     if (lEnemies[x].GetIsBoss())
-                    {
                         uiKillCount++;
-                    }
 
                     SoundManager.PlaySpecificSound(Sounds.Death);
 
                     for (int y = x; y < lEnemies.Count - 1; y++)
-                    {
                         lEnemies[x] = lEnemies[x + 1];
-                    }
+
                     lEnemies[lEnemies.Count - 1] = null;
                     lEnemies.RemoveAt(lEnemies.Count - 1);
                 }
@@ -151,7 +157,15 @@ namespace Game
             drawList.AddList(cPlayer.Draw());
 
             for (int x = 0; x < lEnemies.Count; x++)
+            {
+                Vector2f EnemyPosition = lEnemies[x].GetPosition();
+
+                if (EnemyPosition.X > GameLoop.GetWindowSize().X || EnemyPosition.X < -50 ||
+                    EnemyPosition.Y > GameLoop.GetWindowSize().Y || EnemyPosition.Y < -50)
+                    continue;
+
                 drawList.AddList(lEnemies[x].Draw());
+            }
 
             drawList.AddElement(TextStreamer.TextForPlayer("blablablabla"));
             drawList.AddElement(TextStreamer.TextForPlayer("blablablabla", Color.Black, 100, 2));

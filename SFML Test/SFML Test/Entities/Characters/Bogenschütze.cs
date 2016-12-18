@@ -145,6 +145,7 @@ namespace Game
         }
 
 
+
         /// <summary>
         /// Returns a List of the Elements to be drawed
         /// </summary>
@@ -157,7 +158,7 @@ namespace Game
             drawList.Add(sEntity);
 
             //DrawPathFinder(ffont);
-            ShowVectors();
+            //ShowVectors();
 
             return drawList;
         }

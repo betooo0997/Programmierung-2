@@ -53,6 +53,7 @@ namespace Game
             sCharacter.OutlineColor = Color.Black;
             iHealth = 100000;
             fSpeed = 1.5f;
+            uDamage = 20;
         }
 
         public void Update(ref Vector2f VirtualCharacterPosition, ref bool up, ref bool down, ref bool right, ref bool left)
@@ -75,7 +76,7 @@ namespace Game
             for (x = 0; x < lProjectile.Count; x++)
                 lProjectile[x].Update(sEntity);
 
-            DisposeProjectile(lProjectile, 20);
+            DisposeProjectile(lProjectile, uDamage);
 
             if (iHealth >= 0)
                 sCharacter.FillColor = new Color(255, (byte)(255 - (255 - iHealth * 2.55f)), (byte)(255 - (255 - iHealth * 2.55f)));
