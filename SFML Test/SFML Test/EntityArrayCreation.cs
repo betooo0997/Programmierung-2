@@ -128,7 +128,7 @@ namespace Game
                         return new Archer(new Vector2f((float)(xCoord * tileManager.GetTileSize()), (float)(yCoord * tileManager.GetTileSize())), id - 1, AppearanceRandomizer(3), 25, 600, false, 100);
                     case ('z'):
                         id++;
-                        return new Archer(new Vector2f((float)(xCoord * tileManager.GetTileSize()), (float)(yCoord * tileManager.GetTileSize())), id - 1, EntityAppearance.TriangleBandit1, 25, 600, false, 100);
+                        return new Archer(new Vector2f((float)(xCoord * tileManager.GetTileSize()), (float)(yCoord * tileManager.GetTileSize())), id - 1, EntityAppearance.TriangleCivil, 10, 200, false, 50);
                     default:
                         return null;
                 }
