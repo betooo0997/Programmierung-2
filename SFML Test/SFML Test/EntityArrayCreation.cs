@@ -11,6 +11,9 @@ using SFML.Window;
 
 namespace Game
 {
+    /// <summary>
+    /// Use to create an array of enemies out of the underlying tile map and the chosen enemy layout. 
+    /// </summary>
     class EntityArrayCreation
     {
         /// <summary>
@@ -33,16 +36,33 @@ namespace Game
         /// </summary>
         protected uint id = 1;
 
+        /// <summary>
+        /// Random function soly used to randomize appearance of certain entities. 
+        /// </summary>
+        Random rRandom;
+
+        /// <summary>
+        /// Returns the entity array created out of the chosen .txt file. 
+        /// </summary>
+        /// <returns></returns>
         public Enemy[,] GetEntityArray()
         {
             return enemyArray;
         }
         
+        /// <summary>
+        /// Returns the number of columns of the created entity array. 
+        /// </summary>
+        /// <returns></returns>
         public int GetNumberColumns()
         {
             return numberColumns;
         }
 
+        /// <summary>
+        /// Returns the number of rows of the created entity array. 
+        /// </summary>
+        /// <returns></returns>
         public int GetNumberRows()
         {
             return numberRows;
@@ -56,6 +76,8 @@ namespace Game
         /// <param name="stringEnemyLayout"></param>
         public EntityArrayCreation(TileManager tileManager, string[] stringEnemyLayout)
         {
+            rRandom = new Random();
+
             numberColumns = tileManager.GetNumberColumns();
             numberRows = tileManager.GetNumberRows();
 
@@ -92,9 +114,21 @@ namespace Game
             {
                 switch (type)
                 {
+                    case ('d'):
+                        id++;
+                        return new Archer(new Vector2f((float)(xCoord * tileManager.GetTileSize()), (float)(yCoord * tileManager.GetTileSize())), id - 1, EntityAppearance.TriangleBandit1, 25, 600, false, 100);
+                    case ('c'):
+                        id++;
+                        return new Archer(new Vector2f((float)(xCoord * tileManager.GetTileSize()), (float)(yCoord * tileManager.GetTileSize())), id - 1, EntityAppearance.TriangleBandit1, 25, 600, false, 100);
+                    case ('b'):
+                        id++;
+                        return new Archer(new Vector2f((float)(xCoord * tileManager.GetTileSize()), (float)(yCoord * tileManager.GetTileSize())), id - 1, EntityAppearance.TriangleBandit1, 25, 600, false, 100);
                     case ('a'):
                         id++;
-                        return new Archer(new Vector2f((float)(xCoord * tileManager.GetTileSize()), (float)(yCoord * tileManager.GetTileSize())), id - 1);
+                        return new Archer(new Vector2f((float)(xCoord * tileManager.GetTileSize()), (float)(yCoord * tileManager.GetTileSize())), id - 1, AppearanceRandomizer(3), 25, 600, false, 100);
+                    case ('z'):
+                        id++;
+                        return new Archer(new Vector2f((float)(xCoord * tileManager.GetTileSize()), (float)(yCoord * tileManager.GetTileSize())), id - 1, EntityAppearance.TriangleBandit1, 25, 600, false, 100);
                     default:
                         return null;
                 }
@@ -103,5 +137,37 @@ namespace Game
                 return null;
         }
 
+        /// <summary>
+        /// Function used to give entities with optional appearances one. Input case 4 stands for Square Soldiers. Every other case will be Triangle Bandits. 
+        /// </summary>
+        /// <returns></returns>
+        protected EntityAppearance AppearanceRandomizer(int iCase)
+        {
+            int iRNGesus = rRandom.Next(1, 4);
+
+            if(iCase == 4)
+            {
+                switch (iRNGesus)
+                {
+                    case 1:
+                        return EntityAppearance.SquareSoldier1;
+                    case 2:
+                        return EntityAppearance.SquareSoldier2;
+                    default:
+                        return EntityAppearance.SquareSoldier3;
+                }
+            }
+            else
+            switch (iRNGesus)
+            {
+                case 1:
+                    return EntityAppearance.TriangleBandit1;
+                case 2:
+                    return EntityAppearance.TriangleBandit2;
+                default:
+                    return EntityAppearance.TriangleBandit3;
+            }
+
+        }
     }
 }
