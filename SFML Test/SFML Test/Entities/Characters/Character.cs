@@ -47,7 +47,11 @@ namespace Game
                         lProjectile.RemoveAt(0);
                     else
                         lProjectile.RemoveAt(lProjectile.Count - 1);
+
+                    SoundManager.PlaySpecificSound(Sounds.Impact);
+
                 }
+
             }
         }
 
@@ -65,7 +69,10 @@ namespace Game
                         lProjectile.RemoveAt(0);
                     else
                         lProjectile.RemoveAt(lProjectile.Count - 1);
+
+                    SoundManager.PlaySpecificSound(Sounds.Impact);
                 }
+
             }
         }
 
