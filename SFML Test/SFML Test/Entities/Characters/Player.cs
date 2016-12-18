@@ -116,6 +116,8 @@ namespace Game
             pProjectile = new PlayerProjectile(fAngle, (Vector2f)vMousePositionFromPlayer, 1);
 
             lProjectile.Add(pProjectile);
+
+            SoundManager.PlaySpecificSound(Sounds.Shot);
         }
 
 

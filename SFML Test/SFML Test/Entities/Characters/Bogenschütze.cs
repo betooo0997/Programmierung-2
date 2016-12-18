@@ -10,62 +10,118 @@ using SFML.Audio;
 
 namespace Game
 {
+    /// <summary>
+    /// Represents an Enemy that has the ability to shoot Projectiles
+    /// </summary>
     class Archer : Enemy
     {
+        // DECLARING VARIABLES: TIME RELATED
+
+        /// <summary>
+        /// Clock used for Shooting a determined Projectiles per Second
+        /// </summary>
         Clock cShooting;
+
+        /// <summary>
+        /// Clock used for changing Movement of the Archer a determined number of times per Second
+        /// </summary>
         Clock cMoving;
+
+        /// <summary>
+        /// Clock used for suspecting Player presence only for a determined number of Seconds
+        /// </summary>
         Clock cSuspecting;
+
+        /// <summary>
+        /// Timer used for measuring Time of cShooting
+        /// </summary>
         Time tShooting;
+
+        /// <summary>
+        /// Timer used for measuring Time of cMoving
+        /// </summary>
         Time tMoving;
+
+        /// <summary>
+        /// Timer used for measuring Time of cSuspecting
+        /// </summary>
         Time tSuspecting;
+
+
+
+
+
+        // DECLARING VARIABLES: BOOLS
+
+        /// <summary>
+        /// Bool that indicates wheter the Archer is suspecting the Player's presence or not
+        /// </summary>
         bool bSuspecting;
+
+
+
+
+
+        // DECLARING VARIABLES: OTHER
+
+        /// <summary>
+        /// Font used to display GCost, HCost and FCost of each Node created by the Pathfinding Algorithm
+        /// </summary>
         Font ffont;
-        CircleShape cShape;
 
 
-        public Archer(Vector2f vEnemyPosition, uint uID)
+
+
+
+        // DECLARING METHODS: BASIC FUNCTIONS
+
+        /// <summary>
+        /// Constructor of the Archer
+        /// </summary>
+        /// <param name="vArcherPosition">Startposition of the Archer</param>
+        /// <param name="uID">ID of the Archer</param>
+        public Archer(Vector2f vArcherPosition, uint uID, EntityAppearance eAppearance, uint uDamage, int iDistanceDetection, bool bIsBoss)
         {
-            // SYNCHRONISING OBJECTS
-            tEntity = ContentLoader.textureTriangle;
-            vEntityPosition = vEnemyPosition;
+            // SYNCHRONISING DRAWABLES WITH CONTENTLOADER
+            tEntity     = ContentLoader.textureTriangle;
+            ffont       = ContentLoader.fontArial;
+
 
             // INSTANTIATING OBJECTS
-            sEntity = new Sprite(tEntity);
-            cShape = new CircleShape(25, 3);
-            sEntity.Origin = new Vector2f(25, 25);
-            cShape.Origin = new Vector2f(25, 25);
-            lProjectile = new List<EnemyProjectile>();
-            lInvisibleProjectileLeft = new List<InvisibleProjectile>();
-            lInvisibleProjectileMiddle = new List<InvisibleProjectile>();
-            lInvisibleProjectileRight = new List<InvisibleProjectile>();
+            sEntity         = new Sprite(tEntity);
+            sEntity.Origin  = new Vector2f(25, 25);
+            rRandom         = new Random();
 
-            cDetecting = new Clock();
-            cShooting = new Clock();
-            cMoving = new Clock();
-            cSuspecting = new Clock();
-            rRandom = new Random();
-            ffont = ContentLoader.fontArial;
-            Closed = new List<Node>();
-            Path = new List<Node>();
+            cDetecting      = new Clock();
+            cShooting       = new Clock();
+            cMoving         = new Clock();
+            cSuspecting     = new Clock();
+
+            lInvisibleProjectileLeft    = new List<InvisibleProjectile>();
+            lInvisibleProjectileMiddle  = new List<InvisibleProjectile>();
+            lInvisibleProjectileRight   = new List<InvisibleProjectile>();
+            lProjectile                 = new List<EnemyProjectile>();
+            Closed                      = new List<Node>();
+            Path                        = new List<Node>();
 
 
-
-            // SETTING CONSTANTS
-            this.uID = uID;
-            uDamage = 25;
-            fSpeed = 1;
-            iDistanceDetection = 600;
-            bSuspecting = false;
-
-            bIsBoss = true;
+            // SETTING VARIABLES
+            vEntityPosition         = vArcherPosition;
+            this.uID                = uID;
+            this.uDamage            = uDamage;
+            this.iDistanceDetection = iDistanceDetection;
+            this.bIsBoss            = bIsBoss;
+            fSpeed                  = 1;
 
             for (x = 0; x < uID; x++)
                 fAngle = rRandom.Next(0, 360);
-            sEntity.Rotation = fAngle;
-            cShape.Rotation = fAngle;
 
-            iRandomNumber = rRandom.Next(0, 4);
+            sEntity.Rotation        = fAngle;
+
+            bSuspecting             = false;
+            iRandomNumber           = rRandom.Next(0, 4);
         }
+
 
         /// <summary>
         /// Updates Enemy Logic
@@ -106,22 +162,66 @@ namespace Game
         }
 
 
+
+
+
+        // DECLARING METHODS: DETECTION
+
         /// <summary>
-        /// Shoots a Projectile to the Player's Position
+        /// Updates Detect Logic of the Archer. 
+        /// If it detects the Player, the Archer shoots Projectiles. 
+        /// If it is hit or has detected the Player previously it moves to the registered Position.
         /// </summary>
-        protected void Shoot()
+        protected void DetectLogic()
         {
-            Vector2f vEnemyShootingDirection = sEntity.Position + new Vector2f(0, 25);
-            vEnemyShootingDirection = Utilities.VectorRotation(fAnglecopy / fNumberToCorrect, vEnemyShootingDirection, sEntity.Position);
+            if (DetectPlayer())
+            {
+                vRegisteredPlayerPosition = MainMap.GetVirtualCharacterPosition() + new Vector2f(25, 25);
+                RotateEnemy(ref fAngle, MainMap.GetStartCharacterPosition() + new Vector2f(25, 25));
+                sEntity.Rotation = fAngle;
+                cSuspecting.Restart();
+                Closed = new List<Node>();
+                Path = new List<Node>();
 
-            pProjectile = new EnemyProjectile(fAngle, sEntity.Position, vEnemyShootingDirection, 1);
+                Move();
 
-            lProjectile.Add(pProjectile);
+                if (tShooting.AsMilliseconds() >= 1200)
+                {
+                    Shoot();
+                    cShooting.Restart();
+                }
+
+                if (bSuspecting)
+                    bSuspecting = false;
+            }
+
+            else if (Utilities.MakePositive(vRegisteredPlayerPosition.X) > 0)
+            {
+                if (!bSuspecting)
+                {
+                    cSuspecting.Restart();
+                    bSuspecting = true;
+                    PathFinder(vEntityPosition, vRegisteredPlayerPosition);
+                }
+
+                tSuspecting = cSuspecting.ElapsedTime;
+
+                if (tSuspecting.AsMilliseconds() <= 10000)
+                    PathfinderLogic();
+
+                else
+                    vRegisteredPlayerPosition = new Vector2f();
+            }
         }
 
 
+
+
+
+        // DECLARING METHODS: MOVEMENT
+
         /// <summary>
-        /// Moves Enemy Randomly, but always to a Position within the DetectionRadius and respecting Collision with Tiles
+        /// Moves Archer Randomly, but always to a Position within the DetectionRadius and respecting Collision with Tiles. The Archer doesn't psush the Player around.
         /// </summary>
         protected override void Move()
         {
@@ -152,20 +252,20 @@ namespace Game
             }
 
             // Enemy does not Push the Player around
-            if (Utilities.MakePositive(MainMap.GetStartCharacterPosition().X + 25 - vEnemyDirection.X + fSpeed) < 40 &&
-                Utilities.MakePositive(MainMap.GetStartCharacterPosition().Y + 25 - vEnemyDirection.Y) < 40)
+            if (Utilities.MakePositive(MainMap.GetStartCharacterPosition().X + 25 - vEnemyDirection.X + fSpeed) < 50 &&
+                Utilities.MakePositive(MainMap.GetStartCharacterPosition().Y + 25 - vEnemyDirection.Y) < 50)
                 bCollisionLeft = true;
 
-            if (Utilities.MakePositive(MainMap.GetStartCharacterPosition().X + 25 - vEnemyDirection.X - fSpeed) < 40 &&
-                Utilities.MakePositive(MainMap.GetStartCharacterPosition().Y + 25 - vEnemyDirection.Y) < 40)
+            if (Utilities.MakePositive(MainMap.GetStartCharacterPosition().X + 25 - vEnemyDirection.X - fSpeed) < 50 &&
+                Utilities.MakePositive(MainMap.GetStartCharacterPosition().Y + 25 - vEnemyDirection.Y) < 50)
                 bCollisionRight = true;
 
-            if (Utilities.MakePositive(MainMap.GetStartCharacterPosition().X + 25 - vEnemyDirection.X) < 40 && 
-                Utilities.MakePositive(MainMap.GetStartCharacterPosition().Y + 25 - vEnemyDirection.Y + fSpeed) < 40)
+            if (Utilities.MakePositive(MainMap.GetStartCharacterPosition().X + 25 - vEnemyDirection.X) < 50 && 
+                Utilities.MakePositive(MainMap.GetStartCharacterPosition().Y + 25 - vEnemyDirection.Y + fSpeed) < 50)
                 bCollisionUp = true;
 
-            if (Utilities.MakePositive(MainMap.GetStartCharacterPosition().X + 25 - vEnemyDirection.X) < 30 &&
-                Utilities.MakePositive(MainMap.GetStartCharacterPosition().Y + 25 - vEnemyDirection.Y - fSpeed) < 40)
+            if (Utilities.MakePositive(MainMap.GetStartCharacterPosition().X + 25 - vEnemyDirection.X) < 50 &&
+                Utilities.MakePositive(MainMap.GetStartCharacterPosition().Y + 25 - vEnemyDirection.Y - fSpeed) < 50)
                 bCollisionDown = true;
 
 
@@ -268,76 +368,17 @@ namespace Game
         }
 
 
-        protected void DetectLogic()
-        {
-            if (DetectPlayer())
-            {
-                vRegisteredPlayerPosition = MainMap.GetVirtualCharacterPosition() + new Vector2f(25, 25);
-                RotateEnemy(ref fAngle, MainMap.GetStartCharacterPosition() + new Vector2f(25, 25));
-                sEntity.Rotation = fAngle;
-                cSuspecting.Restart();
-                Closed = new List<Node>();
-                Path = new List<Node>();
-
-                Move();
-
-                if (tShooting.AsMilliseconds() >= 1200)
-                {
-                    Shoot();
-                    cShooting.Restart();
-                }
-
-                if (bSuspecting)
-                    bSuspecting = false;
-            }
-
-            else if (Utilities.MakePositive(vRegisteredPlayerPosition.X) > 0)
-            {
-                if (!bSuspecting)
-                {
-                    cSuspecting.Restart();
-                    bSuspecting = true;
-                    PathFinder(vEntityPosition, vRegisteredPlayerPosition);
-                }
-
-                tSuspecting = cSuspecting.ElapsedTime;
-
-                if (tSuspecting.AsMilliseconds() <= 10000)
-                    PathfinderLogic();
-
-                else
-                    vRegisteredPlayerPosition = new Vector2f();
-            }
-        }
-
+        /// <summary>
+        /// Updates PathFinder Logic of the Archer.
+        /// Moves the Enemy to the Player once the Pathfinding Algorithm was initiated.
+        /// The Archer follows the created nodes, but still respects Collisions with Tiles.
+        /// </summary>
         protected void PathfinderLogic()
         {
             bool MovingUp = false;
             bool MovingDown = false;
             bool MovingRight = false;
             bool MovingLeft = false;
-
-            /*
-            if (MainMap.GetTileManager().GetCollisionAt(((int)(vEntityPosition.X - 1) / 50), (int)(vEntityPosition.Y / 50)) ||
-                MainMap.GetTileManager().GetCollisionAt(((int)(vEntityPosition.X - 1) / 50), (int)((vEntityPosition.Y + 25) / 50)) ||
-                MainMap.GetTileManager().GetCollisionAt(((int)(vEntityPosition.X - 1) / 50), (int)((vEntityPosition.Y + 49) / 50)))
-                MovingLeft = true;
-
-            if (MainMap.GetTileManager().GetCollisionAt(((int)(vEntityPosition.X + 50) / 50), (int)(vEntityPosition.Y / 50)) ||
-                MainMap.GetTileManager().GetCollisionAt(((int)(vEntityPosition.X + 50) / 50), (int)((vEntityPosition.Y + 25) / 50)) ||
-                MainMap.GetTileManager().GetCollisionAt(((int)(vEntityPosition.X + 50) / 50), (int)((vEntityPosition.Y + 49) / 50)))
-                MovingRight = true;
-
-            if (MainMap.GetTileManager().GetCollisionAt(((int)(vEntityPosition.X) / 50), (int)((vEntityPosition.Y - 1)/ 50)) ||
-                MainMap.GetTileManager().GetCollisionAt(((int)(vEntityPosition.X + 25) / 50), (int)((vEntityPosition.Y - 1) / 50)) ||
-                MainMap.GetTileManager().GetCollisionAt(((int)(vEntityPosition.X + 49) / 50), (int)((vEntityPosition.Y - 1) / 50)))
-                MovingUp = true;
-
-            if (MainMap.GetTileManager().GetCollisionAt(((int)(vEntityPosition.X) / 50), (int)((vEntityPosition.Y + 50) / 50)) ||
-                MainMap.GetTileManager().GetCollisionAt(((int)(vEntityPosition.X + 25) / 50), (int)((vEntityPosition.Y + 50) / 50)) ||
-                MainMap.GetTileManager().GetCollisionAt(((int)(vEntityPosition.X + 49) / 50), (int)((vEntityPosition.Y + 50) / 50)))
-                MovingDown = true;
-                */
 
             CollisionDetection(ref vEntityPosition, ref MovingUp, ref MovingDown, ref MovingRight, ref MovingLeft, tEntity.Size.X, tEntity.Size.Y);
 
@@ -379,6 +420,31 @@ namespace Game
             }
         }
 
+
+
+
+
+        // DECLARING METHODS: PROJECTILES
+
+        /// <summary>
+        /// Shoots a Projectile to the Player's Position
+        /// </summary>
+        protected void Shoot()
+        {
+            Vector2f vEnemyShootingDirection = sEntity.Position + new Vector2f(0, 25);
+            vEnemyShootingDirection = Utilities.VectorRotation(fAnglecopy / fNumberToCorrect, vEnemyShootingDirection, sEntity.Position);
+
+            pProjectile = new EnemyProjectile(fAngle, sEntity.Position, vEnemyShootingDirection, 1);
+
+            lProjectile.Add(pProjectile);
+
+            SoundManager.PlaySpecificSound(Sounds.Shot);
+        }
+
+
+        /// <summary>
+        /// Updates and Disposes Projectiles if necessary
+        /// </summary>
         protected void UpdatingProjectiles()
         {
             for (int x = 0; x < lProjectile.Count; x++)
