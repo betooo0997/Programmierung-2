@@ -143,7 +143,6 @@ C:\Users\Mario\Documents\GitHub\Programmierung-2\SFML Test\SFML Test\bin\Debug\C
 C:\Users\Mario\Documents\GitHub\Programmierung-2\SFML Test\SFML Test\bin\Debug\Content\Triangle.png
 C:\Users\Mario\Documents\GitHub\Programmierung-2\SFML Test\SFML Test\bin\Debug\Content\MainMapEnemies.txt
 C:\Users\Beto\Documents\GitHub\Programmierung-2\SFML Test\SFML Test\bin\Debug\Content\MainMap - Copy.txt
-C:\Users\Alexander\Documents\GitHub\Programmierung-2\SFML Test\SFML Test\bin\Debug\Content\MainMap - Copy.txt
 C:\Users\Alexander\Documents\GitHub\Programmierung-2\SFML Test\SFML Test\bin\Debug\Content\113087__edgardedition__click2_16Bit.wav
 C:\Users\Alexander\Documents\GitHub\Programmierung-2\SFML Test\SFML Test\bin\Debug\Content\151713__bowlingballout__pvc-rocket-cannon_16Bit.wav
 C:\Users\Alexander\Documents\GitHub\Programmierung-2\SFML Test\SFML Test\bin\Debug\Content\156895__halgrimm__a-shot.wav
