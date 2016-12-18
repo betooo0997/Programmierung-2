@@ -160,7 +160,7 @@ namespace Game
             drawList.Add(sEntity);
 
             //DrawPathFinder(ffont);
-            //ShowVectors();
+            ShowVectors();
 
             return drawList;
         }
@@ -188,6 +188,7 @@ namespace Game
                 Path = new List<Node>();
 
                 Move();
+                Alert();
 
                 if (tShooting.AsMilliseconds() >= 1200)
                 {
