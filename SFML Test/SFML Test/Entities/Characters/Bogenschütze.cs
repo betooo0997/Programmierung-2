@@ -83,7 +83,7 @@ namespace Game
         public Archer(Vector2f vArcherPosition, uint uID, EntityAppearance eAppearance, uint uDamage, int iDistanceDetection, bool bIsBoss)
         {
             // SYNCHRONISING DRAWABLES WITH CONTENTLOADER
-            tEntity     = ContentLoader.textureTriangle;
+            tEntity     = ContentLoader.textureTriangleCivil;
             ffont       = ContentLoader.fontArial;
 
 

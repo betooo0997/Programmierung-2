@@ -94,7 +94,7 @@ namespace Game
                 {
                     case ('a'):
                         id++;
-                        return new Archer(new Vector2f((float)(xCoord * tileManager.GetTileSize()), (float)(yCoord * tileManager.GetTileSize())), id - 1);
+                        return new Archer(new Vector2f((float)(xCoord * tileManager.GetTileSize()), (float)(yCoord * tileManager.GetTileSize())), id - 1, EntityAppearance.TriangleBandit1, 25, 600, false);
                     default:
                         return null;
                 }

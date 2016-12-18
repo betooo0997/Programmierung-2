@@ -91,7 +91,6 @@ namespace Game
 
             if (Utilities.DistanceBetweenVectors(iProjectile.vEntityPosition, b) <= 25)
             {
-                SoundManager.PlaySpecificSound(Sounds.Impact);
                 Player.ReduceHealth(Damage);
                 return true;
             }
@@ -110,7 +109,6 @@ namespace Game
 
                 if (Utilities.DistanceBetweenVectors(iProjectile.vEntityPosition, b) <= 25)
                 {
-                    SoundManager.PlaySpecificSound(Sounds.Impact);
                     lEnemy[x].ReduceHealth(Damage, iProjectile.GetDirection());
                     return true;
                 }
