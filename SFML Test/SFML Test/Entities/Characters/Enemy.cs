@@ -1,12 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using SFML.Graphics;
-using SFML.Window;
 using SFML.System;
-using SFML.Audio;
 
 namespace Game
 {
@@ -45,12 +40,13 @@ namespace Game
 
 
 
+
         // DECLARING VARIABLES: NUMERIC TYPES
 
         /// <summary>
         /// Health of the Enemy
         /// </summary>
-        protected int iHealth = 100;
+        protected int iHealth;
 
 
         /// <summary>
@@ -108,6 +104,7 @@ namespace Game
 
 
 
+
         // DECLARING VARIABLES: BOOLS
 
         /// <summary>
@@ -134,6 +131,7 @@ namespace Game
         /// True if Collision on left Side of the Enemy occures
         /// </summary>
         protected bool bCollisionLeft;
+
 
 
 
@@ -196,8 +194,6 @@ namespace Game
         protected bool DisposingInvisibleListLeft;
         protected bool DisposingInvisibleListMiddle;
         protected bool DisposingInvisibleListRight;
-
-
 
 
 
@@ -278,10 +274,9 @@ namespace Game
 
 
         /// <summary>
-        /// Disposes the Invisible Projectiles when Projectile-Player Collision occures
+        /// Disposes the Invisible Projectiles and returns true when Projectile-Player Collision occures
         /// </summary>
         /// <param name="lProjectile">List of all Invisible Projectiles that the Enemy has fired</param>
-        /// <returns></returns>
         protected bool DisposeInvisibleProjectile(List<InvisibleProjectile> lProjectile)
         {
             for (int x = 0; x < lProjectile.Count; x++)
@@ -309,7 +304,6 @@ namespace Game
          /// Detects Collision between Player and Invisible Projectile, returns true if Collision occures
         /// </summary>
         /// <param name="iProjectile">Projectile that Collision is checked with</param>
-        /// <returns></returns>
         protected bool PlayerProjectileCollision(InvisibleProjectile iProjectile)
         {
             Vector2f vPlayerPosition = MainMap.GetStartCharacterPosition();
