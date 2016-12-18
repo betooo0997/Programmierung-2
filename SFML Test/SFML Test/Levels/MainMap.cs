@@ -122,7 +122,10 @@ namespace Game
                 if (lEnemies[x].GetHealth() <= 0)
                 {
                     if (lEnemies[x].GetIsBoss())
+                    {
                         uiKillCount++;
+                        Player.LevelUp();
+                    }
 
                     SoundManager.PlaySpecificSound(Sounds.Death);
 
