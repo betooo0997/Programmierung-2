@@ -124,7 +124,7 @@ namespace Game
 
             bSuspecting             = false;
             iRandomNumber           = rRandom.Next(0, 4);
-            fProcentualHealth                   = (float)iHealth / (float)iHealthMax;
+            fProcentualHealth       = (float)iHealth / (float)iHealthMax;
         }
 
 
@@ -162,8 +162,8 @@ namespace Game
 
             lDrawList.Add(sEntity);
 
-            //DrawPathFinder(ffont);
-            //ShowVectors();
+            DrawPathFinder(ffont);
+            ShowVectors();
 
             return lDrawList;
         }
@@ -214,7 +214,7 @@ namespace Game
 
                 tSuspecting = cSuspecting.ElapsedTime;
 
-                if (tSuspecting.AsMilliseconds() <= 10000)
+                if (tSuspecting.AsMilliseconds() <= 100000)
                     PathfinderLogic();
 
                 else
@@ -387,7 +387,25 @@ namespace Game
             bool MovingRight = false;
             bool MovingLeft = false;
 
-            CollisionDetection(ref vEntityPosition, ref MovingUp, ref MovingDown, ref MovingRight, ref MovingLeft, tEntity.Size.X, tEntity.Size.Y);
+            if (MainMap.GetTileManager().GetCollisionAt(((int)(vEntityPosition.X - 1) / 50), (int)(vEntityPosition.Y / 50)) ||
+                MainMap.GetTileManager().GetCollisionAt(((int)(vEntityPosition.X - 1) / 50), (int)((vEntityPosition.Y + 25) / 50)) ||
+                MainMap.GetTileManager().GetCollisionAt(((int)(vEntityPosition.X - 1) / 50), (int)((vEntityPosition.Y + 49) / 50)))
+                MovingLeft = true;
+
+            if (MainMap.GetTileManager().GetCollisionAt(((int)(vEntityPosition.X + 50) / 50), (int)(vEntityPosition.Y / 50)) ||
+                MainMap.GetTileManager().GetCollisionAt(((int)(vEntityPosition.X + 50) / 50), (int)((vEntityPosition.Y + 25) / 50)) ||
+                MainMap.GetTileManager().GetCollisionAt(((int)(vEntityPosition.X + 50) / 50), (int)((vEntityPosition.Y + 49) / 50)))
+                MovingRight = true;
+
+            if (MainMap.GetTileManager().GetCollisionAt(((int)(vEntityPosition.X) / 50), (int)((vEntityPosition.Y - 1) / 50)) ||
+                MainMap.GetTileManager().GetCollisionAt(((int)(vEntityPosition.X + 25) / 50), (int)((vEntityPosition.Y - 1) / 50)) ||
+                MainMap.GetTileManager().GetCollisionAt(((int)(vEntityPosition.X + 49) / 50), (int)((vEntityPosition.Y - 1) / 50)))
+                MovingUp = true;
+
+            if (MainMap.GetTileManager().GetCollisionAt(((int)(vEntityPosition.X) / 50), (int)((vEntityPosition.Y + 50) / 50)) ||
+                MainMap.GetTileManager().GetCollisionAt(((int)(vEntityPosition.X + 25) / 50), (int)((vEntityPosition.Y + 50) / 50)) ||
+                MainMap.GetTileManager().GetCollisionAt(((int)(vEntityPosition.X + 49) / 50), (int)((vEntityPosition.Y + 50) / 50)))
+                MovingDown = true;
 
             if (Path.Count - 1 >= 0)
             {

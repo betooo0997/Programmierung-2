@@ -179,10 +179,15 @@
         </member>
         <member name="M:Game.Camera.Update(SFML.System.Vector2f,SFML.System.Vector2f@)">
             <summary>
-            Updates the the Position of the Map, aka the Camera
+            Updates the the Position of the TileMap, aka the Camera
             </summary>
             <param name="VirtualPlayerPosition">Position if Player would move, not the Map</param>
-            <param name="TilemapPosition">Position of the TilemMap</param>
+            <param name="TilemapPosition">Position of the TileMap</param>
+        </member>
+        <member name="T:Game.Character">
+            <summary>
+            Entity that has Health, can inflict Damage and can move in to different Directions
+            </summary>
         </member>
         <member name="F:Game.Character.lDrawList">
             <summary>
@@ -410,6 +415,11 @@
         <member name="M:Game.EnemyProjectile.Move">
             <summary>
             Moves the Projectile
+            </summary>
+        </member>
+        <member name="T:Game.Enemy">
+            <summary>
+            Character that is an Opponent of Player
             </summary>
         </member>
         <member name="F:Game.Enemy.vEnemyDirection">
@@ -1641,6 +1651,134 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="T:Game.StateGameOver">
+            <summary>
+            Game Over State Class
+            </summary>
+        </member>
+        <member name="F:Game.StateGameOver.targetState">
+            <summary>
+            Target State of the Game Over State
+            </summary>
+        </member>
+        <member name="F:Game.StateGameOver.lDrawList">
+            <summary>
+            List to be drawn
+            </summary>
+        </member>
+        <member name="F:Game.StateGameOver.teGameOver">
+            <summary>
+            Text that displays "Game Over"
+            </summary>
+        </member>
+        <member name="F:Game.StateGameOver.teContinue">
+            <summary>
+            Text that displays "Press ESC to Continue"
+            </summary>
+        </member>
+        <member name="F:Game.StateGameOver.fFont">
+            <summary>
+            Font used to display text
+            </summary>
+        </member>
+        <member name="M:Game.StateGameOver.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="M:Game.StateGameOver.Initialize">
+            <summary>
+            Initializes Variables of the State
+            </summary>
+        </member>
+        <member name="M:Game.StateGameOver.Update(SFML.Graphics.RenderWindow)">
+            <summary>
+            Updates the State
+            </summary>
+            <param name="rWindow">Not used in this State</param>
+            <returns>TargetState</returns>
+        </member>
+        <member name="M:Game.StateGameOver.Draw(SFML.Graphics.RenderWindow)">
+            <summary>
+            Draws the State
+            </summary>
+            <param name="rWindow">Not used in this State</param>
+            <returns>lDrawList</returns>
+        </member>
+        <member name="T:Game.StateMainMenu">
+            <summary>
+            Main Menu State Class
+            </summary>
+        </member>
+        <member name="F:Game.StateMainMenu.targetState">
+            <summary>
+            Target State of the Main Menu
+            </summary>
+        </member>
+        <member name="F:Game.StateMainMenu.lDrawList">
+            <summary>
+            List to be drawn
+            </summary>
+        </member>
+        <member name="F:Game.StateMainMenu.teMainMenu">
+            <summary>
+            Text that Displays "MainMenu"
+            </summary>
+        </member>
+        <member name="F:Game.StateMainMenu.tePlay">
+            <summary>
+            Text that displays "Play"
+            </summary>
+        </member>
+        <member name="F:Game.StateMainMenu.teQuit">
+            <summary>
+            Text that displays "Quit"
+            </summary>
+        </member>
+        <member name="F:Game.StateMainMenu.bKeyIsPressed">
+            <summary>
+            Indicates whether a Key is pressed or not
+            </summary>
+        </member>
+        <member name="F:Game.StateMainMenu.fFont">
+            <summary>
+            Font used to display text
+            </summary>
+        </member>
+        <member name="F:Game.StateMainMenu.iSelected">
+            <summary>
+            Indicates the selected Option in the MainMenu
+            </summary>
+        </member>
+        <member name="F:Game.StateMainMenu.iprevSelected">
+            <summary>
+            Indicates the previous selected Option in the MainMenu
+            </summary>
+        </member>
+        <member name="M:Game.StateMainMenu.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="M:Game.StateMainMenu.Initialize">
+            <summary>
+            Initializes Variables of the State
+            </summary>
+        </member>
+        <member name="M:Game.StateMainMenu.Update(SFML.Graphics.RenderWindow)">
+            <summary>
+            Updates the State
+            </summary>
+            <param name="rWindow">Not used in this State</param>
+            <returns>TargetState</returns>
+        </member>
+        <member name="M:Game.StateMainMenu.Draw(SFML.Graphics.RenderWindow)">
+            <summary>
+            Draws the State
+            </summary>
+            <param name="rWindow">Not used in this State</param>
+            <returns>lDrawList</returns>
+        </member>
         <member name="T:Game.CustomList">
             <summary>
             Class Used for simplifying the use of Lists
@@ -1734,6 +1872,11 @@
         <member name="M:Game.PlayerProjectile.Move">
             <summary>
             Moves the PlayerProjectile
+            </summary>
+        </member>
+        <member name="T:Game.Player">
+            <summary>
+            Character that is an Opponent of Enemy, controlled by User Input
             </summary>
         </member>
         <member name="F:Game.Player.iLevel">
@@ -2016,6 +2159,11 @@
             Changes the current State if it's not equal to the target State
             </summary>
             <param name="sState">State to be disposed</param>
+        </member>
+        <member name="T:Game.Program">
+            <summary>
+            Class serving as Entry Point to the Solution
+            </summary>
         </member>
         <member name="M:Game.Program.Main(System.String[])">
             <summary>

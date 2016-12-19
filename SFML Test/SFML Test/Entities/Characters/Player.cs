@@ -110,8 +110,8 @@ namespace Game
             vPlayerPosition             = VirtualCharacterPosition;
             sCharacter.OutlineThickness = 1;
             sCharacter.OutlineColor     = Color.Black;
-            fHealth                     = 100;
-            fSpeed                      = 1.5f;
+            fHealth                     = 1000000;
+            fSpeed                      = 5f;
             uDamage                     = 20;
             iHealthMax                  = (int)fHealth;
             fProcentualHealth           = (float)fHealth / (float)iHealthMax;

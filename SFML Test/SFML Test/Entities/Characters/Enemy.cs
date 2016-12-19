@@ -311,6 +311,7 @@ namespace Game
                     return true;
             }
 
+            bAlert = false;
             return false;
         }
 
@@ -957,8 +958,9 @@ namespace Game
             nCurrent = Open[0];
             int currentindex = 0;
 
+            int ilooking = 0;
 
-            while (loop)
+            while (loop && ilooking < 30)
             {
                 for (int x = 0; x < Open.Count; x++)
                 {
@@ -1006,6 +1008,8 @@ namespace Game
                         Open[Open.IndexOf((Open.Find(x => x.vPosition == element.vPosition)))] = element;
                     }
                 }
+
+                ilooking++;
             }
 
             Node NodeWay;
