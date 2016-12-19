@@ -33,16 +33,16 @@ namespace Game
         /// Prints the chosen Text in the middle of the upper half of the screen. Takes up to 4 Overloads for additional influence on the drawing. 
         /// </summary>
         /// <param name="input"></param>
-        public static Text TextForPlayer(string input)
+        public static Text TextForPlayer(string input, Vector2f Position)
         {
             textColor = Color.Black;
             font = ContentLoader.fontArial;
-            size = 100;
+            size = 20;
 
             text = new Text(input, font, size);
             text.CharacterSize = size;
-            text.Position = new Vector2f((int)((GameLoop.GetWindowSize().X / 2) - ((input.Length / 2) * (text.CharacterSize / 2))), (int)((GameLoop.GetWindowSize().Y / 2) - (GameLoop.GetWindowSize().Y /4) - (text.CharacterSize / 2)));
-            text.Color = textColor;
+            text.Position = Position;
+            text.Color = Color.Black;
 
             return text;
         }
