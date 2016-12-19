@@ -190,5 +190,5 @@ C:\Users\Beto\Documents\GitHub\Programmierung-2\SFML Test\SFML Test\bin\Debug\Co
 C:\Users\Beto\Documents\GitHub\Programmierung-2\SFML Test\SFML Test\bin\Debug\Content\TriangleBrute.png
 C:\Users\Beto\Documents\GitHub\Programmierung-2\SFML Test\SFML Test\bin\Debug\Content\TriangleCivil.png
 C:\Users\Beto\Documents\GitHub\Programmierung-2\SFML Test\SFML Test\bin\Debug\Content\TriangleLord.png
-C:\Users\Alexander\Documents\GitHub\Programmierung-2\SFML Test\SFML Test\bin\Debug\SFML Test.dll
-C:\Users\Alexander\Documents\GitHub\Programmierung-2\SFML Test\SFML Test\obj\Debug\SFML Test.dll
+C:\Users\Alexander\Documents\GitHub\Programmierung-2\SFML Test\SFML Test\bin\Debug\SFML Test.exe
+C:\Users\Alexander\Documents\GitHub\Programmierung-2\SFML Test\SFML Test\obj\Debug\SFML Test.exe
