@@ -74,14 +74,14 @@ namespace Game
          /// <summary>
          /// Used to update the number of defeated Bosses and return the quest status string. Number of defeated Bosses has to be counted somewhere else. 
          /// </summary>
-         /// <param name="iBossesKilled"></param>
+         /// <param name="uBossesKilled">Number of Bosses killed</param>
          /// <returns></returns>
-        public string Update(uint uiBossesKilled)
+        public string Update(uint uBossesKilled)
         {
 
             if(uiBossCount > 0)
             {
-                uiBossesSlayed = uiBossesKilled;
+                uiBossesSlayed = uBossesKilled;
                 if(uiBossesSlayed == uiBossCount)
                 {
                     sQuesttext = uiBossesSlayed + " / " + uiBossCount + " Bosses defeated. Congratulations!";

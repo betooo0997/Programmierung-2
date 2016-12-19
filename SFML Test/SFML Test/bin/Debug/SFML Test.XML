@@ -100,6 +100,58 @@
             Updates and Disposes Projectiles if necessary
             </summary>
         </member>
+        <member name="T:Game.InvisibleProjectile">
+            <summary>
+            Projectile used to detect Player
+            </summary>
+        </member>
+        <member name="F:Game.InvisibleProjectile.cShape">
+            <summary>
+            CircleShape of the Invisible Projectile to be drawn
+            </summary>
+        </member>
+        <member name="M:Game.InvisibleProjectile.#ctor(SFML.System.Vector2f,SFML.System.Vector2f,System.Single)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="vEntityPosition">StartPosition of the Projectile</param>
+            <param name="vDirection">Direction of the Projectile</param>
+            <param name="iVelocity">Velocity of the Projectile</param>
+        </member>
+        <member name="M:Game.InvisibleProjectile.Update">
+            <summary>
+            Updates the Invisible Projectile
+            </summary>
+        </member>
+        <member name="M:Game.InvisibleProjectile.Draw">
+            <summary>
+            Returns the CircleShape of the Invisible Projectile to be drawn
+            </summary>
+            <returns>cShape</returns>
+        </member>
+        <member name="M:Game.InvisibleProjectile.Move">
+            <summary>
+            Moves the Invisible Projectile
+            </summary>
+        </member>
+        <member name="M:Game.InvisibleProjectile.Destruct(System.Int32)">
+            <summary>
+            Destructor of the Projectile
+            </summary>
+            <param name="iDistanceDetection">Radius of Sight of the Enemy</param>
+            <returns>Bool whether Projectile has been destroyed or not</returns>
+        </member>
+        <member name="T:Game.VisibleProjectile">
+            <summary>
+            Projectiles that are Visible and inflict Damage when hit on the Opponent
+            </summary>
+        </member>
+        <member name="M:Game.VisibleProjectile.Destruct">
+            <summary>
+            Destructor of the Projectile
+            </summary>
+            <returns>Bool whether Projectile has been destroyed or not</returns>
+        </member>
         <member name="F:Game.Character.uDamage">
             <summary>
             Base Damage the Character inflicts
@@ -243,6 +295,30 @@
         <member name="M:Game.ContentLoader.LoadContent">
             <summary>
             Loads all available Texture, SoundBuffers and Fonts to make them usable. 
+            </summary>
+        </member>
+        <member name="T:Game.EnemyProjectile">
+            <summary>
+            Projectile that inflcits Damage to the Player when hit
+            </summary>
+        </member>
+        <member name="M:Game.EnemyProjectile.#ctor(System.Single,SFML.System.Vector2f,SFML.System.Vector2f,System.Single)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="iAngle">Angle to be rotated to</param>
+            <param name="vEntityPosition">StartPosition of the Projectile</param>
+            <param name="vDirection">Direction of the Projectile</param>
+            <param name="iVelocity">Velocity of the Projectile</param>
+        </member>
+        <member name="M:Game.EnemyProjectile.Update">
+            <summary>
+            Updates the EnemyProjectile
+            </summary>
+        </member>
+        <member name="M:Game.EnemyProjectile.Move">
+            <summary>
+            Moves the Projectile
             </summary>
         </member>
         <member name="F:Game.Enemy.vEnemyDirection">
@@ -747,6 +823,91 @@
             Public enum used to save and determine Entity appareance, except for the players one. 
             </summary>
         </member>
+        <member name="F:Game.EntityAppearance.TriangleCivil">
+            <summary>
+            TriangleCivil Appearance
+            </summary>
+        </member>
+        <member name="F:Game.EntityAppearance.TriangleBandit1">
+            <summary>
+            TriangleBandit1 Appearance
+            </summary>
+        </member>
+        <member name="F:Game.EntityAppearance.TriangleBandit2">
+            <summary>
+            TriangleBandit2 Appearance
+            </summary>
+        </member>
+        <member name="F:Game.EntityAppearance.TriangleBandit3">
+            <summary>
+            TriangleBandit3 Appearance
+            </summary>
+        </member>
+        <member name="F:Game.EntityAppearance.TriangleBrute">
+            <summary>
+            TriangleBrute Appearance
+            </summary>
+        </member>
+        <member name="F:Game.EntityAppearance.TriangleBomber">
+            <summary>
+            TriangleBomber Appearance
+            </summary>
+        </member>
+        <member name="F:Game.EntityAppearance.TriangleLord">
+            <summary>
+            TriangleLord Appearance
+            </summary>
+        </member>
+        <member name="F:Game.EntityAppearance.SquareCivil">
+            <summary>
+            SquareCivil Appearance
+            </summary>
+        </member>
+        <member name="F:Game.EntityAppearance.SquareSoldier1">
+            <summary>
+            SquareSoldier1 Appearance
+            </summary>
+        </member>
+        <member name="F:Game.EntityAppearance.SquareSoldier2">
+            <summary>
+            SquareSoldier2 Appearance
+            </summary>
+        </member>
+        <member name="F:Game.EntityAppearance.SquareSoldier3">
+            <summary>
+            SquareSoldier3 Appearance
+            </summary>
+        </member>
+        <member name="F:Game.EntityAppearance.SquareCommander">
+            <summary>
+            SquareCommander Appearance
+            </summary>
+        </member>
+        <member name="F:Game.EntityAppearance.SquareGeneral">
+            <summary>
+            SquareGeneral Appearance
+            </summary>
+        </member>
+        <member name="F:Game.EntityAppearance.PentagonCivil">
+            <summary>
+            PentagonCivil Appearance
+            </summary>
+        </member>
+        <member name="F:Game.EntityAppearance.PentagonCenturio">
+            <summary>
+            PentagonCenturio Appearance
+            </summary>
+        </member>
+        <member name="F:Game.EntityAppearance.ProjectileVector">
+            <summary>
+            ProjectileVector Appearance
+            </summary>
+        </member>
+        <member name="F:Game.EntityAppearance.ProjectileEdge">
+            <summary>
+            ProjectileEdge Appearance
+            </summary>
+        </member>
         <member name="T:Game.EntityManager">
             <summary>
             Uses EntityArrayCreation to make the enemy array. Is able to return it in form of a list. 
@@ -943,6 +1104,26 @@
             A  list of available sounds. 
             </summary>
         </member>
+        <member name="F:Game.Sounds.Click">
+            <summary>
+            Click Sound
+            </summary>
+        </member>
+        <member name="F:Game.Sounds.Shot">
+            <summary>
+            Shot Sound
+            </summary>
+        </member>
+        <member name="F:Game.Sounds.Impact">
+            <summary>
+            Impact Sound
+            </summary>
+        </member>
+        <member name="F:Game.Sounds.Death">
+            <summary>
+            Death Sound
+            </summary>
+        </member>
         <member name="T:Game.SoundManager">
             <summary>
             Static class. Allows all other classes to play wished sounds from the correspondending enum Sounds. 
@@ -973,6 +1154,11 @@
             Static method to play a chosen sound. Accepts sound names from the public enum Sounds. 
             </summary>
             <param name="eName"></param>
+        </member>
+        <member name="T:Game.MapState">
+            <summary>
+            MapState
+            </summary>
         </member>
         <member name="F:Game.MapState.eTargetMap">
             <summary>
@@ -1431,6 +1617,34 @@
             Projectile that is thrown by the Player to inflict Damage to the Enemy
             </summary>
         </member>
+        <member name="F:Game.PlayerProjectile.iDistance">
+            <summary>
+            Distance to the MousePosition
+            </summary>
+        </member>
+        <member name="F:Game.PlayerProjectile.vPlayerMovement">
+            <summary>
+            Vector to be added when Player moves
+            </summary>
+        </member>
+        <member name="M:Game.PlayerProjectile.#ctor(System.Single,SFML.System.Vector2f,System.Single)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="iAngle">Angle to be rotated to</param>
+            <param name="vDirection">Direction of the Projectile</param>
+            <param name="iVelocity">Velocity of the Projectile</param>
+        </member>
+        <member name="M:Game.PlayerProjectile.Update">
+            <summary>
+            Updates the PlayerProjectile
+            </summary>
+        </member>
+        <member name="M:Game.PlayerProjectile.Move">
+            <summary>
+            Moves the PlayerProjectile
+            </summary>
+        </member>
         <member name="F:Game.Player.iLevel">
             <summary>
             Level of the Player, aka how many Edges it has
@@ -1551,6 +1765,59 @@
             Restarts cRegenerate
             </summary>
         </member>
+        <member name="T:Game.Projectile">
+            <summary>
+            Projectile that can be shot by a Character
+            </summary>
+        </member>
+        <member name="F:Game.Projectile.iAngle">
+            <summary>
+            Angle of the Projectile
+            </summary>
+        </member>
+        <member name="F:Game.Projectile.vDirection">
+            <summary>
+            Direction of the Projectile
+            </summary>
+        </member>
+        <member name="F:Game.Projectile.StartPosition">
+            <summary>
+            StartPosition of the Projectile
+            </summary>
+        </member>
+        <member name="F:Game.Projectile.iVelocity">
+            <summary>
+            Velocity of the Projectile
+            </summary>
+        </member>
+        <member name="F:Game.Projectile.vEntityPosition">
+            <summary>
+            Position of the Projectile
+            </summary>
+        </member>
+        <member name="M:Game.Projectile.Draw">
+            <summary>
+            Returns the Sprite of the Projectile to be drawn
+            </summary>
+            <returns>sEntity</returns>
+        </member>
+        <member name="M:Game.Projectile.DisposeTexture">
+            <summary>
+            Disposes the Projectiles Texture
+            </summary>
+        </member>
+        <member name="M:Game.Projectile.GetDirection">
+            <summary>
+            Gets the Projectile's Direction
+            </summary>
+            <returns>vDirection</returns>
+        </member>
+        <member name="M:Game.Projectile.GetTexture">
+            <summary>
+            Gets the Projectile's texture
+            </summary>
+            <returns>tEntity</returns>
+        </member>
         <member name="T:Game.Questtracker">
             <summary>
             Generates a string to display quest status. Initial Quest text is generated in dependency of the enemy array. Update needs to know how many bosses have already been defeated. 
@@ -1589,7 +1856,7 @@
             <summary>
             Used to update the number of defeated Bosses and return the quest status string. Number of defeated Bosses has to be counted somewhere else. 
             </summary>
-            <param name="iBossesKilled"></param>
+            <param name="uBossesKilled">Number of Bosses killed</param>
             <returns></returns>
         </member>
         <member name="F:Game.Statemachine.gCurrentState">
@@ -1726,9 +1993,138 @@
             </summary>
             <param name="mState">Map State to be disposed</param>
         </member>
+        <member name="T:Game.State">
+            <summary>
+            State of the Game
+            </summary>
+        </member>
+        <member name="M:Game.State.Initialize">
+            <summary>
+            Initializes Variables of the State
+            </summary>
+        </member>
+        <member name="M:Game.State.Update(SFML.Graphics.RenderWindow)">
+            <summary>
+            Updates the State
+            </summary>
+            <param name="rWindow">Used to get MousePosition relative to the WindowOrigin</param>
+            <returns>eTargetMap</returns>
+        </member>
+        <member name="M:Game.State.Draw(SFML.Graphics.RenderWindow)">
+            <summary>
+            Returns a List with all the Elements to be drawed besides the TileMap
+            </summary>
+            <param name="rWindow">Used to draw the TileMap</param>
+            <returns>lDrawList</returns>
+        </member>
+        <member name="T:Game.eGameState">
+            <summary>
+            States of the Game
+            </summary>
+        </member>
+        <member name="F:Game.eGameState.gsUndefined">
+            <summary>
+            Undefined State
+            </summary>
+        </member>
+        <member name="F:Game.eGameState.gsMainMenu">
+            <summary>
+            Main Menu State
+            </summary>
+        </member>
+        <member name="F:Game.eGameState.gsGame">
+            <summary>
+            Game State
+            </summary>
+        </member>
+        <member name="F:Game.eGameState.gsGameOver">
+            <summary>
+            Game Over State
+            </summary>
+        </member>
+        <member name="F:Game.eGameState.gsQuit">
+            <summary>
+            Quit State
+            </summary>
+        </member>
         <member name="T:Game.Tilez">
             <summary>
             Everywhere used enum to specify different types of tiles. 
+            </summary>
+        </member>
+        <member name="F:Game.Tilez.black">
+            <summary>
+            Black Tilez
+            </summary>
+        </member>
+        <member name="F:Game.Tilez.darkGrey">
+            <summary>
+            DarkGrey Tilez
+            </summary>
+        </member>
+        <member name="F:Game.Tilez.grey">
+            <summary>
+            Grey Tilez
+            </summary>
+        </member>
+        <member name="F:Game.Tilez.white">
+            <summary>
+            White Tilez
+            </summary>
+        </member>
+        <member name="F:Game.Tilez.groundGrass">
+            <summary>
+            GroundGrass Tilez
+            </summary>
+        </member>
+        <member name="F:Game.Tilez.groundStone">
+            <summary>
+            GroundStone Tilez
+            </summary>
+        </member>
+        <member name="F:Game.Tilez.groundWood">
+            <summary>
+            GroundWood Tilez
+            </summary>
+        </member>
+        <member name="F:Game.Tilez.treeTrunk">
+            <summary>
+            TreeTrunk Tilez
+            </summary>
+        </member>
+        <member name="F:Game.Tilez.treeTop">
+            <summary>
+            TreeTop Tilez
+            </summary>
+        </member>
+        <member name="F:Game.Tilez.treeFoilage">
+            <summary>
+            TreeFoilage Tilez
+            </summary>
+        </member>
+        <member name="F:Game.Tilez.structureWood">
+            <summary>
+            Black Tilez
+            </summary>
+        </member>
+        <member name="F:Game.Tilez.structureStone">
+            <summary>
+            StructureStone Tilez
+            </summary>
+        </member>
+        <member name="F:Game.Tilez.obstacleStone">
+            <summary>
+            ObstacleStone Tilez
+            </summary>
+        </member>
+        <member name="F:Game.Tilez.water">
+            <summary>
+            Water Tilez
+            </summary>
+        </member>
+        <member name="T:Game.TileArrayCreation">
+            <summary>
+            Used for Creating and managing an Array of Tiles
             </summary>
         </member>
         <member name="F:Game.TileArrayCreation.iTileSize">
@@ -1792,7 +2188,8 @@
             <summary>
             Soly to return a collision bool at specific coordinates if the tile map array. Unused coordinates, like negative values or too big ones, always return true. 
             </summary>
-            <param name="tile"></param>
+            <param name="iXCoord">X Coord to be inspected</param>
+            <param name="iYCoord">Y Coord to be inspected</param>
             <returns></returns>
         </member>
         <member name="M:Game.TileArrayCreation.CollisionReturnerProjectiles(System.Int32,System.Int32)">

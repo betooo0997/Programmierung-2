@@ -455,16 +455,16 @@ namespace Game
         protected void UpdatingProjectiles()
         {
             for (int x = 0; x < lProjectile.Count; x++)
-                lProjectile[x].Update(sEntity);
+                lProjectile[x].Update();
 
             for (int x = 0; x < lInvisibleProjectileLeft.Count; x++)
-                lInvisibleProjectileLeft[x].Update(sEntity);
+                lInvisibleProjectileLeft[x].Update();
 
             for (int x = 0; x < lInvisibleProjectileMiddle.Count; x++)
-                lInvisibleProjectileMiddle[x].Update(sEntity);
+                lInvisibleProjectileMiddle[x].Update();
 
             for (int x = 0; x < lInvisibleProjectileRight.Count; x++)
-                lInvisibleProjectileRight[x].Update(sEntity);
+                lInvisibleProjectileRight[x].Update();
 
             DisposeProjectile(lProjectile, uDamage);
             DisposeProjectile(lInvisibleProjectileLeft, iDistanceDetection);

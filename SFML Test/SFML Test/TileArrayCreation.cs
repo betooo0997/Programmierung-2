@@ -11,22 +11,80 @@ namespace Game
     /// </summary>
     public enum Tilez
     {
+        /// <summary>
+        /// Black Tilez
+        /// </summary>
         black = 0,
+
+        /// <summary>
+        /// DarkGrey Tilez
+        /// </summary>
         darkGrey = 1,
+
+        /// <summary>
+        /// Grey Tilez
+        /// </summary>
         grey = 2,
+
+        /// <summary>
+        /// White Tilez
+        /// </summary>
         white = 3,
+
+        /// <summary>
+        /// GroundGrass Tilez
+        /// </summary>
         groundGrass = 10,
+
+        /// <summary>
+        /// GroundStone Tilez
+        /// </summary>
         groundStone = 11,
+
+        /// <summary>
+        /// GroundWood Tilez
+        /// </summary>
         groundWood = 12,
+
+        /// <summary>
+        /// TreeTrunk Tilez
+        /// </summary>
         treeTrunk = 20,
+
+        /// <summary>
+        /// TreeTop Tilez
+        /// </summary>
         treeTop = 21,
+
+        /// <summary>
+        /// TreeFoilage Tilez
+        /// </summary>
         treeFoilage = 22,
+
+        /// <summary>
+        /// Black Tilez
+        /// </summary>
         structureWood = 30,
+
+        /// <summary>
+        /// StructureStone Tilez
+        /// </summary>
         structureStone = 31,
+
+        /// <summary>
+        /// ObstacleStone Tilez
+        /// </summary>
         obstacleStone = 40,
+
+        /// <summary>
+        /// Water Tilez
+        /// </summary>
         water = 41,
     }
 
+    /// <summary>
+    /// Used for Creating and managing an Array of Tiles
+    /// </summary>
     public class TileArrayCreation
     {
         /// <summary>
@@ -176,14 +234,14 @@ namespace Game
         /// <summary>
         /// Soly to return a collision bool at specific coordinates if the tile map array. Unused coordinates, like negative values or too big ones, always return true. 
         /// </summary>
-        /// <param name="tile"></param>
+        /// <param name="iXCoord">X Coord to be inspected</param>
+        /// <param name="iYCoord">Y Coord to be inspected</param>
         /// <returns></returns>
         public static bool CollisionReturner(int iXCoord, int iYCoord)
         {
             if(iXCoord < 0 || iXCoord >= iNumberColumns || iYCoord < 0 || iYCoord >= iNumberRows)
-            {
                 return true;
-            }
+
             else 
             switch (e2CurrentLevel[iXCoord, iYCoord])
             {

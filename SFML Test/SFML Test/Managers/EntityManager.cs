@@ -15,23 +15,90 @@ namespace Game
     /// </summary>
     public enum EntityAppearance
     {
-        TriangleCivil       =   0, 
-        TriangleBandit1     =   1,
-        TriangleBandit2     =   2,
-        TriangleBandit3     =   3,
-        TriangleBrute       =   4,
-        TriangleBomber      =   5,
-        TriangleLord        =   6,
-        SquareCivil         =  10,
-        SquareSoldier1      =  11,
-        SquareSoldier2      =  12,
-        SquareSoldier3      =  13,
-        SquareCommander     =  14,
-        SquareGeneral       =  15,
-        PentagonCivil       =  20,
-        PentagonCenturio    =  21,
-        ProjectileVector    = 100,
-        ProjectileEdge      = 101
+        /// <summary>
+        /// TriangleCivil Appearance
+        /// </summary>
+        TriangleCivil =   0,
+
+        /// <summary>
+        /// TriangleBandit1 Appearance
+        /// </summary>
+        TriangleBandit1 =   1,
+
+        /// <summary>
+        /// TriangleBandit2 Appearance
+        /// </summary>
+        TriangleBandit2 =   2,
+
+        /// <summary>
+        /// TriangleBandit3 Appearance
+        /// </summary>
+        TriangleBandit3 =   3,
+
+        /// <summary>
+        /// TriangleBrute Appearance
+        /// </summary>
+        TriangleBrute =   4,
+
+        /// <summary>
+        /// TriangleBomber Appearance
+        /// </summary>
+        TriangleBomber =   5,
+
+        /// <summary>
+        /// TriangleLord Appearance
+        /// </summary>
+        TriangleLord =   6,
+
+        /// <summary>
+        /// SquareCivil Appearance
+        /// </summary>
+        SquareCivil =  10,
+
+        /// <summary>
+        /// SquareSoldier1 Appearance
+        /// </summary>
+        SquareSoldier1 =  11,
+
+        /// <summary>
+        /// SquareSoldier2 Appearance
+        /// </summary>
+        SquareSoldier2 =  12,
+
+        /// <summary>
+        /// SquareSoldier3 Appearance
+        /// </summary>
+        SquareSoldier3 =  13,
+
+        /// <summary>
+        /// SquareCommander Appearance
+        /// </summary>
+        SquareCommander =  14,
+
+        /// <summary>
+        /// SquareGeneral Appearance
+        /// </summary>
+        SquareGeneral =  15,
+
+        /// <summary>
+        /// PentagonCivil Appearance
+        /// </summary>
+        PentagonCivil =  20,
+
+        /// <summary>
+        /// PentagonCenturio Appearance
+        /// </summary>
+        PentagonCenturio =  21,
+
+        /// <summary>
+        /// ProjectileVector Appearance
+        /// </summary>
+        ProjectileVector = 100,
+
+        /// <summary>
+        /// ProjectileEdge Appearance
+        /// </summary>
+        ProjectileEdge = 101
     }
 
     /// <summary>

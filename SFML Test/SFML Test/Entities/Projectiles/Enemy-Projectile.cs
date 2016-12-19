@@ -10,9 +10,19 @@ using SFML.Audio;
 
 namespace Game
 {
+    /// <summary>
+    /// Projectile that inflcits Damage to the Player when hit
+    /// </summary>
     public class EnemyProjectile : VisibleProjectile
     {
-        public EnemyProjectile(float iAngle, Vector2f vEntityPosition, Vector2f Direction, float iVelocity)
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="iAngle">Angle to be rotated to</param>
+        /// <param name="vEntityPosition">StartPosition of the Projectile</param>
+        /// <param name="vDirection">Direction of the Projectile</param>
+        /// <param name="iVelocity">Velocity of the Projectile</param>
+        public EnemyProjectile(float iAngle, Vector2f vEntityPosition, Vector2f vDirection, float iVelocity)
         {
             // SYNCHRONISING WITH CONTENT LOADER
             tEntity = new Texture(ContentLoader.textureProjectileEdge);
@@ -24,7 +34,7 @@ namespace Game
             this.iVelocity = iVelocity;
 
 
-            this.vDirection = Direction - vEntityPosition;
+            this.vDirection = vDirection - vEntityPosition;
 
             // INSTANTITATING OBJECTS
             sEntity = new Sprite(tEntity);
@@ -32,33 +42,23 @@ namespace Game
             // SETTING PROJECTILE PARAMETERS
             sEntity.Rotation = iAngle;
             sEntity.Origin = new Vector2f(tEntity.Size.X / 2, tEntity.Size.Y / 2);
-
-            // SETTING PLAYERMOVEMENT
-            vEntitymovement = new Vector2f(0, 0);
-
-            if (Input.bMovingLeft)
-                vEntitymovement.X += Input.fPlayerVelocity;
-
-            if (Input.bMovingRight)
-                vEntitymovement.X -= Input.fPlayerVelocity;
-
-            if (Input.bMovingUp)
-                vEntitymovement.Y += Input.fPlayerVelocity;
-
-            if (Input.bMovingDown)
-                vEntitymovement.Y -= Input.fPlayerVelocity;
         }
 
 
-
-        public void Update(Sprite sEnemy)
+        /// <summary>
+        /// Updates the EnemyProjectile
+        /// </summary>
+        public void Update()
         {
-            Move(sEnemy);
+            Move();
             sEntity.Position = vEntityPosition;
         }
 
 
-        void Move(Sprite sEnemy)
+        /// <summary>
+        /// Moves the Projectile
+        /// </summary>
+        void Move()
         {
             vEntityPosition -= MainMap.GetDiffTileMapPosition() - vDirection / 5 * iVelocity;
         }

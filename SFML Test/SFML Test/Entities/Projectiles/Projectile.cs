@@ -10,39 +10,70 @@ using SFML.Audio;
 
 namespace Game
 {
+    /// <summary>
+    /// Projectile that can be shot by a Character
+    /// </summary>
     public class Projectile : Entity
     {
+        /// <summary>
+        /// Angle of the Projectile
+        /// </summary>
         protected float iAngle;
 
-        protected float iDistance;
-
+        /// <summary>
+        /// Direction of the Projectile
+        /// </summary>
         protected Vector2f vDirection;
-        protected Vector2f vEntitymovement;
 
-        protected int ProjectileType;
-
+        /// <summary>
+        /// StartPosition of the Projectile
+        /// </summary>
         protected Vector2f StartPosition;
 
+        /// <summary>
+        /// Velocity of the Projectile
+        /// </summary>
         protected float iVelocity;
 
+        /// <summary>
+        /// Position of the Projectile
+        /// </summary>
         public new Vector2f vEntityPosition;
 
 
+        /// <summary>
+        /// Returns the Sprite of the Projectile to be drawn
+        /// </summary>
+        /// <returns>sEntity</returns>
         public Drawable Draw()
         {
             return sEntity;
         }
 
+
+        /// <summary>
+        /// Disposes the Projectiles Texture
+        /// </summary>
         public void DisposeTexture()
         {
             tEntity.Dispose();
         }
 
+
+        /// <summary>
+        /// Gets the Projectile's Direction
+        /// </summary>
+        /// <returns>vDirection</returns>
         public Vector2f GetDirection()
         {
             return vDirection;
         }
 
+
+        /// <summary>
+        /// Gets the Projectile's texture
+        /// </summary>
+        /// <returns>tEntity</returns>
         public Texture GetTexture()
         {
             return tEntity;

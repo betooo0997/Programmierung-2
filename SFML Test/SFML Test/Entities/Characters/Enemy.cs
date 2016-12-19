@@ -373,13 +373,13 @@ namespace Game
             vEnemyShootingRight = Utilities.VectorRotation(fAnglecopy / fNumberToCorrect, vEnemyShootingRight, sEntity.Position);
 
 
-            iProjectile = new InvisibleProjectile(fAnglecopy, vEnemyShootingLeft, vEnemyShootingMiddle + (vEnemyShootingLeft - sEntity.Position), 3.5f);
+            iProjectile = new InvisibleProjectile(vEnemyShootingLeft, vEnemyShootingMiddle + (vEnemyShootingLeft - sEntity.Position), 3.5f);
             lInvisibleProjectileRight.Add(iProjectile);
 
             //iProjectile = new InvisibleProjectile(fAnglecopy, sEntity.Position, vEnemyShootingMiddle, 3.5f);
             //lInvisibleProjectileMiddle.Add(iProjectile);
 
-            iProjectile = new InvisibleProjectile(fAnglecopy, vEnemyShootingRight, vEnemyShootingMiddle + (vEnemyShootingRight - sEntity.Position), 3.5f);
+            iProjectile = new InvisibleProjectile(vEnemyShootingRight, vEnemyShootingMiddle + (vEnemyShootingRight - sEntity.Position), 3.5f);
             lInvisibleProjectileLeft.Add(iProjectile);
         }
 

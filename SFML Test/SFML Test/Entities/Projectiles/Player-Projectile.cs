@@ -15,7 +15,23 @@ namespace Game
     /// </summary>
     public class PlayerProjectile : VisibleProjectile
     {
-        public PlayerProjectile(float iAngle, Vector2f Direction, float iVelocity)
+        /// <summary>
+        /// Distance to the MousePosition
+        /// </summary>
+        protected float iDistance;
+
+        /// <summary>
+        /// Vector to be added when Player moves
+        /// </summary>
+        protected Vector2f vPlayerMovement;
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="iAngle">Angle to be rotated to</param>
+        /// <param name="vDirection">Direction of the Projectile</param>
+        /// <param name="iVelocity">Velocity of the Projectile</param>
+        public PlayerProjectile(float iAngle, Vector2f vDirection, float iVelocity)
         {
             // SYNCHRONISING WITH CONTENT LOADER
             tEntity = new Texture(ContentLoader.textureProjectileVector);
@@ -34,38 +50,43 @@ namespace Game
             sEntity.Origin = new Vector2f(tEntity.Size.X / 2, tEntity.Size.Y / 2);
 
             // SETTING PLAYERMOVEMENT
-            vEntitymovement = new Vector2f(0, 0);
+            vPlayerMovement = new Vector2f(0, 0);
 
             if (Input.bMovingLeft)
-                vEntitymovement.X += Input.fPlayerVelocity;
+                vPlayerMovement.X += Input.fPlayerVelocity;
 
             if (Input.bMovingRight)
-                vEntitymovement.X -= Input.fPlayerVelocity;
+                vPlayerMovement.X -= Input.fPlayerVelocity;
 
             if (Input.bMovingUp)
-                vEntitymovement.Y += Input.fPlayerVelocity;
+                vPlayerMovement.Y += Input.fPlayerVelocity;
 
             if (Input.bMovingDown)
-                vEntitymovement.Y -= Input.fPlayerVelocity;
+                vPlayerMovement.Y -= Input.fPlayerVelocity;
 
             // CALCULATING DISTANCE FROM CHARACTERPOSITION TO MOUSE
-            iDistance = Utilities.DistanceToVectorFromOrigin((Vector2f)Direction);
+            iDistance = Utilities.DistanceToVectorFromOrigin((Vector2f)vDirection);
 
-            vDirection = Direction / iDistance;
+            base.vDirection = vDirection / iDistance;
         }
 
 
-
-        public void Update(Sprite sEnemy)
+        /// <summary>
+        /// Updates the PlayerProjectile
+        /// </summary>
+        public void Update()
         {
             Move();
             sEntity.Position = vEntityPosition;
         }
 
 
+        /// <summary>
+        /// Moves the PlayerProjectile
+        /// </summary>
         void Move()
         {
-            vEntityPosition -= vDirection * 5 + MainMap.GetDiffTileMapPosition() + vEntitymovement;
+            vEntityPosition -= vDirection * 5 + MainMap.GetDiffTileMapPosition() + vPlayerMovement;
         }
     }
 }

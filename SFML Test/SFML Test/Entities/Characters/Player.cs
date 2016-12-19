@@ -141,7 +141,7 @@ namespace Game
             }
 
             for (x = 0; x < lProjectile.Count; x++)
-                lProjectile[x].Update(sEntity);
+                lProjectile[x].Update();
 
             DisposeProjectile(lProjectile, uDamage);
 

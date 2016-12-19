@@ -10,6 +10,9 @@ using SFML.Audio;
 
 namespace Game
 {
+    /// <summary>
+    /// MapState
+    /// </summary>
     abstract class MapState
     {
         /// <summary>

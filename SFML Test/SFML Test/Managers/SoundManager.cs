@@ -15,9 +15,24 @@ namespace Game
     /// </summary>
     public enum Sounds
     {
+        /// <summary>
+        /// Click Sound
+        /// </summary>
         Click, 
+
+        /// <summary>
+        /// Shot Sound
+        /// </summary>
         Shot, 
+
+        /// <summary>
+        /// Impact Sound
+        /// </summary>
         Impact, 
+
+        /// <summary>
+        /// Death Sound
+        /// </summary>
         Death
     }
 
