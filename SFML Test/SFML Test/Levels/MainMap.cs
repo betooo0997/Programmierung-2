@@ -155,7 +155,8 @@ namespace Game
 
             // INSTANTIATING OBJECTS: OTHER
             vPlayerStartPosition    = new Vector2f(900, 500);
-            cPlayer                 = new Player(levelString, vPlayerVirtualPosition);
+            vPlayerVirtualPosition = vPlayerStartPosition;
+            cPlayer = new Player(levelString, vPlayerVirtualPosition);
             questTracker            = new Questtracker(entityManager.GetEnemyArray(), entityManager.GetArrayNumberColumns(), entityManager.GetArrayNumberRows());
             textQuest               = new Text(questTracker.GetQuestString(), font, 20);
             cText                   = new Clock();
@@ -173,7 +174,6 @@ namespace Game
             // SETTING VARIABLES
             uiKillCount             = 0;
             vPastTileMapPosition    = vTileMapPosition;
-            vPlayerVirtualPosition  = vPlayerStartPosition;
             lEnemies                = entityManager.ReturnListCreatedOutOfArray();
         }
 
