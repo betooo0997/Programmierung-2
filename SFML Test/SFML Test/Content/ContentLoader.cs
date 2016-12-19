@@ -125,28 +125,46 @@ namespace Game
 
             //TEXTURES:
             textureTileSheet = new Texture("Content/TileSheet.png");
+            textureTileSheet.Smooth = true;
 
             textureTriangleCivil = new Texture("Content/TriangleCivil.png");
+            textureTriangleCivil.Smooth = true;
             textureTriangleBandit1 = new Texture("Content/TriangleBandit1.png");
+            textureTriangleBandit1.Smooth = true;
             textureTriangleBandit2 = new Texture("Content/TriangleBandit2.png");
+            textureTriangleBandit2.Smooth = true;
             textureTriangleBandit3 = new Texture("Content/TriangleBandit3.png");
+            textureTriangleBandit3.Smooth = true;
             textureTriangleBrute = new Texture("Content/TriangleBrute.png");
+            textureTriangleBrute.Smooth = true;
             textureTriangleBomber = new Texture("Content/TriangleBomber.png");
+            textureTriangleBomber.Smooth = true;
             textureTriangleLord = new Texture("Content/TriangleLord.png");
+            textureTriangleLord.Smooth = true;
 
             textureSquareCivil = new Texture("Content/SquareCivil.png");
+            textureSquareCivil.Smooth = true;
             textureSquareSoldier1 = new Texture("Content/SquareSoldier1.png");
+            textureSquareSoldier1.Smooth = true;
             textureSquareSoldier2 = new Texture("Content/SquareSoldier2.png");
+            textureSquareSoldier2.Smooth = true;
             textureSquareSoldier3 = new Texture("Content/SquareSoldier3.png");
+            textureSquareSoldier3.Smooth = true;
             textureSquareCommander = new Texture("Content/SquareCommander.png");
+            textureSquareCommander.Smooth = true;
             textureSquareGeneral = new Texture("Content/SquareGeneral.png");
+            textureSquareGeneral.Smooth = true;
 
             texturePentagonCivil = new Texture("Content/PentagonCivil.png");
+            texturePentagonCivil.Smooth = true;
             texturePentagonCenturio = new Texture("Content/PentagonCenturio.png");
+            texturePentagonCenturio.Smooth = true;
 
             textureProjectileVector = new Texture("Content/ProjectileVector.png");
+            textureProjectileVector.Smooth = true;
             textureProjectileEdge = new Texture("Content/ProjectileEdge.png");
-            
+            textureProjectileEdge.Smooth = true;
+
             // SOUNDS 
             soundClick = new SoundBuffer("Content/113087__edgardedition__click2_16Bit.wav");
             // Source: https://www.freesound.org/people/EdgardEdition/sounds/113087/

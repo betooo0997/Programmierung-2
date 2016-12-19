@@ -1,0 +1,1225 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SFML Test</name>
+    </assembly>
+    <members>
+        <member name="T:Game.Archer">
+            <summary>
+            Represents an Enemy that has the ability to shoot Projectiles
+            </summary>
+        </member>
+        <member name="F:Game.Archer.cShooting">
+            <summary>
+            Clock used for Shooting a determined Projectiles per Second
+            </summary>
+        </member>
+        <member name="F:Game.Archer.cMoving">
+            <summary>
+            Clock used for changing Movement of the Archer a determined number of times per Second
+            </summary>
+        </member>
+        <member name="F:Game.Archer.cSuspecting">
+            <summary>
+            Clock used for suspecting Player presence only for a determined number of Seconds
+            </summary>
+        </member>
+        <member name="F:Game.Archer.tShooting">
+            <summary>
+            Timer used for measuring Time of cShooting
+            </summary>
+        </member>
+        <member name="F:Game.Archer.tMoving">
+            <summary>
+            Timer used for measuring Time of cMoving
+            </summary>
+        </member>
+        <member name="F:Game.Archer.tSuspecting">
+            <summary>
+            Timer used for measuring Time of cSuspecting
+            </summary>
+        </member>
+        <member name="F:Game.Archer.bSuspecting">
+            <summary>
+            Bool that indicates wheter the Archer is suspecting the Player's presence or not
+            </summary>
+        </member>
+        <member name="F:Game.Archer.ffont">
+            <summary>
+            Font used to display GCost, HCost and FCost of each Node created by the Pathfinding Algorithm
+            </summary>
+        </member>
+        <member name="M:Game.Archer.#ctor(SFML.System.Vector2f,System.UInt32,Game.EntityAppearance,System.UInt32,System.Int32,System.Boolean,System.Int32)">
+            <summary>
+            Constructor of the Archer
+            </summary>
+            <param name="vArcherPosition"   >Startposition of the Archer</param>
+            <param name="uID"               >ID of the Archer</param>
+            <param name="eNewAppearance"       >Enum that indicates the texture of the Archer</param>
+            <param name="uDamage"           >Damage that the Archer inflicts when Player is hit by a Projectile</param>
+            <param name="iDistanceDetection">Sight Radius of the Archer</param>
+            <param name="bIsBoss"           >If true Archer is Boss Type</param>
+            <param name="iHealth"           >Health of the Archer</param>
+        </member>
+        <member name="M:Game.Archer.Update(SFML.System.Vector2f@,System.Boolean@,System.Boolean@,System.Boolean@,System.Boolean@)">
+            <summary>
+            Updates Enemy Logic
+            </summary>
+        </member>
+        <member name="M:Game.Archer.Draw">
+            <summary>
+            Returns a List of the Elements to be drawed
+            </summary>
+        </member>
+        <member name="M:Game.Archer.DetectLogic">
+            <summary>
+            Updates Detect Logic of the Archer. 
+            If it detects the Player, the Archer shoots Projectiles. 
+            If it is hit or has detected the Player previously it moves to the registered Position.
+            </summary>
+        </member>
+        <member name="M:Game.Archer.Move">
+            <summary>
+            Moves Archer Randomly, but always to a Position within the DetectionRadius and respecting Collision with Tiles. The Archer doesn't psush the Player around.
+            </summary>
+        </member>
+        <member name="M:Game.Archer.PathfinderLogic">
+            <summary>
+            Updates PathFinder Logic of the Archer.
+            Moves the Enemy to the Player once the Pathfinding Algorithm was initiated.
+            The Archer follows the created nodes, but still respects Collisions with Tiles.
+            </summary>
+        </member>
+        <member name="M:Game.Archer.Shoot">
+            <summary>
+            Shoots a Projectile to the Player's Position
+            </summary>
+        </member>
+        <member name="M:Game.Archer.UpdatingProjectiles">
+            <summary>
+            Updates and Disposes Projectiles if necessary
+            </summary>
+        </member>
+        <member name="F:Game.Character.uDamage">
+            <summary>
+            Base Damage the Character inflicts
+            </summary>
+        </member>
+        <member name="F:Game.Character.vChracterPositionSpace">
+            <summary>
+            Vector to correct the Characters Position in case of Collision
+            </summary>
+        </member>
+        <member name="M:Game.Character.DisposeProjectile(System.Collections.Generic.List{Game.PlayerProjectile},System.UInt32)">
+            <summary>
+            Disposes a Projectile from the Projectile List if its Destruct bool is true
+            </summary>
+        </member>
+        <member name="M:Game.Character.CollisionDetection(SFML.System.Vector2f@,System.Boolean@,System.Boolean@,System.Boolean@,System.Boolean@,System.Single,System.Single)">
+            <summary>
+            Updates possible directions of movement based on Collisiondetection
+            </summary>
+        </member>
+        <member name="T:Game.ContentLoader">
+            <summary>
+            Loads Textures, SoundBuffers and Fonts once and makes them available for all classes. 
+            </summary>
+        </member>
+        <member name="F:Game.ContentLoader.fontArial">
+            <summary>
+            Standard Font. 
+            </summary>
+        </member>
+        <member name="F:Game.ContentLoader.textureTileSheet">
+            <summary>
+            Texture Sheet with all available tiles. 
+            </summary>
+        </member>
+        <member name="F:Game.ContentLoader.textureTriangleCivil">
+            <summary>
+            Standard Texture for the Triangle Civil. 
+            </summary>
+        </member>
+        <member name="F:Game.ContentLoader.textureTriangleBandit1">
+            <summary>
+            First variant for Triangle Bandit Texture. 
+            </summary>
+        </member>
+        <member name="F:Game.ContentLoader.textureTriangleBandit2">
+            <summary>
+            Second variant for Triangle Bandit Texture. 
+            </summary>
+        </member>
+        <member name="F:Game.ContentLoader.textureTriangleBandit3">
+            <summary>
+            Third variant for Triangle Bandit Texture. 
+            </summary>
+        </member>
+        <member name="F:Game.ContentLoader.textureTriangleBrute">
+            <summary>
+            Standard Texture for Triangle Brute. 
+            </summary>
+        </member>
+        <member name="F:Game.ContentLoader.textureTriangleBomber">
+            <summary>
+            Standard Texture for Triangle Bomber. 
+            </summary>
+        </member>
+        <member name="F:Game.ContentLoader.textureTriangleLord">
+            <summary>
+            Standard Texture for Triangle Lord. Uses some colors. 
+            </summary>
+        </member>
+        <member name="F:Game.ContentLoader.textureSquareCivil">
+            <summary>
+            Standard Texture for Square Civils. 
+            </summary>
+        </member>
+        <member name="F:Game.ContentLoader.textureSquareSoldier1">
+            <summary>
+            First variant for Square Soldier Texture. 
+            </summary>
+        </member>
+        <member name="F:Game.ContentLoader.textureSquareSoldier2">
+            <summary>
+            Second variant for Square Soldier Texture. 
+            </summary>
+        </member>
+        <member name="F:Game.ContentLoader.textureSquareSoldier3">
+            <summary>
+            Third variant for Square Soldier Texture. 
+            </summary>
+        </member>
+        <member name="F:Game.ContentLoader.textureSquareCommander">
+            <summary>
+            Standard Texture for Square Commander. 
+            </summary>
+        </member>
+        <member name="F:Game.ContentLoader.textureSquareGeneral">
+            <summary>
+            Standard Texture for Square General. Uses some colors. 
+            </summary>
+        </member>
+        <member name="F:Game.ContentLoader.texturePentagonCivil">
+            <summary>
+            Standard Texture for Pentagon Civil. 
+            </summary>
+        </member>
+        <member name="F:Game.ContentLoader.texturePentagonCenturio">
+            <summary>
+            Standard Texture for Pentagon Centurio. 
+            </summary>
+        </member>
+        <member name="F:Game.ContentLoader.textureProjectileVector">
+            <summary>
+            Standard Texture for Projectile Vector. 
+            </summary>
+        </member>
+        <member name="F:Game.ContentLoader.textureProjectileEdge">
+            <summary>
+            Standard Texture for Projectile Edge. 
+            </summary>
+        </member>
+        <member name="F:Game.ContentLoader.soundClick">
+            <summary>
+            SoundBuffer for click sound. Useful for things like buttons. 
+            </summary>
+        </member>
+        <member name="F:Game.ContentLoader.soundProjectileShot">
+            <summary>
+            SoundBuffer for shooting any projectile. 
+            </summary>
+        </member>
+        <member name="F:Game.ContentLoader.soundProjectileImpact">
+            <summary>
+            SoundBuffer for any projectile impact. 
+            </summary>
+        </member>
+        <member name="F:Game.ContentLoader.soundEnemyDeath">
+            <summary>
+            SoundBuffer for Enemy death. 
+            </summary>
+        </member>
+        <member name="M:Game.ContentLoader.LoadContent">
+            <summary>
+            Loads all available Texture, SoundBuffers and Fonts to make them usable. 
+            </summary>
+        </member>
+        <member name="F:Game.Enemy.vEnemyDirection">
+            <summary>
+            Direction the Enemy is looking to
+            </summary>
+        </member>
+        <member name="F:Game.Enemy.vEnemyAngleOrigin">
+            <summary>
+            Origin of Sight, aka "Eye" of the Enemy
+            </summary>
+        </member>
+        <member name="F:Game.Enemy.vEnemyBottomRightPosition">
+            <summary>
+            Bottom-Right Border of the Enemy
+            </summary>
+        </member>
+        <member name="F:Game.Enemy.vEnemyBottomLeftPosition">
+            <summary>
+            Bottom-Left Border of the Enemy
+            </summary>
+        </member>
+        <member name="F:Game.Enemy.vRegisteredPlayerPosition">
+            <summary>
+            If a Player-Projectile collides with the Enemy without having detected the Player, its direction is saved under this Variable.
+            Used to inspect the Area where the Projectile came from.
+            </summary>
+        </member>
+        <member name="F:Game.Enemy.iHealth">
+            <summary>
+            Health of the Enemy
+            </summary>
+        </member>
+        <member name="F:Game.Enemy.uID">
+            <summary>
+            ID of the Enemy
+            </summary>
+        </member>
+        <member name="F:Game.Enemy.iDistanceDetection">
+            <summary>
+            Size of the Radius in which the Enemy could detect the Player
+            </summary>
+        </member>
+        <member name="F:Game.Enemy.fAngleEnemy">
+            <summary>
+            Angle between the PlayerPosition and EnemyDirection taking the EnemyAngleOrigin as Origin,
+            updated when in Enemy Radius, Angle and Player is visible
+            </summary>
+        </member>
+        <member name="F:Game.Enemy.fAnglecopy">
+            <summary>
+            Angle between the PlayerPosition and EnemyDirection taking the EnemyAngleOrigin as Origin, 
+            updated when in Enemy Radius and Angle
+            </summary>
+        </member>
+        <member name="F:Game.Enemy.fMaxPermittedAngle">
+            <summary>
+            Maximum Angle in which the Enemy detects the Player
+            </summary>
+        </member>
+        <member name="F:Game.Enemy.fNumberToCorrect">
+            <summary>
+            float needed to rotate normally
+            </summary>
+        </member>
+        <member name="F:Game.Enemy.iRandomNumber">
+            <summary>
+            Random Number created with rRandom to move the Enemy to a random direction
+            </summary>
+        </member>
+        <member name="F:Game.Enemy.Zero">
+            <summary>
+            Divider to Check if fAngleEnemy is NaN
+            </summary>
+        </member>
+        <member name="F:Game.Enemy.fSpeed">
+            <summary>
+            Speed of the Enemy
+            </summary>
+        </member>
+        <member name="F:Game.Enemy.bEnemyPlayerCollision">
+            <summary>
+            True if an Enemy-Player Collision occures
+            </summary>
+        </member>
+        <member name="F:Game.Enemy.bCollisionUp">
+            <summary>
+            True if Collision on upper Side of the Enemy occures
+            </summary>
+        </member>
+        <member name="F:Game.Enemy.bCollisionDown">
+            <summary>
+            True if Collision on down Side of the Enemy occures
+            </summary>
+        </member>
+        <member name="F:Game.Enemy.bCollisionRight">
+            <summary>
+            True if Collision on right Side of the Enemy occures
+            </summary>
+        </member>
+        <member name="F:Game.Enemy.bCollisionLeft">
+            <summary>
+            True if Collision on left Side of the Enemy occures
+            </summary>
+        </member>
+        <member name="F:Game.Enemy.lProjectile">
+            <summary>
+            List of Projectiles that the Enemy has thrown
+            </summary>
+        </member>
+        <member name="F:Game.Enemy.lInvisibleProjectileLeft">
+            <summary>
+            List of Invisible Projectiles that the Enemy has thrown (Left)
+            </summary>
+        </member>
+        <member name="F:Game.Enemy.lInvisibleProjectileMiddle">
+            <summary>
+            List of Invisible Projectiles that the Enemy has thrown (Middle)
+            </summary>
+        </member>
+        <member name="F:Game.Enemy.lInvisibleProjectileRight">
+            <summary>
+            List of Invisible Projectiles that the Enemy has thrown (Right)
+            </summary>
+        </member>
+        <member name="F:Game.Enemy.pProjectile">
+            <summary>
+            Projectile that inflicts Damage to the Player when hit
+            </summary>
+        </member>
+        <member name="F:Game.Enemy.iProjectile">
+            <summary>
+            Projectile that is used to detect the Player and permits him to hide behind Tiles with Collision
+            </summary>
+        </member>
+        <member name="F:Game.Enemy.cDetecting">
+            <summary>
+            Clock used for detecting Player for a short period of time even when he's hidden
+            </summary>
+        </member>
+        <member name="F:Game.Enemy.tDetecting">
+            <summary>
+            Timer used to Measure cDetecting
+            </summary>
+        </member>
+        <member name="F:Game.Enemy.rRandom">
+            <summary>
+            Random Class to create iRandomNumber
+            </summary>
+        </member>
+        <member name="F:Game.Enemy.Path">
+            <summary>
+            Path to the TargePosition, Updated by the Pathfinder Algorithm
+            </summary>
+        </member>
+        <member name="F:Game.Enemy.Closed">
+            <summary>
+            All Nodes that have been evaluated in the Pathfinder Algorithm
+            </summary>
+        </member>
+        <member name="F:Game.Enemy.CurrentGoalOrigin">
+            <summary>
+            Position of the next Node that the Enmey moves to when following the Path created by the Pathfinder Algorithm. Vector uses sEntity.Position as Origin
+            </summary>
+        </member>
+        <member name="F:Game.Enemy.CurrentGoal">
+            <summary>
+            Position of the next Node that the Enmey moves to when following the Path created by the Pathfinder Algorithm
+            </summary>
+        </member>
+        <member name="F:Game.Enemy.DisposingInvisibleListLeft">
+            <summary>
+            Indicates whether the last Projectile of the lInvisibleProjectileLeft has been disposed or not 
+            </summary>
+        </member>
+        <member name="F:Game.Enemy.DisposingInvisibleListMiddle">
+            <summary>
+            Indicates whether the last Projectile of the lInvisibleProjectileMiddle has been disposed or not 
+            </summary>
+        </member>
+        <member name="F:Game.Enemy.DisposingInvisibleListRight">
+            <summary>
+            Indicates whether the last Projectile of the lInvisibleProjectileRight has been disposed or not 
+            </summary>
+        </member>
+        <member name="M:Game.Enemy.DetectPlayer">
+            <summary>
+            Returns true if the Player is in the Radius and Angle of Sight of the Enemy and isn't hidden behind a Tile with Collision
+            </summary>
+        </member>
+        <member name="M:Game.Enemy.DisposeInvisibleProjectile(System.Collections.Generic.List{Game.InvisibleProjectile})">
+            <summary>
+            Disposes the Invisible Projectiles and returns true when Projectile-Player Collision occures
+            </summary>
+            <param name="lProjectile">List of all Invisible Projectiles that the Enemy has fired</param>
+        </member>
+        <member name="M:Game.Enemy.PlayerProjectileCollision(Game.InvisibleProjectile)">
+            <summary>
+            Detects Collision between Player and Invisible Projectile, returns true if Collision occures
+            </summary>
+            <param name="iProjectile">Projectile that Collision is checked with</param>
+        </member>
+        <member name="M:Game.Enemy.ShootInvisible(SFML.System.Vector2f,System.Single)">
+            <summary>
+            Shoots fast invisible Projectiles to check Visibility
+            </summary>
+            <param name="TileMapPosition">Position of the TileMap</param>
+            <param name="fAngle">Angle where to shoot the Invisible Projectile to</param>
+        </member>
+        <member name="M:Game.Enemy.Alert">
+            <summary>
+            Alerts other Enemys in a determined Radius if Player is detected
+            </summary>
+        </member>
+        <member name="M:Game.Enemy.RotateEnemy(System.Single@,SFML.System.Vector2f)">
+            <summary>
+            Rotates the Enemy towards the Player
+            </summary>
+        </member>
+        <member name="M:Game.Enemy.PlayerEnemyCollision(SFML.System.Vector2f@,System.Boolean@,System.Boolean@,System.Boolean@,System.Boolean@)">
+            <summary>
+            Detects Collision between Player and Enemy and returns Collision direction
+            </summary>
+            <param name="vVirtualPlayerPosition">Virtual PlayerPosition, aka Position if Player would be moving, no the Map</param>
+            <param name="up">Bool that prohibites Up-Movement of the Player if true</param>
+            <param name="down">Bool that prohibites Down-Movement of the Player if true</param>
+            <param name="right">Bool that prohibites Right-Movement of the Player if true</param>
+            <param name="left">Bool that prohibites Left-Movement of the Player if true</param>
+        </member>
+        <member name="M:Game.Enemy.EnemyEnemyCollision(SFML.System.Vector2f@,System.Boolean@,System.Boolean@,System.Boolean@,System.Boolean@)">
+            <summary>
+            Detects Collision between Enemies and returns Collision direction
+            </summary>
+            <param name="vEntityPosition">Position of the Enemy if Player would be moving, not the Map</param>
+            <param name="up">Bool that prohibites Up-Movement of the Enemy if true</param>
+            <param name="down">Bool that prohibites Down-Movement of the Enemy if true</param>
+            <param name="right">Bool that prohibites Right-Movement of the Enemy if true</param>
+            <param name="left">Bool that prohibites Left-Movement of the Enemy if true</param>
+        </member>
+        <member name="M:Game.Enemy.ReduceHealth(System.UInt32,SFML.System.Vector2f)">
+            <summary>
+            Reduces Health of the Enemy
+            </summary>
+            <param name="Damage">Damage that the Enemy takes</param>
+        </member>
+        <member name="M:Game.Enemy.Move">
+            <summary>
+            Moves the Enemy
+            </summary>
+        </member>
+        <member name="M:Game.Enemy.MoveUp">
+            <summary>
+            Moves the Enemy Up
+            </summary>
+        </member>
+        <member name="M:Game.Enemy.MoveDown">
+            <summary>
+            Moves the Enemy Down
+            </summary>
+        </member>
+        <member name="M:Game.Enemy.MoveLeft">
+            <summary>
+            Moves the Enemy to the Left
+            </summary>
+        </member>
+        <member name="M:Game.Enemy.MoveRight">
+            <summary>
+            Moves the Enemy to the Right
+            </summary>
+        </member>
+        <member name="M:Game.Enemy.GetSprite">
+            <summary>
+            Gets the Sprite of the Enemy
+            </summary>        
+        </member>
+        <member name="M:Game.Enemy.GetHealth">
+            <summary>
+            Gets the Health of the Enemy
+            </summary>
+        </member>
+        <member name="M:Game.Enemy.ShowVectors">
+            <summary>
+            Shows all the used Vectors of the Enemy, including Sight Radius, Angle and Invisible Projectiles
+            </summary>
+        </member>
+        <member name="M:Game.Enemy.DrawPathFinder(SFML.Graphics.Font)">
+            <summary>
+            Shows all the used Nodes in the Path Finding Algorithm
+            </summary>
+        </member>
+        <member name="M:Game.Enemy.Update(SFML.System.Vector2f@,System.Boolean@,System.Boolean@,System.Boolean@,System.Boolean@)">
+            <summary>
+            Updates Enemy Logic
+            </summary>
+            <param name="VirtualPlayerPosition"></param>
+            <param name="up"></param>
+            <param name="down"></param>
+            <param name="right"></param>
+            <param name="left"></param>
+        </member>
+        <member name="M:Game.Enemy.Draw">
+            <summary>
+            Returns a List with all the Elements to Draw
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Game.Enemy.PassiveUpdate">
+            <summary>
+            Updates only EnemyPosition, used to optimize performance
+            </summary>
+        </member>
+        <member name="M:Game.Enemy.PathFinder(SFML.System.Vector2f,SFML.System.Vector2f)">
+            <summary>
+            PathFinder Algorithm, searches the shortest way from the EnemyPosition to the PlayerPosition respecting Tiles with Collision
+            </summary>
+            <param name="vPosition">StartPosition, Pathfinder starts here</param>
+            <param name="vTargetPosition">Position where the Pathfinder looks for a path to get</param>
+        </member>
+        <member name="M:Game.Enemy.CreateNeighbours(System.Int32,System.Int32,Game.Node[]@,Game.Tilez[0:,0:],Game.Node,Game.Node)">
+            <summary>
+            Initializes an Array of Nodes that surrounds the nCurrent Node in the Pathfinder
+            </summary>
+            <param name="X">X Coordinate of nCurrent's Position</param>
+            <param name="Y">Y Coordinate of nCurrent's Position</param>
+            <param name="anNeighbour">Array of Nodes to be initialised</param>
+            <param name="tManager">2 Dimensional Array of Tilez needed for giving each Node in anNeighbour their Tilez Type</param>
+            <param name="nCurrent">Node being evaluated</param>
+            <param name="nTargetNode">Node where the Pathfinder looks for a path to get</param>
+        </member>
+        <member name="F:Game.Entity.eAppearance">
+            <summary>
+            Determines look of the Entity. 
+            </summary>
+        </member>
+        <member name="F:Game.Entity.bIsBoss">
+            <summary>
+            True if Enemy is Boss-type. Default is false. 
+            </summary>
+        </member>
+        <member name="M:Game.Entity.CollisionDetection(SFML.System.Vector2f,System.UInt32,System.UInt32)">
+            <summary>
+            Detects the Entity Collision
+            Returns 0 if no Collision
+            </summary>
+        </member>
+        <member name="M:Game.Entity.GetAppearanceTexture">
+            <summary>
+            A protected function to get the correct Texture from the Content Loader depending on the chosen Appearance. Default is Triangle Civil. 
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Game.EntityArrayCreation">
+            <summary>
+            Use to create an array of enemies out of the underlying tile map and the chosen enemy layout. 
+            </summary>
+        </member>
+        <member name="F:Game.EntityArrayCreation.iNumberColumns">
+            <summary>
+            Generated out off the values the tile array in the constructor. 
+            </summary>
+        </member>
+        <member name="F:Game.EntityArrayCreation.iNumberRows">
+            <summary>
+            Generated out off the values the tile array in the constructor. 
+            </summary>
+        </member>
+        <member name="F:Game.EntityArrayCreation.enemy2Array">
+            <summary>
+            Created dependant on the underlying tile map. Ensured to not spawn entities on tiles with collision or out of the map boarders. 
+            </summary>
+        </member>
+        <member name="F:Game.EntityArrayCreation.uiId">
+            <summary>
+            Number used to mark created Enemies. 
+            </summary>
+        </member>
+        <member name="F:Game.EntityArrayCreation.rRandom">
+            <summary>
+            Random function soly used to randomize appearance of certain entities. 
+            </summary>
+        </member>
+        <member name="M:Game.EntityArrayCreation.GetEntityArray">
+            <summary>
+            Returns the two dimensional entity array created out of the chosen .txt file. 
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Game.EntityArrayCreation.GetNumberColumns">
+            <summary>
+            Returns an integer reflecting the number of columns of the created entity array. 
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Game.EntityArrayCreation.GetNumberRows">
+            <summary>
+            Returns an integer reflecting the number of rows of the created entity array. 
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Game.EntityArrayCreation.#ctor(Game.TileManager,System.String[])">
+            <summary>
+            Creation of the entity array happens in the constructor and is used to spawn enemies at the start of a game. Depends on the underlying tile array and a specific string array. Entities placed out off the maps boarders or on tiles with collision are ignored in the creation process. 
+            </summary>
+            <param name="tileManager"></param>
+            <param name="stringEnemyLayout"></param>
+        </member>
+        <member name="M:Game.EntityArrayCreation.EnemyConversation(System.Char,Game.TileManager,System.Int32,System.Int32)">
+            <summary>
+            Returns an entity depending on the used char and gives them correspondening values. Default is null. 
+            </summary>
+            <param name="chType"></param>
+            <param name="tileManager"></param>
+            <param name="iXCoord"></param>
+            <param name="iYCoord"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Game.EntityArrayCreation.AppearanceRandomizer(System.Int32)">
+            <summary>
+            Function used to give entities with optional appearances one. Input case 4 stands for Square Soldiers. Every other case will be Triangle Bandits. 
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Game.EntityAppearance">
+            <summary>
+            Public enum used to save and determine Entity appareance, except for the players one. 
+            </summary>
+        </member>
+        <member name="T:Game.EntityManager">
+            <summary>
+            Uses EntityArrayCreation to make the enemy array. Is able to return it in form of a list. 
+            </summary>
+        </member>
+        <member name="F:Game.EntityManager.entityArrayCreation">
+            <summary>
+            Instance of this class to create the initial entity array out a txt file. 
+            </summary>
+        </member>
+        <member name="M:Game.EntityManager.GetEnemyArray">
+            <summary>
+            Returns the two dimensional entity array created by the included instance of entityArrayCreation. 
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Game.EntityManager.GetArrayNumberColumns">
+            <summary>
+            Returns an integer reflecting the number of Columns of the enemy array created by the underlying Creator. 
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Game.EntityManager.GetArrayNumberRows">
+            <summary>
+            Returns an integer reflecting the number of Rows of the enemy array created by the underlying Creator. 
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Game.EntityManager.#ctor(Game.TileManager,System.String[])">
+            <summary>
+            Requires the Instance of TileManager und the .txt file used to create the current level. 
+            </summary>
+            <param name="tileManager"></param>
+            <param name="sEnemyLayout"></param>
+        </member>
+        <member name="M:Game.EntityManager.ReturnListCreatedOutOfArray">
+            <summary>
+            Returns a list of Enemies created in dependency of the initial Entity array, so Enemies get their type and spawn location. 
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="F:Game.GameLoop.Window">
+            <summary>
+            Window to be rendered
+            </summary>
+        </member>
+        <member name="F:Game.GameLoop.ClearColor">
+            <summary>
+            Color that is displayed after clearing the Window
+            </summary>
+        </member>
+        <member name="F:Game.GameLoop.windowWidth">
+            <summary>
+            Width of Window
+            </summary>
+        </member>
+        <member name="F:Game.GameLoop.windowHeight">
+            <summary>
+            Height of Window
+            </summary>
+        </member>
+        <member name="F:Game.GameLoop.cFpsReview">
+            <summary>
+            Clock used to measure one Second
+            </summary>
+        </member>
+        <member name="F:Game.GameLoop.cFpsSet">
+            <summary>
+            Clock used to measure ellapsed Time
+            </summary>
+        </member>
+        <member name="F:Game.GameLoop.tFpsSet">
+            <summary>
+            Timer used to calculate  when to update the Game Logic
+            </summary>
+        </member>
+        <member name="F:Game.GameLoop.tFpsReview">
+            <summary>
+            Timer used to calculate the FPS
+            </summary>
+        </member>
+        <member name="F:Game.GameLoop.iframesreview">
+            <summary>
+            Amount of frames updated in 1 Second
+            </summary>
+        </member>
+        <member name="F:Game.GameLoop.iFPSlimit">
+            <summary>
+            Limit of Frames per Seconds in the Game Logic
+            </summary>
+        </member>
+        <member name="M:Game.GameLoop.#ctor(System.String,SFML.Graphics.Color)">
+            <summary>
+            Gameloop constructor
+            </summary>
+            <param name="title">Text on the top of the Window, aka Title of the Game</param>
+            <param name="ClearColor">Color that is displayed after clearing the Window</param>
+        </member>
+        <member name="M:Game.GameLoop.Run">
+            <summary>
+            Gameloop Update
+            </summary>
+        </member>
+        <member name="M:Game.GameLoop.OnClosed(System.Object,System.EventArgs)">
+            <summary>
+            Closes Window
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:Game.Input.Update(SFML.System.Vector2f@,System.Single@,System.Boolean,System.Boolean,System.Boolean,System.Boolean,SFML.Graphics.RenderWindow)">
+            <summary>
+            Updates Virtual CharacterPosition based on Player Input
+            </summary>
+        </member>
+        <member name="T:Game.Sounds">
+            <summary>
+            A  list of available sounds. 
+            </summary>
+        </member>
+        <member name="T:Game.SoundManager">
+            <summary>
+            Static class. Allows all other classes to play wished sounds from the correspondending enum Sounds. 
+            </summary>
+        </member>
+        <member name="F:Game.SoundManager.iNumberOfSounds">
+            <summary>
+            Hardcoded number of available sounds. 
+            </summary>
+        </member>
+        <member name="F:Game.SoundManager.sound2Array">
+            <summary>
+            Contains all available sounds. 
+            </summary>
+        </member>
+        <member name="F:Game.SoundManager.sounds2ArrayNames">
+            <summary>
+            Contains the name of the sound at the number of the correspondending sound array. 
+            </summary>
+        </member>
+        <member name="M:Game.SoundManager.#cctor">
+            <summary>
+            Constructor knows what to do, no input and output necessary. 
+            </summary>
+        </member>
+        <member name="M:Game.SoundManager.PlaySpecificSound(Game.Sounds)">
+            <summary>
+            Static method to play a chosen sound. Accepts sound names from the public enum Sounds. 
+            </summary>
+            <param name="eName"></param>
+        </member>
+        <member name="T:Game.TextStreamer">
+            <summary>
+            Shows a chosen text string to the player. Allows different overloads to change otherwise automaticly generated appearance values. Can be used by all other classes. 
+            </summary>
+        </member>
+        <member name="F:Game.TextStreamer.font">
+            <summary>
+            Standard Font used to show the texts. 
+            </summary>
+        </member>
+        <member name="F:Game.TextStreamer.textColor">
+            <summary>
+            Standard Color of the texts. 
+            </summary>
+        </member>
+        <member name="F:Game.TextStreamer.text">
+            <summary>
+            The input string gets converted into this Text. 
+            </summary>
+        </member>
+        <member name="F:Game.TextStreamer.uiSize">
+            <summary>
+            Standard size of the texts characters. 
+            </summary>
+        </member>
+        <member name="M:Game.TextStreamer.TextForPlayer(System.String,SFML.System.Vector2f)">
+            <summary>
+            Prints the chosen Text at a specific location. Takes up to 4 Overloads for additional influence on the drawing. 
+            </summary>
+            <param name="sIinput"></param>
+            <param name="v2fPosition"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Game.TextStreamer.TextForPlayer(System.String,SFML.Graphics.Color)">
+            <summary>
+            Allows change of the text color. 
+            </summary>
+            <param name="sInput"></param>
+            <param name="color"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Game.TextStreamer.TextForPlayer(System.String,SFML.Graphics.Color,System.UInt32)">
+            <summary>
+            Allows change of the displayed characters size. 
+            </summary>
+            <param name="sInput"></param>
+            <param name="color"></param>
+            <param name="uiCharacterSize"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Game.TextStreamer.TextForPlayer(System.String,SFML.Graphics.Color,System.UInt32,System.UInt32)">
+            <summary>
+            Allows to move the display position of the text by a certain factor of the characters size. 
+            </summary>
+            <param name="sInput"></param>
+            <param name="color"></param>
+            <param name="uiCharacterSize"></param>
+            <param name="uiColumnFactor"></param>
+            <returns></returns>
+        </member>
+        <member name="F:Game.MainMap.vPlayerVirtualPosition">
+            <summary>
+            Virtual Position of the Character, aka Position if the Player would move, not the map
+            </summary>
+        </member>
+        <member name="F:Game.MainMap.vPlayerStartPosition">
+            <summary>
+            Position where the Player is Spawned
+            </summary>
+        </member>
+        <member name="F:Game.MainMap.vPastTileMapPosition">
+            <summary>
+            TileMapPosition of the last frame
+            </summary>
+        </member>
+        <member name="F:Game.MainMap.vDifferenceTileMapPosition">
+            <summary>
+            Difference of the present to the past TileMapPosition
+            </summary>
+        </member>
+        <member name="F:Game.MainMap.vPresentTileMapPosition">
+            <summary>
+            TileMapPosition of the current frame
+            </summary>
+        </member>
+        <member name="F:Game.MainMap.uiKillCount">
+            <summary>
+            Counts how many Bosses the Player has killed
+            </summary>
+        </member>
+        <member name="F:Game.MainMap.textQuest">
+            <summary>
+            Displays how many Bosses are in the Game
+            </summary>
+        </member>
+        <member name="F:Game.MainMap.questTracker">
+            <summary>
+            Tracks how many Bosses remain on the Map
+            </summary>
+        </member>
+        <member name="F:Game.MainMap.cText">
+            <summary>
+            Clock to hide the Text after a determined Time
+            </summary>
+        </member>
+        <member name="F:Game.MainMap.tText">
+            <summary>
+            Timer to measure cText
+            </summary>
+        </member>
+        <member name="F:Game.MainMap.iInput">
+            <summary>
+            Input Instance for Managing Input Data
+            </summary>
+        </member>
+        <member name="F:Game.MainMap.right">
+            <summary>
+            Bools that indicate whether the Player can move in the given direction
+            </summary>
+        </member>
+        <member name="F:Game.MainMap.left">
+            <summary>
+            Bools that indicate whether the Player can move in the given direction
+            </summary>
+        </member>
+        <member name="F:Game.MainMap.up">
+            <summary>
+            Bools that indicate whether the Player can move in the given direction
+            </summary>
+        </member>
+        <member name="F:Game.MainMap.down">
+            <summary>
+            Bools that indicate whether the Player can move in the given direction
+            </summary>
+        </member>
+        <member name="F:Game.MainMap.lEnemies">
+            <summary>
+            List with all Enemies that are alive
+            </summary>
+        </member>
+        <member name="M:Game.MainMap.#ctor">
+            <summary>
+            Constructor of the MainMap
+            </summary>
+        </member>
+        <member name="M:Game.MainMap.Initialize">
+            <summary>
+            Initializes Objects of the MainMap
+            </summary>
+        </member>
+        <member name="M:Game.MainMap.Update(SFML.Graphics.RenderWindow)">
+            <summary>
+            Updates the Main Map Logic
+            </summary>
+        </member>
+        <member name="M:Game.MainMap.Draw(SFML.Graphics.RenderWindow)">
+            <summary>
+            Returns a List of the Elements to be drawed
+            Custom List is used to to add Lists rapidly
+            </summary>
+        </member>
+        <member name="M:Game.MainMap.GetDiffTileMapPosition">
+            <summary>
+            Gets the vDifferenceTileMapPosition
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Game.MainMap.GetTileMapPosition">
+            <summary>
+            Gets the vTileMapPosition
+            </summary>
+        </member>
+        <member name="M:Game.MainMap.GetVirtualCharacterPosition">
+            <summary>
+            Gets the vPlayerVirtualPosition
+            </summary>
+        </member>
+        <member name="M:Game.MainMap.GetStartCharacterPosition">
+            <summary>
+            Gets the vPlayerStartPosition
+            </summary>
+        </member>
+        <member name="M:Game.MainMap.GetEnemies">
+            <summary>
+            Returns a List with all the active Enemies on the Map
+            </summary>
+        </member>
+        <member name="M:Game.MainMap.GetTileManager">
+            <summary>
+            Returns the active TileManager. 
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Game.Player.PlayerRotation">
+            <summary>
+            Rotates Player towards the Mouse
+            </summary>
+        </member>
+        <member name="T:Game.Questtracker">
+            <summary>
+            Generates a string to display quest status. Initial Quest text is generated in dependency of the enemy array. Update needs to know how many bosses have already been defeated. 
+            </summary>
+        </member>
+        <member name="F:Game.Questtracker.sQuesttext">
+            <summary>
+            Text used to display the quests state.
+            </summary>
+        </member>
+        <member name="F:Game.Questtracker.uiBossCount">
+            <summary>
+            Number of Boss Enemies spawned at the beginning. 
+            </summary>
+        </member>
+        <member name="F:Game.Questtracker.uiBossesSlayed">
+            <summary>
+            Number of already defeated Bosses. Set to max number in the constructor. 
+            </summary>
+        </member>
+        <member name="M:Game.Questtracker.GetQuestString">
+            <summary>
+            Returns the quest string in its recent form. 
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Game.Questtracker.#ctor(Game.Entity[0:,0:],System.Int32,System.Int32)">
+            <summary>
+            Questtracker requires the entity array used to create the current level to calculate the number of bosses in use. 
+            </summary>
+            <param name="entityArray"></param>
+            <param name="numberColumns"></param>
+            <param name="numberRows"></param>
+        </member>
+        <member name="M:Game.Questtracker.Update(System.UInt32)">
+            <summary>
+            Used to update the number of defeated Bosses and return the quest status string. Number of defeated Bosses has to be counted somewhere else. 
+            </summary>
+            <param name="iBossesKilled"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Game.Statemachine.#ctor">
+            <summary>
+            Statemachine constructor
+            </summary>
+        </member>
+        <member name="T:Game.Tilez">
+            <summary>
+            Everywhere used enum to specify different types of tiles. 
+            </summary>
+        </member>
+        <member name="F:Game.TileArrayCreation.iTileSize">
+            <summary>
+            Hardcoded and never changing value to determine ... well, your guess. 
+            </summary>
+        </member>
+        <member name="F:Game.TileArrayCreation.iNumberColumns">
+            <summary>
+            Is generated in the constructor depending on the longest line in the source file (exactly: Biggest number of chars in the longest entry of the received string array). 
+            </summary>
+        </member>
+        <member name="F:Game.TileArrayCreation.iNumberRows">
+            <summary>
+            Is generated in the consctructor depending on the number of lines in the source file (exactly: Number of entries in the received string array). 
+            </summary>
+        </member>
+        <member name="F:Game.TileArrayCreation.e2CurrentLevel">
+            <summary>
+            Return value 
+            </summary>
+        </member>
+        <member name="M:Game.TileArrayCreation.GetTilezArray">
+            <summary>
+            Returns the two dimensional Tilez array. 
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Game.TileArrayCreation.GetTileSize">
+            <summary>
+            Returns a positive static integer mirroring the standard tile size. 
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Game.TileArrayCreation.GetNumberColumns">
+            <summary>
+            Returns an integer showing the number of columns of the current level Tilez array. 
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Game.TileArrayCreation.GetNumberRows">
+            <summary>
+            Returns an integer showing the number of rows of the current level Tilez array. 
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Game.TileArrayCreation.#ctor(System.String[])">
+            <summary>
+            Constructor receives the level data in the form of a string array and converts it into a tile array. After this, the array is not intended to be changed for this running session. 
+            </summary>
+            <param name="stringCurrentLevel"></param>
+        </member>
+        <member name="M:Game.TileArrayCreation.TileConversation(System.Char)">
+            <summary>
+            A hardcoded List of all available Types of Tiles. This method determines specific tile types in the array and is soly used by the consctructor of this class. 
+            </summary>
+            <param name="chTile"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Game.TileArrayCreation.CollisionReturner(System.Int32,System.Int32)">
+            <summary>
+            Soly to return a collision bool at specific coordinates if the tile map array. Unused coordinates, like negative values or too big ones, always return true. 
+            </summary>
+            <param name="tile"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Game.TileArrayCreation.CollisionReturnerProjectiles(System.Int32,System.Int32)">
+            <summary>
+            Slightly alternated list of tiles with collision to match projectile requirements. Soly to return a collision bool at specific coordinates if the tile map array. Unused coordinates, like negative values or too big ones, always return true. 
+            </summary>
+            <param name="iXCoord"></param>
+            <param name="iYCoord"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Game.TileArrayCreation.CollisionReturner(Game.Tilez)">
+            <summary>
+            Returns collision bool in dependency of the given Tilez type 
+            </summary>
+            <param name="eTile"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Game.TileManager">
+            <summary>
+            Uses an instance of the TileArrayCreator to get an tile array out of the chosen .txt file. Draws the map depending on this tile array with every update, but only tiles within the screen. Also allows to get information about type and collision for chosen tiles at any location. 
+            </summary>
+        </member>
+        <member name="F:Game.TileManager.tileArrayCreation">
+            <summary>
+            Instance of the same named class. 
+            </summary>
+        </member>
+        <member name="F:Game.TileManager.tTileSheet">
+            <summary>
+            Texture format of the loaded tile sheet. Intended to load and be converted afterwards. 
+            </summary>
+        </member>
+        <member name="F:Game.TileManager.spriteTileSheet">
+            <summary>
+            Sprite format. Is converted from the texture and used to draw tiles on the map. 
+            </summary>
+        </member>
+        <member name="M:Game.TileManager.GetTileArray">
+            <summary>
+            Getter methods used to show variables created by the instanced TileArrayCreation. 
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Game.TileManager.GetNumberColumns">
+            <summary>
+            Returns the number of columns of the instanced TileArrayCreation. 
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Game.TileManager.GetNumberRows">
+            <summary>
+            Returns the number of rows of the instanced TileArrayCreation. 
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Game.TileManager.GetTileSize">
+            <summary>
+            Returns the general size of every tile in the instanced TileArrayCreation. 
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Game.TileManager.GetCollisionAt(System.Int32,System.Int32)">
+            <summary>
+            Returns a bool for specified x and y coordinates. If those coordinates are unused, a false is returned. 
+            </summary>
+            <param name="xCoord"></param>
+            <param name="yCoord"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Game.TileManager.#ctor(System.String[])">
+            <summary>
+            Constructor requires a one dimensional string array. 
+            </summary>
+            <param name="sLevelText"></param>
+        </member>
+        <member name="M:Game.TileManager.TileSourceDeterminat0r(Game.Tilez)">
+            <summary>
+            Hardcoded list of all sources on the tile sheet. Has to be manually updated with every tile on the source sheet that is added or removed. 
+            </summary>
+            <param name="eTile"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Game.TileManager.Draw(SFML.Graphics.RenderWindow,SFML.System.Vector2f)">
+            <summary>
+            Obtains the relative position of the tile map and draws all tiles within the screen using the corresponding tile array. Additionally, all tiles out of the map are drawn as tree foilage. 
+            </summary>
+            <param name="window"></param>
+            <param name="v2fTileMapPosition"></param>
+        </member>
+    </members>
+</doc>
