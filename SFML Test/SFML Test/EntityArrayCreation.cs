@@ -19,22 +19,22 @@ namespace Game
         /// <summary>
         /// Generated out off the values the tile array in the constructor. 
         /// </summary>
-        protected int numberColumns;
+        protected int iNumberColumns;
 
         /// <summary>
         /// Generated out off the values the tile array in the constructor. 
         /// </summary>
-        protected int numberRows;
+        protected int iNumberRows;
         
         /// <summary>
         /// Created dependant on the underlying tile map. Ensured to not spawn entities on tiles with collision or out of the map boarders. 
         /// </summary>
-        protected Enemy[,] enemyArray;
+        protected Enemy[,] enemy2Array;
 
         /// <summary>
         /// Number used to mark created Enemies. 
         /// </summary>
-        protected uint id = 1;
+        protected uint uiId = 1;
 
         /// <summary>
         /// Random function soly used to randomize appearance of certain entities. 
@@ -42,30 +42,30 @@ namespace Game
         Random rRandom;
 
         /// <summary>
-        /// Returns the entity array created out of the chosen .txt file. 
+        /// Returns the two dimensional entity array created out of the chosen .txt file. 
         /// </summary>
         /// <returns></returns>
         public Enemy[,] GetEntityArray()
         {
-            return enemyArray;
+            return enemy2Array;
         }
         
         /// <summary>
-        /// Returns the number of columns of the created entity array. 
+        /// Returns an integer reflecting the number of columns of the created entity array. 
         /// </summary>
         /// <returns></returns>
         public int GetNumberColumns()
         {
-            return numberColumns;
+            return iNumberColumns;
         }
 
         /// <summary>
-        /// Returns the number of rows of the created entity array. 
+        /// Returns an integer reflecting the number of rows of the created entity array. 
         /// </summary>
         /// <returns></returns>
         public int GetNumberRows()
         {
-            return numberRows;
+            return iNumberRows;
         }
         
 
@@ -78,21 +78,21 @@ namespace Game
         {
             rRandom = new Random();
 
-            numberColumns = tileManager.GetNumberColumns();
-            numberRows = tileManager.GetNumberRows();
+            iNumberColumns = tileManager.GetNumberColumns();
+            iNumberRows = tileManager.GetNumberRows();
 
-            enemyArray = new Enemy[numberColumns + 1, numberRows + 1];
+            enemy2Array = new Enemy[iNumberColumns + 1, iNumberRows];
 
-            id = 1;
+            uiId = 1;
 
-            for(int x = 0, y = 0; y < numberRows; x++)
+            for(int x = 0, y = 0; y < iNumberRows; x++)
             {
                 if (y < stringEnemyLayout.Length && x < stringEnemyLayout[y].Length)
                 {
-                    enemyArray[x, y] = EnemyConversation(stringEnemyLayout[y][x], tileManager, x, y);
+                    enemy2Array[x, y] = EnemyConversation(stringEnemyLayout[y][x], tileManager, x, y);
                 }
 
-                if(x >= numberColumns)
+                if(x >= iNumberColumns)
                 {
                     x = -1;
                     y++;
@@ -103,50 +103,50 @@ namespace Game
         /// <summary>
         /// Returns an entity depending on the used char and gives them correspondening values. Default is null. 
         /// </summary>
-        /// <param name="type"></param>
+        /// <param name="chType"></param>
         /// <param name="tileManager"></param>
-        /// <param name="xCoord"></param>
-        /// <param name="yCoord"></param>
+        /// <param name="iXCoord"></param>
+        /// <param name="iYCoord"></param>
         /// <returns></returns>
-        protected Enemy EnemyConversation(char type, TileManager tileManager, int xCoord, int yCoord)
+        protected Enemy EnemyConversation(char chType, TileManager tileManager, int iXCoord, int iYCoord)
         {
-            if (!tileManager.GetCollisionAt(xCoord, yCoord))
+            if (!tileManager.GetCollisionAt(iXCoord, iYCoord))
             {
-                switch (type)
+                switch (chType)
                 {
                     case ('+'):
-                        id++;
-                        return new Archer(new Vector2f((float)(xCoord * tileManager.GetTileSize()), (float)(yCoord * tileManager.GetTileSize())), id - 1, EntityAppearance.PentagonCenturio, 20, 400, false, 140);
+                        uiId++;
+                        return new Archer(new Vector2f((float)(iXCoord * tileManager.GetTileSize()), (float)(iYCoord * tileManager.GetTileSize())), uiId - 1, EntityAppearance.PentagonCenturio, 20, 400, false, 140);
                     case ('-'):
-                        id++;
-                        return new Archer(new Vector2f((float)(xCoord * tileManager.GetTileSize()), (float)(yCoord * tileManager.GetTileSize())), id - 1, EntityAppearance.PentagonCivil, 5, 200, false, 40);
+                        uiId++;
+                        return new Archer(new Vector2f((float)(iXCoord * tileManager.GetTileSize()), (float)(iYCoord * tileManager.GetTileSize())), uiId - 1, EntityAppearance.PentagonCivil, 5, 200, false, 40);
                     case ('3'):
-                        id++;
-                        return new Archer(new Vector2f((float)(xCoord * tileManager.GetTileSize()), (float)(yCoord * tileManager.GetTileSize())), id - 1, EntityAppearance.SquareGeneral, 25, 800, true, 200);
+                        uiId++;
+                        return new Archer(new Vector2f((float)(iXCoord * tileManager.GetTileSize()), (float)(iYCoord * tileManager.GetTileSize())), uiId - 1, EntityAppearance.SquareGeneral, 25, 800, true, 200);
                     case ('2'):
-                        id++;
-                        return new Archer(new Vector2f((float)(xCoord * tileManager.GetTileSize()), (float)(yCoord * tileManager.GetTileSize())), id - 1, EntityAppearance.SquareCommander, 20, 900, false, 100);
+                        uiId++;
+                        return new Archer(new Vector2f((float)(iXCoord * tileManager.GetTileSize()), (float)(iYCoord * tileManager.GetTileSize())), uiId - 1, EntityAppearance.SquareCommander, 20, 900, false, 100);
                     case ('1'):
-                        id++;
-                        return new Archer(new Vector2f((float)(xCoord * tileManager.GetTileSize()), (float)(yCoord * tileManager.GetTileSize())), id - 1, AppearanceRandomizer(4), 18, 600, false, 80);
+                        uiId++;
+                        return new Archer(new Vector2f((float)(iXCoord * tileManager.GetTileSize()), (float)(iYCoord * tileManager.GetTileSize())), uiId - 1, AppearanceRandomizer(4), 18, 600, false, 80);
                     case ('0'):
-                        id++;
-                        return new Archer(new Vector2f((float)(xCoord * tileManager.GetTileSize()), (float)(yCoord * tileManager.GetTileSize())), id - 1, EntityAppearance.SquareCivil, 5, 200, false, 40);
+                        uiId++;
+                        return new Archer(new Vector2f((float)(iXCoord * tileManager.GetTileSize()), (float)(iYCoord * tileManager.GetTileSize())), uiId - 1, EntityAppearance.SquareCivil, 5, 200, false, 40);
                     case ('d'):
-                        id++;
-                        return new Archer(new Vector2f((float)(xCoord * tileManager.GetTileSize()), (float)(yCoord * tileManager.GetTileSize())), id - 1, EntityAppearance.TriangleLord, 25, 600, true, 120);
+                        uiId++;
+                        return new Archer(new Vector2f((float)(iXCoord * tileManager.GetTileSize()), (float)(iYCoord * tileManager.GetTileSize())), uiId - 1, EntityAppearance.TriangleLord, 25, 600, true, 120);
                     case ('c'):
-                        id++;
-                        return new Archer(new Vector2f((float)(xCoord * tileManager.GetTileSize()), (float)(yCoord * tileManager.GetTileSize())), id - 1, EntityAppearance.TriangleBomber, 25, 800, false, 60);
+                        uiId++;
+                        return new Archer(new Vector2f((float)(iXCoord * tileManager.GetTileSize()), (float)(iYCoord * tileManager.GetTileSize())), uiId - 1, EntityAppearance.TriangleBomber, 25, 800, false, 60);
                     case ('b'):
-                        id++;
-                        return new Archer(new Vector2f((float)(xCoord * tileManager.GetTileSize()), (float)(yCoord * tileManager.GetTileSize())), id - 1, EntityAppearance.TriangleBrute, 20, 450, false, 100);
+                        uiId++;
+                        return new Archer(new Vector2f((float)(iXCoord * tileManager.GetTileSize()), (float)(iYCoord * tileManager.GetTileSize())), uiId - 1, EntityAppearance.TriangleBrute, 20, 450, false, 100);
                     case ('a'):
-                        id++;
-                        return new Archer(new Vector2f((float)(xCoord * tileManager.GetTileSize()), (float)(yCoord * tileManager.GetTileSize())), id - 1, AppearanceRandomizer(3), 15, 600, false, 60);
+                        uiId++;
+                        return new Archer(new Vector2f((float)(iXCoord * tileManager.GetTileSize()), (float)(iYCoord * tileManager.GetTileSize())), uiId - 1, AppearanceRandomizer(3), 15, 600, false, 60);
                     case ('z'):
-                        id++;
-                        return new Archer(new Vector2f((float)(xCoord * tileManager.GetTileSize()), (float)(yCoord * tileManager.GetTileSize())), id - 1, EntityAppearance.TriangleCivil, 5, 200, false, 40);
+                        uiId++;
+                        return new Archer(new Vector2f((float)(iXCoord * tileManager.GetTileSize()), (float)(iYCoord * tileManager.GetTileSize())), uiId - 1, EntityAppearance.TriangleCivil, 5, 200, false, 40);
                     default:
                         return null;
                 }

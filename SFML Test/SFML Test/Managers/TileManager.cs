@@ -11,6 +11,9 @@ using SFML.Window;
 
 namespace Game
 {
+    /// <summary>
+    /// Uses an instance of the TileArrayCreator to get an tile array out of the chosen .txt file. Draws the map depending on this tile array with every update, but only tiles within the screen. Also allows to get information about type and collision for chosen tiles at any location. 
+    /// </summary>
     class TileManager
     {
         /// <summary>
@@ -24,7 +27,7 @@ namespace Game
         /// <summary>
         /// Sprite format. Is converted from the texture and used to draw tiles on the map. 
         /// </summary>
-        protected Sprite tileSheet;
+        protected Sprite spriteTileSheet;
 
         /// <summary>
         /// Getter methods used to show variables created by the instanced TileArrayCreation. 
@@ -35,16 +38,28 @@ namespace Game
             return tileArrayCreation.GetTilezArray();
         }
 
+        /// <summary>
+        /// Returns the number of columns of the instanced TileArrayCreation. 
+        /// </summary>
+        /// <returns></returns>
         public int GetNumberColumns()
         {
             return tileArrayCreation.GetNumberColumns();
         }
 
+        /// <summary>
+        /// Returns the number of rows of the instanced TileArrayCreation. 
+        /// </summary>
+        /// <returns></returns>
         public int GetNumberRows()
         {
             return tileArrayCreation.GetNumberRows();
         }
 
+        /// <summary>
+        /// Returns the general size of every tile in the instanced TileArrayCreation. 
+        /// </summary>
+        /// <returns></returns>
         public int GetTileSize()
         {
             return tileArrayCreation.GetTileSize();
@@ -64,98 +79,98 @@ namespace Game
         /// <summary>
         /// Constructor requires a one dimensional string array. 
         /// </summary>
-        /// <param name="levelText"></param>
-        public TileManager(string[] levelText)
+        /// <param name="sLevelText"></param>
+        public TileManager(string[] sLevelText)
         {
             tTileSheet = ContentLoader.textureTileSheet;
-            tileSheet = new Sprite(tTileSheet);
+            spriteTileSheet = new Sprite(tTileSheet);
 
-            tileArrayCreation = new TileArrayCreation(levelText);
+            tileArrayCreation = new TileArrayCreation(sLevelText);
         }
 
 
         /// <summary>
         /// Hardcoded list of all sources on the tile sheet. Has to be manually updated with every tile on the source sheet that is added or removed. 
         /// </summary>
-        /// <param name="tile"></param>
+        /// <param name="eTile"></param>
         /// <returns></returns>
-        protected IntRect TileSourceDeterminat0r(Tilez tile)
+        protected IntRect TileSourceDeterminat0r(Tilez eTile)
         {
-            int column = 0;
-            int row = 0;
+            int iColumn = 0;
+            int iRow = 0;
 
-            switch (tile)
+            switch (eTile)
             {
                 case Tilez.water:
-                    column = 0;
-                    row = 5;
+                    iColumn = 0;
+                    iRow = 5;
                     break;
                 case Tilez.obstacleStone:
-                    column = 0;
-                    row = 4;
+                    iColumn = 0;
+                    iRow = 4;
                     break;
                 case Tilez.structureStone:
-                    column = 1;
-                    row = 3;
+                    iColumn = 1;
+                    iRow = 3;
                     break;
                 case Tilez.structureWood:
-                    column = 0;
-                    row = 3;
+                    iColumn = 0;
+                    iRow = 3;
                     break;
                 case Tilez.treeFoilage:
-                    column = 2;
-                    row = 2;
+                    iColumn = 2;
+                    iRow = 2;
                     break;
                 case Tilez.treeTop:
-                    column = 1;
-                    row = 2;
+                    iColumn = 1;
+                    iRow = 2;
                     break;
                 case Tilez.treeTrunk:
-                    column = 0;
-                    row = 2;
+                    iColumn = 0;
+                    iRow = 2;
                     break;
                 case Tilez.groundWood:
-                    column = 2;
-                    row = 1;
+                    iColumn = 2;
+                    iRow = 1;
                     break;
                 case Tilez.groundStone:
-                    column = 1;
-                    row = 1;
+                    iColumn = 1;
+                    iRow = 1;
                     break;
                 case Tilez.groundGrass:
-                    column = 0;
-                    row = 1;
+                    iColumn = 0;
+                    iRow = 1;
                     break;
                 case Tilez.white:
-                    column = 3;
-                    row = 0;
+                    iColumn = 3;
+                    iRow = 0;
                     break;
                 case Tilez.grey:
-                    column = 2;
-                    row = 0;
+                    iColumn = 2;
+                    iRow = 0;
                     break;
                 case Tilez.darkGrey:
-                    column = 1;
-                    row = 0;
+                    iColumn = 1;
+                    iRow = 0;
                     break;
                 default:
-                    column = 0;
-                    row = 0;
+                    iColumn = 0;
+                    iRow = 0;
                     break;
             }
-            return new IntRect(column * tileArrayCreation.GetTileSize(), row * tileArrayCreation.GetTileSize(), tileArrayCreation.GetTileSize(), tileArrayCreation.GetTileSize());
+            return new IntRect(iColumn * tileArrayCreation.GetTileSize(), iRow * tileArrayCreation.GetTileSize(), tileArrayCreation.GetTileSize(), tileArrayCreation.GetTileSize());
         }
 
         /// <summary>
         /// Obtains the relative position of the tile map and draws all tiles within the screen using the corresponding tile array. Additionally, all tiles out of the map are drawn as tree foilage. 
         /// </summary>
         /// <param name="window"></param>
-        /// <param name="tileMapPosition"></param>
-        public void Draw(RenderWindow window, Vector2f tileMapPosition)
+        /// <param name="v2fTileMapPosition"></param>
+        public void Draw(RenderWindow window, Vector2f v2fTileMapPosition)
         {
             
-            int tileMapPositionXNormalized = (int)((-tileMapPosition.X) / tileArrayCreation.GetTileSize());
-            int tileMapPositionYNormalized = (int)((-tileMapPosition.Y) / tileArrayCreation.GetTileSize());
+            int tileMapPositionXNormalized = (int)((-v2fTileMapPosition.X) / tileArrayCreation.GetTileSize());
+            int tileMapPositionYNormalized = (int)((-v2fTileMapPosition.Y) / tileArrayCreation.GetTileSize());
             int xLimit = (int)((GameLoop.GetWindowSize().X / tileArrayCreation.GetTileSize()));
             int yLimit = (int)((GameLoop.GetWindowSize().Y / tileArrayCreation.GetTileSize()) + 1);
 
@@ -164,11 +179,11 @@ namespace Game
                 if (tileMapPositionXNormalized + xCoord >= 0 && tileMapPositionXNormalized + xCoord < tileArrayCreation.GetNumberColumns() &&
                     tileMapPositionYNormalized + yCoord >= 0 && tileMapPositionYNormalized + yCoord < tileArrayCreation.GetNumberRows())
                 {
-                    tileSheet.Position = new Vector2f(((int)((tileMapPositionXNormalized + xCoord) * tileArrayCreation.GetTileSize() + tileMapPosition.X)),
-                    (int)(((tileMapPositionYNormalized + yCoord) * tileArrayCreation.GetTileSize() + tileMapPosition.Y)));
-                    tileSheet.TextureRect = TileSourceDeterminat0r(tileArrayCreation.GetTilezArray()[xCoord + tileMapPositionXNormalized, yCoord + tileMapPositionYNormalized]);
+                    spriteTileSheet.Position = new Vector2f(((int)((tileMapPositionXNormalized + xCoord) * tileArrayCreation.GetTileSize() + v2fTileMapPosition.X)),
+                    (int)(((tileMapPositionYNormalized + yCoord) * tileArrayCreation.GetTileSize() + v2fTileMapPosition.Y)));
+                    spriteTileSheet.TextureRect = TileSourceDeterminat0r(tileArrayCreation.GetTilezArray()[xCoord + tileMapPositionXNormalized, yCoord + tileMapPositionYNormalized]);
 
-                    window.Draw(tileSheet);
+                    window.Draw(spriteTileSheet);
                 }
                 
                 if(xCoord > xLimit)
