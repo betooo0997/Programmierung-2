@@ -116,34 +116,34 @@ namespace Game
                 {
                     case ('+'):
                         uiId++;
-                        return new Archer(new Vector2f((float)(iXCoord * tileManager.GetTileSize()), (float)(iYCoord * tileManager.GetTileSize())), uiId - 1, EntityAppearance.PentagonCenturio, 20, 400, false, 140);
+                        return new Archer(new Vector2f((float)(iXCoord * tileManager.GetTileSize()), (float)(iYCoord * tileManager.GetTileSize())), uiId - 1, EntityAppearance.PentagonCenturio, 25, 400, false, 140);
                     case ('-'):
                         uiId++;
                         return new Archer(new Vector2f((float)(iXCoord * tileManager.GetTileSize()), (float)(iYCoord * tileManager.GetTileSize())), uiId - 1, EntityAppearance.PentagonCivil, 5, 200, false, 40);
                     case ('3'):
                         uiId++;
-                        return new Archer(new Vector2f((float)(iXCoord * tileManager.GetTileSize()), (float)(iYCoord * tileManager.GetTileSize())), uiId - 1, EntityAppearance.SquareGeneral, 25, 800, true, 200);
+                        return new Archer(new Vector2f((float)(iXCoord * tileManager.GetTileSize()), (float)(iYCoord * tileManager.GetTileSize())), uiId - 1, EntityAppearance.SquareGeneral, 30, 800, true, 220);
                     case ('2'):
                         uiId++;
                         return new Archer(new Vector2f((float)(iXCoord * tileManager.GetTileSize()), (float)(iYCoord * tileManager.GetTileSize())), uiId - 1, EntityAppearance.SquareCommander, 20, 900, false, 100);
                     case ('1'):
                         uiId++;
-                        return new Archer(new Vector2f((float)(iXCoord * tileManager.GetTileSize()), (float)(iYCoord * tileManager.GetTileSize())), uiId - 1, AppearanceRandomizer(4), 18, 600, false, 80);
+                        return new Archer(new Vector2f((float)(iXCoord * tileManager.GetTileSize()), (float)(iYCoord * tileManager.GetTileSize())), uiId - 1, AppearanceRandomizer(4), 25, 600, false, 80);
                     case ('0'):
                         uiId++;
                         return new Archer(new Vector2f((float)(iXCoord * tileManager.GetTileSize()), (float)(iYCoord * tileManager.GetTileSize())), uiId - 1, EntityAppearance.SquareCivil, 5, 200, false, 40);
                     case ('d'):
                         uiId++;
-                        return new Archer(new Vector2f((float)(iXCoord * tileManager.GetTileSize()), (float)(iYCoord * tileManager.GetTileSize())), uiId - 1, EntityAppearance.TriangleLord, 25, 600, true, 120);
+                        return new Archer(new Vector2f((float)(iXCoord * tileManager.GetTileSize()), (float)(iYCoord * tileManager.GetTileSize())), uiId - 1, EntityAppearance.TriangleLord, 20, 600, true, 180);
                     case ('c'):
                         uiId++;
                         return new Archer(new Vector2f((float)(iXCoord * tileManager.GetTileSize()), (float)(iYCoord * tileManager.GetTileSize())), uiId - 1, EntityAppearance.TriangleBomber, 25, 800, false, 60);
                     case ('b'):
                         uiId++;
-                        return new Archer(new Vector2f((float)(iXCoord * tileManager.GetTileSize()), (float)(iYCoord * tileManager.GetTileSize())), uiId - 1, EntityAppearance.TriangleBrute, 20, 450, false, 100);
+                        return new Archer(new Vector2f((float)(iXCoord * tileManager.GetTileSize()), (float)(iYCoord * tileManager.GetTileSize())), uiId - 1, EntityAppearance.TriangleBrute, 25, 450, false, 100);
                     case ('a'):
                         uiId++;
-                        return new Archer(new Vector2f((float)(iXCoord * tileManager.GetTileSize()), (float)(iYCoord * tileManager.GetTileSize())), uiId - 1, AppearanceRandomizer(3), 15, 600, false, 60);
+                        return new Archer(new Vector2f((float)(iXCoord * tileManager.GetTileSize()), (float)(iYCoord * tileManager.GetTileSize())), uiId - 1, AppearanceRandomizer(3), 20, 600, false, 60);
                     case ('z'):
                         uiId++;
                         return new Archer(new Vector2f((float)(iXCoord * tileManager.GetTileSize()), (float)(iYCoord * tileManager.GetTileSize())), uiId - 1, EntityAppearance.TriangleCivil, 5, 200, false, 40);
