@@ -10,6 +10,9 @@ using SFML.Audio;
 
 namespace Game
 {
+    /// <summary>
+    /// Projectile that is thrown by the Player to inflict Damage to the Enemy
+    /// </summary>
     public class PlayerProjectile : VisibleProjectile
     {
         public PlayerProjectile(float iAngle, Vector2f Direction, float iVelocity)

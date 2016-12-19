@@ -224,8 +224,16 @@ namespace Game
         /// </summary>
         protected bool DisposingInvisibleListRight;
 
+
+        /// <summary>
+        /// True if Enemy has detected Player, used to Alert other Enemies nearby
+        /// </summary>
         protected bool bAlert = false;
 
+
+        /// <summary>
+        /// Maximal Health of the Enemy
+        /// </summary>
         protected int iHealthMax;
 
 
@@ -621,9 +629,10 @@ namespace Game
 
 
         /// <summary>
-        /// Reduces Health of the Enemy
+        /// Reduces Health of the Enemy, makes him rotate to the Player and registers his Position
         /// </summary>
         /// <param name="Damage">Damage that the Enemy takes</param>
+        /// <param name="Direction">Direction of the impacted Projectile</param>
         public void ReduceHealth(uint Damage, Vector2f Direction)
         {
             iHealth -= (int)Damage;
@@ -763,15 +772,15 @@ namespace Game
             rEnemyAngle2.Rotation = 90 + fMaxPermittedAngle + fAngle;
 
 
-            drawList.Add(cEnemyRadius);
-            drawList.Add(rEnemyAngle1);
-            drawList.Add(rEnemyAngle2);
-            drawList.Add(cEnemyDirection);
-            drawList.Add(cCharacterPosition);
-            drawList.Add(cEnemyPosition);
-            CustomList.AddProjectiles(drawList, lInvisibleProjectileLeft);
-            CustomList.AddProjectiles(drawList, lInvisibleProjectileMiddle);
-            CustomList.AddProjectiles(drawList, lInvisibleProjectileRight);
+            lDrawList.Add(cEnemyRadius);
+            lDrawList.Add(rEnemyAngle1);
+            lDrawList.Add(rEnemyAngle2);
+            lDrawList.Add(cEnemyDirection);
+            lDrawList.Add(cCharacterPosition);
+            lDrawList.Add(cEnemyPosition);
+            CustomList.AddProjectiles(lDrawList, lInvisibleProjectileLeft);
+            CustomList.AddProjectiles(lDrawList, lInvisibleProjectileMiddle);
+            CustomList.AddProjectiles(lDrawList, lInvisibleProjectileRight);
 
 
             if (Path.Count > 1)
@@ -781,7 +790,7 @@ namespace Game
                 cShape = new CircleShape(5);
                 cShape.FillColor = Color.White;
                 cShape.Position = Path[Path.Count - 1].vPosition + MainMap.GetTileMapPosition() + new Vector2f(25, 25) - new Vector2f(cShape.Radius, cShape.Radius);
-                drawList.Add(cShape);
+                lDrawList.Add(cShape);
             }
         }
 
@@ -803,22 +812,22 @@ namespace Game
                 cShape.Rotation = 45;
                 cShape.FillColor = Color.Cyan;
                 cShape.Position = Closed[x].vPosition * 50 + MainMap.GetTileMapPosition() + new Vector2f(25, 25);
-                drawList.Add(cShape);
+                lDrawList.Add(cShape);
 
                 tText = new Text(Closed[x].iFCost.ToString(), ffont, 15);
                 tText.Position = cShape.Position - new Vector2f(14f, 3f);
                 tText.Color = Color.Black;
-                drawList.Add(tText);
+                lDrawList.Add(tText);
 
                 tText = new Text(Closed[x].iGCost.ToString(), ffont, 10);
                 tText.Position = cShape.Position - new Vector2f(18f, 15f);
                 tText.Color = Color.Black;
-                drawList.Add(tText);
+                lDrawList.Add(tText);
 
                 tText = new Text(Closed[x].iHCost.ToString(), ffont, 10);
                 tText.Position = cShape.Position - new Vector2f(-2f, 15f);
                 tText.Color = Color.Black;
-                drawList.Add(tText);
+                lDrawList.Add(tText);
             }
 
             for (int x = 0; x < Path.Count; x++)
@@ -831,22 +840,22 @@ namespace Game
                 cShape.Rotation = 45;
                 cShape.FillColor = Color.Blue;
                 cShape.Position = Path[x].vPosition + MainMap.GetTileMapPosition() + new Vector2f(25, 25);
-                drawList.Add(cShape);
+                lDrawList.Add(cShape);
 
                 tText = new Text(Path[x].iFCost.ToString(), ffont, 15);
                 tText.Position = cShape.Position - new Vector2f(14f, 3f);
                 tText.Color = Color.Black;
-                drawList.Add(tText);
+                lDrawList.Add(tText);
 
                 tText = new Text(Path[x].iGCost.ToString(), ffont, 10);
                 tText.Position = cShape.Position - new Vector2f(18f, 15f);
                 tText.Color = Color.Black;
-                drawList.Add(tText);
+                lDrawList.Add(tText);
 
                 tText = new Text(Path[x].iHCost.ToString(), ffont, 10);
                 tText.Position = cShape.Position - new Vector2f(-2f, 15f);
                 tText.Color = Color.Black;
-                drawList.Add(tText);
+                lDrawList.Add(tText);
             }
 
             if (Path.Count > 1)
@@ -859,22 +868,22 @@ namespace Game
                 cShape.Rotation = 45;
                 cShape.FillColor = Color.Black;
                 cShape.Position = Path[Path.Count - 1].vPosition + MainMap.GetTileMapPosition() + new Vector2f(25, 25);
-                drawList.Add(cShape);
+                lDrawList.Add(cShape);
 
                 tText = new Text(Path[Path.Count - 1].iFCost.ToString(), ffont, 15);
                 tText.Position = cShape.Position - new Vector2f(14f, 3f);
                 tText.Color = Color.White;
-                drawList.Add(tText);
+                lDrawList.Add(tText);
 
                 tText = new Text(Path[Path.Count - 1].iGCost.ToString(), ffont, 10);
                 tText.Position = cShape.Position - new Vector2f(18f, 15f);
                 tText.Color = Color.White;
-                drawList.Add(tText);
+                lDrawList.Add(tText);
 
                 tText = new Text(Path[Path.Count - 1].iHCost.ToString(), ffont, 10);
                 tText.Position = cShape.Position - new Vector2f(-2f, 15f);
                 tText.Color = Color.White;
-                drawList.Add(tText);
+                lDrawList.Add(tText);
             }
         }
 

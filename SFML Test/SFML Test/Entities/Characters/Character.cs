@@ -12,7 +12,7 @@ namespace Game
 {
     abstract class Character : Entity
     {
-        protected List<Drawable> drawList;
+        protected List<Drawable> lDrawList;
 
         /// <summary>
         /// Base Damage the Character inflicts

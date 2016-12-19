@@ -88,17 +88,6 @@ namespace Game
 
 
 
-        // DECLARING VARIABLES: TEXTURES AND SPRITES
-
-        /// <summary>
-        /// Sprite Sheet that will be given to the Tile Manager. Loads dircetly from the corresponding texture in Content Loader
-        /// </summary>
-        protected Sprite tileSheet;
-
-
-
-
-
         // DECLARING VARIABLES: BOOLS
 
         /// <summary>
@@ -160,7 +149,7 @@ namespace Game
             // INSTANTIATING OBJECTS: OTHER
             vPlayerStartPosition    = new Vector2f(900, 500);
             vPlayerVirtualPosition  = vPlayerStartPosition;
-            pPlayer                 = new Player(sMapString, vPlayerVirtualPosition);
+            pPlayer                 = new Player(vPlayerVirtualPosition);
             questTracker            = new Questtracker(eEntityManager.GetEnemyArray(), eEntityManager.GetArrayNumberColumns(), eEntityManager.GetArrayNumberRows());
             textQuest               = new Text(questTracker.GetQuestString(), fFont, 20);
             cText                   = new Clock();

@@ -74,7 +74,7 @@ namespace Game
         /// </summary>
         /// <param name="rWindow">Used to get MousePosition relative to the WindowOrigin</param>
         /// <returns>eTargetMap</returns>
-        public abstract eMapState Update(RenderWindow window);
+        public abstract eMapState Update(RenderWindow rWindow);
 
 
         /// <summary>
@@ -82,7 +82,7 @@ namespace Game
         /// </summary>
         /// <param name="rWindow">Used to draw the TileMap</param>
         /// <returns>lDrawList</returns>
-        public abstract CustomList Draw(RenderWindow window);
+        public abstract CustomList Draw(RenderWindow rWindow);
     }
 
 
@@ -91,7 +91,14 @@ namespace Game
     /// </summary>
     public enum eMapState
     {
+        /// <summary>
+        /// Undefined Map State
+        /// </summary>
         ssUndefined,
+
+        /// <summary>
+        /// Main Map of the Game
+        /// </summary>
         ssMain,
     }
 }

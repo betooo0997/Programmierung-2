@@ -428,6 +428,16 @@
             Indicates whether the last Projectile of the lInvisibleProjectileRight has been disposed or not 
             </summary>
         </member>
+        <member name="F:Game.Enemy.bAlert">
+            <summary>
+            True if Enemy has detected Player, used to Alert other Enemies nearby
+            </summary>
+        </member>
+        <member name="F:Game.Enemy.iHealthMax">
+            <summary>
+            Maximal Health of the Enemy
+            </summary>
+        </member>
         <member name="M:Game.Enemy.DetectPlayer">
             <summary>
             Returns true if the Player is in the Radius and Angle of Sight of the Enemy and isn't hidden behind a Tile with Collision
@@ -484,9 +494,10 @@
         </member>
         <member name="M:Game.Enemy.ReduceHealth(System.UInt32,SFML.System.Vector2f)">
             <summary>
-            Reduces Health of the Enemy
+            Reduces Health of the Enemy, makes him rotate to the Player and registers his Position
             </summary>
             <param name="Damage">Damage that the Enemy takes</param>
+            <param name="Direction">Direction of the impacted Projectile</param>
         </member>
         <member name="M:Game.Enemy.Move">
             <summary>
@@ -572,9 +583,44 @@
             <param name="nCurrent">Node being evaluated</param>
             <param name="nTargetNode">Node where the Pathfinder looks for a path to get</param>
         </member>
+        <member name="T:Game.Entity">
+            <summary>
+            Object that has a Position, Texture and Sprite
+            </summary>
+        </member>
+        <member name="F:Game.Entity.vEntityPosition">
+            <summary>
+            Position (on the Top Left) of the Entity
+            </summary>
+        </member>
+        <member name="F:Game.Entity.vEntityPositionBottomLeft">
+            <summary>
+            Position (on the Bottom Left) of the Entity
+            </summary>
+        </member>
+        <member name="F:Game.Entity.vEntityPositionTopRight">
+            <summary>
+            Position (on the Top Right) of the Entity
+            </summary>
+        </member>
+        <member name="F:Game.Entity.tTileMap">
+            <summary>
+            Tilemap used for Collisiondetection
+            </summary>
+        </member>
         <member name="F:Game.Entity.eAppearance">
             <summary>
             Determines look of the Entity. 
+            </summary>
+        </member>
+        <member name="F:Game.Entity.tEntity">
+            <summary>
+            Texture of the Entity
+            </summary>
+        </member>
+        <member name="F:Game.Entity.sEntity">
+            <summary>
+            Sprite of the Entity
             </summary>
         </member>
         <member name="F:Game.Entity.bIsBoss">
@@ -582,11 +628,42 @@
             True if Enemy is Boss-type. Default is false. 
             </summary>
         </member>
+        <member name="M:Game.Entity.GetAppearance">
+            <summary>
+            Gets the Appearance of the Enemy
+            </summary>
+            <returns>eAppearance</returns>
+        </member>
+        <member name="M:Game.Entity.GetVirtualPosition">
+            <summary>
+            Gets the virtual Position of the Entity (aka if the Player would move, not the Map)
+            </summary>
+            <returns>vEntityPosition</returns>
+        </member>
+        <member name="M:Game.Entity.GetPosition">
+            <summary>
+            Gets the Position of the Entity
+            </summary>
+        </member>
+        <member name="M:Game.Entity.GetIsBoss">
+            <summary>
+            Returns true if Enemy is Boss-type
+            </summary>
+            <returns>bIsBoss</returns>
+        </member>
         <member name="M:Game.Entity.CollisionDetection(SFML.System.Vector2f,System.UInt32,System.UInt32)">
             <summary>
             Detects the Entity Collision
             Returns 0 if no Collision
             </summary>
+        </member>
+        <member name="M:Game.Entity.SimpleCollisionDetection(SFML.System.Vector2f,System.UInt32,System.UInt32)">
+            <summary>
+            Simple Collision Detection, return true if Collision
+            </summary>
+            <param name="vEntityPosition">Position of the Entity</param>
+            <param name="uWidth">Width of the tEntity</param>
+            <param name="uHeight">Height of the tEntity</param>
         </member>
         <member name="M:Game.Entity.GetAppearanceTexture">
             <summary>
@@ -761,6 +838,11 @@
             Limit of Frames per Seconds in the Game Logic
             </summary>
         </member>
+        <member name="F:Game.GameLoop.UpdateTime">
+            <summary>
+            Indicates whether the Game has been drawed since the last Upadte or not
+            </summary>
+        </member>
         <member name="M:Game.GameLoop.#ctor(System.String,SFML.Graphics.Color)">
             <summary>
             Gameloop constructor
@@ -773,6 +855,21 @@
             Gameloop Update
             </summary>
         </member>
+        <member name="M:Game.GameLoop.Initialize">
+            <summary>
+            Initializes Variables
+            </summary>
+        </member>
+        <member name="M:Game.GameLoop.Update">
+            <summary>
+            Updates the Game
+            </summary>
+        </member>
+        <member name="M:Game.GameLoop.Draw">
+            <summary>
+            Draws the Game
+            </summary>
+        </member>
         <member name="M:Game.GameLoop.OnClosed(System.Object,System.EventArgs)">
             <summary>
             Closes Window
@@ -780,9 +877,65 @@
             <param name="sender"></param>
             <param name="e"></param>
         </member>
+        <member name="M:Game.GameLoop.GetWindowSize">
+            <summary>
+            Gets the Window Size of the Game
+            </summary>
+            <returns>Window Size</returns>
+        </member>
+        <member name="T:Game.Input">
+            <summary>
+            Manages the Input Data
+            </summary>
+        </member>
+        <member name="F:Game.Input.vMousePosition">
+            <summary>
+            Position of the Mouse
+            </summary>
+        </member>
+        <member name="F:Game.Input.Shoot">
+            <summary>
+            Bool whether Key to Shoot is pressed or not
+            </summary>
+        </member>
+        <member name="F:Game.Input.bMovingUp">
+            <summary>
+            Bool whether Player is allowed to move up or not
+            </summary>
+        </member>
+        <member name="F:Game.Input.bMovingDown">
+            <summary>
+            Bool whether Player is allowed to move down or not
+            </summary>
+        </member>
+        <member name="F:Game.Input.bMovingRight">
+            <summary>
+            Bool whether Player is allowed to move right or not
+            </summary>
+        </member>
+        <member name="F:Game.Input.bMovingLeft">
+            <summary>
+            Bool whether Player is allowed to move left or not
+            </summary>
+        </member>
+        <member name="F:Game.Input.bMousePressed">
+            <summary>
+            Bool whether the left MouseButton is pressed or not
+            </summary>
+        </member>
+        <member name="F:Game.Input.fPlayerVelocity">
+            <summary>
+            Velocity of the Player
+            </summary>
+        </member>
+        <member name="M:Game.Input.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
         <member name="M:Game.Input.Update(SFML.System.Vector2f@,System.Single@,System.Boolean,System.Boolean,System.Boolean,System.Boolean,SFML.Graphics.RenderWindow)">
             <summary>
-            Updates Virtual CharacterPosition based on Player Input
+            Updates Virtual CharacterPosition and its Velocity based on Player Input
             </summary>
         </member>
         <member name="T:Game.Sounds">
@@ -820,6 +973,90 @@
             Static method to play a chosen sound. Accepts sound names from the public enum Sounds. 
             </summary>
             <param name="eName"></param>
+        </member>
+        <member name="F:Game.MapState.eTargetMap">
+            <summary>
+            Target Map of the Map
+            </summary>
+        </member>
+        <member name="F:Game.MapState.fFont">
+            <summary>
+            Font used in the Maps
+            </summary>
+        </member>
+        <member name="F:Game.MapState.vTileMapPosition">
+            <summary>
+            Position of the TileMap
+            </summary>
+        </member>
+        <member name="F:Game.MapState.sMapString">
+            <summary>
+            String Array that provides the different Tilez of the TileMap
+            </summary>
+        </member>
+        <member name="F:Game.MapState.sEnemyLayoutString">
+            <summary>
+            String Array that provides the different Enemies of the EntityManager
+            </summary>
+        </member>
+        <member name="F:Game.MapState.lDrawList">
+            <summary>
+            List to be drawed
+            </summary>
+        </member>
+        <member name="F:Game.MapState.tTileUndHerrsche">
+            <summary>
+            TileManager to draw Tilez as provided by Content\MainMap.txt
+            </summary>
+        </member>
+        <member name="F:Game.MapState.eEntityManager">
+            <summary>
+            EntityManager to spawn Enemies as provided by Content\MainMapEnemies.txt
+            </summary>
+        </member>
+        <member name="F:Game.MapState.pPlayer">
+            <summary>
+            Instance of the Player
+            </summary>
+        </member>
+        <member name="F:Game.MapState.cCamera">
+            <summary>
+            Instance of the Camera
+            </summary>
+        </member>
+        <member name="M:Game.MapState.Initialize">
+            <summary>
+            Initializes Variables of the Map
+            </summary>
+        </member>
+        <member name="M:Game.MapState.Update(SFML.Graphics.RenderWindow)">
+            <summary>
+            Updates the Map
+            </summary>
+            <param name="rWindow">Used to get MousePosition relative to the WindowOrigin</param>
+            <returns>eTargetMap</returns>
+        </member>
+        <member name="M:Game.MapState.Draw(SFML.Graphics.RenderWindow)">
+            <summary>
+            Returns a List with all the Elements to be drawed besides the TileMap
+            </summary>
+            <param name="rWindow">Used to draw the TileMap</param>
+            <returns>lDrawList</returns>
+        </member>
+        <member name="T:Game.eMapState">
+            <summary>
+            MapStates of the Game
+            </summary>
+        </member>
+        <member name="F:Game.eMapState.ssUndefined">
+            <summary>
+            Undefined Map State
+            </summary>
+        </member>
+        <member name="F:Game.eMapState.ssMain">
+            <summary>
+            Main Map of the Game
+            </summary>
         </member>
         <member name="T:Game.TextStreamer">
             <summary>
@@ -880,6 +1117,119 @@
             <param name="uiCharacterSize"></param>
             <param name="uiColumnFactor"></param>
             <returns></returns>
+        </member>
+        <member name="T:Game.Node">
+            <summary>
+            Tilez with detailed Variables, used for Path Finding Algorithm
+            </summary>
+        </member>
+        <member name="F:Game.Node.tTile">
+            <summary>
+            Tilez Type of the Node
+            </summary>
+        </member>
+        <member name="F:Game.Node.iGCost">
+            <summary>
+            iGCost of the Node, aka Distance to the StartNode
+            </summary>
+        </member>
+        <member name="F:Game.Node.iHCost">
+            <summary>
+            iHCost of the Node, aka Distance to the TargetNode
+            </summary>
+        </member>
+        <member name="F:Game.Node.iFCost">
+            <summary>
+            iGCost added with iHCost
+            </summary>
+        </member>
+        <member name="F:Game.Node.bCollision">
+            <summary>
+            Indicates whether the Node has Collision or not
+            </summary>
+        </member>
+        <member name="F:Game.Node.vPosition">
+            <summary>
+            Position of the Node
+            </summary>
+        </member>
+        <member name="F:Game.Node.nParent">
+            <summary>
+            Node that the iGCost ist added with, aka ParentNode
+            </summary>
+        </member>
+        <member name="F:Game.Node.nChild">
+            <summary>
+            Node that inherites the iGCost, aka ChildNode
+            </summary>
+        </member>
+        <member name="F:Game.Node.nStartNode">
+            <summary>
+            SartNode of the Node
+            </summary>
+        </member>
+        <member name="F:Game.Node.nTargetNode">
+            <summary>
+            TargetNode of the Node, necessary for calculating iHCost
+            </summary>
+        </member>
+        <member name="M:Game.Node.#ctor(Game.Tilez,SFML.System.Vector2f,Game.Node,Game.Node)">
+            <summary>
+            Constructor of a normal Node
+            </summary>
+            <param name="tTile">Tile of the Node</param>
+            <param name="vPosition">Position of the Node</param>
+            <param name="nParentNode">ParentNode of the Node</param>
+            <param name="nTargetNode">TargetNode of the Node</param>
+        </member>
+        <member name="M:Game.Node.#ctor(Game.Tilez,SFML.System.Vector2f,Game.Node,System.Boolean,System.UInt32,System.UInt32,System.UInt32)">
+            <summary>
+            Constructor of a ChildNode
+            </summary>
+            <param name="tTile">Tile of the ParentNode</param>
+            <param name="vPosition">Position of the ParentNode</param>
+            <param name="nTargetNode">targetNode of the ParentNode</param>
+            <param name="bCollision">Collision of the ParentNode</param>
+            <param name="iGCost">iGCost of the ParentNode</param>
+            <param name="iHCost">iHCost of the ParentNode</param>
+            <param name="iFCost">iFCost of the ParentNode</param>
+        </member>
+        <member name="M:Game.Node.#ctor(Game.Tilez,SFML.System.Vector2f,SFML.System.Vector2f)">
+            <summary>
+            Constructor of a StartNode (= A Node)
+            </summary>
+            <param name="tTile">Tile of the Node</param>
+            <param name="vPosition">Position of the Node</param>
+            <param name="vTargetVector">Position of the TargetNode</param>
+        </member>
+        <member name="M:Game.Node.#ctor(Game.Tilez,SFML.System.Vector2f,Game.Node)">
+            <summary>
+            Constrcutor of a TargetNode (=B Node)
+            </summary>
+            <param name="tTile">Tile of the Node</param>
+            <param name="vPosition">Position of the Node</param>
+            <param name="nStartNode">StartNode (= A Node)</param>
+        </member>
+        <member name="M:Game.Node.SetiGCost">
+            <summary>
+            Calculates iGCost: Cost of 10 for Vertical/Horizontal, 14 for Diagonal
+            </summary>
+        </member>
+        <member name="M:Game.Node.SetiHCost(SFML.System.Vector2f)">
+            <summary>
+            Calculates iHCost: Cost of 10 for each Vertical/Horizontal, 14 for each Diagonal Node in between
+            </summary>
+        </member>
+        <member name="M:Game.Node.Collisionreturner(Game.Tilez)">
+            <summary>
+            Indicates whether the Tilez has Collsion or not
+            </summary>
+            <param name="tTile">Tilez to be checked</param>
+        </member>
+        <member name="T:Game.MainMap">
+            <summary>
+            Main Map of the Game
+            </summary>
         </member>
         <member name="F:Game.MainMap.vPlayerVirtualPosition">
             <summary>
@@ -1014,9 +1364,191 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="T:Game.CustomList">
+            <summary>
+            Class Used for simplifying the use of Lists
+            </summary>
+        </member>
+        <member name="F:Game.CustomList.lDrawList">
+            <summary>
+            List to be drawed
+            </summary>
+        </member>
+        <member name="M:Game.CustomList.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="M:Game.CustomList.Count">
+            <summary>
+            Counts the Elements of lDrawList
+            </summary>
+        </member>
+        <member name="M:Game.CustomList.AddElement(SFML.Graphics.Drawable)">
+            <summary>
+            Adds an Element to the lDrawList
+            </summary>
+            <param name="Ddrawable">Drawable to be added to the List</param>
+        </member>
+        <member name="M:Game.CustomList.AddList(System.Collections.Generic.List{SFML.Graphics.Drawable})">
+            <summary>
+            Adds a List to the lDrawList
+            </summary>
+            <param name="lDrawList"></param>
+        </member>
+        <member name="M:Game.CustomList.AddProjectiles(System.Collections.Generic.List{SFML.Graphics.Drawable},System.Collections.Generic.List{Game.EnemyProjectile})">
+            <summary>
+            Adds an EnemyProjectile List to a specified List
+            </summary>
+            <param name="lDrawList">DrawList</param>
+            <param name="lEnemyProjectile">EnemyProjectile List that will be added to the DrawList</param>
+            <returns>Merged List</returns>
+        </member>
+        <member name="M:Game.CustomList.AddProjectiles(System.Collections.Generic.List{SFML.Graphics.Drawable},System.Collections.Generic.List{Game.InvisibleProjectile})">
+            <summary>
+            Adds a InvisibleProjectile List to a specified List
+            </summary>
+            <param name="lDrawList">DrawList</param>
+            <param name="lInvisibleProjectile">InvisibleProjectile List that will be added to the DrawList</param>
+            <returns>Merged List</returns>
+        </member>
+        <member name="M:Game.CustomList.AddProjectiles(System.Collections.Generic.List{SFML.Graphics.Drawable},System.Collections.Generic.List{Game.PlayerProjectile})">
+            <summary>
+            Adds a PlayerProjectile List to a specified List
+            </summary>
+            <param name="lDrawList">DrawList</param>
+            <param name="lPlayerProjectile">PlayerProjectile List that will be added to the DrawList</param>
+            <returns>Merged List</returns>
+        </member>
+        <member name="M:Game.CustomList.Draw">
+            <summary>
+            Draws the lDrawList
+            </summary>
+            <returns>lDrawList</returns>
+        </member>
+        <member name="T:Game.PlayerProjectile">
+            <summary>
+            Projectile that is thrown by the Player to inflict Damage to the Enemy
+            </summary>
+        </member>
+        <member name="F:Game.Player.iLevel">
+            <summary>
+            Level of the Player, aka how many Edges it has
+            </summary>
+        </member>
+        <member name="F:Game.Player.sCharacter">
+            <summary>
+            Circle Shape of the Player to be drawn
+            </summary>
+        </member>
+        <member name="F:Game.Player.fHealth">
+            <summary>
+            Current Health of the Player
+            </summary>
+        </member>
+        <member name="F:Game.Player.fSpeed">
+            <summary>
+            Speed of the Player
+            </summary>
+        </member>
+        <member name="F:Game.Player.iHealthMax">
+            <summary>
+            Maximal Health of the Player
+            </summary>
+        </member>
+        <member name="F:Game.Player.vPlayerPosition">
+            <summary>
+            Virtual Position of the Player
+            </summary>
+        </member>
+        <member name="F:Game.Player.vMousePositionFromPlayer">
+            <summary>
+            Position of hte Mouse using Player Position as Origin
+            </summary>
+        </member>
+        <member name="F:Game.Player.pProjectile">
+            <summary>
+            Projectile that inflicts damage to the Enemy when hit
+            </summary>
+        </member>
+        <member name="F:Game.Player.lProjectile">
+            <summary>
+            List of all thrown but not impacted Projectiles of the Player
+            </summary>
+        </member>
+        <member name="F:Game.Player.cShoot">
+            <summary>
+            Clock used for shooting a determined numer of times per second
+            </summary>
+        </member>
+        <member name="F:Game.Player.tShoot">
+            <summary>
+            Timer used for measuring cShoot
+            </summary>
+        </member>
+        <member name="F:Game.Player.cRegenarate">
+            <summary>
+            Clock used for starting to regenerate after a determined numer of seconds
+            </summary>
+        </member>
+        <member name="F:Game.Player.tRegenerate">
+            <summary>
+            Timer used for measuring cRegenerate
+            </summary>
+        </member>
+        <member name="M:Game.Player.#ctor(SFML.System.Vector2f)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="VirtualCharacterPosition">Virtual Position of the Player, aka Position if the Player would move, not the Map</param>
+        </member>
+        <member name="M:Game.Player.Update(SFML.System.Vector2f@,System.Boolean@,System.Boolean@,System.Boolean@,System.Boolean@)">
+            <summary>
+            Updates Player Logic
+            </summary>
+            <param name="VirtualPlayerPosition">Virtual Player Position, aka Position if the Player would move, not the Map</param>
+            <param name="up">Bool allowing up Movement</param>
+            <param name="down">Bool allowing down Movement</param>
+            <param name="right">Bool allowing right Movement</param>
+            <param name="left">Bool allowing left Movement</param>
+        </member>
+        <member name="M:Game.Player.Draw">
+            <summary>
+            Returns a List with all the Elements of the Player to be drawed
+            </summary>
+            <returns>lDrawList</returns>
+        </member>
         <member name="M:Game.Player.PlayerRotation">
             <summary>
             Rotates Player towards the Mouse
+            </summary>
+        </member>
+        <member name="M:Game.Player.Shoot(SFML.System.Vector2f)">
+            <summary>
+            Shoots a PlayerProjectile
+            </summary>
+            <param name="TileMapPosition">Position of the TileMap</param>
+        </member>
+        <member name="M:Game.Player.ReduceHealth(System.UInt32)">
+            <summary>
+            Reduces the Player's Health by a specified amount of Damage
+            </summary>
+            <param name="Damage">Damage to be inflicted to the Player</param>
+        </member>
+        <member name="M:Game.Player.GetHealth">
+            <summary>
+            Gets the Health of the Player
+            </summary>
+            <returns>fHealth</returns>
+        </member>
+        <member name="M:Game.Player.LevelUp">
+            <summary>
+            Levels the Player Up: raises maximal Health and adds an Edge
+            </summary>
+        </member>
+        <member name="M:Game.Player.RestartRegenerateTimer">
+            <summary>
+            Restarts cRegenerate
             </summary>
         </member>
         <member name="T:Game.Questtracker">
@@ -1060,10 +1592,139 @@
             <param name="iBossesKilled"></param>
             <returns></returns>
         </member>
+        <member name="F:Game.Statemachine.gCurrentState">
+            <summary>
+            Current State of the Game
+            </summary>
+        </member>
+        <member name="F:Game.Statemachine.gTargetState">
+            <summary>
+            Target State of the Game
+            </summary>
+        </member>
+        <member name="F:Game.Statemachine.gPreviousState">
+            <summary>
+            State of the Game in the last frame
+            </summary>
+        </member>
+        <member name="F:Game.Statemachine.sGameState">
+            <summary>
+            Instance of the Game State, main State
+            </summary>
+        </member>
+        <member name="F:Game.Statemachine.sGameOverState">
+            <summary>
+            Instance of the GameOver State
+            </summary>
+        </member>
+        <member name="F:Game.Statemachine.sMainMenuState">
+            <summary>
+            Instance of the MainMenu State
+            </summary>
+        </member>
+        <member name="F:Game.Statemachine.lDrawList">
+            <summary>
+            List to be drawed
+            </summary>
+        </member>
         <member name="M:Game.Statemachine.#ctor">
             <summary>
             Statemachine constructor
             </summary>
+        </member>
+        <member name="M:Game.Statemachine.Initialize">
+            <summary>
+            Initializes Variables
+            </summary>
+        </member>
+        <member name="M:Game.Statemachine.Update">
+            <summary>
+            Updates the Game
+            </summary>
+        </member>
+        <member name="M:Game.Statemachine.Draw">
+            <summary>
+            Draws the Game
+            </summary>
+        </member>
+        <member name="M:Game.Statemachine.InitializeState(Game.State)">
+            <summary>
+            Initializes a State when the State of the Game just changed
+            </summary>
+            <param name="sState">State to be initialized</param>
+        </member>
+        <member name="M:Game.Statemachine.DisposeState(Game.State)">
+            <summary>
+            Changes the current State if it's not equal to the target State
+            </summary>
+            <param name="sState">State to be disposed</param>
+        </member>
+        <member name="M:Game.Program.Main(System.String[])">
+            <summary>
+            Entry Point of the Solution, Instantiates Statemachine and runs it
+            </summary>
+            <param name="args"></param>
+        </member>
+        <member name="F:Game.StateGame.gTargetState">
+            <summary>
+            TargetState of the State
+            </summary>
+        </member>
+        <member name="F:Game.StateGame.eCurrentMap">
+            <summary>
+            Current MapState
+            </summary>
+        </member>
+        <member name="F:Game.StateGame.ePreviousMap">
+            <summary>
+            Previous MapState
+            </summary>
+        </member>
+        <member name="F:Game.StateGame.eTargetMap">
+            <summary>
+            Target MapState
+            </summary>
+        </member>
+        <member name="F:Game.StateGame.mMainMap">
+            <summary>
+            Instance of the main Map
+            </summary>
+        </member>
+        <member name="M:Game.StateGame.#ctor">
+            <summary>
+            Constructor of the StateGame
+            </summary>
+        </member>
+        <member name="M:Game.StateGame.Initialize">
+            <summary>
+            Initializes the State
+            </summary>
+        </member>
+        <member name="M:Game.StateGame.Update(SFML.Graphics.RenderWindow)">
+            <summary>
+            Updates the State and manages Maps
+            </summary>
+            <param name="rWindow">Needed to Calculate MousePosition from its origin</param>
+            <returns>gTargetState</returns>
+        </member>
+        <member name="M:Game.StateGame.Draw(SFML.Graphics.RenderWindow)">
+            <summary>
+            Returns a List with all the Element to draw
+            </summary>
+            <param name="window">Needed to draw TileMap</param>
+            <returns>lDrawList</returns>
+        </member>
+        <member name="M:Game.StateGame.InitializeState(Game.MapState)">
+            <summary>
+            Initializes a Map State when the Map State just changed
+            </summary>
+            <param name="mState">Map State to be initialized</param>
+        </member>
+        <member name="M:Game.StateGame.DisposeState(Game.MapState)">
+            <summary>
+            Changes the current Map State if it's not equal to the target State
+            </summary>
+            <param name="mState">Map State to be disposed</param>
         </member>
         <member name="T:Game.Tilez">
             <summary>
@@ -1220,6 +1881,58 @@
             </summary>
             <param name="window"></param>
             <param name="v2fTileMapPosition"></param>
+        </member>
+        <member name="T:Game.Utilities">
+            <summary>
+            Class with useful mathematical operations
+            </summary>
+        </member>
+        <member name="M:Game.Utilities.AngleBetweenVectors180(SFML.System.Vector2f,SFML.System.Vector2f)">
+            <summary>
+            Calculates the Angle between two Vectors
+            </summary>
+            <param name="Vector1">Vector 1</param>
+            <param name="Vector2">Vector 2</param>
+            <returns></returns>
+        </member>
+        <member name="M:Game.Utilities.AngleBetweenVectors360(SFML.System.Vector2f,SFML.System.Vector2f)">
+            <summary>
+            Calculates the Angle between two Vectors clockwise (Can be over 180)
+            </summary>
+            <param name="Vector1">Vector 1</param>
+            <param name="Vector2">Vector 2</param>
+            <returns></returns>
+        </member>
+        <member name="M:Game.Utilities.DistanceToVectorFromOrigin(SFML.System.Vector2f)">
+            <summary>
+            Calculates Distance between a Vector and Origin
+            </summary>
+            <param name="Vector1">Vector to calculate Distance to</param>
+            <returns></returns>
+        </member>
+        <member name="M:Game.Utilities.DistanceBetweenVectors(SFML.System.Vector2f,SFML.System.Vector2f)">
+            <summary>
+            Calculates Distance between two Vectors
+            </summary>
+            <param name="Vector1">Vector used as Origin</param>
+            <param name="Vector2">Vector 2</param>
+            <returns></returns>
+        </member>
+        <member name="M:Game.Utilities.MakePositive(System.Single)">
+            <summary>
+            Turns a number to its equivalent positive value
+            </summary>
+            <param name="float1">Number to turn positive</param>
+            <returns>Positive Number</returns>
+        </member>
+        <member name="M:Game.Utilities.VectorRotation(System.Single,SFML.System.Vector2f,SFML.System.Vector2f)">
+            <summary>
+            Rotates a Vector
+            </summary>
+            <param name="fAngle">Angle to rotate the Vector</param>
+            <param name="vVectorToRotate">Vector to rotate</param>
+            <param name="vOrigin">Origin of the Vector to Rotate</param>
+            <returns></returns>
         </member>
     </members>
 </doc>

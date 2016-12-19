@@ -10,19 +10,44 @@ using SFML.Audio;
 
 namespace Game
 {
+    /// <summary>
+    /// Object that has a Position, Texture and Sprite
+    /// </summary>
     public abstract class Entity
     {
+        /// <summary>
+        /// Position (on the Top Left) of the Entity
+        /// </summary>
         protected Vector2f vEntityPosition;
+
+        /// <summary>
+        /// Position (on the Bottom Left) of the Entity
+        /// </summary>
         protected Vector2f vEntityPositionBottomLeft;
+
+        /// <summary>
+        /// Position (on the Top Right) of the Entity
+        /// </summary>
         protected Vector2f vEntityPositionTopRight;
 
+        /// <summary>
+        /// Tilemap used for Collisiondetection
+        /// </summary>
         protected static TileArrayCreation tTileMap;
 
         /// <summary>
         /// Determines look of the Entity. 
         /// </summary>
         protected EntityAppearance eAppearance;
+
+        /// <summary>
+        /// Texture of the Entity
+        /// </summary>
         protected Texture tEntity;
+
+        /// <summary>
+        /// Sprite of the Entity
+        /// </summary>
         protected Sprite sEntity;
 
         /// <summary>
@@ -30,24 +55,43 @@ namespace Game
         /// </summary>
         protected bool bIsBoss = false;
 
+
+        /// <summary>
+        /// Gets the Appearance of the Enemy
+        /// </summary>
+        /// <returns>eAppearance</returns>
         public EntityAppearance GetAppearance()
         {
             return eAppearance;
         }
 
-        public bool GetIsBoss()
-        {
-            return bIsBoss;
-        }
 
+        /// <summary>
+        /// Gets the virtual Position of the Entity (aka if the Player would move, not the Map)
+        /// </summary>
+        /// <returns>vEntityPosition</returns>
         public Vector2f GetVirtualPosition()
         {
             return vEntityPosition;
         }
 
+
+        /// <summary>
+        /// Gets the Position of the Entity
+        /// </summary>
         public Vector2f GetPosition()
         {
             return sEntity.Position - new Vector2f(25,25);
+        }
+
+
+        /// <summary>
+        /// Returns true if Enemy is Boss-type
+        /// </summary>
+        /// <returns>bIsBoss</returns>
+        public bool GetIsBoss()
+        {
+            return bIsBoss;
         }
 
 
@@ -111,7 +155,13 @@ namespace Game
             return 0;
         }
 
-        protected bool SimpleCollisionDetection(Vector2f vEntityPosition, uint uLength, uint uHeight)
+        /// <summary>
+        /// Simple Collision Detection, return true if Collision
+        /// </summary>
+        /// <param name="vEntityPosition">Position of the Entity</param>
+        /// <param name="uWidth">Width of the tEntity</param>
+        /// <param name="uHeight">Height of the tEntity</param>
+        protected bool SimpleCollisionDetection(Vector2f vEntityPosition, uint uWidth, uint uHeight)
         {
             Vector2f vEntityPos = vEntityPosition - MainMap.GetTileMapPosition();
 
@@ -141,10 +191,10 @@ namespace Game
                            vEntityPos.X < (x + 1) * 50                          &&      vEntityPos.X > x * 50                       ||
 
                            vEntityPos.Y < (y + 1) * 50                          &&      vEntityPos.Y > y * 50                       &&
-                           vEntityPos.X + uLength < (x + 1) * 50                &&      vEntityPos.X + uLength > x * 50             ||
+                           vEntityPos.X + uWidth < (x + 1) * 50                &&      vEntityPos.X + uWidth > x * 50             ||
 
                            vEntityPos.Y + uHeight < (y + 1) * 50                &&      vEntityPos.Y + uHeight > y * 50             &&
-                           vEntityPos.X + uLength < (x + 1) * 50                &&      vEntityPos.X + uLength > x * 50)
+                           vEntityPos.X + uWidth < (x + 1) * 50                &&      vEntityPos.X + uWidth > x * 50)
                         {
                             return true;
                         }

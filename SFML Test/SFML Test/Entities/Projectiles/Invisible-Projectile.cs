@@ -66,10 +66,5 @@ namespace Game
             else
                 return false;
         }
-
-        public Vector2f GetDirection()
-        {
-            return vDirection;
-        }
     }
 }

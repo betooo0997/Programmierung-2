@@ -156,16 +156,16 @@ namespace Game
         /// </summary>
         public override List<Drawable> Draw()
         {
-            drawList = new List<Drawable>();
+            lDrawList = new List<Drawable>();
 
-            CustomList.AddProjectiles(drawList, lProjectile);
+            CustomList.AddProjectiles(lDrawList, lProjectile);
 
-            drawList.Add(sEntity);
+            lDrawList.Add(sEntity);
 
             //DrawPathFinder(ffont);
             //ShowVectors();
 
-            return drawList;
+            return lDrawList;
         }
 
 
