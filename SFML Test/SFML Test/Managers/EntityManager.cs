@@ -34,6 +34,9 @@ namespace Game
         ProjectileEdge      = 101
     }
 
+    /// <summary>
+    /// Uses EntityArrayCreation to make the enemy array. Is able to return it in form of a list. 
+    /// </summary>
     class EntityManager
     {
         /// <summary>
@@ -42,17 +45,7 @@ namespace Game
         protected EntityArrayCreation entityArrayCreation;
 
         /// <summary>
-        /// Fixed size of the entity sprites. 
-        /// </summary>
-        protected static int entitySize = 50;
-
-        /// <summary>
-        /// Sprite Sheet used to draw all entities. 
-        /// </summary>
-        protected Sprite entitySheet;
-
-        /// <summary>
-        /// Returns the entity array created by the included instance of entityArrayCreation. 
+        /// Returns the two dimensional entity array created by the included instance of entityArrayCreation. 
         /// </summary>
         /// <returns></returns>
         public Enemy[,] GetEnemyArray()
@@ -61,7 +54,7 @@ namespace Game
         }
 
         /// <summary>
-        /// Returns the number of Columns of the enemy array created by the underlying Creator. 
+        /// Returns an integer reflecting the number of Columns of the enemy array created by the underlying Creator. 
         /// </summary>
         /// <returns></returns>
         public int GetArrayNumberColumns()
@@ -70,7 +63,7 @@ namespace Game
         }
 
         /// <summary>
-        /// Returns the number of Rows of the enemy array created by the underlying Creator. 
+        /// Returns an integer reflecting the number of Rows of the enemy array created by the underlying Creator. 
         /// </summary>
         /// <returns></returns>
         public int GetArrayNumberRows()
@@ -82,15 +75,14 @@ namespace Game
         /// Requires the Instance of TileManager und the .txt file used to create the current level. 
         /// </summary>
         /// <param name="tileManager"></param>
-        /// <param name="enemyLayout"></param>
-        public EntityManager(TileManager tileManager, string[] enemyLayout)
+        /// <param name="sEnemyLayout"></param>
+        public EntityManager(TileManager tileManager, string[] sEnemyLayout)
         {
-            entityArrayCreation = new EntityArrayCreation(tileManager, enemyLayout);
-            entitySheet = new Sprite(ContentLoader.textureTileSheet);
+            entityArrayCreation = new EntityArrayCreation(tileManager, sEnemyLayout);
         }
 
         /// <summary>
-        /// Returns a list of Enemies created in dependency of the initial Entity array, so Enemies get their type and spawn location. Ignores all non-hostile Entities. 
+        /// Returns a list of Enemies created in dependency of the initial Entity array, so Enemies get their type and spawn location. 
         /// </summary>
         /// <returns></returns>
         public List<Enemy> ReturnListCreatedOutOfArray()
@@ -112,107 +104,6 @@ namespace Game
             }
 
             return list;
-        }
-
-        /// <summary>
-        /// Draw function to render a chosen Entity in dependency on its position and appearance. 
-        /// </summary>
-        /// <param name="window"></param>
-        /// <param name="entity"></param>
-        public void DrawChosenEntity(RenderWindow window, Entity entity)
-        {
-            entitySheet.Position = entity.GetPosition();
-            entitySheet.TextureRect = EntitySourceDeterminat0r(entity.GetAppearance());
-
-            window.Draw(entitySheet);
-        }
-
-        /// <summary>
-        /// Returns the Source Rectangle for the chosen Entity Appearance on the Entity Sheet. 
-        /// </summary>
-        /// <param name="appearance"></param>
-        /// <returns></returns>
-        protected IntRect EntitySourceDeterminat0r(EntityAppearance appearance)
-        {
-            int column = 0;
-            int row = 0;
-
-            switch (appearance)
-            {
-                case EntityAppearance.ProjectileEdge:
-                    column = 1;
-                    row = 40;
-                    break;
-                case EntityAppearance.ProjectileVector:
-                    column = 0;
-                    row = 40;
-                    break;
-                case EntityAppearance.PentagonCenturio:
-                    column = 1;
-                    row = 2;
-                    break;
-                case EntityAppearance.PentagonCivil:
-                    column = 0;
-                    row = 2;
-                    break;
-                case EntityAppearance.SquareGeneral:
-                    column = 5;
-                    row = 1;
-                    break;
-                case EntityAppearance.SquareCommander:
-                    column = 4;
-                    row = 1;
-                    break;
-                case EntityAppearance.SquareSoldier3:
-                    column = 3;
-                    row = 1;
-                    break;
-                case EntityAppearance.SquareSoldier2:
-                    column = 2;
-                    row = 1;
-                    break;
-                case EntityAppearance.SquareSoldier1:
-                    column = 1;
-                    row = 1;
-                    break;
-                case EntityAppearance.SquareCivil:
-                    column = 0;
-                    row = 1;
-                    break;
-                case EntityAppearance.TriangleLord:
-                    column = 6;
-                    row = 0;
-                    break;
-                case EntityAppearance.TriangleBomber:
-                    column = 5;
-                    row = 0;
-                    break;
-                case EntityAppearance.TriangleBrute:
-                    column = 4;
-                    row = 0;
-                    break;
-                case EntityAppearance.TriangleBandit3:
-                    column = 3;
-                    row = 0;
-                    break;
-                case EntityAppearance.TriangleBandit2:
-                    column = 2;
-                    row = 0;
-                    break;
-                case EntityAppearance.TriangleBandit1:
-                    column = 1;
-                    row = 0;
-                    break;
-                case EntityAppearance.TriangleCivil:
-                    column = 0;
-                    row = 0;
-                    break;
-                default:
-                    column = 0;
-                    row = 0;
-                    break;
-            }
-            return new IntRect(column * entitySize, row * entitySize, entitySize, entitySize);
         }
     }
 }

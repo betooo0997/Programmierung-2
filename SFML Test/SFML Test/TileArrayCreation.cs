@@ -32,39 +32,54 @@ namespace Game
         /// <summary>
         /// Hardcoded and never changing value to determine ... well, your guess. 
         /// </summary>
-        protected static int tileSize = 50;
+        protected static int iTileSize = 50;
         /// <summary>
         /// Is generated in the constructor depending on the longest line in the source file (exactly: Biggest number of chars in the longest entry of the received string array). 
         /// </summary>
-        protected static int numberColumns;
+        protected static int iNumberColumns;
         /// <summary>
         /// Is generated in the consctructor depending on the number of lines in the source file (exactly: Number of entries in the received string array). 
         /// </summary>
-        protected static int numberRows;
+        protected static int iNumberRows;
         /// <summary>
         /// Return value 
         /// </summary>
-        protected static Tilez[,] currentLevel;
+        protected static Tilez[,] e2CurrentLevel;
 
-   
+        /// <summary>
+        /// Returns the two dimensional Tilez array. 
+        /// </summary>
+        /// <returns></returns>
         public Tilez[,] GetTilezArray()
         {
-            return currentLevel;
+            return e2CurrentLevel;
         }
 
+        /// <summary>
+        /// Returns a positive static integer mirroring the standard tile size. 
+        /// </summary>
+        /// <returns></returns>
         public int GetTileSize()
         {
-            return tileSize;
+            return iTileSize;
         }
 
+        /// <summary>
+        /// Returns an integer showing the number of columns of the current level Tilez array. 
+        /// </summary>
+        /// <returns></returns>
         public int GetNumberColumns()
         {
-            return numberColumns;
+            return iNumberColumns;
         }
 
+        /// <summary>
+        /// Returns an integer showing the number of rows of the current level Tilez array. 
+        /// </summary>
+        /// <returns></returns>
         public int GetNumberRows()
         {
-            return numberRows;
+            return iNumberRows;
         }
 
         /// <summary>
@@ -73,21 +88,22 @@ namespace Game
         /// <param name="stringCurrentLevel"></param>
         public TileArrayCreation(string[] stringCurrentLevel)
         {
+            iNumberColumns = 0;
             // Determines the number of Columns for the current level depending on the longest line in the source.
             for (int x = 0; x < stringCurrentLevel.Length; x++)
             {
-                if (stringCurrentLevel[x].Length > numberColumns)
+                if (stringCurrentLevel[x].Length > iNumberColumns)
                 {
-                    numberColumns = stringCurrentLevel[x].Length;
+                    iNumberColumns = stringCurrentLevel[x].Length;
                 }
             }
 
 
             // Determines the number of Rows for the current level depending on the number of Rows in the source.
-            numberRows = stringCurrentLevel.Length;
+            iNumberRows = stringCurrentLevel.Length;
 
 
-            currentLevel = new Tilez[numberColumns, numberRows];
+            e2CurrentLevel = new Tilez[iNumberColumns, iNumberRows];
 
 
             // Creates the Tile Array for the Tile Manager out off the source.
@@ -97,7 +113,7 @@ namespace Game
 
             while (yCoord < stringCurrentLevel.Length && xCoord < stringCurrentLevel[yCoord].Length)
             {
-                currentLevel[xCoord, yCoord] = TileConversation(stringCurrentLevel[yCoord][xCoord]);
+                e2CurrentLevel[xCoord, yCoord] = TileConversation(stringCurrentLevel[yCoord][xCoord]);
 
                 xCoord++;
                 if (xCoord >= stringCurrentLevel[yCoord].Length)
@@ -106,16 +122,25 @@ namespace Game
                     yCoord++;
                 }
             }
+
+            // Ensures that the player does not spawn on a tile with collision. 
+            if (iNumberColumns >= 18 && iNumberRows >= 10)
+            {
+                if (CollisionReturner(e2CurrentLevel[18, 10]))
+                {
+                    e2CurrentLevel[18, 10] = Tilez.groundStone;
+                }
+            }
         }
 
         /// <summary>
         /// A hardcoded List of all available Types of Tiles. This method determines specific tile types in the array and is soly used by the consctructor of this class. 
         /// </summary>
-        /// <param name="tile"></param>
+        /// <param name="chTile"></param>
         /// <returns></returns>
-        protected Tilez TileConversation(Char tile)
+        protected Tilez TileConversation(Char chTile)
         {
-            switch (tile)
+            switch (chTile)
             {
                 case 'e':
                     return Tilez.water;
@@ -149,18 +174,18 @@ namespace Game
         }
 
         /// <summary>
-        /// Soly to return a collision bool. Unused coordinates in the array, like negative values or to big ones, always return false. 
+        /// Soly to return a collision bool at specific coordinates if the tile map array. Unused coordinates, like negative values or too big ones, always return true. 
         /// </summary>
         /// <param name="tile"></param>
         /// <returns></returns>
-        public static bool CollisionReturner(int xCoord, int yCoord)
+        public static bool CollisionReturner(int iXCoord, int iYCoord)
         {
-            if(xCoord < 0 || xCoord >= numberColumns || yCoord < 0 || yCoord >= numberRows)
+            if(iXCoord < 0 || iXCoord >= iNumberColumns || iYCoord < 0 || iYCoord >= iNumberRows)
             {
                 return true;
             }
             else 
-            switch (currentLevel[xCoord, yCoord])
+            switch (e2CurrentLevel[iXCoord, iYCoord])
             {
                 case Tilez.water:
                     return true;
@@ -181,14 +206,20 @@ namespace Game
             }
         }
 
-        public static bool CollisionReturnerProjectiles(int xCoord, int yCoord)
+        /// <summary>
+        /// Slightly alternated list of tiles with collision to match projectile requirements. Soly to return a collision bool at specific coordinates if the tile map array. Unused coordinates, like negative values or too big ones, always return true. 
+        /// </summary>
+        /// <param name="iXCoord"></param>
+        /// <param name="iYCoord"></param>
+        /// <returns></returns>
+        public static bool CollisionReturnerProjectiles(int iXCoord, int iYCoord)
         {
-            if (xCoord < 0 || xCoord >= numberColumns || yCoord < 0 || yCoord >= numberRows)
+            if (iXCoord < 0 || iXCoord >= iNumberColumns || iYCoord < 0 || iYCoord >= iNumberRows)
             {
                 return true;
             }
             else
-                switch (currentLevel[xCoord, yCoord])
+                switch (e2CurrentLevel[iXCoord, iYCoord])
                 {
                     case Tilez.obstacleStone:
                         return true;
@@ -207,9 +238,14 @@ namespace Game
                 }
         }
 
-        public static bool CollisionReturner(Tilez Tile)
+        /// <summary>
+        /// Returns collision bool in dependency of the given Tilez type 
+        /// </summary>
+        /// <param name="eTile"></param>
+        /// <returns></returns>
+        public static bool CollisionReturner(Tilez eTile)
         {
-            switch (Tile)
+            switch (eTile)
             {
                 case Tilez.groundGrass:
                     return false;

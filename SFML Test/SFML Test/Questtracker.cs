@@ -10,6 +10,9 @@ using SFML.Audio;
 
 namespace Game
 {
+    /// <summary>
+    /// Generates a string to display quest status. Initial Quest text is generated in dependency of the enemy array. Update needs to know how many bosses have already been defeated. 
+    /// </summary>
     class Questtracker
     {
         /// <summary>
@@ -27,6 +30,10 @@ namespace Game
         /// </summary>
         protected uint uiBossesSlayed;
 
+        /// <summary>
+        /// Returns the quest string in its recent form. 
+        /// </summary>
+        /// <returns></returns>
         public string GetQuestString()
         {
             return sQuesttext;
