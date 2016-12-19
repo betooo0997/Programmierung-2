@@ -130,23 +130,19 @@ namespace Game
                         uiKillCount++;
                         Player.LevelUp();
                     }
-
                     SoundManager.PlaySpecificSound(Sounds.Death);
 
-                    for (int y = x; y < lEnemies.Count - 1; y++)
-                        lEnemies[x] = lEnemies[x + 1];
-
-                    lEnemies[lEnemies.Count - 1] = null;
-                    lEnemies.RemoveAt(lEnemies.Count - 1);
+                    lEnemies.RemoveAt(x);
                 }
             }
+
+            Console.WriteLine(lEnemies.Count);
 
             cPlayer.Update(ref vCharacterVirtualPosition, ref up, ref down, ref right, ref left);
 
             textQuest = new Text(questTracker.Update(uiKillCount), font, 20);
 
             iInput.Update(ref vCharacterVirtualPosition, ref Player.fSpeed, up, right, down, left, window);
-
 
             return targetLevel;
         }
@@ -177,10 +173,40 @@ namespace Game
             if(cText != null)
             tText = cText.ElapsedTime;
 
-            if (tText.AsSeconds() <= 10)
+            if (tText.AsSeconds() <= 5)
             {
-                drawList.AddElement(TextStreamer.TextForPlayer("Dreieckige Sandwiches für Alle!", new Color(100, 0, 100), 100, 2));
-                drawList.AddElement(TextStreamer.TextForPlayer("Nieder mit den Vierecken!", new Color(100, 0, 100), 100, 0));
+                RectangleShape rShape = new RectangleShape(new Vector2f(20, 15));
+                rShape.FillColor = Color.White;
+                rShape.OutlineThickness = 2;
+                rShape.OutlineColor = Color.Black;
+                rShape.Position = new Vector2f(877, 490);
+
+                drawList.AddElement(rShape);
+
+                rShape = new RectangleShape(new Vector2f(30, 20));
+                rShape.FillColor = Color.White;
+                rShape.OutlineThickness = 2;
+                rShape.OutlineColor = Color.Black;
+                rShape.Position = new Vector2f(847, 470);
+
+                drawList.AddElement(rShape);
+
+                rShape = new RectangleShape(new Vector2f(50, 25));
+                rShape.FillColor = Color.White;
+                rShape.OutlineThickness = 2;
+                rShape.OutlineColor = Color.Black;
+                rShape.Position = new Vector2f(805, 450);
+
+                drawList.AddElement(rShape);
+
+                rShape = new RectangleShape(new Vector2f(200, 50));
+                rShape.FillColor = Color.White;
+                rShape.OutlineThickness = 2;
+                rShape.OutlineColor = Color.Black;
+                rShape.Position = new Vector2f(702, 409);
+
+                drawList.AddElement(rShape);
+                drawList.AddElement(TextStreamer.TextForPlayer("Tod den Ecksisten!!", new Vector2f(710, 420)));
             }
             else
                 cText = null;

@@ -282,8 +282,8 @@ namespace Game
                 if (DisposeInvisibleProjectile(lInvisibleProjectileLeft))
                     DisposingInvisibleListLeft = true;
 
-                if (DisposeInvisibleProjectile(lInvisibleProjectileMiddle))
-                    DisposingInvisibleListMiddle = true;
+                //if (DisposeInvisibleProjectile(lInvisibleProjectileMiddle))
+                //    DisposingInvisibleListMiddle = true;
 
                 if (DisposeInvisibleProjectile(lInvisibleProjectileRight))
                     DisposingInvisibleListRight = true;
@@ -368,8 +368,8 @@ namespace Game
             iProjectile = new InvisibleProjectile(fAnglecopy, vEnemyShootingLeft, vEnemyShootingMiddle + (vEnemyShootingLeft - sEntity.Position), 3.5f);
             lInvisibleProjectileRight.Add(iProjectile);
 
-            iProjectile = new InvisibleProjectile(fAnglecopy, sEntity.Position, vEnemyShootingMiddle, 3.5f);
-            lInvisibleProjectileMiddle.Add(iProjectile);
+            //iProjectile = new InvisibleProjectile(fAnglecopy, sEntity.Position, vEnemyShootingMiddle, 3.5f);
+            //lInvisibleProjectileMiddle.Add(iProjectile);
 
             iProjectile = new InvisibleProjectile(fAnglecopy, vEnemyShootingRight, vEnemyShootingMiddle + (vEnemyShootingRight - sEntity.Position), 3.5f);
             lInvisibleProjectileLeft.Add(iProjectile);

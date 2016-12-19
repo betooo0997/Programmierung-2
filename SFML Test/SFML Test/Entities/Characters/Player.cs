@@ -58,8 +58,8 @@ namespace Game
             sCharacter.OutlineThickness = 1;
             sCharacter.OutlineColor = Color.Black;
             fHealth = 1000;
-            fSpeed = 1.5f;
-            uDamage = 20;
+            fSpeed = 4f;
+            uDamage = 200;
             iHealthMax = (int)fHealth;
             fProcentualHealth = (float)fHealth / (float)iHealthMax;
         }
@@ -99,8 +99,6 @@ namespace Game
                 if (fHealth > iHealthMax)
                     fHealth = iHealthMax;
             }
-            Console.Clear();
-            Console.WriteLine(fHealth);
         }
 
 

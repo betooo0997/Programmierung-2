@@ -90,6 +90,30 @@
     <Compile Include="Useful Classes\Utilities.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="bin\Debug\CONTENT\113087__edgardedition__click2_16Bit.wav" />
+    <Content Include="bin\Debug\CONTENT\151713__bowlingballout__pvc-rocket-cannon_16Bit.wav" />
+    <Content Include="bin\Debug\CONTENT\156895__halgrimm__a-shot.wav" />
+    <Content Include="bin\Debug\CONTENT\173126__replix__death-sound-male.wav" />
+    <Content Include="bin\Debug\CONTENT\MainMap.txt" />
+    <Content Include="bin\Debug\CONTENT\MainMapEnemies.txt" />
+    <Content Include="bin\Debug\CONTENT\PentagonCenturio.png" />
+    <Content Include="bin\Debug\CONTENT\PentagonCivil.png" />
+    <Content Include="bin\Debug\CONTENT\ProjectileEdge.png" />
+    <Content Include="bin\Debug\CONTENT\ProjectileVector.png" />
+    <Content Include="bin\Debug\CONTENT\SquareCivil.png" />
+    <Content Include="bin\Debug\CONTENT\SquareCommander.png" />
+    <Content Include="bin\Debug\CONTENT\SquareGeneral.png" />
+    <Content Include="bin\Debug\CONTENT\SquareSoldier1.png" />
+    <Content Include="bin\Debug\CONTENT\SquareSoldier2.png" />
+    <Content Include="bin\Debug\CONTENT\SquareSoldier3.png" />
+    <Content Include="bin\Debug\CONTENT\TileSheet.png" />
+    <Content Include="bin\Debug\CONTENT\TriangleBandit1.png" />
+    <Content Include="bin\Debug\CONTENT\TriangleBandit2.png" />
+    <Content Include="bin\Debug\CONTENT\TriangleBandit3.png" />
+    <Content Include="bin\Debug\CONTENT\TriangleBomber.png" />
+    <Content Include="bin\Debug\CONTENT\TriangleBrute.png" />
+    <Content Include="bin\Debug\CONTENT\TriangleCivil.png" />
+    <Content Include="bin\Debug\CONTENT\TriangleLord.png" />
     <Content Include="Content\113087__edgardedition__click2_16Bit.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

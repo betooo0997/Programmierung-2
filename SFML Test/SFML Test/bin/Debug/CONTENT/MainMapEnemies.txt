@@ -1,9 +1,35 @@
 
+<<<<<<< HEAD
 
 
 
 
 
+=======
+                                 a            a 
+                                                                    a 
+                                                                                                          a                   a 
+ 
+ 
+ 
+                                                                                                                                                    a
+ 
+                                   a 
+ 
+ 
+                                                                  a 
+                                                                                a        a        a                                                            a 
+ 
+               a                                                                                                                  a                             
+                                                                                                          a                               a                 a    a
+                                                                                                             a                         a  
+                                            a                                                         a                             a       a    
+             a 
+ 
+                 a                                        a 
+                                                                                          a   a 
+                                                   a                  a 
+>>>>>>> origin/master
  
  
                                                      
