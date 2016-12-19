@@ -162,8 +162,8 @@ namespace Game
 
             lDrawList.Add(sEntity);
 
-            DrawPathFinder(ffont);
-            ShowVectors();
+            //DrawPathFinder(ffont);
+            //ShowVectors();
 
             return lDrawList;
         }
