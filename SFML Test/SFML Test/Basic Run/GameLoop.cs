@@ -43,7 +43,6 @@ namespace Game
         /// </summary>
         protected Clock cFpsSet;
 
-
         /// <summary>
         /// Timer used to calculate  when to update the Game Logic
         /// </summary>
@@ -54,21 +53,22 @@ namespace Game
         /// </summary>
         protected Time tFpsReview;
 
-
         /// <summary>
         /// Amount of frames updated in 1 Second
         /// </summary>
         protected uint iframesreview;
-
-        protected uint iframesreview2;
-
 
         /// <summary>
         /// Limit of Frames per Seconds in the Game Logic
         /// </summary>
         protected uint iFPSlimit;
 
+        /// <summary>
+        /// Indicates whether the Game has been drawed since the last Upadte or not
+        /// </summary>
         bool UpdateTime;
+
+
 
 
         /// <summary>
@@ -90,6 +90,7 @@ namespace Game
             iFPSlimit = 100;
             UpdateTime = true;
         }
+
 
         /// <summary>
         /// Gameloop Update
@@ -136,19 +137,32 @@ namespace Game
                 tFpsReview = cFpsReview.ElapsedTime;
                 if (tFpsReview.AsMilliseconds() >= 1000)
                 {
-                    Console.Clear();
-                    Console.WriteLine(iframesreview + " Frames per Second");
+                    //Console.Clear();
+                    //Console.WriteLine(iframesreview + " Frames per Second");
                     iframesreview = 0;
                     cFpsReview.Restart();
                 }
             }
         }
 
+
+        /// <summary>
+        /// Initializes Variables
+        /// </summary>
         protected abstract void Initialize();
 
+
+        /// <summary>
+        /// Updates the Game
+        /// </summary>
         protected abstract void Update();
 
+
+        /// <summary>
+        /// Draws the Game
+        /// </summary>
         protected abstract void Draw();
+
 
         /// <summary>
         /// Closes Window
@@ -160,6 +174,11 @@ namespace Game
             Window.Close();
         }
 
+
+        /// <summary>
+        /// Gets the Window Size of the Game
+        /// </summary>
+        /// <returns>Window Size</returns>
         public static Vector2f GetWindowSize()
         {
             return new Vector2f(windowWidth, windowHeight);

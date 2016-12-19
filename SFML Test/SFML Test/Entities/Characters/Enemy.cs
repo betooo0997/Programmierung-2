@@ -780,7 +780,7 @@ namespace Game
 
                 cShape = new CircleShape(5);
                 cShape.FillColor = Color.White;
-                cShape.Position = Path[Path.Count - 1].Position + MainMap.GetTileMapPosition() + new Vector2f(25, 25) - new Vector2f(cShape.Radius, cShape.Radius);
+                cShape.Position = Path[Path.Count - 1].vPosition + MainMap.GetTileMapPosition() + new Vector2f(25, 25) - new Vector2f(cShape.Radius, cShape.Radius);
                 drawList.Add(cShape);
             }
         }
@@ -802,7 +802,7 @@ namespace Game
                 cShape.Origin = new Vector2f(25, 25);
                 cShape.Rotation = 45;
                 cShape.FillColor = Color.Cyan;
-                cShape.Position = Closed[x].Position * 50 + MainMap.GetTileMapPosition() + new Vector2f(25, 25);
+                cShape.Position = Closed[x].vPosition * 50 + MainMap.GetTileMapPosition() + new Vector2f(25, 25);
                 drawList.Add(cShape);
 
                 tText = new Text(Closed[x].iFCost.ToString(), ffont, 15);
@@ -830,7 +830,7 @@ namespace Game
                 cShape.Origin = new Vector2f(25, 25);
                 cShape.Rotation = 45;
                 cShape.FillColor = Color.Blue;
-                cShape.Position = Path[x].Position + MainMap.GetTileMapPosition() + new Vector2f(25, 25);
+                cShape.Position = Path[x].vPosition + MainMap.GetTileMapPosition() + new Vector2f(25, 25);
                 drawList.Add(cShape);
 
                 tText = new Text(Path[x].iFCost.ToString(), ffont, 15);
@@ -858,7 +858,7 @@ namespace Game
                 cShape.Origin = new Vector2f(25, 25);
                 cShape.Rotation = 45;
                 cShape.FillColor = Color.Black;
-                cShape.Position = Path[Path.Count - 1].Position + MainMap.GetTileMapPosition() + new Vector2f(25, 25);
+                cShape.Position = Path[Path.Count - 1].vPosition + MainMap.GetTileMapPosition() + new Vector2f(25, 25);
                 drawList.Add(cShape);
 
                 tText = new Text(Path[Path.Count - 1].iFCost.ToString(), ffont, 15);
@@ -964,11 +964,11 @@ namespace Game
                 Open.RemoveAt(currentindex);
                 Closed.Add(nCurrent);
 
-                if (nCurrent.Position == targetNode.Position)
+                if (nCurrent.vPosition == targetNode.vPosition)
                     break;
                 
-                int X = (int)nCurrent.Position.X;
-                int Y = (int)nCurrent.Position.Y;
+                int X = (int)nCurrent.vPosition.X;
+                int Y = (int)nCurrent.vPosition.Y;
 
                 Node[] neighbour = new Node[] { };
 
@@ -977,21 +977,21 @@ namespace Game
 
                 foreach (Node element in neighbour)
                 {
-                    if (element.Collision || Closed.Exists(x => x.Position == element.Position))
+                    if (element.bCollision || Closed.Exists(x => x.vPosition == element.vPosition))
                         continue;
 
-                    if (Open.Find(x => x.Position == element.Position) == null)
+                    if (Open.Find(x => x.vPosition == element.vPosition) == null)
                     {
-                        element.ParentNode = nCurrent;
+                        element.nParent = nCurrent;
 
                         Open.Add(element);
                     }
 
-                    else if (element.iFCost < Open.Find(x => x.Position == element.Position).iFCost)
+                    else if (element.iFCost < Open.Find(x => x.vPosition == element.vPosition).iFCost)
                     {
-                        element.ParentNode = nCurrent;
+                        element.nParent = nCurrent;
 
-                        Open[Open.IndexOf((Open.Find(x => x.Position == element.Position)))] = element;
+                        Open[Open.IndexOf((Open.Find(x => x.vPosition == element.vPosition)))] = element;
                     }
                 }
             }
@@ -1001,9 +1001,9 @@ namespace Game
 
             while (NodeWay != startNode)
             {
-                NodeWay.Position *= 50;
+                NodeWay.vPosition *= 50;
                 Path.Add(NodeWay);
-                NodeWay = NodeWay.ParentNode;
+                NodeWay = NodeWay.nParent;
             }
         }
 

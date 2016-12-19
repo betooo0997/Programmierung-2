@@ -37,16 +37,16 @@ namespace Game
             vEntitymovement = new Vector2f(0, 0);
 
             if (Input.bMovingLeft)
-                vEntitymovement.X += Input.fCharacterVelocity;
+                vEntitymovement.X += Input.fPlayerVelocity;
 
             if (Input.bMovingRight)
-                vEntitymovement.X -= Input.fCharacterVelocity;
+                vEntitymovement.X -= Input.fPlayerVelocity;
 
             if (Input.bMovingUp)
-                vEntitymovement.Y += Input.fCharacterVelocity;
+                vEntitymovement.Y += Input.fPlayerVelocity;
 
             if (Input.bMovingDown)
-                vEntitymovement.Y -= Input.fCharacterVelocity;
+                vEntitymovement.Y -= Input.fPlayerVelocity;
         }
 
 

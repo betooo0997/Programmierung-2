@@ -10,7 +10,10 @@ using SFML.Audio;
 
 namespace Game
 {
-    class MainMap : LevelState
+    /// <summary>
+    /// Main Map of the Game
+    /// </summary>
+    class MainMap : MapState
     {
         // DECLARING VARIABLES: VECTORS
 
@@ -87,7 +90,9 @@ namespace Game
 
         // DECLARING VARIABLES: TEXTURES AND SPRITES
 
-        protected Texture textureTileSheet;
+        /// <summary>
+        /// Sprite Sheet that will be given to the Tile Manager. Loads dircetly from the corresponding texture in Content Loader
+        /// </summary>
         protected Sprite tileSheet;
 
 
@@ -132,56 +137,49 @@ namespace Game
         public override void Initialize()
         {
             // SETTING TARGETLEVEL
-            targetLevel         = eSceneState.ssMain;
+            eTargetMap         = eMapState.ssMain;
 
             // SYNCHRONISING WITH CONTENTLOADER
-            font                = ContentLoader.fontArial;
-            textureTileSheet    = ContentLoader.textureTileSheet;
-
+            fFont              = ContentLoader.fontArial;
 
             // LEVEL TEXTFILE HAS TO BE CHOSEN
-            levelString         = System.IO.File.ReadAllLines(@"Content/MainMap.txt");
-            TileUndHerrsche     = new TileManager(levelString);
+            sMapString         = System.IO.File.ReadAllLines(@"Content/MainMap.txt");
+            tTileUndHerrsche     = new TileManager(sMapString);
 
 
             // ENEMY LAYOUT IN .txt HAS TO BE CHOSEN 
-            enemyLayoutString   = System.IO.File.ReadAllLines(@"Content/MainMapEnemies.txt");
-            entityManager       = new EntityManager(TileUndHerrsche, enemyLayoutString);
-
-
-            // INSTANTIATING OBJECTS: TEXTURES
-            tileSheet   = new Sprite(textureTileSheet);
-
-
-            // INSTANTIATING OBJECTS: OTHER
-            vPlayerStartPosition    = new Vector2f(900, 500);
-            vPlayerVirtualPosition = vPlayerStartPosition;
-            cPlayer = new Player(levelString, vPlayerVirtualPosition);
-            questTracker            = new Questtracker(entityManager.GetEnemyArray(), entityManager.GetArrayNumberColumns(), entityManager.GetArrayNumberRows());
-            textQuest               = new Text(questTracker.GetQuestString(), font, 20);
-            cText                   = new Clock();
-            cCamera                 = new Camera();
-            iInput                  = new Input();
-            vTileMapPosition        = new Vector2f();
-            textQuest.Position      = new Vector2f(20, 20);
-
-
-            // CHANGING OBJECT PARAMETERS
-            textureTileSheet.Smooth = true;
-            textQuest.Color         = Color.White;
+            sEnemyLayoutString   = System.IO.File.ReadAllLines(@"Content/MainMapEnemies.txt");
+            eEntityManager       = new EntityManager(tTileUndHerrsche, sEnemyLayoutString);
 
 
             // SETTING VARIABLES
             uiKillCount             = 0;
+            lEnemies                = eEntityManager.ReturnListCreatedOutOfArray();
+
+
+            // INSTANTIATING OBJECTS: OTHER
+            vPlayerStartPosition    = new Vector2f(900, 500);
+            vPlayerVirtualPosition  = vPlayerStartPosition;
+            pPlayer                 = new Player(sMapString, vPlayerVirtualPosition);
+            questTracker            = new Questtracker(eEntityManager.GetEnemyArray(), eEntityManager.GetArrayNumberColumns(), eEntityManager.GetArrayNumberRows());
+            textQuest               = new Text(questTracker.GetQuestString(), fFont, 20);
+            cText                   = new Clock();
+            cCamera                 = new Camera();
+            iInput                  = new Input();
+            vTileMapPosition        = new Vector2f();
             vPastTileMapPosition    = vTileMapPosition;
-            lEnemies                = entityManager.ReturnListCreatedOutOfArray();
+            textQuest.Position      = new Vector2f(20, 20);
+
+
+            // CHANGING OBJECT PARAMETERS
+            textQuest.Color         = Color.White;
         }
 
 
         /// <summary>
         /// Updates the Main Map Logic
         /// </summary>
-        public override eSceneState Update(RenderWindow window)
+        public override eMapState Update(RenderWindow window)
         {
             left = false;
             right = false;
@@ -220,13 +218,13 @@ namespace Game
                 }
             }
 
-            cPlayer.Update(ref vPlayerVirtualPosition, ref up, ref down, ref right, ref left);
+            pPlayer.Update(ref vPlayerVirtualPosition, ref up, ref down, ref right, ref left);
 
-            textQuest = new Text(questTracker.Update(uiKillCount), font, 20);
+            textQuest = new Text(questTracker.Update(uiKillCount), fFont, 20);
 
             iInput.Update(ref vPlayerVirtualPosition, ref Player.fSpeed, up, right, down, left, window);
 
-            return targetLevel;
+            return eTargetMap;
         }
 
 
@@ -236,10 +234,10 @@ namespace Game
         /// </summary>
         public override CustomList Draw(RenderWindow window)
         {
-            drawList = new CustomList();
+            lDrawList = new CustomList();
 
-            drawList.AddElement(textQuest);
-            drawList.AddList(cPlayer.Draw());
+            lDrawList.AddElement(textQuest);
+            lDrawList.AddList(pPlayer.Draw());
 
             for (int x = 0; x < lEnemies.Count; x++)
             {
@@ -249,7 +247,7 @@ namespace Game
                     EnemyPosition.Y > GameLoop.GetWindowSize().Y || EnemyPosition.Y < -50)
                     continue;
 
-                drawList.AddList(lEnemies[x].Draw());
+                lDrawList.AddList(lEnemies[x].Draw());
             }
 
             if(cText != null)
@@ -263,7 +261,7 @@ namespace Game
                 rShape.OutlineColor = Color.Black;
                 rShape.Position = new Vector2f(877, 490);
 
-                drawList.AddElement(rShape);
+                lDrawList.AddElement(rShape);
 
                 rShape = new RectangleShape(new Vector2f(30, 20));
                 rShape.FillColor = Color.White;
@@ -271,7 +269,7 @@ namespace Game
                 rShape.OutlineColor = Color.Black;
                 rShape.Position = new Vector2f(847, 470);
 
-                drawList.AddElement(rShape);
+                lDrawList.AddElement(rShape);
 
                 rShape = new RectangleShape(new Vector2f(50, 25));
                 rShape.FillColor = Color.White;
@@ -279,7 +277,7 @@ namespace Game
                 rShape.OutlineColor = Color.Black;
                 rShape.Position = new Vector2f(805, 450);
 
-                drawList.AddElement(rShape);
+                lDrawList.AddElement(rShape);
 
                 rShape = new RectangleShape(new Vector2f(200, 50));
                 rShape.FillColor = Color.White;
@@ -287,16 +285,16 @@ namespace Game
                 rShape.OutlineColor = Color.Black;
                 rShape.Position = new Vector2f(702, 409);
 
-                drawList.AddElement(rShape);
-                drawList.AddElement(TextStreamer.TextForPlayer("Tod den Ecksisten!!", new Vector2f(710, 420)));
+                lDrawList.AddElement(rShape);
+                lDrawList.AddElement(TextStreamer.TextForPlayer("Tod den Ecksisten!!", new Vector2f(710, 420)));
             }
             else
                 cText = null;
 
 
-            TileUndHerrsche.Draw(window, vTileMapPosition);
+            tTileUndHerrsche.Draw(window, vTileMapPosition);
 
-            return drawList;
+            return lDrawList;
         }
 
 
@@ -357,7 +355,7 @@ namespace Game
         /// <returns></returns>
         public static TileManager GetTileManager()
         {
-            return TileUndHerrsche;
+            return tTileUndHerrsche;
         }
     }
 }

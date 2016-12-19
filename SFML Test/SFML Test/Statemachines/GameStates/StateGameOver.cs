@@ -12,7 +12,7 @@ namespace Game
 {
     class StateGameOver : State
     {
-        protected static GameState targetState;
+        protected static eGameState targetState;
 
 
         //OTHER
@@ -30,7 +30,7 @@ namespace Game
 
         public override void Initialize()
         {
-            targetState = GameState.gsGameOver;
+            targetState = eGameState.gsGameOver;
 
             fFont = new Font(ContentLoader.fontArial);
 
@@ -40,10 +40,10 @@ namespace Game
             teContinue.Position = teGameOver.Position + new Vector2f(77,60);
         }
 
-        public override GameState Update(RenderWindow window)
+        public override eGameState Update(RenderWindow window)
         {
             if (Keyboard.IsKeyPressed(Keyboard.Key.Escape))
-                targetState = GameState.gsMainMenu;
+                targetState = eGameState.gsMainMenu;
 
             return targetState;
         }

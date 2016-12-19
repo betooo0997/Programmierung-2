@@ -10,100 +10,119 @@ using SFML.Audio;
 
 namespace Game
 {
+    /// <summary>
+    /// Class Used for simplifying the use of Lists
+    /// </summary>
     public class CustomList
     {
-        public List<Drawable> drawList;
+        /// <summary>
+        /// List to be drawed
+        /// </summary>
+        public List<Drawable> lDrawList;
 
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public CustomList()
         {
-            drawList = new List<Drawable>();
+            lDrawList = new List<Drawable>();
         }
 
 
+        /// <summary>
+        /// Counts the Elements of lDrawList
+        /// </summary>
         public int Count()
         {
-            int count = drawList.Count;
-
-            return count;
-        }
-
-        public void AddElement(Drawable drawable)
-        {
-            drawList.Add(drawable);
+            return lDrawList.Count;
         }
 
 
-        public void AddList(List<Drawable> drawable)
+        /// <summary>
+        /// Adds an Element to the lDrawList
+        /// </summary>
+        /// <param name="Ddrawable">Drawable to be added to the List</param>
+        public void AddElement(Drawable Ddrawable)
         {
-            for (int x = 0; x < drawable.Count; x++)
+            lDrawList.Add(Ddrawable);
+        }
+
+
+        /// <summary>
+        /// Adds a List to the lDrawList
+        /// </summary>
+        /// <param name="lDrawList"></param>
+        public void AddList(List<Drawable> lDrawList)
+        {
+            for (int x = 0; x < lDrawList.Count; x++)
             {
-                drawList.Add(drawable[x]);
+                this.lDrawList.Add(lDrawList[x]);
             }
         }
 
-        public static List<Drawable> AddProjectiles(List<Drawable> a, List<EnemyProjectile> b)
+
+        /// <summary>
+        /// Adds an EnemyProjectile List to a specified List
+        /// </summary>
+        /// <param name="lDrawList">DrawList</param>
+        /// <param name="lEnemyProjectile">EnemyProjectile List that will be added to the DrawList</param>
+        /// <returns>Merged List</returns>
+        public static List<Drawable> AddProjectiles(List<Drawable> lDrawList, List<EnemyProjectile> lEnemyProjectile)
         {
             List<Drawable> mergedList;
-            mergedList = a;
+            mergedList = lDrawList;
 
-            for (int x = 0; x < b.Count; x++)
-                mergedList.Add(b[x].Draw());
-
-            return mergedList;
-        }
-
-        public static List<Drawable> AddProjectiles(List<Drawable> a, List<InvisibleProjectile> b)
-        {
-            List<Drawable> mergedList;
-            mergedList = a;
-
-            for (int x = 0; x < b.Count; x++)
-                mergedList.Add(b[x].Draw());
-
-            return mergedList;
-        }
-
-        public static List<Drawable> AddProjectiles(List<Drawable> a, List<PlayerProjectile> b)
-        {
-            List<Drawable> mergedList;
-            mergedList = a;
-
-            for (int x = 0; x < b.Count; x++)
-                mergedList.Add(b[x].Draw());
+            for (int x = 0; x < lEnemyProjectile.Count; x++)
+                mergedList.Add(lEnemyProjectile[x].Draw());
 
             return mergedList;
         }
 
 
-        public void RemoveAt(int index)
+        /// <summary>
+        /// Adds a InvisibleProjectile List to a specified List
+        /// </summary>
+        /// <param name="lDrawList">DrawList</param>
+        /// <param name="lInvisibleProjectile">InvisibleProjectile List that will be added to the DrawList</param>
+        /// <returns>Merged List</returns>
+        public static List<Drawable> AddProjectiles(List<Drawable> lDrawList, List<InvisibleProjectile> lInvisibleProjectile)
         {
-            for (int x = index; x < drawList.Count; x++)
-            {
-                drawList[x] = drawList[x + 1];
-            }
+            List<Drawable> mergedList;
+            mergedList = lDrawList;
 
-            drawList.RemoveAt(drawList.Count);
+            for (int x = 0; x < lInvisibleProjectile.Count; x++)
+                mergedList.Add(lInvisibleProjectile[x].Draw());
+
+            return mergedList;
         }
 
 
-
-        public List<Drawable> MergeLists(List<Drawable> a, List<Drawable> b, List<Drawable> c)
+        /// <summary>
+        /// Adds a PlayerProjectile List to a specified List
+        /// </summary>
+        /// <param name="lDrawList">DrawList</param>
+        /// <param name="lPlayerProjectile">PlayerProjectile List that will be added to the DrawList</param>
+        /// <returns>Merged List</returns>
+        public static List<Drawable> AddProjectiles(List<Drawable> lDrawList, List<PlayerProjectile> lPlayerProjectile)
         {
-            drawList = a;
+            List<Drawable> mergedList;
+            mergedList = lDrawList;
 
-            for (int x = 0; x <= b.Count; x++)
-                drawList.Add(b[x]);
+            for (int x = 0; x < lPlayerProjectile.Count; x++)
+                mergedList.Add(lPlayerProjectile[x].Draw());
 
-            for (int x = 0; x <= c.Count; x++)
-                drawList.Add(c[x]);
-
-            return drawList;
+            return mergedList;
         }
 
 
+        /// <summary>
+        /// Draws the lDrawList
+        /// </summary>
+        /// <returns>lDrawList</returns>
         public List<Drawable> Draw()
         {
-            return drawList;
+            return lDrawList;
         }
     }
 }

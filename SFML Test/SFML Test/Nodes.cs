@@ -10,56 +10,111 @@ using SFML.Audio;
 
 namespace Game
 {
+    /// <summary>
+    /// Tilez with detailed Variables, used for Path Finding Algorithm
+    /// </summary>
     class Node
     {
-        public Tilez Tile;
+        /// <summary>
+        /// Tilez Type of the Node
+        /// </summary>
+        public Tilez tTile;
 
+        /// <summary>
+        /// iGCost of the Node, aka Distance to the StartNode
+        /// </summary>
         public uint iGCost;
+
+        /// <summary>
+        /// iHCost of the Node, aka Distance to the TargetNode
+        /// </summary>
         public uint iHCost;
+
+        /// <summary>
+        /// iGCost added with iHCost
+        /// </summary>
         public uint iFCost;
-        public bool Collision;
 
-        public Vector2f Position;
-        public Node ParentNode;
-        public Node ChildNode;
+        /// <summary>
+        /// Indicates whether the Node has Collision or not
+        /// </summary>
+        public bool bCollision;
 
+        /// <summary>
+        /// Position of the Node
+        /// </summary>
+        public Vector2f vPosition;
 
-        public Node startNode, targetNode;
+        /// <summary>
+        /// Node that the iGCost ist added with, aka ParentNode
+        /// </summary>
+        public Node nParent;
 
-        // Normal Node
-        public Node(Tilez Tile, Vector2f Position, Node ParentNode, Node targetNode)
+        /// <summary>
+        /// Node that inherites the iGCost, aka ChildNode
+        /// </summary>
+        public Node nChild;
+
+        /// <summary>
+        /// SartNode of the Node
+        /// </summary>
+        public Node nStartNode;
+
+        /// <summary>
+        /// TargetNode of the Node, necessary for calculating iHCost
+        /// </summary>
+        public Node nTargetNode;
+
+        /// <summary>
+        /// Constructor of a normal Node
+        /// </summary>
+        /// <param name="tTile">Tile of the Node</param>
+        /// <param name="vPosition">Position of the Node</param>
+        /// <param name="nParentNode">ParentNode of the Node</param>
+        /// <param name="nTargetNode">TargetNode of the Node</param>
+        public Node(Tilez tTile, Vector2f vPosition, Node nParentNode, Node nTargetNode)
         {
-            this.Tile = Tile;
-            this.Position = Position;
+            this.tTile = tTile;
+            this.vPosition = vPosition;
 
-            Collision = Collisionreturner(Tile);
+            bCollision = Collisionreturner(tTile);
 
-            this.ParentNode = ParentNode;
+            this.nParent = nParentNode;
 
-            this.startNode = ParentNode;
-            this.targetNode = targetNode;
+            this.nStartNode = nParentNode;
+            this.nTargetNode = nTargetNode;
 
             SetiGCost();
-            SetiHCost(targetNode.Position);
+            SetiHCost(nTargetNode.vPosition);
 
             iFCost = iGCost + iHCost;
 
-            if (ParentNode.ChildNode == null)
-                ParentNode.ChildNode = new Node(Tile, Position, targetNode, Collision, iGCost, iHCost, iFCost);
+            if (nParentNode.nChild == null)
+                nParentNode.nChild = new Node(tTile, vPosition, nTargetNode, bCollision, iGCost, iHCost, iFCost);
 
-            else if (ParentNode.ChildNode.iFCost > iFCost)
-                ParentNode.ChildNode = new Node(Tile, Position, targetNode, Collision, iGCost, iHCost, iFCost);
+            else if (nParentNode.nChild.iFCost > iFCost)
+                nParentNode.nChild = new Node(tTile, vPosition, nTargetNode, bCollision, iGCost, iHCost, iFCost);
 
         }
 
-        private Node(Tilez Tile, Vector2f Position, Node targetNode, bool Collision, uint iGCost, uint iHCost, uint iFCost)
+        /// <summary>
+        /// Constructor of a ChildNode
+        /// </summary>
+        /// <param name="tTile">Tile of the ParentNode</param>
+        /// <param name="vPosition">Position of the ParentNode</param>
+        /// <param name="nTargetNode">targetNode of the ParentNode</param>
+        /// <param name="bCollision">Collision of the ParentNode</param>
+        /// <param name="iGCost">iGCost of the ParentNode</param>
+        /// <param name="iHCost">iHCost of the ParentNode</param>
+        /// <param name="iFCost">iFCost of the ParentNode</param>
+        private Node(Tilez tTile, Vector2f vPosition, Node nTargetNode, bool bCollision, uint iGCost, uint iHCost, uint iFCost)
         {
-            this.Tile = Tile;
-            this.Position = Position;
+            this.tTile = tTile;
+            this.vPosition = vPosition;
 
-            this.Collision = Collision;
+            this.bCollision = bCollision;
 
-            this.targetNode = targetNode;
+            this.nTargetNode = nTargetNode;
 
             this.iGCost = iGCost;
             this.iHCost = iHCost;
@@ -67,30 +122,40 @@ namespace Game
         }
 
 
-        // StartNode (= A)
-        public Node(Tilez Tile, Vector2f Position, Vector2f targetVector)
+        /// <summary>
+        /// Constructor of a StartNode (= A Node)
+        /// </summary>
+        /// <param name="tTile">Tile of the Node</param>
+        /// <param name="vPosition">Position of the Node</param>
+        /// <param name="vTargetVector">Position of the TargetNode</param>
+        public Node(Tilez tTile, Vector2f vPosition, Vector2f vTargetVector)
         {
-            this.Tile = Tile;
-            this.Position = Position;
+            this.tTile = tTile;
+            this.vPosition = vPosition;
 
-            Collision = Collisionreturner(Tile);
+            bCollision = Collisionreturner(tTile);
 
             iGCost = 0;
-            SetiHCost(targetVector);
+            SetiHCost(vTargetVector);
 
             iFCost = iGCost + iHCost;
         }
 
 
-        //TargetNode (= B)
-        public Node(Tilez Tile, Vector2f Position, Node keyNode)
+        /// <summary>
+        /// Constrcutor of a TargetNode (=B Node)
+        /// </summary>
+        /// <param name="tTile">Tile of the Node</param>
+        /// <param name="vPosition">Position of the Node</param>
+        /// <param name="nStartNode">StartNode (= A Node)</param>
+        public Node(Tilez tTile, Vector2f vPosition, Node nStartNode)
         {
-            this.Tile = Tile;
-            this.Position = Position;
+            this.tTile = tTile;
+            this.vPosition = vPosition;
 
-            Collision = Collisionreturner(Tile);
+            bCollision = Collisionreturner(tTile);
 
-            startNode = keyNode;
+            this.nStartNode = nStartNode;
             SetiGCost();
             iHCost = 0;
 
@@ -98,52 +163,56 @@ namespace Game
         }
 
 
-
+        /// <summary>
+        /// Calculates iGCost: Cost of 10 for Vertical/Horizontal, 14 for Diagonal
+        /// </summary>
         public void SetiGCost()
         {
-            if (startNode.Position.X > Position.X && startNode.Position.Y > Position.Y ||
-                startNode.Position.X > Position.X && startNode.Position.Y < Position.Y ||
-                startNode.Position.X < Position.X && startNode.Position.Y > Position.Y ||
-                startNode.Position.X < Position.X && startNode.Position.Y < Position.Y)
-                iGCost = startNode.iGCost + 14;
+            if (nStartNode.vPosition.X > vPosition.X && nStartNode.vPosition.Y > vPosition.Y ||
+                nStartNode.vPosition.X > vPosition.X && nStartNode.vPosition.Y < vPosition.Y ||
+                nStartNode.vPosition.X < vPosition.X && nStartNode.vPosition.Y > vPosition.Y ||
+                nStartNode.vPosition.X < vPosition.X && nStartNode.vPosition.Y < vPosition.Y)
+                iGCost = nStartNode.iGCost + 14;
 
-            else if (startNode.Position.Y > Position.Y || startNode.Position.Y < Position.Y)
-                iGCost = startNode.iGCost + 10;
+            else if (nStartNode.vPosition.Y > vPosition.Y || nStartNode.vPosition.Y < vPosition.Y)
+                iGCost = nStartNode.iGCost + 10;
 
-            else if (startNode.Position.X > Position.X || startNode.Position.X < Position.X)
-                iGCost = startNode.iGCost + 10;
+            else if (nStartNode.vPosition.X > vPosition.X || nStartNode.vPosition.X < vPosition.X)
+                iGCost = nStartNode.iGCost + 10;
         }
 
 
-
-        public void SetiHCost(Vector2f keyVector)
+        /// <summary>
+        /// Calculates iHCost: Cost of 10 for each Vertical/Horizontal, 14 for each Diagonal Node in between
+        /// </summary>
+        public void SetiHCost(Vector2f vTargetPosition)
         {
-            Vector2f temporalNodePosition = Position;
+            Vector2f temporalNodePosition = vPosition;
 
-            while (temporalNodePosition != keyVector)
+            while (temporalNodePosition != vTargetPosition)
             {
-                while (keyVector.X > temporalNodePosition.X && keyVector.Y > temporalNodePosition.Y)
+                while (vTargetPosition.X > temporalNodePosition.X && vTargetPosition.Y > temporalNodePosition.Y)
                 {
                     iHCost += 14;
                     temporalNodePosition.X++;
                     temporalNodePosition.Y++;
                 }
 
-                while (keyVector.X < temporalNodePosition.X && keyVector.Y > temporalNodePosition.Y)
+                while (vTargetPosition.X < temporalNodePosition.X && vTargetPosition.Y > temporalNodePosition.Y)
                 {
                     iHCost += 14;
                     temporalNodePosition.X--;
                     temporalNodePosition.Y++;
                 }
 
-                while (keyVector.X > temporalNodePosition.X && keyVector.Y < temporalNodePosition.Y)
+                while (vTargetPosition.X > temporalNodePosition.X && vTargetPosition.Y < temporalNodePosition.Y)
                 {
                     iHCost += 14;
                     temporalNodePosition.X++;
                     temporalNodePosition.Y--;
                 }
 
-                while (keyVector.X < temporalNodePosition.X && keyVector.Y < temporalNodePosition.Y)
+                while (vTargetPosition.X < temporalNodePosition.X && vTargetPosition.Y < temporalNodePosition.Y)
                 {
                     iHCost += 14;
                     temporalNodePosition.X--;
@@ -151,25 +220,25 @@ namespace Game
                 }
 
 
-                if (keyVector.X > temporalNodePosition.X)
+                if (vTargetPosition.X > temporalNodePosition.X)
                 {
                     iHCost += 10;
                     temporalNodePosition.X++;
                 }
 
-                if (keyVector.X < temporalNodePosition.X)
+                if (vTargetPosition.X < temporalNodePosition.X)
                 {
                     iHCost += 10;
                     temporalNodePosition.X--;
                 }
 
-                if (keyVector.Y > temporalNodePosition.Y)
+                if (vTargetPosition.Y > temporalNodePosition.Y)
                 {
                     iHCost += 10;
                     temporalNodePosition.Y++;
                 }
 
-                if (keyVector.Y < temporalNodePosition.Y)
+                if (vTargetPosition.Y < temporalNodePosition.Y)
                 {
                     iHCost += 10;
                     temporalNodePosition.Y--;
@@ -177,9 +246,13 @@ namespace Game
             }
         }
 
-        public bool Collisionreturner(Tilez Tile)
+        /// <summary>
+        /// Indicates whether the Tilez has Collsion or not
+        /// </summary>
+        /// <param name="tTile">Tilez to be checked</param>
+        public bool Collisionreturner(Tilez tTile)
         {
-            switch (Tile)
+            switch (tTile)
             {
                 case Tilez.water:
                     return true;

@@ -14,12 +14,12 @@ namespace Game
     {
         public abstract void Initialize();
 
-        public abstract GameState Update(RenderWindow window);
+        public abstract eGameState Update(RenderWindow window);
 
         public abstract CustomList Draw(RenderWindow window);
     }
 
-    public enum GameState
+    public enum eGameState
     {
         gsUndefined,
         gsMainMenu,

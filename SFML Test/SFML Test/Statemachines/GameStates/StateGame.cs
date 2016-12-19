@@ -12,82 +12,124 @@ namespace Game
 {
     class StateGame : State
     {
-        protected static GameState targetState;
-        eSceneState currentScene, previousScene, targetScene;
+        /// <summary>
+        /// TargetState of the State
+        /// </summary>
+        protected static eGameState gTargetState;
 
 
-        //SCENES
+        /// <summary>
+        /// Current MapState
+        /// </summary>
+        eMapState eCurrentMap;
 
-        MainMap scene1;
+        /// <summary>
+        /// Previous MapState
+        /// </summary>
+        eMapState ePreviousMap;
+
+        /// <summary>
+        /// Target MapState
+        /// </summary>
+        eMapState eTargetMap;
 
 
-        //OTHER
+        // MAPS
 
-        CustomList drawList;
+        /// <summary>
+        /// Instance of the main Map
+        /// </summary>
+        MainMap mMainMap;
 
 
+        // OTHER
 
+        CustomList lDrawList;
+
+
+        /// <summary>
+        /// Constructor of the StateGame
+        /// </summary>
         public StateGame()
         {
         }
 
+        /// <summary>
+        /// Initializes the State
+        /// </summary>
         public override void Initialize()
         {
-            targetState = GameState.gsGame;
-            currentScene = eSceneState.ssMain;
+            gTargetState    = eGameState.gsGame;
+            eCurrentMap     = eMapState.ssMain;
 
-
-            //INSTANTIATING OBJECTS : SCENES
-
-            scene1 = new MainMap();
+            mMainMap        = new MainMap();
         }
 
-        public override GameState Update(RenderWindow window)
+        /// <summary>
+        /// Updates the State and manages Maps
+        /// </summary>
+        /// <param name="rWindow">Needed to Calculate MousePosition from its origin</param>
+        /// <returns>gTargetState</returns>
+        public override eGameState Update(RenderWindow rWindow)
         {
-            switch (currentScene)
+            switch (eCurrentMap)
             {
-                case eSceneState.ssMain:
-                    InitializeState(scene1);
-                    targetScene = scene1.Update(window);
-                    DisposeState(scene1);
+                case eMapState.ssMain:
+                    InitializeState(mMainMap);
+                    eTargetMap = mMainMap.Update(rWindow);
+                    DisposeState(mMainMap);
                     break;
             }
 
             if (Player.GetHealth() <= 0)
-                targetState = GameState.gsGameOver;
+                gTargetState = eGameState.gsGameOver;
 
-            return targetState;
+            return gTargetState;
         }
 
+
+        /// <summary>
+        /// Returns a List with all the Element to draw
+        /// </summary>
+        /// <param name="window">Needed to draw TileMap</param>
+        /// <returns>lDrawList</returns>
         public override CustomList Draw(RenderWindow window)
         {
-            drawList = new CustomList();
+            lDrawList = new CustomList();
 
-            switch (currentScene)
+            switch (eCurrentMap)
             {
-                case eSceneState.ssMain:
-                    drawList = scene1.Draw(window);
+                case eMapState.ssMain:
+                    lDrawList = mMainMap.Draw(window);
                     break;
             }
 
-            return drawList;
+            return lDrawList;
         }
 
-        private void InitializeState(LevelState state)
+        /// <summary>
+        /// Initializes a Map State when the Map State just changed
+        /// </summary>
+        /// <param name="mState">Map State to be initialized</param>
+        private void InitializeState(MapState mState)
         {
-            if (previousScene != currentScene)
+            if (ePreviousMap != eCurrentMap)
             {
-                state.Initialize();
-                previousScene = currentScene;
+                mState.Initialize();
+                ePreviousMap = eCurrentMap;
             }
         }
 
-        private void DisposeState(LevelState state)
+        /// <summary>
+        /// Changes the current Map State if it's not equal to the target State
+        /// </summary>
+        /// <param name="mState">Map State to be disposed</param>
+        private void DisposeState(MapState mState)
         {
-            if (targetScene != currentScene)
+            if (eTargetMap != eCurrentMap)
             {
-                previousScene = currentScene;
-                currentScene = targetScene;
+                ePreviousMap = eCurrentMap;
+                eCurrentMap = eTargetMap;
             }
         }
     }

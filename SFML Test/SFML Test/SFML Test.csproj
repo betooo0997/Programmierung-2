@@ -72,9 +72,9 @@
     <Compile Include="Basic Run\GameLoop.cs" />
     <Compile Include="Input.cs" />
     <Compile Include="Managers\SoundManager.cs" />
+    <Compile Include="Statemachines\Abstract Classes\MapState.cs" />
     <Compile Include="Useful Classes\TextStreamer.cs" />
     <Compile Include="Nodes.cs" />
-    <Compile Include="Statemachines\Abstract Classes\LevelState.cs" />
     <Compile Include="Levels\MainMap.cs" />
     <Compile Include="Statemachines\GameStates\StateGameOver.cs" />
     <Compile Include="Statemachines\GameStates\StateMainMenu.cs" />

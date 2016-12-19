@@ -12,7 +12,7 @@ namespace Game
 {
     class StateMainMenu : State
     {
-        protected static GameState targetState;
+        protected static eGameState targetState;
 
 
         //OTHER
@@ -37,7 +37,7 @@ namespace Game
 
         public override void Initialize()
         {
-            targetState = GameState.gsMainMenu;
+            targetState = eGameState.gsMainMenu;
 
             fFont = ContentLoader.fontArial;
 
@@ -57,7 +57,7 @@ namespace Game
             bKeyIsPressed = false;
         }
 
-        public override GameState Update(RenderWindow window)
+        public override eGameState Update(RenderWindow window)
         {
             iprevSelected = iSelected;
 
@@ -79,11 +79,11 @@ namespace Game
                 switch (iSelected)
                 {
                     case 0:
-                        targetState = GameState.gsGame;
+                        targetState = eGameState.gsGame;
                         break;
 
                     case 1:
-                        targetState = GameState.gsQuit;
+                        targetState = eGameState.gsQuit;
                         break;
                 }
             }

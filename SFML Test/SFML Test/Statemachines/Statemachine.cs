@@ -12,13 +12,44 @@ namespace Game
 {
     class Statemachine : GameLoop
     {
-        private static GameState currentState, targetState, previousState;
-        protected StateGame gameState;
-        protected StateGameOver gameOverState;
-        protected StateMainMenu mainMenuState;
+        /// <summary>
+        /// Current State of the Game
+        /// </summary>
+        private static eGameState gCurrentState;
+
+        /// <summary>
+        /// Target State of the Game
+        /// </summary>
+        private static eGameState gTargetState;
+
+        /// <summary>
+        /// State of the Game in the last frame
+        /// </summary>
+        private static eGameState gPreviousState;
+
+        /// <summary>
+        /// Instance of the Game State, main State
+        /// </summary>
+        protected StateGame sGameState;
+
+        /// <summary>
+        /// Instance of the GameOver State
+        /// </summary>
+        protected StateGameOver sGameOverState;
+
+        /// <summary>
+        /// Instance of the MainMenu State
+        /// </summary>
+        protected StateMainMenu sMainMenuState;
 
 
-        CustomList drawList;
+        /// <summary>
+        /// List to be drawed
+        /// </summary>
+        CustomList lDrawList;
+
+
+
 
         /// <summary>
         /// Statemachine constructor
@@ -28,79 +59,99 @@ namespace Game
         {
         }
 
+        /// <summary>
+        /// Initializes Variables
+        /// </summary>
         protected override void Initialize()
         {
-            currentState = GameState.gsMainMenu;
-            gameState = new StateGame();
-            gameOverState = new StateGameOver();
-            mainMenuState = new StateMainMenu();
+            gCurrentState   = eGameState.gsMainMenu;
+            sGameState      = new StateGame();
+            sGameOverState  = new StateGameOver();
+            sMainMenuState  = new StateMainMenu();
         }
 
+
+        /// <summary>
+        /// Updates the Game
+        /// </summary>
         protected override void Update()
         {
-            switch (currentState)
+            switch (gCurrentState)
             {
-                case GameState.gsGame:
-                    InitializeState(gameState);
-                    targetState = gameState.Update(Window);
-                    DisposeState(gameState);
+                case eGameState.gsGame:
+                    InitializeState(sGameState);
+                    gTargetState = sGameState.Update(Window);
+                    DisposeState(sGameState);
                     break;
 
-                case GameState.gsGameOver:
-                    gameState = new StateGame();
-                    InitializeState(gameOverState);
-                    targetState = gameOverState.Update(Window);
-                    DisposeState(gameOverState);
+                case eGameState.gsGameOver:
+                    sGameState = new StateGame();
+                    InitializeState(sGameOverState);
+                    gTargetState = sGameOverState.Update(Window);
+                    DisposeState(sGameOverState);
                     break;
 
-                case GameState.gsMainMenu:
-                    InitializeState(mainMenuState);
-                    targetState = mainMenuState.Update(Window);
-                    DisposeState(mainMenuState);
+                case eGameState.gsMainMenu:
+                    InitializeState(sMainMenuState);
+                    gTargetState = sMainMenuState.Update(Window);
+                    DisposeState(sMainMenuState);
                     break;
 
-                case GameState.gsQuit:
+                case eGameState.gsQuit:
                     Window.Close();
                     break;
             }
         }
 
+        /// <summary>
+        /// Draws the Game
+        /// </summary>
         protected override void Draw()
         {
-            switch (currentState)
+            switch (gCurrentState)
             {
-                case GameState.gsGame:
-                    drawList = gameState.Draw(Window);
+                case eGameState.gsGame:
+                    lDrawList = sGameState.Draw(Window);
                     break;
 
-                case GameState.gsGameOver:
-                    drawList = gameOverState.Draw(Window);
+                case eGameState.gsGameOver:
+                    lDrawList = sGameOverState.Draw(Window);
                     break;
 
-                case GameState.gsMainMenu:
-                    drawList = mainMenuState.Draw(Window);
+                case eGameState.gsMainMenu:
+                    lDrawList = sMainMenuState.Draw(Window);
                     break;
             }
 
-            for (int x = 0; x < drawList.Count(); x++)
-                Window.Draw(drawList.Draw().ElementAt(x));            
+            for (int x = 0; x < lDrawList.Count(); x++)
+                Window.Draw(lDrawList.Draw().ElementAt(x));            
         }
 
-        private void InitializeState(State state)
+
+        /// <summary>
+        /// Initializes a State when the State of the Game just changed
+        /// </summary>
+        /// <param name="sState">State to be initialized</param>
+        private void InitializeState(State sState)
         {
-            if (previousState != currentState)
+            if (gPreviousState != gCurrentState)
             {
-                state.Initialize();
-                previousState = currentState;
+                sState.Initialize();
+                gPreviousState = gCurrentState;
             }
         }
 
-        private void DisposeState(State state)
+
+        /// <summary>
+        /// Changes the current State if it's not equal to the target State
+        /// </summary>
+        /// <param name="sState">State to be disposed</param>
+        private void DisposeState(State sState)
         {
-            if (targetState != currentState)
+            if (gTargetState != gCurrentState)
             {
-                previousState = currentState;
-                currentState = targetState;
+                gPreviousState = gCurrentState;
+                gCurrentState = gTargetState;
             }
         }
     }

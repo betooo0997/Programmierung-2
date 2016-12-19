@@ -391,7 +391,7 @@ namespace Game
 
             if (Path.Count - 1 >= 0)
             {
-                CurrentGoal = (Vector2i)Path[Path.Count - 1].Position + (Vector2i)MainMap.GetTileMapPosition() + new Vector2i(25, 25);
+                CurrentGoal = (Vector2i)Path[Path.Count - 1].vPosition + (Vector2i)MainMap.GetTileMapPosition() + new Vector2i(25, 25);
                 CurrentGoalOrigin = CurrentGoal - (Vector2i)sEntity.Position;
                 float MovementX = (CurrentGoalOrigin.X / Utilities.MakePositive(Utilities.DistanceToVectorFromOrigin(new Vector2f(CurrentGoalOrigin.X, 0))));
                 float MovementY = (CurrentGoalOrigin.Y / Utilities.MakePositive(Utilities.DistanceToVectorFromOrigin(new Vector2f(0, CurrentGoalOrigin.Y))));
