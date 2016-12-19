@@ -20,7 +20,6 @@ namespace Game
         CustomList drawList;
         Text teMainMenu;
         Text tePlay;
-        Text teCredits;
         Text teQuit;
 
         bool bKeyIsPressed;
@@ -49,12 +48,8 @@ namespace Game
             tePlay.Position = teMainMenu.Position + new Vector2f(0, 100);
             tePlay.Color = Color.Red;
 
-            teCredits = new Text("Credits", fFont, 25);
-            teCredits.Position = teMainMenu.Position + new Vector2f(0, 150);
-            teCredits.Color = Color.White;
-
             teQuit = new Text("Quit", fFont, 25);
-            teQuit.Position = teMainMenu.Position + new Vector2f(0, 200);
+            teQuit.Position = teMainMenu.Position + new Vector2f(0, 150);
             teQuit.Color = Color.White;
 
             iSelected = 0;
@@ -86,21 +81,19 @@ namespace Game
                     case 0:
                         targetState = GameState.gsGame;
                         break;
+
                     case 1:
-                        // targetState = GameState.gsCredits;
-                        break;
-                    case 2:
                         targetState = GameState.gsQuit;
                         break;
                 }
             }
 
 
-            if (iSelected > 2)
+            if (iSelected > 1)
                 iSelected = 0;
 
             if (iSelected < 0)
-                iSelected = 2;
+                iSelected = 1;
 
 
 
@@ -113,10 +106,6 @@ namespace Game
                         break;
 
                     case 1:
-                        teCredits.Color = Color.White;
-                        break;
-
-                    case 2:
                         teQuit.Color = Color.White;
                         break;
                 }
@@ -129,10 +118,6 @@ namespace Game
                     break;
 
                 case 1:
-                    teCredits.Color = Color.Red;
-                    break;
-
-                case 2:
                     teQuit.Color = Color.Red;
                     break;
             }
@@ -146,7 +131,6 @@ namespace Game
 
             drawList.AddElement(teMainMenu);
             drawList.AddElement(tePlay);
-            drawList.AddElement(teCredits);
             drawList.AddElement(teQuit);
 
             return drawList;

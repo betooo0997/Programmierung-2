@@ -46,8 +46,6 @@ namespace Game
 
 
 
-
-
         // DECLARING VARIABLES: BOOLS
 
         /// <summary>
@@ -158,7 +156,6 @@ namespace Game
                 destruct = true;
             }
         }
-
 
 
         /// <summary>
@@ -339,7 +336,6 @@ namespace Game
                 if (vCharacterPositionEnemyOrigin.X < (iDistanceDetection / 2))
                     nearleft = true;
             }
-
 
 
             do

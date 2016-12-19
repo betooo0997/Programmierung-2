@@ -57,9 +57,9 @@ namespace Game
             sCharacter.FillColor = new Color(255,255,255);
             sCharacter.OutlineThickness = 1;
             sCharacter.OutlineColor = Color.Black;
-            fHealth = 1000;
-            fSpeed = 4f;
-            uDamage = 200;
+            fHealth = 100;
+            fSpeed = 1.5f;
+            uDamage = 20;
             iHealthMax = (int)fHealth;
             fProcentualHealth = (float)fHealth / (float)iHealthMax;
         }
