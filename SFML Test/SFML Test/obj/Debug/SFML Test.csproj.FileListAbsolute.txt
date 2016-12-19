@@ -47,7 +47,6 @@ C:\Users\Beto\Documents\Visual Studio 2015\Projects\SFML Test\SFML Test\obj\Debu
 C:\Users\Beto\Documents\Programmierung-2\SFML Test\SFML Test\bin\Debug\SFML Test.exe.config
 C:\Users\Beto\Documents\Programmierung-2\SFML Test\SFML Test\obj\Debug\SFML Test.exe
 C:\Users\Beto\Documents\Programmierung-2\SFML Test\SFML Test\obj\Debug\SFML Test.pdb
-C:\Users\Alexander\Documents\GitHub\Programmierung-2\SFML Test\SFML Test\obj\Debug\SFML Test.exe
 C:\Users\Alexander\Documents\GitHub\Programmierung-2\SFML Test\SFML Test\obj\Debug\SFML Test.pdb
 C:\Users\Alexander\Documents\GitHub\Programmierung-2\SFML Test\SFML Test\bin\Debug\OpenTK.Compatibility.dll
 C:\Users\Alexander\Documents\GitHub\Programmierung-2\SFML Test\SFML Test\bin\Debug\OpenTK.dll
@@ -56,7 +55,6 @@ C:\Users\Alexander\Documents\GitHub\Programmierung-2\SFML Test\SFML Test\bin\Deb
 C:\Users\Alexander\Documents\GitHub\Programmierung-2\SFML Test\SFML Test\bin\Debug\csfml-window-2.dll
 C:\Users\Alexander\Documents\GitHub\Programmierung-2\SFML Test\SFML Test\bin\Debug\libsndfile-1.dll
 C:\Users\Alexander\Documents\GitHub\Programmierung-2\SFML Test\SFML Test\bin\Debug\openal32.dll
-C:\Users\Alexander\Documents\GitHub\Programmierung-2\SFML Test\SFML Test\bin\Debug\SFML Test.exe
 C:\Users\Alexander\Documents\GitHub\Programmierung-2\SFML Test\SFML Test\bin\Debug\SFML Test.pdb
 C:\Users\Alexander\Documents\GitHub\Programmierung-2\SFML Test\SFML Test\obj\Debug\SFML Test.csprojResolveAssemblyReference.cache
 C:\Users\Beto\Documents\Programmierung-2\SFML Test\SFML Test\bin\Debug\Dopsball.png
@@ -192,3 +190,5 @@ C:\Users\Beto\Documents\GitHub\Programmierung-2\SFML Test\SFML Test\bin\Debug\Co
 C:\Users\Beto\Documents\GitHub\Programmierung-2\SFML Test\SFML Test\bin\Debug\Content\TriangleBrute.png
 C:\Users\Beto\Documents\GitHub\Programmierung-2\SFML Test\SFML Test\bin\Debug\Content\TriangleCivil.png
 C:\Users\Beto\Documents\GitHub\Programmierung-2\SFML Test\SFML Test\bin\Debug\Content\TriangleLord.png
+C:\Users\Alexander\Documents\GitHub\Programmierung-2\SFML Test\SFML Test\bin\Debug\SFML Test.dll
+C:\Users\Alexander\Documents\GitHub\Programmierung-2\SFML Test\SFML Test\obj\Debug\SFML Test.dll
