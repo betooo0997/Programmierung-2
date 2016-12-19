@@ -5,6 +5,9 @@ using SFML.System;
 
 namespace Game
 {
+    /// <summary>
+    /// Character that is an Opponent of Player
+    /// </summary>
     abstract class Enemy : Character
     {
         // DECLARING VARIABLES: VECTORS

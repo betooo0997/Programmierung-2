@@ -10,8 +10,14 @@ using SFML.Audio;
 
 namespace Game
 {
+    /// <summary>
+    /// Entity that has Health, can inflict Damage and can move in to different Directions
+    /// </summary>
     abstract class Character : Entity
     {
+        /// <summary>
+        /// List with Elements to be drawed
+        /// </summary>
         protected List<Drawable> lDrawList;
 
         /// <summary>
@@ -24,18 +30,28 @@ namespace Game
         /// </summary>
         protected Vector2f vChracterPositionSpace;
 
-        protected int x, y;
 
+        /// <summary>
+        /// Indicates whether the Character has collided with Tiles or not
+        /// </summary>
         protected bool PlayerTileCollision;
 
+        /// <summary>
+        /// Angle of the Character, aka direction he's looking to
+        /// </summary>
         protected float fAngle;
 
+        /// <summary>
+        /// Procentual Health of the Character
+        /// </summary>
         protected float fProcentualHealth;
 
 
         /// <summary>
-        /// Disposes a Projectile from the Projectile List if its Destruct bool is true
+        /// Disposes a Projectile from the PlayerProjectile List if its Destruct bool is true
         /// </summary>
+        /// <param name="lProjectile">PlayerProjectile List where Projectiles will be Disposed if necessary</param>
+        /// <param name="Damage">Damage inflicted to the Enemy when hit</param>
         protected void DisposeProjectile(List<PlayerProjectile> lProjectile, uint Damage)
         {
             for (int x = 0; x < lProjectile.Count; x++)
@@ -58,6 +74,12 @@ namespace Game
             }
         }
 
+
+        /// <summary>
+        /// Disposes a Projectile from the EnemyProjectile List if its Destruct bool is true
+        /// </summary>
+        /// <param name="lProjectile">EnemyProjectile List where Projectiles will be Disposed if necessary</param>
+        /// <param name="Damage">Damage inflicted to the Player when hit</param>
         protected void DisposeProjectile(List<EnemyProjectile> lProjectile, uint Damage)
         {
             for (int x = 0; x < lProjectile.Count; x++)
@@ -79,6 +101,12 @@ namespace Game
             }
         }
 
+
+        /// <summary>
+        /// Disposes a Projectile from the InvisibleProjectile List if its Destruct bool is true
+        /// </summary>
+        /// <param name="lProjectile">InvisibleProjectile List where Projectiles will be Disposed if necessary</param>
+        /// <param name="iDistanceDetection">Sight Radius of the Enemy</param>
         protected void DisposeProjectile(List<InvisibleProjectile> lProjectile, int iDistanceDetection)
         {
             for (int x = 0; x < lProjectile.Count; x++)
@@ -96,6 +124,12 @@ namespace Game
             }
         }
 
+        /// <summary>
+        /// Reduces Health and Restarts Regenerate Timer of the Player if hit by EnemyProjectile
+        /// </summary>
+        /// <param name="iProjectile">Projectile that Collision with Player is checked</param>
+        /// <param name="Damage">Damage inflicted to the Player if hit</param>
+        /// <returns></returns>
         protected bool PlayerProjectileCollision(EnemyProjectile iProjectile, uint Damage)
         {
             Vector2f b = MainMap.GetStartCharacterPosition() + new Vector2f(25, 25);
@@ -110,6 +144,12 @@ namespace Game
             return false;
         }
 
+        /// <summary>
+        /// Reduces Health of the Enemy if hit by PlayerProjectile
+        /// </summary>
+        /// <param name="iProjectile">Projectile that Collision with Enemy is checked</param>
+        /// <param name="Damage">Damage inflicted to the Enemy if hit</param>
+        /// <returns></returns>
         protected bool EnemyProjectileCollision(PlayerProjectile iProjectile, uint Damage)
         {
             List<Enemy> lEnemy;
@@ -129,8 +169,15 @@ namespace Game
         }
 
         /// <summary>
-        /// Updates possible directions of movement based on Collisiondetection
+        /// Updates possible directions of movement based on Collisiondetection and relocates Entity if Borders were crossed
         /// </summary>
+        /// <param name="vEntityPosition">Position to be checked Collision with Tiles</param>
+        /// <param name="up">Disallows Character's up Movement</param>
+        /// <param name="down">Disallows Character's down Movement</param>
+        /// <param name="right">Disallows Character's right Movement</param>
+        /// <param name="left">Disallows Character's left Movement</param>
+        /// <param name="SizeX">Width of the Character</param>
+        /// <param name="SizeY">Height of the Character</param>
         protected void CollisionDetection(ref Vector2f vEntityPosition, ref bool up, ref bool down, ref bool right, ref bool left, float SizeX, float SizeY)
         {
             float Size;
@@ -154,10 +201,10 @@ namespace Game
             if (iTileNearX < 0)
                 iTileNearX++;
 
-            for (y = iTileNearY; y < iTileNearY + 3; y++)
+            for (int y = iTileNearY; y < iTileNearY + 3; y++)
             {
 
-                for (x = iTileNearX; x < iTileNearX + 3; x++)
+                for (int x = iTileNearX; x < iTileNearX + 3; x++)
                 {
 
                     //COLLISIONDETECTION ON CHARACTERSPRITE BORDER

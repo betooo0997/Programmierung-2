@@ -152,6 +152,43 @@
             </summary>
             <returns>Bool whether Projectile has been destroyed or not</returns>
         </member>
+        <member name="T:Game.Camera">
+            <summary>
+            Class that makes the Map move, not the Player
+            </summary>
+        </member>
+        <member name="F:Game.Camera.InitialPlayerPosition">
+            <summary>
+            Initial Position of the Player
+            </summary>
+        </member>
+        <member name="F:Game.Camera.InitialTileMapPosition">
+            <summary>
+            Initial Position of the TileMap
+            </summary>
+        </member>
+        <member name="F:Game.Camera.TotalMoved">
+            <summary>
+            Difference between the VirtualPlayerPosition and the InitialPlayerPosition
+            </summary>
+        </member>
+        <member name="M:Game.Camera.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="M:Game.Camera.Update(SFML.System.Vector2f,SFML.System.Vector2f@)">
+            <summary>
+            Updates the the Position of the Map, aka the Camera
+            </summary>
+            <param name="VirtualPlayerPosition">Position if Player would move, not the Map</param>
+            <param name="TilemapPosition">Position of the TilemMap</param>
+        </member>
+        <member name="F:Game.Character.lDrawList">
+            <summary>
+            List with Elements to be drawed
+            </summary>
+        </member>
         <member name="F:Game.Character.uDamage">
             <summary>
             Base Damage the Character inflicts
@@ -162,15 +199,69 @@
             Vector to correct the Characters Position in case of Collision
             </summary>
         </member>
+        <member name="F:Game.Character.PlayerTileCollision">
+            <summary>
+            Indicates whether the Character has collided with Tiles or not
+            </summary>
+        </member>
+        <member name="F:Game.Character.fAngle">
+            <summary>
+            Angle of the Character, aka direction he's looking to
+            </summary>
+        </member>
+        <member name="F:Game.Character.fProcentualHealth">
+            <summary>
+            Procentual Health of the Character
+            </summary>
+        </member>
         <member name="M:Game.Character.DisposeProjectile(System.Collections.Generic.List{Game.PlayerProjectile},System.UInt32)">
             <summary>
-            Disposes a Projectile from the Projectile List if its Destruct bool is true
+            Disposes a Projectile from the PlayerProjectile List if its Destruct bool is true
             </summary>
+            <param name="lProjectile">PlayerProjectile List where Projectiles will be Disposed if necessary</param>
+            <param name="Damage">Damage inflicted to the Enemy when hit</param>
+        </member>
+        <member name="M:Game.Character.DisposeProjectile(System.Collections.Generic.List{Game.EnemyProjectile},System.UInt32)">
+            <summary>
+            Disposes a Projectile from the EnemyProjectile List if its Destruct bool is true
+            </summary>
+            <param name="lProjectile">EnemyProjectile List where Projectiles will be Disposed if necessary</param>
+            <param name="Damage">Damage inflicted to the Player when hit</param>
+        </member>
+        <member name="M:Game.Character.DisposeProjectile(System.Collections.Generic.List{Game.InvisibleProjectile},System.Int32)">
+            <summary>
+            Disposes a Projectile from the InvisibleProjectile List if its Destruct bool is true
+            </summary>
+            <param name="lProjectile">InvisibleProjectile List where Projectiles will be Disposed if necessary</param>
+            <param name="iDistanceDetection">Sight Radius of the Enemy</param>
+        </member>
+        <member name="M:Game.Character.PlayerProjectileCollision(Game.EnemyProjectile,System.UInt32)">
+            <summary>
+            Reduces Health and Restarts Regenerate Timer of the Player if hit by EnemyProjectile
+            </summary>
+            <param name="iProjectile">Projectile that Collision with Player is checked</param>
+            <param name="Damage">Damage inflicted to the Player if hit</param>
+            <returns></returns>
+        </member>
+        <member name="M:Game.Character.EnemyProjectileCollision(Game.PlayerProjectile,System.UInt32)">
+            <summary>
+            Reduces Health of the Enemy if hit by PlayerProjectile
+            </summary>
+            <param name="iProjectile">Projectile that Collision with Enemy is checked</param>
+            <param name="Damage">Damage inflicted to the Enemy if hit</param>
+            <returns></returns>
         </member>
         <member name="M:Game.Character.CollisionDetection(SFML.System.Vector2f@,System.Boolean@,System.Boolean@,System.Boolean@,System.Boolean@,System.Single,System.Single)">
             <summary>
-            Updates possible directions of movement based on Collisiondetection
+            Updates possible directions of movement based on Collisiondetection and relocates Entity if Borders were crossed
             </summary>
+            <param name="vEntityPosition">Position to be checked Collision with Tiles</param>
+            <param name="up">Disallows Character's up Movement</param>
+            <param name="down">Disallows Character's down Movement</param>
+            <param name="right">Disallows Character's right Movement</param>
+            <param name="left">Disallows Character's left Movement</param>
+            <param name="SizeX">Width of the Character</param>
+            <param name="SizeY">Height of the Character</param>
         </member>
         <member name="T:Game.ContentLoader">
             <summary>

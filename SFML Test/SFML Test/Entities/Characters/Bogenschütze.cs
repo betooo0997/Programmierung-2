@@ -117,7 +117,7 @@ namespace Game
             this.bIsBoss            = bIsBoss;
             fSpeed                  = 1;
 
-            for (x = 0; x < uID; x++)
+            for (int x = 0; x < uID; x++)
                 fAngle = rRandom.Next(0, 360);
 
             sEntity.Rotation        = fAngle;

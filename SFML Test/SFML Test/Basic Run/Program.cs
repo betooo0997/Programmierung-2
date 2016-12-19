@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace Game
 {
+    /// <summary>
+    /// Class serving as Entry Point to the Solution
+    /// </summary>
     class Program 
     {
         /// <summary>

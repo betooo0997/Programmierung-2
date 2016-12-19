@@ -10,6 +10,9 @@ using SFML.Audio;
 
 namespace Game
 {
+    /// <summary>
+    /// Character that is an Opponent of Enemy, controlled by User Input
+    /// </summary>
     class Player : Character
     {
         // GENERAL PLAYER VARIABLES
@@ -140,7 +143,7 @@ namespace Game
                 }
             }
 
-            for (x = 0; x < lProjectile.Count; x++)
+            for (int x = 0; x < lProjectile.Count; x++)
                 lProjectile[x].Update();
 
             DisposeProjectile(lProjectile, uDamage);

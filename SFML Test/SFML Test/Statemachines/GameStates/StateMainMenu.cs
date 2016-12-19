@@ -10,31 +10,69 @@ using SFML.Audio;
 
 namespace Game
 {
+    /// <summary>
+    /// Main Menu State Class
+    /// </summary>
     class StateMainMenu : State
     {
+        /// <summary>
+        /// Target State of the Main Menu
+        /// </summary>
         protected static eGameState targetState;
 
 
-        //OTHER
+        /// <summary>
+        /// List to be drawn
+        /// </summary>
+        CustomList lDrawList;
 
-        CustomList drawList;
+        /// <summary>
+        /// Text that Displays "MainMenu"
+        /// </summary>
         Text teMainMenu;
+
+        /// <summary>
+        /// Text that displays "Play"
+        /// </summary>
         Text tePlay;
+
+        /// <summary>
+        /// Text that displays "Quit"
+        /// </summary>
         Text teQuit;
 
+        /// <summary>
+        /// Indicates whether a Key is pressed or not
+        /// </summary>
         bool bKeyIsPressed;
 
-
+        /// <summary>
+        /// Font used to display text
+        /// </summary>
         Font fFont;
 
+        /// <summary>
+        /// Indicates the selected Option in the MainMenu
+        /// </summary>
         int iSelected;
+
+        /// <summary>
+        /// Indicates the previous selected Option in the MainMenu
+        /// </summary>
         int iprevSelected;
 
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public StateMainMenu()
         {
         }
 
+
+        /// <summary>
+        /// Initializes Variables of the State
+        /// </summary>
         public override void Initialize()
         {
             targetState = eGameState.gsMainMenu;
@@ -57,7 +95,12 @@ namespace Game
             bKeyIsPressed = false;
         }
 
-        public override eGameState Update(RenderWindow window)
+        /// <summary>
+        /// Updates the State
+        /// </summary>
+        /// <param name="rWindow">Not used in this State</param>
+        /// <returns>TargetState</returns>
+        public override eGameState Update(RenderWindow rWindow)
         {
             iprevSelected = iSelected;
 
@@ -125,15 +168,20 @@ namespace Game
             return targetState;
         }
 
-        public override CustomList Draw(RenderWindow window)
+        /// <summary>
+        /// Draws the State
+        /// </summary>
+        /// <param name="rWindow">Not used in this State</param>
+        /// <returns>lDrawList</returns>
+        public override CustomList Draw(RenderWindow rWindow)
         {
-            drawList = new CustomList();
+            lDrawList = new CustomList();
 
-            drawList.AddElement(teMainMenu);
-            drawList.AddElement(tePlay);
-            drawList.AddElement(teQuit);
+            lDrawList.AddElement(teMainMenu);
+            lDrawList.AddElement(tePlay);
+            lDrawList.AddElement(teQuit);
 
-            return drawList;
+            return lDrawList;
         }
     }
 }
