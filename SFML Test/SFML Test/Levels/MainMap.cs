@@ -12,85 +12,169 @@ namespace Game
 {
     class MainMap : LevelState
     {
-        protected Text textQuest;
-        protected Questtracker questTracker;
-        protected Clock cText;
-        protected Time tText;
-        protected uint uiKillCount;
+        // DECLARING VARIABLES: VECTORS
 
-        //TEXTURES AND SPRITES
-        
-        protected Texture textureTileSheet;
-        protected Sprite tileSheet;
-        
+        /// <summary>
+        /// Virtual Position of the Character, aka Position if the Player would move, not the map
+        /// </summary>
+        protected static Vector2f vPlayerVirtualPosition;
 
-        protected static Vector2f vCharacterVirtualPosition;
-        protected static Vector2f vCharacterStartPosition;
+        /// <summary>
+        /// Position where the Player is Spawned
+        /// </summary>
+        protected static Vector2f vPlayerStartPosition;
 
-
-        protected bool right, left, up, down;
-
+        /// <summary>
+        /// TileMapPosition of the last frame
+        /// </summary>
         protected static Vector2f vPastTileMapPosition;
+
+        /// <summary>
+        /// Difference of the present to the past TileMapPosition
+        /// </summary>
         protected static Vector2f vDifferenceTileMapPosition;
+
+        /// <summary>
+        /// TileMapPosition of the current frame
+        /// </summary>
         protected static Vector2f vPresentTileMapPosition;
 
 
 
-        // INPUT INSTANCE
+
+
+        // DECLARING VARIABLES: NUMERIC
+
+        /// <summary>
+        /// Counts how many Bosses the Player has killed
+        /// </summary>
+        protected uint uiKillCount;
+
+
+
+
+
+        // DECLARING VARIABLES: OTHER
+
+        /// <summary>
+        /// Displays how many Bosses are in the Game
+        /// </summary>
+        protected Text textQuest;
+
+        /// <summary>
+        /// Tracks how many Bosses remain on the Map
+        /// </summary>
+        protected Questtracker questTracker;
+
+        /// <summary>
+        /// Clock to hide the Text after a determined Time
+        /// </summary>
+        protected Clock cText;
+
+        /// <summary>
+        /// Timer to measure cText
+        /// </summary>
+        protected Time tText;
+
+        /// <summary>
+        /// Input Instance for Managing Input Data
+        /// </summary>
         protected Input iInput;
 
 
+
+
+
+        // DECLARING VARIABLES: TEXTURES AND SPRITES
+
+        protected Texture textureTileSheet;
+        protected Sprite tileSheet;
+
+
+
+
+
+        // DECLARING VARIABLES: BOOLS
+
+        /// <summary>
+        /// Bools that indicate whether the Player can move in the given direction
+        /// </summary>
+        protected bool right, left, up, down;
+
+
+
+
+
+        // DECLARING VARIABLES: LISTS
+
+        /// <summary>
+        /// List with all Enemies that are alive
+        /// </summary>
         protected static List<Enemy> lEnemies;
 
+
+
+
+
+        // DECLARING METHODS: BASIC FUNCTIONS
+
+        /// <summary>
+        /// Constructor of the MainMap
+        /// </summary>
         public MainMap()
         {
         }
 
+
+        /// <summary>
+        /// Initializes Objects of the MainMap
+        /// </summary>
         public override void Initialize()
         {
-            targetLevel = eSceneState.ssMain;
+            // SETTING TARGETLEVEL
+            targetLevel         = eSceneState.ssMain;
 
-            //SYNCHRONISING WITH CONTENTLOADER
-            font = ContentLoader.fontArial;
-            textureTileSheet = ContentLoader.textureTileSheet;
+            // SYNCHRONISING WITH CONTENTLOADER
+            font                = ContentLoader.fontArial;
+            textureTileSheet    = ContentLoader.textureTileSheet;
 
 
             // LEVEL TEXTFILE HAS TO BE CHOSEN
-            levelString = System.IO.File.ReadAllLines(@"Content/MainMap.txt");
-            TileUndHerrsche = new TileManager(levelString);
+            levelString         = System.IO.File.ReadAllLines(@"Content/MainMap.txt");
+            TileUndHerrsche     = new TileManager(levelString);
+
 
             // ENEMY LAYOUT IN .txt HAS TO BE CHOSEN 
-            enemyLayoutString = System.IO.File.ReadAllLines(@"Content/MainMapEnemies.txt");
-            entityManager = new EntityManager(TileUndHerrsche, enemyLayoutString);
-
-            //INSTANTIATING OBJECTS : TEXTURES
-            tileSheet = new Sprite(textureTileSheet);
+            enemyLayoutString   = System.IO.File.ReadAllLines(@"Content/MainMapEnemies.txt");
+            entityManager       = new EntityManager(TileUndHerrsche, enemyLayoutString);
 
 
-            //INSTANTIATING OBJECTS : OTHER
-            vCharacterStartPosition = new Vector2f(900, 500);
-            vCharacterVirtualPosition = vCharacterStartPosition;
-            cPlayer = new Player(levelString, vCharacterVirtualPosition);
-            questTracker = new Questtracker(entityManager.GetEnemyArray(), entityManager.GetArrayNumberColumns(), entityManager.GetArrayNumberRows());
-            textQuest = new Text(questTracker.GetQuestString(), font, 20);
-            uiKillCount = 0;
-            cText = new Clock();
-            cCamera = new Camera();
-
-            lEnemies = entityManager.ReturnListCreatedOutOfArray();
+            // INSTANTIATING OBJECTS: TEXTURES
+            tileSheet   = new Sprite(textureTileSheet);
 
 
-            vTileMapPosition = new Vector2f(0, 0);
+            // INSTANTIATING OBJECTS: OTHER
+            vPlayerStartPosition    = new Vector2f(900, 500);
+            cPlayer                 = new Player(levelString, vPlayerVirtualPosition);
+            questTracker            = new Questtracker(entityManager.GetEnemyArray(), entityManager.GetArrayNumberColumns(), entityManager.GetArrayNumberRows());
+            textQuest               = new Text(questTracker.GetQuestString(), font, 20);
+            cText                   = new Clock();
+            cCamera                 = new Camera();
+            iInput                  = new Input();
+            vTileMapPosition        = new Vector2f();
+            textQuest.Position      = new Vector2f(20, 20);
 
-            iInput = new Input();
 
-
-            //CHANGING OBJECT PARAMETERS
+            // CHANGING OBJECT PARAMETERS
             textureTileSheet.Smooth = true;
-            textQuest.Position = new Vector2f(20, 20);
-            textQuest.Color = Color.White;
+            textQuest.Color         = Color.White;
 
-            vPastTileMapPosition = vTileMapPosition;
+
+            // SETTING VARIABLES
+            uiKillCount             = 0;
+            vPastTileMapPosition    = vTileMapPosition;
+            vPlayerVirtualPosition  = vPlayerStartPosition;
+            lEnemies                = entityManager.ReturnListCreatedOutOfArray();
         }
 
 
@@ -108,7 +192,7 @@ namespace Game
             vPresentTileMapPosition = vTileMapPosition;
             vDifferenceTileMapPosition = vPastTileMapPosition - vPresentTileMapPosition;
 
-            cCamera.Update(vCharacterVirtualPosition, ref vTileMapPosition);
+            cCamera.Update(vPlayerVirtualPosition, ref vTileMapPosition);
 
             for (int x = 0; x < lEnemies.Count; x++)
             {
@@ -121,7 +205,7 @@ namespace Game
                     continue;
                 }
 
-                lEnemies[x].Update(ref vCharacterVirtualPosition, ref up, ref down, ref right, ref left);
+                lEnemies[x].Update(ref vPlayerVirtualPosition, ref up, ref down, ref right, ref left);
 
                 if (lEnemies[x].GetHealth() <= 0)
                 {
@@ -136,13 +220,11 @@ namespace Game
                 }
             }
 
-            Console.WriteLine(lEnemies.Count);
-
-            cPlayer.Update(ref vCharacterVirtualPosition, ref up, ref down, ref right, ref left);
+            cPlayer.Update(ref vPlayerVirtualPosition, ref up, ref down, ref right, ref left);
 
             textQuest = new Text(questTracker.Update(uiKillCount), font, 20);
 
-            iInput.Update(ref vCharacterVirtualPosition, ref Player.fSpeed, up, right, down, left, window);
+            iInput.Update(ref vPlayerVirtualPosition, ref Player.fSpeed, up, right, down, left, window);
 
             return targetLevel;
         }
@@ -219,25 +301,46 @@ namespace Game
 
 
 
+
+
+        // DECLARING METHODS: GETTER FUNTIONS
+
+        /// <summary>
+        /// Gets the vDifferenceTileMapPosition
+        /// </summary>
+        /// <returns></returns>
         public static Vector2f GetDiffTileMapPosition()
         {
             return vDifferenceTileMapPosition;
         }
 
+
+        /// <summary>
+        /// Gets the vTileMapPosition
+        /// </summary>
         public static Vector2f GetTileMapPosition()
         {
             return vTileMapPosition;
         }
 
+
+        /// <summary>
+        /// Gets the vPlayerVirtualPosition
+        /// </summary>
         public static Vector2f GetVirtualCharacterPosition()
         {
-            return vCharacterVirtualPosition;
+            return vPlayerVirtualPosition;
         }
 
+
+        /// <summary>
+        /// Gets the vPlayerStartPosition
+        /// </summary>
         public static Vector2f GetStartCharacterPosition()
         {
-            return vCharacterStartPosition;
+            return vPlayerStartPosition;
         }
+
 
         /// <summary>
         /// Returns a List with all the active Enemies on the Map
@@ -246,6 +349,7 @@ namespace Game
         {
             return lEnemies;
         }
+
 
         /// <summary>
         /// Returns the active TileManager. 

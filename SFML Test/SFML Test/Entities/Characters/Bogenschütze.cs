@@ -53,8 +53,6 @@ namespace Game
         /// </summary>
         bool bSuspecting;
 
-        public bool destruct;
-
 
 
 
@@ -150,11 +148,6 @@ namespace Game
 
             sEntity.Rotation = fAngle;
             sEntity.Position = MainMap.GetTileMapPosition() + vEntityPosition + new Vector2f(25, 25);
-
-            if (iHealth < 0)
-            {
-                destruct = true;
-            }
         }
 
 
